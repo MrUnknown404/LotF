@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.init.InitItems;
+import main.java.lotf.items.ItemSword;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.items.util.Slot;
 import main.java.lotf.util.Console;
@@ -62,15 +63,23 @@ public class Inventory {
 	
 	public void addItem(Item item) {
 		Item it = findItem(item.getName(), item.getMeta());
-		if (it == null) {
+		
+		if (it != null) {
+			Console.print(Console.WarningType.Warning, item.getName() + ":" + item.getMeta() + " already exists in this inventory");
+			return;
+		}
+		
+		if (item instanceof ItemSword) {
+			if (items.get(item.getMeta()).equals(InitItems.EMPTY)) {
+				items.set(item.getMeta(), item);
+			}
+		} else {
 			for (int i = 0; i < slots; i++) {
 				if (items.get(i).equals(InitItems.EMPTY)) {
 					items.set(i, item);
 					break;
 				}
 			}
-		} else {
-			Console.print(Console.WarningType.Warning, item.getName() + ":" + item.getMeta() + " already exists in this inventory");
 		}
 	}
 	

@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 import main.java.lotf.Main;
 
 public final class Window {
-	
 	public Window(String title, Main main) {
 		JFrame frame = new JFrame(title);
 		

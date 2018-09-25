@@ -284,7 +284,7 @@ public class Hud {
 					if (!inv.getSwordInv().getItems().get(i).equals(InitItems.EMPTY)) {
 						if (items.get(j).stringKey.equals(inv.getSwordInv().getItems().get(i).getName())) {
 							if (items.get(j).meta == inv.getSwordInv().getItems().get(i).getMeta()) {
-								g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 212, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+								g.drawImage(items.get(j).images.get(0), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
 							}
 						}
 					}
@@ -302,7 +302,7 @@ public class Hud {
 					if (!inv.getRingInv().getItems().get(i).equals(InitItems.EMPTY)) {
 						if (items.get(j).stringKey.equals(inv.getRingInv().getItems().get(i).getName())) {
 							if (items.get(j).meta == inv.getRingInv().getItems().get(i).getMeta()) {
-								g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 212, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+								g.drawImage(items.get(j).images.get(0), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
 							}
 						}
 					}

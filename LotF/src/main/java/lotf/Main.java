@@ -33,6 +33,8 @@ public final class Main extends Canvas implements Runnable {
 	
 	private int fps;
 	private boolean running = false;
+	private static final boolean isDebug = false;
+	
 	private Thread thread;
 	
 	private static final DebugConsole CONSOLE = new DebugConsole();
@@ -46,6 +48,10 @@ public final class Main extends Canvas implements Runnable {
 	public static Gamestate gamestate = Gamestate.run;
 	
 	public static void main(String args[]) {
+		if (isDebug) {
+			new ConsoleMain();
+		}
+		
 		new Main();
 	}
 	
@@ -220,6 +226,10 @@ public final class Main extends Canvas implements Runnable {
 	private void resize() {
 		width = MathHelper.clamp(getWidth(), 0, Integer.MAX_VALUE);
 		height = MathHelper.clamp(getHeight(), 0, Integer.MAX_VALUE);
+	}
+	
+	public static boolean getIsDebug() {
+		return isDebug;
 	}
 	
 	public static DebugConsole getCommandConsole() {

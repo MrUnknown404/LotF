@@ -7,7 +7,7 @@ public class ItemSword extends Item {
 	private int damage, level, speed;
 	
 	public ItemSword(int level) {
-		super("sword", level, 5, 0);
+		super("sword", level, 5, 1);
 		this.level = level;
 		
 		if (level == 0) {

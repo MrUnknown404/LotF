@@ -5,6 +5,7 @@ import java.util.Random;
 import main.java.lotf.Main;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.items.ItemSpellBook;
+import main.java.lotf.items.ItemSword;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.EnumDungeonType;
 
@@ -24,6 +25,7 @@ public class PlayerInventory extends Inventory {
 	public PlayerInventory() {
 		super(5, 5);
 		
+		/** delete all below */
 		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
 		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
 		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
@@ -51,7 +53,11 @@ public class PlayerInventory extends Inventory {
 		
 		hiddenItems.addItem(InitItems.get("dungeonItem", 0));
 		
-		swords.addItem(InitItems.get("sword", 0));
+		swords.addItem((ItemSword) InitItems.get("sword", 0));
+		swords.addItem((ItemSword) InitItems.get("sword", 1));
+		swords.addItem((ItemSword) InitItems.get("sword", 2));
+		swords.addItem((ItemSword) InitItems.get("sword", 3));
+		swords.addItem((ItemSword) InitItems.get("sword", 4));
 		
 		addItem(InitItems.get("bottle", 0));
 		addItem(InitItems.get("bottle", 1));
