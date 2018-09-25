@@ -51,7 +51,7 @@ public final class KeyInput extends KeyAdapter {
 			}
 		} else {
 			if (Main.getRoomHandler().getPlayer() != null) {
-				if (!Main.getRoomHandler().getPlayer().getMovingToRoom()) {
+				if (!Main.getRoomHandler().getPlayer().getMovingToRoom() && !Main.getRoomHandler().getPlayer().getInventory().isSelectingPage) {
 					if (key == KeyEvent.VK_DOWN) {
 						Main.getRoomHandler().getPlayer().getInventory().isInventoryOpen = !Main.getRoomHandler().getPlayer().getInventory().isInventoryOpen;
 						

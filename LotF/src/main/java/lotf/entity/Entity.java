@@ -90,6 +90,10 @@ public abstract class Entity extends TickableGameObject {
 		return meta;
 	}
 	
+	public boolean getIsAlive() {
+		return isAlive;
+	}
+	
 	@Override
 	public String toString() {
 		return "(" + getStringID() + ")";

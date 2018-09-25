@@ -65,6 +65,7 @@ public class EntityPlayer extends Entity {
 					canMove = true;
 					
 					room = roomToBe;
+					room.onRoomEnter();
 					roomToBe = null;
 					
 					setRelativePos(getRelativePos().getX() - (Room.ROOM_SIZE.getX() * Tile.TILE_SIZE), getRelativePos().getY());
@@ -82,6 +83,7 @@ public class EntityPlayer extends Entity {
 					canMove = true;
 					
 					room = roomToBe;
+					room.onRoomEnter();
 					roomToBe = null;
 					
 					setRelativePos(getRelativePos().getX() + (Room.ROOM_SIZE.getX() * Tile.TILE_SIZE), getRelativePos().getY());
@@ -99,6 +101,7 @@ public class EntityPlayer extends Entity {
 					canMove = true;
 					
 					room = roomToBe;
+					room.onRoomEnter();
 					roomToBe = null;
 					
 					setRelativePos(getRelativePos().getX(), getRelativePos().getY() - (Room.ROOM_SIZE.getY() * Tile.TILE_SIZE));
@@ -116,6 +119,7 @@ public class EntityPlayer extends Entity {
 					canMove = true;
 					
 					room = roomToBe;
+					room.onRoomEnter();
 					roomToBe = null;
 					
 					setRelativePos(getRelativePos().getX(), getRelativePos().getY() + (Room.ROOM_SIZE.getY() * Tile.TILE_SIZE));
@@ -147,6 +151,8 @@ public class EntityPlayer extends Entity {
 	}
 	
 	private void moveToRoom(Room room, EnumDirection dir) {
+		room.onRoomExit();
+		
 		roomToBe = room;
 		canMove = false;
 		moveDir = dir;

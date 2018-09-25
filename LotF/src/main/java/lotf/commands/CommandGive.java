@@ -68,6 +68,9 @@ public class CommandGive extends Command {
 			if (p.findItem("spellBook", 0) == null) {
 				console.addLine("* Player does not have the spellBook");
 				return;
+			} else if (((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().getHas().get(1)) {
+				console.addLine("* Player already has that page");
+				return;
 			}
 			
 			((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().addSpell(1);;
@@ -76,6 +79,9 @@ public class CommandGive extends Command {
 		} else if (argString.get(0).equals("spellPageBuild")) {
 			if (p.findItem("spellBook", 0) == null) {
 				console.addLine("* Player does not have the spellBook");
+				return;
+			} else if (((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().getHas().get(2)) {
+				console.addLine("* Player already has that page");
 				return;
 			}
 			
@@ -86,6 +92,9 @@ public class CommandGive extends Command {
 			if (p.findItem("spellBook", 0) == null) {
 				console.addLine("* Player does not have the spellBook");
 				return;
+			} else if (((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().getHas().get(3)) {
+				console.addLine("* Player already has that page");
+				return;
 			}
 			
 			((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().addSpell(3);;
@@ -94,6 +103,9 @@ public class CommandGive extends Command {
 		} else if (argString.get(0).equals("spellPageMagnet")) {
 			if (p.findItem("spellBook", 0) == null) {
 				console.addLine("* Player does not have the spellBook");
+				return;
+			} else if (((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().getHas().get(4)) {
+				console.addLine("* Player already has that page");
 				return;
 			}
 			

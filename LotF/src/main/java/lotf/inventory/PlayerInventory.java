@@ -14,7 +14,9 @@ public class PlayerInventory extends Inventory {
 	
 	private Inventory swords = new Inventory(1, 5);
 	private Inventory rings = new Inventory(1, 5);
-	private Inventory hiddenItems = new Inventory(10, 10);
+	
+	private Inventory hiddenItems = new Inventory(32, 32);
+	private Inventory hiddenRings = new Inventory(32, 32);
 	
 	private int selectedSword = -1, selectedRing = -1, selectedSlot, selectedInv;
 	private Item selectedLeft = InitItems.EMPTY, selectedRight = InitItems.EMPTY;
@@ -268,5 +270,9 @@ public class PlayerInventory extends Inventory {
 	
 	public Inventory getHiddenInv() {
 		return hiddenItems;
+	}
+	
+	public Inventory getHiddenRings() {
+		return hiddenRings;
 	}
 }

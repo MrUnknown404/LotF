@@ -21,6 +21,8 @@ public class Room {
 	
 	protected RoomPos roomPos = new RoomPos();
 	
+	protected boolean wasAllEnemyDeathTiggered = false;
+	
 	public Room(RoomPos roomPos) {
 		this.roomPos = roomPos;
 		for (int i = 0; i < ROOM_SIZE.getBothMuli(); i++) {
@@ -31,6 +33,8 @@ public class Room {
 	}
 	
 	public void tick() {
+		boolean tb = false;
+		
 		for (int i = 0; i < tiles.size(); i++) {
 			tiles.get(i).tick();
 		}
@@ -38,8 +42,28 @@ public class Room {
 		if (!entities.isEmpty()) {
 			for (int i = 0; i < entities.size(); i++) {
 				entities.get(i).tick();
+				
+				if (entities.get(i).getIsAlive()) {
+					tb = true;
+				}
 			}
 		}
+		
+		if (!tb && !wasAllEnemyDeathTiggered) {
+			onAllEnemyDefeated();
+		}
+	}
+	
+	public void onRoomEnter() {
+		
+	}
+	
+	public void onRoomExit() {
+		
+	}
+	
+	public void onAllEnemyDefeated() {
+		wasAllEnemyDeathTiggered = true;
 	}
 	
 	public void generateDefaultRoom() {

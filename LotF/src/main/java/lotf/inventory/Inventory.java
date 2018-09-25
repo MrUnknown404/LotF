@@ -70,7 +70,7 @@ public class Inventory {
 				}
 			}
 		} else {
-			Console.print(Console.WarningType.Error, item.getName() + ":" + item.getMeta() + " already exists in this inventory");
+			Console.print(Console.WarningType.Warning, item.getName() + ":" + item.getMeta() + " already exists in this inventory");
 		}
 	}
 	

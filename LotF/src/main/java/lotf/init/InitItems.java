@@ -16,6 +16,7 @@ import main.java.lotf.items.ItemGraplingHook;
 import main.java.lotf.items.ItemHammer;
 import main.java.lotf.items.ItemHermesBoots;
 import main.java.lotf.items.ItemLavaFlippers;
+import main.java.lotf.items.ItemMagicRing;
 import main.java.lotf.items.ItemMap;
 import main.java.lotf.items.ItemRCBombBag;
 import main.java.lotf.items.ItemSpellBook;
@@ -69,6 +70,10 @@ public final class InitItems {
 		
 		registerItem(new ItemCape(0));
 		registerItem(new ItemCape(1));
+		
+		for (int i = 0; i < ItemMagicRing.RingType.values().length; i++) {
+			registerItem(new ItemMagicRing(ItemMagicRing.RingType.getFromNumber(i)));
+		}
 	}
 	
 	public static void registerItem(Item item) {
