@@ -34,15 +34,15 @@ public final class InitItems {
 	public static void registerAll() {
 		registerItem(EMPTY);
 		
-		for (int i = 0; i < EnumDungeonType.values().length; i++) {
+		for (int i = 0; i < EnumDungeonType.values().length - 1; i++) {
 			registerItem(new ItemMap(EnumDungeonType.getFromNumber(i)));
 		}
 		
-		for (int i = 0; i < EnumDungeonType.values().length; i++) {
+		for (int i = 0; i < EnumDungeonType.values().length - 1; i++) {
 			registerItem(new ItemCompass(EnumDungeonType.getFromNumber(i)));
 		}
 		
-		for (int i = 0; i < EnumDungeonType.values().length; i++) {
+		for (int i = 0; i < EnumDungeonType.values().length - 1; i++) {
 			registerItem(new ItemDungeonItem(EnumDungeonType.getFromNumber(i)));
 		}
 		
@@ -52,7 +52,11 @@ public final class InitItems {
 		
 		for (int i = 0; i < 4; i++) {
 			registerItem(new ItemBow(i));
+		}
+		for (int i = 0; i < 4; i++) {
 			registerItem(new ItemBombBag(i));
+		}
+		for (int i = 0; i < 4; i++) {
 			registerItem(new ItemRCBombBag(i));
 		}
 		

@@ -27,7 +27,7 @@ public class CommandGive extends Command {
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		DebugConsole console = Main.getCommandConsole();
-		EntityPlayer player = Main.getRoomHandler().getPlayer();
+		EntityPlayer player = Main.getWorldHandler().getPlayer();
 		PlayerInventory p = player.getInventory();
 		
 		if (argInt.isEmpty()) {

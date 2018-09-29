@@ -18,12 +18,14 @@ public class Vec2i {
 		this(0, 0);
 	}
 	
-	public Vec2i add(Vec2i vec) {
-		return new Vec2i(x + vec.x, y + vec.y);
+	public void add(Vec2i vec) {
+		this.x += vec.x;
+		this.y += vec.y;
 	}
 	
-	public Vec2i add(int x, int y) {
-		return new Vec2i(this.x + x, this.y + y);
+	public void add(int x, int y) {
+		this.x += x;
+		this.y += y;
 	}
 	
 	public void setX(int x) {

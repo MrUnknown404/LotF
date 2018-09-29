@@ -12,7 +12,7 @@ public final class InitEntities {
 	private static List<Entity> regEntity = new ArrayList<Entity>();
 	
 	public static void registerAll() {
-		registerEntity(new EntityPlayer(2, 2, true));
+		registerEntity(new EntityPlayer(7, 4, true));
 	}
 	
 	public static void registerEntity(Entity entity) {

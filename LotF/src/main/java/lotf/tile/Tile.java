@@ -40,7 +40,7 @@ public class Tile extends TickableGameObject {
 			return;
 		}
 		
-		tilePos = new TilePos(relativeTilePos.getX() + (room.getRoomPos().getX() * Room.ROOM_SIZE.getX()), relativeTilePos.getY() + (room.getRoomPos().getY() * Room.ROOM_SIZE.getY()));
+		tilePos = new TilePos(relativeTilePos.getX() + (room.getRoomPos().getX() * room.getRoomSize().getX()), relativeTilePos.getY() + (room.getRoomPos().getY() * room.getRoomSize().getY()));
 		setPosition(tilePos.getX() * TILE_SIZE, tilePos.getY() * TILE_SIZE);
 	}
 	

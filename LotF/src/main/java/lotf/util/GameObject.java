@@ -18,22 +18,22 @@ public abstract class GameObject {
 	
 	/** Adds to the objects position */
 	public void addPosition(int x, int y) {
-		pos = pos.add(x, y);
+		pos.add(x, y);
 	}
 	
 	/** Adds to the objects position */
 	public void addPosition(Vec2i vec) {
-		pos = pos.add(vec);
+		pos.add(vec);
 	}
 	
 	/** Adds to the objects X position */
 	public void addPositionX(int x) {
-		pos = pos.add(x, 0);
+		pos.add(x, 0);
 	}
 	
 	/** Adds to the objects Y position */
 	public void addPositionY(int y) {
-		pos = pos.add(0, y);
+		pos.add(0, y);
 	}
 	
 	/** Sets the objects position */

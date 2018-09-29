@@ -23,11 +23,11 @@ public class CommandSetRoom extends Command {
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		DebugConsole console = Main.getCommandConsole();
 		
-		if (Main.getRoomHandler().getPlayerRoom().equals(Main.getRoomHandler().getRooms().get(argInt.get(0)))) {
+		if (Main.getWorldHandler().getPlayerRoom().equals(Main.getWorldHandler().getPlayerWorld().getRooms().get(argInt.get(0)))) {
 			console.addLine("* Player is already in that room");
 			return;
 		}
 		
-		Main.getRoomHandler().getPlayer().setRoom(Main.getRoomHandler().getRooms().get(argInt.get(0)));
+		Main.getWorldHandler().getPlayer().setRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(argInt.get(0)));
 	}
 }

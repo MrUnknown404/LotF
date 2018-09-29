@@ -22,6 +22,7 @@ public final class KeyInput extends KeyAdapter {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		DebugConsole console = Main.getCommandConsole();
+		EntityPlayer player = Main.getWorldHandler().getPlayer();
 		
 		if (console.isConsoleOpen) {
 			if (key == KeyEvent.VK_UP) {
@@ -34,12 +35,14 @@ public final class KeyInput extends KeyAdapter {
 					console.curLine = MathHelper.clamp(console.curLine -= 1, 0, console.writtenLines.size() - 1);
 					console.input = console.writtenLines.get(console.curLine);
 				}
-			}
-			
-			if (key == KeyEvent.VK_ESCAPE) {
+			} else if (key == KeyEvent.VK_ENTER) {
+				console.finishCommand();
+				Main.gamestate = Main.Gamestate.run;
+			} else if (key == KeyEvent.VK_ESCAPE) {
 				console.clearInput();
 				console.isConsoleOpen = false;
 				console.curLine = 0;
+				Main.gamestate = Main.Gamestate.run;
 			} else if (key != KeyEvent.VK_BACK_SPACE) {
 				if (e.getKeyChar() != '\uFFFF' && e.getKeyCode() != KeyEvent.VK_DELETE) {
 					console.addKey(e.getKeyChar());
@@ -49,13 +52,22 @@ public final class KeyInput extends KeyAdapter {
 					console.removeKey();
 				}
 			}
-		} else {
-			if (Main.getRoomHandler().getPlayer() != null) {
-				if (!Main.getRoomHandler().getPlayer().getMovingToRoom() && !Main.getRoomHandler().getPlayer().getInventory().isSelectingPage) {
+		} else if (!player.getMovingToRoom()) {
+			if (key == KeyEvent.VK_BACK_QUOTE) {
+				console.isConsoleOpen = true;
+				Main.gamestate = Main.Gamestate.softPause;
+			} else if (key == KeyEvent.VK_SLASH) {
+				console.isConsoleOpen = true;
+				console.addKey(e.getKeyChar());
+				Main.gamestate = Main.Gamestate.softPause;
+			}
+			
+			if (player != null) {
+				if (!player.getInventory().isSelectingPage) {
 					if (key == KeyEvent.VK_DOWN) {
-						Main.getRoomHandler().getPlayer().getInventory().isInventoryOpen = !Main.getRoomHandler().getPlayer().getInventory().isInventoryOpen;
+						player.getInventory().isInventoryOpen = !player.getInventory().isInventoryOpen;
 						
-						if (Main.getRoomHandler().getPlayer().getInventory().isInventoryOpen) {
+						if (player.getInventory().isInventoryOpen) {
 							Main.gamestate = Main.Gamestate.hardPause;
 						} else {
 							Main.gamestate = Main.Gamestate.run;
@@ -63,74 +75,66 @@ public final class KeyInput extends KeyAdapter {
 					}
 				}
 				
-				if (!Main.getRoomHandler().getPlayer().getInventory().isInventoryOpen) {
+				if (!player.getInventory().isInventoryOpen) {
 					if (key == KeyEvent.VK_UP) {
-						Main.getRoomHandler().getPlayer().getInventory().getSelectedSword().use();
+						player.getInventory().getSelectedSword().use();
 					} else if (key == KeyEvent.VK_LEFT) {
-						Main.getRoomHandler().getPlayer().getInventory().getSelectedLeft().use();
+						player.getInventory().getSelectedLeft().use();
 					} else if (key == KeyEvent.VK_RIGHT) {
-						Main.getRoomHandler().getPlayer().getInventory().getSelectedRight().use();
+						player.getInventory().getSelectedRight().use();
 					}
 					
 					if (key == KeyEvent.VK_W) {
-						Main.getRoomHandler().getPlayer().setMoveDirectionY(-EntityPlayer.MOVE_SPEED);
+						player.setMoveDirectionY(-EntityPlayer.MOVE_SPEED);
 						keyDown[0] = true;
 					} else if (key == KeyEvent.VK_S) {
-						Main.getRoomHandler().getPlayer().setMoveDirectionY(EntityPlayer.MOVE_SPEED);
+						player.setMoveDirectionY(EntityPlayer.MOVE_SPEED);
 						keyDown[1] = true;
 					}
 					
 					if (key == KeyEvent.VK_A) {
-						Main.getRoomHandler().getPlayer().setMoveDirectionX(-EntityPlayer.MOVE_SPEED);
+						player.setMoveDirectionX(-EntityPlayer.MOVE_SPEED);
 						keyDown[2] = true;
 					} else if (key == KeyEvent.VK_D) {
-						Main.getRoomHandler().getPlayer().setMoveDirectionX(EntityPlayer.MOVE_SPEED);	
+						player.setMoveDirectionX(EntityPlayer.MOVE_SPEED);	
 						keyDown[3] = true;
 					}
 				} else {
 					if (key == KeyEvent.VK_LEFT) {
-						Main.getRoomHandler().getPlayer().getInventory().setSelected(true);
+						player.getInventory().setSelected(true);
 					} else if (key == KeyEvent.VK_RIGHT) {
-						Main.getRoomHandler().getPlayer().getInventory().setSelected(false);
+						player.getInventory().setSelected(false);
 					}
 					
-					if (!Main.getRoomHandler().getPlayer().getInventory().isSelectingPage) {
+					if (!player.getInventory().isSelectingPage) {
 						if (key == KeyEvent.VK_UP) {
 							System.err.println("up while in inv");
 						}
 						
 						if (key == KeyEvent.VK_W) {
-							Main.getRoomHandler().getPlayer().getInventory().addUpSlot();
+							player.getInventory().addUpSlot();
 						} else if (key == KeyEvent.VK_S) {
-							Main.getRoomHandler().getPlayer().getInventory().addDownSlot();
+							player.getInventory().addDownSlot();
 						} else if (key == KeyEvent.VK_A) {
-							Main.getRoomHandler().getPlayer().getInventory().addLeftSlot();
+							player.getInventory().addLeftSlot();
 						} else if (key == KeyEvent.VK_D) {
-							Main.getRoomHandler().getPlayer().getInventory().addRightSlot();
+							player.getInventory().addRightSlot();
 						}
 					} else {
 						if (key == KeyEvent.VK_A) {
-							((ItemSpellBook) Main.getRoomHandler().getPlayer().getInventory().findItem("spellBook", 0)).getSpellPageList().leftSelectedPage();
+							((ItemSpellBook) player.getInventory().findItem("spellBook", 0)).getSpellPageList().leftSelectedPage();
 						} else if (key == KeyEvent.VK_D) {
-							((ItemSpellBook) Main.getRoomHandler().getPlayer().getInventory().findItem("spellBook", 0)).getSpellPageList().rightSelectedPage();
+							((ItemSpellBook) player.getInventory().findItem("spellBook", 0)).getSpellPageList().rightSelectedPage();
 						}
 					}
 				}
 			}
 		}
-		
-		if (key == KeyEvent.VK_BACK_QUOTE && !console.isConsoleOpen) {
-			console.isConsoleOpen = true;
-		} else if (key == KeyEvent.VK_ENTER && console.isConsoleOpen) {
-			console.finishCommand();
-		} else if (key == KeyEvent.VK_SLASH && !console.isConsoleOpen) {
-			console.isConsoleOpen = true;
-			console.addKey(e.getKeyChar());
-		}
 	}
 	
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
+		EntityPlayer player = Main.getWorldHandler().getPlayer();
 		
 		if (key == KeyEvent.VK_W) {
 			keyDown[0] = false;
@@ -142,12 +146,12 @@ public final class KeyInput extends KeyAdapter {
 			keyDown[3] = false;
 		}
 		
-		if (Main.getRoomHandler().getPlayer() != null) {
+		if (player != null) {
 			if (!keyDown[0] && !keyDown[1]) {
-				Main.getRoomHandler().getPlayer().setMoveDirectionY(0);
+				player.setMoveDirectionY(0);
 			}
 			if (!keyDown[2] && !keyDown[3]) {
-				Main.getRoomHandler().getPlayer().setMoveDirectionX(0);
+				player.setMoveDirectionX(0);
 			}
 		}
 	}

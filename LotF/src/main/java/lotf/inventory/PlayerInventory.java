@@ -1,11 +1,8 @@
 package main.java.lotf.inventory;
 
-import java.util.Random;
-
 import main.java.lotf.Main;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.items.ItemSpellBook;
-import main.java.lotf.items.ItemSword;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.EnumDungeonType;
 
@@ -24,44 +21,6 @@ public class PlayerInventory extends Inventory {
 	
 	public PlayerInventory() {
 		super(5, 5);
-		
-		/** delete all below */
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("compass", new Random().nextInt(EnumDungeonType.values().length)));
-		hiddenItems.addItem(InitItems.get("map", new Random().nextInt(EnumDungeonType.values().length)));
-		
-		hiddenItems.addItem(InitItems.get("dungeonItem", 0));
-		
-		swords.addItem((ItemSword) InitItems.get("sword", 0));
-		swords.addItem((ItemSword) InitItems.get("sword", 1));
-		swords.addItem((ItemSword) InitItems.get("sword", 2));
-		swords.addItem((ItemSword) InitItems.get("sword", 3));
-		swords.addItem((ItemSword) InitItems.get("sword", 4));
-		
-		addItem(InitItems.get("bottle", 0));
-		addItem(InitItems.get("bottle", 1));
-		addItem(InitItems.get("spellBook", 0));
 	}
 	
 	public void setSelected(boolean left) {
@@ -207,7 +166,7 @@ public class PlayerInventory extends Inventory {
 	}
 	
 	public boolean hasMap() {
-		if (hiddenItems.findItem("map", Main.getRoomHandler().getPlayer().getDungeon().fId) != null) {
+		if (hiddenItems.findItem("map", Main.getWorldHandler().getPlayer().getDungeon().fId) != null) {
 			return true;
 		}
 		return false;
@@ -221,7 +180,7 @@ public class PlayerInventory extends Inventory {
 	}
 	
 	public boolean hasCompass() {
-		if (hiddenItems.findItem("compass", Main.getRoomHandler().getPlayer().getDungeon().fId) != null) {
+		if (hiddenItems.findItem("compass", Main.getWorldHandler().getPlayer().getDungeon().fId) != null) {
 			return true;
 		}
 		return false;

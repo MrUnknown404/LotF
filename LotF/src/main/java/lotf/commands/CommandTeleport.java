@@ -7,7 +7,6 @@ import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.math.Vec2i;
-import main.java.lotf.world.Room;
 
 public class CommandTeleport extends Command {
 
@@ -32,16 +31,16 @@ public class CommandTeleport extends Command {
 		} else if (argInt.get(1) <= 0) {
 			console.addLine("* Y cannot be zero or below");
 			return;
-		} else if (argInt.get(0) > Room.ROOM_SIZE.getX()) {
+		} else if (argInt.get(0) > Main.getWorldHandler().getPlayer().getRoom().getRoomSize().getX()) {
 			console.addLine("* X is bigger then the room size");
 			return;
-		} else if (argInt.get(1) > Room.ROOM_SIZE.getY()) {
+		} else if (argInt.get(1) > Main.getWorldHandler().getPlayer().getRoom().getRoomSize().getY()) {
 			console.addLine("* Y is bigger then the room size");
 			return;
 		}
 		
 		Vec2i vec = new Vec2i((argInt.get(0) - 1) * Tile.TILE_SIZE, (argInt.get(1) - 1) * Tile.TILE_SIZE);
 		
-		Main.getRoomHandler().getPlayer().setRelativePos(vec);
+		Main.getWorldHandler().getPlayer().setRelativePos(vec);
 	}
 }

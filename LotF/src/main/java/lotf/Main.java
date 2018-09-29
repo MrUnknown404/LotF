@@ -8,6 +8,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 
+import main.java.lotf.client.Camera;
 import main.java.lotf.client.KeyInput;
 import main.java.lotf.client.MouseInput;
 import main.java.lotf.client.Renderer;
@@ -22,18 +23,18 @@ import main.java.lotf.init.InitItems;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2i;
-import main.java.lotf.world.RoomHandler;
+import main.java.lotf.world.WorldHandler;
 
 public final class Main extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = -2518563563721413864L;
 	
-	public static final int WIDTH_DEF = 224 * 2, HEIGHT_DEF = 126 * 2;
-	private static int width = 432, height = 213;
+	private static final int HUD_WIDTH = 224 * 2, HUD_HEIGHT = 126 * 2;
+	private static int width = 432, height = 213, w2, h2;
+	private static boolean isDebug;
 	
 	private int fps;
 	private boolean running = false;
-	private static final boolean isDebug = false;
 	
 	private Thread thread;
 	
@@ -42,14 +43,19 @@ public final class Main extends Canvas implements Runnable {
 	private final ConsoleHud consoleHud = new ConsoleHud();
 	private final Hud hud = new Hud();
 	
-	private static RoomHandler roomHandler;
+	private static WorldHandler worldHandler;
+	private static Camera camera;
 	private Renderer renderer;
 	
 	public static Gamestate gamestate = Gamestate.run;
 	
 	public static void main(String args[]) {
-		if (isDebug) {
-			new ConsoleMain();
+		for (String str : args) {
+			if (str.equals("-debug")) {
+				isDebug = true;
+				new ConsoleMain();
+				break;
+			}
 		}
 		
 		new Main();
@@ -108,7 +114,8 @@ public final class Main extends Canvas implements Runnable {
 	private void postInit() {
 		Console.print(Console.WarningType.Info, "Post-Initialization started...");
 		
-		roomHandler = new RoomHandler();
+		worldHandler = new WorldHandler();
+		camera = new Camera();
 		
 		renderer = new Renderer();
 		
@@ -169,16 +176,15 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	private void tick() {
+		consoleHud.tick();
+		
 		if (Main.gamestate.fId >= 1) {
 			return;
 		}
 		
-		consoleHud.tick();
-		
-		roomHandler.tick();
+		worldHandler.tick();
+		camera.tick();
 	}
-	
-	public static float scaleWidth, scaleHeight;
 	
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
@@ -191,11 +197,11 @@ public final class Main extends Canvas implements Runnable {
 		Graphics g2 = bs.getDrawGraphics();
 		Graphics2D g = (Graphics2D) g2;
 		
-		double scale = Math.min((double) width / WIDTH_DEF, (double) height / HEIGHT_DEF);
-		int w = (int) Math.ceil((WIDTH_DEF * scale));
-		int w2 = (int) Math.ceil((width - w) / scale);
-		int h = (int) Math.ceil((HEIGHT_DEF * scale));
-		int h2 = (int) Math.ceil((height - h) / scale);
+		double scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
+		int w = (int) Math.ceil((HUD_WIDTH * scale));
+		w2 = (int) Math.ceil((width - w) / scale);
+		int h = (int) Math.ceil((HUD_HEIGHT * scale));
+		h2 = (int) Math.ceil((height - h) / scale);
 		
 		g.scale(scale, scale);
 		
@@ -203,9 +209,9 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, 0, width, height);
 		
 		g2.translate(w2 / 2, h2 / 2);
-		//g2.translate(CAMERA.getPositionX(), CAMERA.getPositionY());
+		g2.translate(-camera.getPos().getX(), -camera.getPos().getY());
 		renderer.render(g);
-		//g2.translate(-CAMERA.getPositionX(), -CAMERA.getPositionY());
+		g2.translate(camera.getPos().getX(), camera.getPos().getY());
 		
 		g.setColor(Color.RED); //change to black later
 		g.fillRect((int) (w / scale), 0, w2, height);
@@ -215,7 +221,7 @@ public final class Main extends Canvas implements Runnable {
 		
 		hud.render(g);
 		
-		debugHud.getInfo(roomHandler.getPlayer());
+		debugHud.getInfo(worldHandler.getPlayer());
 		debugHud.drawText(g, "FPS: " + fps);
 		consoleHud.draw(g);
 		
@@ -228,6 +234,30 @@ public final class Main extends Canvas implements Runnable {
 		height = MathHelper.clamp(getHeight(), 0, Integer.MAX_VALUE);
 	}
 	
+	public static int getWindowWidth() {
+		return width;
+	}
+	
+	public static int getWindowHeight() {
+		return height;
+	}
+	
+	public static int getGameWidth() {
+		return w2;
+	}
+	
+	public static int getGameHeight() {
+		return h2;
+	}
+	
+	public static int getHudWidth() {
+		return HUD_WIDTH;
+	}
+	
+	public static int getHudHeight() {
+		return HUD_HEIGHT;
+	}
+	
 	public static boolean getIsDebug() {
 		return isDebug;
 	}
@@ -236,8 +266,12 @@ public final class Main extends Canvas implements Runnable {
 		return CONSOLE;
 	}
 	
-	public static RoomHandler getRoomHandler() {
-		return roomHandler;
+	public static Camera getCamera() {
+		return camera;
+	}
+	
+	public static WorldHandler getWorldHandler() {
+		return worldHandler;
 	}
 	
 	public enum Gamestate {

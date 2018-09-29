@@ -16,11 +16,11 @@ import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
 import main.java.lotf.world.Room;
-import main.java.lotf.world.RoomHandler;
+import main.java.lotf.world.WorldHandler;
 
 public final class Renderer {
 
-	private RoomHandler handler;
+	private WorldHandler handler;
 	
 	private BufferedImage[] playerTexture = new BufferedImage[4];
 	
@@ -28,11 +28,11 @@ public final class Renderer {
 	private List<ImageList> entities = new ArrayList<ImageList>(InitEntities.getEntities().size());
 	
 	public Renderer() {
-		handler = Main.getRoomHandler();
+		handler = Main.getWorldHandler();
 	}
 	
 	public void loadTextures() {
-		for (int i = 0; i < Main.getRoomHandler().getPlayer().count; i++) {
+		for (int i = 0; i < handler.getPlayer().count; i++) {
 			playerTexture[i] = GetResource.getTexture(GetResource.ResourceType.entity, "player/player_" + i);
 			Console.print(Console.WarningType.Texture, "Registered texture for EntityPlayer : " + "entity/player/player_" + i + ".png!");
 		}
@@ -99,14 +99,17 @@ public final class Renderer {
 	public void render(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
 		
-		List<Room> rooms = handler.getRooms();
+		List<Room> rooms = new ArrayList<>();
+		
+		if (handler.getPlayerRoom() != null) {
+			rooms.add(handler.getPlayerRoom());
+		}
+		if (handler.getPlayerRoomToBe() != null) {
+			rooms.add(handler.getPlayerRoomToBe());
+		}
 		
 		for (int i = 0; i < rooms.size(); i++) {
 			Room r = rooms.get(i);
-			
-			if (!r.getActiveBounds().intersects(0, 0, Main.WIDTH_DEF, Main.HEIGHT_DEF)) {
-				continue;
-			}
 			
 			for (int j = 0; j < r.getTiles().size(); j++) {
 				Tile t = r.getTiles().get(j);
@@ -134,11 +137,6 @@ public final class Renderer {
 			for (int j = 0; j < r.getEntities().size(); j++) {
 				Entity e = r.getEntities().get(j);
 				
-				if (e == InitEntities.get("ENT_player")) {
-					Console.print(Console.WarningType.FatalError, "why is the player here?");
-					continue;
-				}
-				
 				for (int k = 0; k < entities.size(); k++) {
 					if (e.getStringID().substring(4, e.getStringID().length()).equals(tiles.get(k).stringKey)) {
 						if (e.getMeta() == -1) {
@@ -155,7 +153,7 @@ public final class Renderer {
 				}
 			}
 			
-			EntityPlayer player = Main.getRoomHandler().getPlayer();
+			EntityPlayer player = handler.getPlayer();
 			if (player != null) {
 				if (player.getFacing() == EnumDirection.north) {
 					g.drawImage(playerTexture[0], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
@@ -165,8 +163,6 @@ public final class Renderer {
 					g.drawImage(playerTexture[2], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
 				} else if (player.getFacing() == EnumDirection.west) {
 					g.drawImage(playerTexture[3], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
-				} else {
-					Console.print(Console.WarningType.Error, "Tried to render player facing an unknown direction!");
 				}
 			}
 		}

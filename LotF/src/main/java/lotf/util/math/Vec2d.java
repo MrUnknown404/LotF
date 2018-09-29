@@ -26,12 +26,14 @@ public class Vec2d {
 		this((double) vec.getX(), (double) vec.getY());
 	}
 
-	public Vec2d add(Vec2d vec) {
-		return new Vec2d(x + vec.x, y + vec.y);
+	public void add(Vec2d vec) {
+		this.x += vec.x;
+		this.y += vec.y;
 	}
 	
-	public Vec2d add(double x, double y) {
-		return new Vec2d(this.x + x, this.y + y);
+	public void add(double x, double y) {
+		this.x += x;
+		this.y += y;
 	}
 	
 	@Override

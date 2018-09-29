@@ -12,7 +12,8 @@ public enum EnumDungeonType {
 	nine  (8),
 	ten   (9),
 	eleven(10),
-	twelve(11);
+	twelve(11),
+	nil   (12);
 	
 	public final int fId;
 	

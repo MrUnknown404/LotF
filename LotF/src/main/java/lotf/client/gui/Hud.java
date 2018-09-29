@@ -157,7 +157,7 @@ public class Hud {
 	}
 	
 	public void render(Graphics2D g) {
-		EntityPlayer player = Main.getRoomHandler().getPlayer();
+		EntityPlayer player = Main.getWorldHandler().getPlayer();
 		PlayerInventory inv = player.getInventory();
 		
 		g.setFont(font);
