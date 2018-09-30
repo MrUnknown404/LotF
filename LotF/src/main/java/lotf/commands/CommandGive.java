@@ -112,6 +112,10 @@ public class CommandGive extends Command {
 			((ItemSpellBook) p.findItem("spellBook", 0)).getSpellPageList().addSpell(4);;
 			console.addLine("$ Gave the player spellPageMagnet:4!");
 			return;
+		} else if (argString.get(0).equals("money")) {
+			player.addMoney(argInt.get(0));
+			console.addLine("$ Gave the player \"money\" x " + argInt.get(0) + "!");
+			return;
 		}
 		
 		if (InitItems.get(argString.get(0), argInt.get(0)).equals(InitItems.EMPTY)) {

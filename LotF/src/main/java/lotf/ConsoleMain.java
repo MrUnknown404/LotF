@@ -10,7 +10,7 @@ import javax.swing.text.StyledDocument;
 
 import main.java.lotf.client.ConsoleWindow;
 
-public class ConsoleMain extends Canvas {
+public final class ConsoleMain extends Canvas {
 	private static final long serialVersionUID = 359980311258365686L;
 	
 	private static ConsoleWindow w;

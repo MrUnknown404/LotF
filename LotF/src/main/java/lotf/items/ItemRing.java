@@ -2,12 +2,12 @@ package main.java.lotf.items;
 
 import main.java.lotf.items.util.Item;
 
-public class ItemMagicRing extends Item {
+public class ItemRing extends Item {
 
 	private RingType type;
 	
-	public ItemMagicRing(RingType type) {
-		super("magicRing", type.fId, RingType.values().length, 4);
+	public ItemRing(RingType type) {
+		super("ring", type.fId, RingType.values().length, 4);
 		this.type = type;
 	}
 	

@@ -111,8 +111,17 @@ public final class Renderer {
 		for (int i = 0; i < rooms.size(); i++) {
 			Room r = rooms.get(i);
 			
-			for (int j = 0; j < r.getTiles().size(); j++) {
-				Tile t = r.getTiles().get(j);
+			List<Tile> ts = new ArrayList<>();
+			
+			for (int j = 0; j < r.getTileLayer0().size(); j++) {
+				if (!r.getTileLayer1().get(j).getIsWhole()) {
+					ts.add(r.getTileLayer0().get(j));
+				}
+				ts.add(r.getTileLayer1().get(j));
+			}
+			
+			for (int j = 0; j < ts.size(); j++) {
+				Tile t = ts.get(j);
 				
 				if (t.getTileType() == Tile.TileType.air) {
 					continue;
@@ -120,7 +129,7 @@ public final class Renderer {
 				
 				for (int k = 0; k < tiles.size(); k++) {
 					if (t.getStringID().substring(4, t.getStringID().length()).equals(tiles.get(k).stringKey)) {
-						if (t.getMeta() == -1) {
+						if (t.getMaxMeta() == 0) {
 							g.drawImage(tiles.get(k).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
 						} else {
 							if (t.getMeta() < tiles.get(k).images.size()) {

@@ -16,6 +16,9 @@ import main.java.lotf.Main;
 import main.java.lotf.entity.EntityPlayer;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.inventory.PlayerInventory;
+import main.java.lotf.items.ItemBombBag;
+import main.java.lotf.items.ItemBow;
+import main.java.lotf.items.ItemRCBombBag;
 import main.java.lotf.items.ItemSpellBook;
 import main.java.lotf.items.util.Ammo;
 import main.java.lotf.items.util.ItemDungeon;
@@ -265,8 +268,14 @@ public class Hud {
 				for (int j = 0; j < items.size(); j++) {
 					if (!inv.getItems().get(i).equals(InitItems.EMPTY)) {
 						if (items.get(j).stringKey.equals(inv.getItems().get(i).getName())) {
-							if (items.get(j).meta == inv.getItems().get(i).getMeta()) {
-								g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+							if (inv.getItems().get(i) instanceof ItemBow || inv.getItems().get(i) instanceof ItemRCBombBag || inv.getItems().get(i) instanceof ItemBombBag) {
+								if (items.get(j).meta == 0) {
+									g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+								}
+							} else {
+								if (items.get(j).meta == inv.getItems().get(i).getMeta()) {
+									g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+								}
 							}
 						}
 					}

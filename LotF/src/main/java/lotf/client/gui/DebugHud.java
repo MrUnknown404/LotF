@@ -32,7 +32,7 @@ public final class DebugHud {
 				y += ((DebugConsole.getMaxLines() + 2) * 12) - 6;
 			}
 			
-			g.setColor(Color.GREEN);
+			g.setColor(Color.RED);
 			g.setFont(FONT);
 			
 			g.drawString(fps, 1, y);
