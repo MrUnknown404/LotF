@@ -4,21 +4,21 @@ import main.java.lotf.util.TickableGameObject;
 import main.java.lotf.util.math.TilePos;
 import main.java.lotf.world.Room;
 
-public abstract class Tile extends TickableGameObject {
-
-	public static final Tile AIR = new TileAir(new TilePos());
+public class Tile extends TickableGameObject {
 	
 	public static final int TILE_SIZE = 32;
 	
-	protected Room room;
+	/** Must be set after load! */
+	protected transient Room room;
 	protected TileType tileType;
+	protected CollisionType collisionType;
 	protected TilePos relativeTilePos = new TilePos(), tilePos = new TilePos();
 	
 	protected String stringID;
 	protected int meta, maxMeta, animationTime;
-	protected boolean isWhole, isAnimated;
+	protected boolean isAnimated;
 	
-	public Tile(TilePos relativeTilePos, TileType tileType, Room room, int meta, int maxMeta, boolean isWhole, boolean isAnimated, int animationTime) {
+	public Tile(TilePos relativeTilePos, TileType tileType, Room room, int meta, int maxMeta) {
 		super(relativeTilePos.getX(), relativeTilePos.getY(), TILE_SIZE, TILE_SIZE);
 		this.tileType = tileType;
 		this.relativeTilePos = relativeTilePos;
@@ -26,9 +26,22 @@ public abstract class Tile extends TickableGameObject {
 		this.meta = meta;
 		
 		this.maxMeta = maxMeta;
-		this.isWhole = isWhole;
-		this.isAnimated = isAnimated;
-		this.animationTime = animationTime;
+		this.isAnimated = tileType.isAnimated;
+		this.animationTime = tileType.animationTime;
+		
+		if (tileType.hasCollision) {
+			if (tileType.toString().substring(tileType.toString().length() - 4, tileType.toString().length()).equals("Half")) {
+				if (meta == 0 || meta == 2) {
+					this.collisionType = CollisionType.left;
+				} else if (meta == 1 || meta == 3) {
+					this.collisionType = CollisionType.right;
+				}
+			} else {
+				this.collisionType = CollisionType.whole;
+			}
+		} else {
+			this.collisionType = CollisionType.none;
+		}
 		
 		this.stringID = "TIL_" + tileType.toString();
 		
@@ -62,8 +75,17 @@ public abstract class Tile extends TickableGameObject {
 		setPosition(tilePos.getX() * TILE_SIZE, tilePos.getY() * TILE_SIZE);
 	}
 	
-	public boolean getIsWhole() {
-		return isWhole;
+	public void resetAnimation() {
+		ti = 0;
+		meta = 0;
+	}
+	
+	public void setRoom(Room room) {
+		this.room = room;
+	}
+	
+	public boolean getIsAnimated() {
+		return isAnimated;
 	}
 	
 	public TilePos getTilePos() {
@@ -86,6 +108,10 @@ public abstract class Tile extends TickableGameObject {
 		return maxMeta;
 	}
 	
+	public CollisionType getCollisionType() {
+		return collisionType;
+	}
+	
 	public TileType getTileType() {
 		return tileType;
 	}
@@ -102,22 +128,26 @@ public abstract class Tile extends TickableGameObject {
 	
 	/** Must be the same as the texture name! */
 	public enum TileType {
-		air             (0, 1),
-		blueWall        (1, 4),
-		blueWallCorner  (2, 4),
-		blueWallHalf    (3, 4),
-		sand            (4, 2),
-		grass           (5, 1),
-		grassLeft       (6, 2),
-		grassRight      (7, 2),
-		grassFlowerLeft (8, 2),
-		grassFlowerRight(9, 2);
+		air             (0, 1, false, 0, false),
+		blueWall        (1, 4, false, 0, true),
+		blueWallCorner  (2, 4, false, 0, true),
+		blueWallHalf    (3, 4, false, 0, true),
+		sand            (4, 2, false, 0, false),
+		grass           (5, 1, true, 90, false),
+		grassLeft       (6, 2, true, 90, false),
+		grassRight      (7, 2, true, 90, false),
+		grassFlowerLeft (8, 2, true, 90, false),
+		grassFlowerRight(9, 2, true, 90, false);
 		
-		public final int fId, count;
+		public final int fId, count, animationTime;
+		public final boolean isAnimated, hasCollision;
 		
-		private TileType(int id, int count) {
-			fId = id;
+		private TileType(int id, int count, boolean isAnimated, int animationTime, boolean hasCollision) {
+			this.fId = id;
 			this.count = count;
+			this.isAnimated = isAnimated;
+			this.animationTime = animationTime;
+			this.hasCollision = hasCollision;
 		}
 		
 		public static TileType getFromNumber(int id) {

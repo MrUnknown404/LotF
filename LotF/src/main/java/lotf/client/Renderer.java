@@ -114,7 +114,7 @@ public final class Renderer {
 			List<Tile> ts = new ArrayList<>();
 			
 			for (int j = 0; j < r.getTileLayer0().size(); j++) {
-				if (!r.getTileLayer1().get(j).getIsWhole()) {
+				if (r.getTileLayer1().get(j).getCollisionType() != Tile.CollisionType.whole) {
 					ts.add(r.getTileLayer0().get(j));
 				}
 				ts.add(r.getTileLayer1().get(j));

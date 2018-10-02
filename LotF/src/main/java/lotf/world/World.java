@@ -16,38 +16,34 @@ public class World {
 	protected WorldType type;
 	protected EnumDungeonType dungeonType = EnumDungeonType.nil;
 	protected boolean isDungeon;
+	protected Map map;
 	
-	public World(WorldType type, int xt, int yt) {
+	public World(WorldType type) {
 		this.type = type;
-		this.size = new Vec2i(xt, yt);
+		this.size = new Vec2i(type.size, type.size);
+		this.map = new Map(type);
 		
-		generate(xt, yt);
+		generate(type.size, type.size);
 	}
 	
-	public World(EnumDungeonType dungeonType, int xt, int yt) {
+	public World(EnumDungeonType dungeonType) {
 		this.type = WorldType.dungeon;
 		this.dungeonType = dungeonType;
 		this.isDungeon = true;
-		this.size = new Vec2i(xt, yt);
+		this.size = new Vec2i(dungeonType.size, dungeonType.size);
+		this.map = new Map(type);
 		
-		generate(xt, yt);
+		generate(dungeonType.size, dungeonType.size);
 	}
 	
-	public void generate(int xt, int yt) {
-		int ti = 0;
-		int yMulti = 0;
-		
+	private void generate(int xt, int yt) {
 		for (int i = 0; i < xt * yt; i++) {
-			
-			if (ti == xt) {
-				ti = 0;
-				yMulti++;
-			}
-			
-			rooms.add(new Room(new RoomPos(ti, yMulti), type, dungeonType, Room.RoomSize.small, i));
-			
-			ti++;
+			rooms.add(new Room(type, dungeonType, Room.RoomSize.small, i));
 		}
+	}
+	
+	public void updateMap(int roomID) {
+		map.addRoom(roomID);
 	}
 	
 	public Room getStartingRoom(World.WorldType type, EnumDungeonType dungeon) {
@@ -105,6 +101,10 @@ public class World {
 		return null;
 	}
 	
+	public Map getMap() {
+		return map;
+	}
+	
 	public List<Room> getRooms() {
 		return rooms;
 	}
@@ -114,15 +114,16 @@ public class World {
 	}
 	
 	public enum WorldType {
-		overworld (0),
-		underworld(1),
-		inside    (2),
-		dungeon   (3);
+		overworld (0, 16),
+		underworld(1, 16),
+		inside    (2, 16),
+		dungeon   (3, 0);
 		
-		private final int fId;
+		public final int fId, size;
 		
-		private WorldType(int id) {
-			fId = id;
+		private WorldType(int id, int size) {
+			this.fId = id;
+			this.size = size;
 		}
 		
 		public static WorldType getFromNumber(int id) {

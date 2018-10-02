@@ -26,6 +26,8 @@ import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
+import main.java.lotf.world.Map;
+import main.java.lotf.world.World;
 
 public class Hud {
 
@@ -41,8 +43,7 @@ public class Hud {
 	private List<ImageList> items = new ArrayList<ImageList>(InitItems.getItems().size());
 	private List<ImageList> ammos = new ArrayList<ImageList>(Ammo.AmmoType.values().length);
 	
-	@SuppressWarnings("unused") //guiMissing is currently unused
-	private BufferedImage guiMissing, rupee, x, key, map, slot, slotSel, missingItemSmall, missingItemBig, selSmall;
+	private BufferedImage rupee, x, key, map, slot, slotSel, missingItemSmall, missingItemBig, selSmall, blankMapIcon, overworldMap, underworldMap, insideMap;
 	
 	private int pM = 2, imgSize = 7 * pM, both = (imgSize + pM), hW = both * 10, nW = 38 + hW + (3 * pM);
 	
@@ -73,8 +74,19 @@ public class Hud {
 			Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/compasses/compass_" + c + ".png!");
 		}
 		
-		guiMissing = GetResource.getTexture(GetResource.ResourceType.gui, "missing");
-		Console.print(Console.WarningType.Texture, "Registered missing texture for Gui : " + "gui/missing.png!");
+		blankMapIcon = GetResource.getTexture(GetResource.ResourceType.gui, "maps/blankMapIcon");
+		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/mapss/blankMapIcon.png!");
+		
+		overworldMap = GetResource.getTexture(GetResource.ResourceType.gui, "maps/overworldMap");
+		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/maps/overworldMap.png!");
+		
+		underworldMap = GetResource.getTexture(GetResource.ResourceType.gui, "maps/underworldMap");
+		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/mapIcons/underworldMap.png!");
+		
+		insideMap = GetResource.getTexture(GetResource.ResourceType.gui, "maps/insideMap");
+		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/maps/insideMap.png!");
+		
+		
 		rupee = GetResource.getTexture(GetResource.ResourceType.gui, "rupee");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/rupee.png!");
 		x = GetResource.getTexture(GetResource.ResourceType.gui, "x");
@@ -258,63 +270,113 @@ public class Hud {
 		*/
 		
 		if (inv.isInventoryOpen) {
-			for (int i = 0; i < inv.getItems().size(); i++) {
-				if (inv.getSelectedInv() == 0 && inv.getSelectedSlot() == i) {
-					g.drawImage(slotSel, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
-				} else {
-					g.drawImage(slot, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
-				}
-				
-				for (int j = 0; j < items.size(); j++) {
-					if (!inv.getItems().get(i).equals(InitItems.EMPTY)) {
-						if (items.get(j).stringKey.equals(inv.getItems().get(i).getName())) {
-							if (inv.getItems().get(i) instanceof ItemBow || inv.getItems().get(i) instanceof ItemRCBombBag || inv.getItems().get(i) instanceof ItemBombBag) {
-								if (items.get(j).meta == 0) {
-									g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+			if (inv.getSelectedScreen() == 0) {
+				for (int i = 0; i < inv.getItems().size(); i++) {
+					if (inv.getSelectedInv() == 0 && inv.getSelectedSlot() == i) {
+						g.drawImage(slotSel, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+					} else {
+						g.drawImage(slot, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+					}
+					
+					for (int j = 0; j < items.size(); j++) {
+						if (!inv.getItems().get(i).equals(InitItems.EMPTY)) {
+							if (items.get(j).stringKey.equals(inv.getItems().get(i).getName())) {
+								if (inv.getItems().get(i) instanceof ItemBow || inv.getItems().get(i) instanceof ItemRCBombBag || inv.getItems().get(i) instanceof ItemBombBag) {
+									if (items.get(j).meta == 0) {
+										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+									}
+								} else {
+									if (items.get(j).meta == inv.getItems().get(i).getMeta()) {
+										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+									}
 								}
-							} else {
-								if (items.get(j).meta == inv.getItems().get(i).getMeta()) {
-									g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+							}
+						}
+					}
+				}
+				
+				for (int i = 0; i < inv.getSwordInv().getItems().size(); i++) {
+					if (inv.getSelectedInv() == 1 && inv.getSelectedSlot() == i) {
+						g.drawImage(slotSel, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+					} else {
+						g.drawImage(slot, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+					}
+					
+					for (int j = 0; j < items.size(); j++) {
+						if (!inv.getSwordInv().getItems().get(i).equals(InitItems.EMPTY)) {
+							if (items.get(j).stringKey.equals(inv.getSwordInv().getItems().get(i).getName())) {
+								if (items.get(j).meta == inv.getSwordInv().getItems().get(i).getMeta()) {
+									g.drawImage(items.get(j).images.get(0), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
 								}
 							}
 						}
 					}
 				}
-			}
-			
-			for (int i = 0; i < inv.getSwordInv().getItems().size(); i++) {
-				if (inv.getSelectedInv() == 1 && inv.getSelectedSlot() == i) {
-					g.drawImage(slotSel, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
-				} else {
-					g.drawImage(slot, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
-				}
 				
-				for (int j = 0; j < items.size(); j++) {
-					if (!inv.getSwordInv().getItems().get(i).equals(InitItems.EMPTY)) {
-						if (items.get(j).stringKey.equals(inv.getSwordInv().getItems().get(i).getName())) {
-							if (items.get(j).meta == inv.getSwordInv().getItems().get(i).getMeta()) {
-								g.drawImage(items.get(j).images.get(0), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+				for (int i = 0; i < inv.getRingInv().getItems().size(); i++) {
+					if (inv.getSelectedInv() == 2 && inv.getSelectedSlot() == i) {
+						g.drawImage(slotSel, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+					} else {
+						g.drawImage(slot, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+					}
+					
+					for (int j = 0; j < items.size(); j++) {
+						if (!inv.getRingInv().getItems().get(i).equals(InitItems.EMPTY)) {
+							if (items.get(j).stringKey.equals(inv.getRingInv().getItems().get(i).getName())) {
+								if (items.get(j).meta == inv.getRingInv().getItems().get(i).getMeta()) {
+									g.drawImage(items.get(j).images.get(0), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+								}
 							}
 						}
 					}
 				}
-			}
-			
-			for (int i = 0; i < inv.getRingInv().getItems().size(); i++) {
-				if (inv.getSelectedInv() == 2 && inv.getSelectedSlot() == i) {
-					g.drawImage(slotSel, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
-				} else {
-					g.drawImage(slot, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
-				}
 				
-				for (int j = 0; j < items.size(); j++) {
-					if (!inv.getRingInv().getItems().get(i).equals(InitItems.EMPTY)) {
-						if (items.get(j).stringKey.equals(inv.getRingInv().getItems().get(i).getName())) {
-							if (items.get(j).meta == inv.getRingInv().getItems().get(i).getMeta()) {
-								g.drawImage(items.get(j).images.get(0), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
-							}
+				//Spell book
+				if (inv.isSelectingPage) {
+					g.setColor(new Color(0, 0, 0, 225));
+					g.fillRect(1 * pM, 17 * pM, 222 * pM, 108 * pM);
+					
+					for (int i = 0; i < 5; i++) {
+						if (((ItemSpellBook) inv.findItem("spellBook", 0)).getSpellPageList().getSelectedPageInt() == i) {
+							g.drawImage(slotSel, 108 + 48 * i, 122, 20 * pM, 20 * pM, null);
+						} else {
+							g.drawImage(slot, 108 + 48 * i, 122, 20 * pM, 20 * pM, null);
+						}
+						
+						if (((ItemSpellBook) inv.findItem("spellBook", 0)).getSpellPageList().getHas().get(i)) {
+							g.drawImage(pages.get(i), 112 + 48 * i, 126, 16 * pM, 16 * pM, null);
 						}
 					}
+				}
+			} else {
+				//Map
+				Map m = player.getWorld().getMap();
+				if (m.getWorldType() == World.WorldType.overworld) {
+					for (int i = 0; i < m.getRooms().size(); i++) {
+						int size = World.WorldType.overworld.size;
+						g.drawImage(overworldMap, 51, 38, 209, 209, null);
+						if (!m.getRooms().get(i)) {
+							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+						}
+					}
+				} else if (m.getWorldType() == World.WorldType.underworld) {
+					for (int i = 0; i < m.getRooms().size(); i++) {
+						int size = World.WorldType.underworld.size;
+						g.drawImage(underworldMap, 51, 38, 209, 209, null);
+						if (!m.getRooms().get(i)) {
+							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+						}
+					}
+				} else if (m.getWorldType() == World.WorldType.inside) {
+					for (int i = 0; i < m.getRooms().size(); i++) {
+						int size = World.WorldType.inside.size;
+						g.drawImage(insideMap, 51, 38, 209, 209, null);
+						if (!m.getRooms().get(i)) {
+							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+						}
+					}
+				} else if (m.getWorldType() == World.WorldType.dungeon) {
+					int drawDungeonLater;
 				}
 			}
 			
@@ -365,24 +427,6 @@ public class Hud {
 						g.drawImage(dungeonItems.get(i), 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
 					} else {
 						g.drawImage(missingItemBig, 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
-					}
-				}
-			}
-			
-			//Spell book
-			if (inv.isSelectingPage) {
-				g.setColor(new Color(0, 0, 0, 225));
-				g.fillRect(1 * pM, 17 * pM, 222 * pM, 108 * pM);
-				
-				for (int i = 0; i < 5; i++) {
-					if (((ItemSpellBook) inv.findItem("spellBook", 0)).getSpellPageList().getSelectedPageInt() == i) {
-						g.drawImage(slotSel, 108 + 48 * i, 122, 20 * pM, 20 * pM, null);
-					} else {
-						g.drawImage(slot, 108 + 48 * i, 122, 20 * pM, 20 * pM, null);
-					}
-					
-					if (((ItemSpellBook) inv.findItem("spellBook", 0)).getSpellPageList().getHas().get(i)) {
-						g.drawImage(pages.get(i), 112 + 48 * i, 126, 16 * pM, 16 * pM, null);
 					}
 				}
 			}

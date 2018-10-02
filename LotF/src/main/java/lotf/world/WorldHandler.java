@@ -14,21 +14,21 @@ public final class WorldHandler {
 	private EntityPlayer player;
 	
 	public WorldHandler() {
-		worlds.add(new World(World.WorldType.overworld, 16, 16));
-		worlds.add(new World(World.WorldType.underworld, 16, 16));
-		worlds.add(new World(World.WorldType.inside, 16, 16)); //change later!
-		worlds.add(new World(EnumDungeonType.one, 1, 1));
-		worlds.add(new World(EnumDungeonType.two, 1, 1));
-		worlds.add(new World(EnumDungeonType.three, 1, 1));
-		worlds.add(new World(EnumDungeonType.four, 1, 1));
-		worlds.add(new World(EnumDungeonType.five, 1, 1));
-		worlds.add(new World(EnumDungeonType.six, 1, 1));
-		worlds.add(new World(EnumDungeonType.seven, 1, 1));
-		worlds.add(new World(EnumDungeonType.eight, 1, 1));
-		worlds.add(new World(EnumDungeonType.nine, 1, 1));
-		worlds.add(new World(EnumDungeonType.ten, 1, 1));
-		worlds.add(new World(EnumDungeonType.eleven, 1, 1));
-		worlds.add(new World(EnumDungeonType.twelve, 1, 1));
+		worlds.add(new World(World.WorldType.overworld));
+		worlds.add(new World(World.WorldType.underworld));
+		worlds.add(new World(World.WorldType.inside)); //change later!
+		worlds.add(new World(EnumDungeonType.one));
+		worlds.add(new World(EnumDungeonType.two));
+		worlds.add(new World(EnumDungeonType.three));
+		worlds.add(new World(EnumDungeonType.four));
+		worlds.add(new World(EnumDungeonType.five));
+		worlds.add(new World(EnumDungeonType.six));
+		worlds.add(new World(EnumDungeonType.seven));
+		worlds.add(new World(EnumDungeonType.eight));
+		worlds.add(new World(EnumDungeonType.nine));
+		worlds.add(new World(EnumDungeonType.ten));
+		worlds.add(new World(EnumDungeonType.eleven));
+		worlds.add(new World(EnumDungeonType.twelve));
 		
 		player = (EntityPlayer) InitEntities.get("ENT_player");
 		player.setWorld(worlds.get(0));

@@ -10,14 +10,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.DefaultCaret;
 
-import main.java.lotf.ConsoleMain;
+import main.java.lotf.MainConsole;
 
 public final class ConsoleWindow {
 	
 	private JTextPane textArea = new JTextPane();
 	private JScrollPane scroll = new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	
-	public ConsoleWindow(ConsoleMain main) {
+	public ConsoleWindow(MainConsole main) {
 		JFrame frame = new JFrame("Console");
 		
 		frame.setPreferredSize(new Dimension(224 * 6 + 16, 144 * 5 + 3));

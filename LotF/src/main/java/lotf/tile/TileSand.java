@@ -6,6 +6,6 @@ import main.java.lotf.world.Room;
 public class TileSand extends Tile {
 
 	public TileSand(TilePos relativeTilePos, Room room, int meta) {
-		super(relativeTilePos, TileType.sand, room, meta, 2, true, false, 0);
+		super(relativeTilePos, TileType.sand, room, meta, 2);
 	}
 }

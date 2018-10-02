@@ -1,4 +1,4 @@
-package main.java.lotf;
+package main.java.lotfbuilder;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -8,74 +8,46 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 
-import main.java.lotf.client.Camera;
-import main.java.lotf.client.KeyInput;
-import main.java.lotf.client.MouseInput;
-import main.java.lotf.client.Renderer;
-import main.java.lotf.client.Window;
-import main.java.lotf.client.gui.ConsoleHud;
-import main.java.lotf.client.gui.DebugHud;
-import main.java.lotf.client.gui.Hud;
-import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.init.InitCommands;
-import main.java.lotf.init.InitEntities;
-import main.java.lotf.init.InitItems;
+import main.java.lotf.Main;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2i;
-import main.java.lotf.world.WorldHandler;
-import main.java.lotfbuilder.MainBuilder;
+import main.java.lotfbuilder.client.Camera;
+import main.java.lotfbuilder.client.KeyInput;
+import main.java.lotfbuilder.client.MouseInput;
+import main.java.lotfbuilder.client.Renderer;
+import main.java.lotfbuilder.client.Window;
+import main.java.lotfbuilder.client.gui.DebugHud;
+import main.java.lotfbuilder.room.RoomBuilder;
 
-public final class Main extends Canvas implements Runnable {
-
-	private static final long serialVersionUID = -2518563563721413864L;
+public class MainBuilder extends Canvas implements Runnable {
+	private static final long serialVersionUID = 1L;
 	
 	private static final int HUD_WIDTH = 224 * 2, HUD_HEIGHT = 126 * 2;
 	private static int width = 432, height = 213, w2, h2;
-	private static boolean isDebug, isBuilder;
+	
+	private static final DebugHud debugHud = new DebugHud();
+	private static Renderer renderer;
 	
 	private int fps;
 	private boolean running = false;
 	
 	private Thread thread;
 	
-	private static final DebugConsole CONSOLE = new DebugConsole();
-	private final DebugHud debugHud = new DebugHud();
-	private final ConsoleHud consoleHud = new ConsoleHud();
-	private final Hud hud = new Hud();
+	private static boolean doesRoomExist;
+	private static RoomBuilder roomBuilder;
+	private static Camera cam = new Camera();
 	
-	private static WorldHandler worldHandler;
-	private static Camera camera;
-	private Renderer renderer;
+	public static Main.Gamestate gamestate = Main.Gamestate.run;
 	
-	public static Gamestate gamestate = Gamestate.run;
-	
-	public static void main(String args[]) {
-		for (String str : args) {
-			if (str.equals("-debug")) {
-				isDebug = true;
-				new MainConsole();
-			} else if (str.equals("-builder")) {
-				isBuilder = true;
-			}
-		}
-		
-		if (isBuilder) {
-			new MainBuilder();
-		} else {
-			new Main();
-		}
+	public MainBuilder() {
+		new Window("LotF Builder", this);
 	}
 	
-	public Main() {
-		new Window("LotF!", this);
-	}
-	
-	public synchronized void start() {
+	public void start() {
 		Console.getTimeExample();
 		Console.print("Window size: " + new Vec2i(width, height));
 		Console.print(Console.WarningType.Info, "Starting!");
-		
 		resize();
 		
 		preInit();
@@ -83,11 +55,12 @@ public final class Main extends Canvas implements Runnable {
 		postInit();
 	}
 	
-	private void preInit() {
+	public void preInit() {
 		Console.print(Console.WarningType.Info, "Pre-Initialization started...");
 		
-		MouseInput mouse = new MouseInput();
+		roomBuilder = new RoomBuilder();
 		
+		MouseInput mouse = new MouseInput();
 		addKeyListener(new KeyInput());
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
@@ -103,31 +76,20 @@ public final class Main extends Canvas implements Runnable {
 			}
 		});
 		
-		InitItems.registerAll();
-		InitEntities.registerAll();
-		
 		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
 	}
 	
-	private void init() {
+	public void init() {
 		Console.print(Console.WarningType.Info, "Initialization started...");
-		
-		InitCommands.registerAll();
 		
 		Console.print(Console.WarningType.Info, "Initialization finished!");
 	}
 	
-	private void postInit() {
+	public void postInit() {
 		Console.print(Console.WarningType.Info, "Post-Initialization started...");
 		
-		worldHandler = new WorldHandler();
-		camera = new Camera();
-		
 		renderer = new Renderer();
-		
 		renderer.loadTextures();
-		hud.loadTextures();
-		hud.loadFonts();
 		
 		Console.print(Console.WarningType.Info, "Post-Initialization finished!");
 		
@@ -182,15 +144,16 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	private void tick() {
-		consoleHud.tick();
-		
-		if (Main.gamestate.fId >= 1) {
-			return;
+		if (gamestate == Main.Gamestate.run) {
+			cam.tick();
+			
+			if (doesRoomExist) {
+				roomBuilder.tick();
+			}
 		}
-		
-		worldHandler.tick();
-		camera.tick();
 	}
+	
+	public static double scale;
 	
 	public void render() {
 		BufferStrategy bs = getBufferStrategy();
@@ -203,7 +166,7 @@ public final class Main extends Canvas implements Runnable {
 		Graphics g2 = bs.getDrawGraphics();
 		Graphics2D g = (Graphics2D) g2;
 		
-		double scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
+		scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
 		int w = (int) Math.ceil((HUD_WIDTH * scale));
 		w2 = (int) Math.ceil((width - w) / scale);
 		int h = (int) Math.ceil((HUD_HEIGHT * scale));
@@ -212,12 +175,13 @@ public final class Main extends Canvas implements Runnable {
 		g.scale(scale, scale);
 		
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, width, height);
+		g.fillRect(0, 0, (int) (width * 100), (int) (height * 100));
 		
 		g2.translate(w2 / 2, h2 / 2);
-		g2.translate(-camera.getPos().getX(), -camera.getPos().getY());
+		g2.translate(cam.pos.getX(), cam.pos.getY());
+		
 		renderer.render(g);
-		g2.translate(camera.getPos().getX(), camera.getPos().getY());
+		g2.translate(-cam.pos.getX(), -cam.pos.getY());
 		
 		g.setColor(Color.BLACK);
 		g.fillRect((int) (w / scale), 0, w2, height);
@@ -225,11 +189,8 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, (int) (h / scale), width, h2);
 		g.fillRect(0, -h2, width, h2);
 		
-		hud.render(g);
-		
-		debugHud.getInfo(worldHandler.getPlayer());
+		renderer.renderHud(g);
 		debugHud.drawText(g, "FPS: " + fps);
-		consoleHud.draw(g);
 		
 		g2.dispose();
 		bs.show();
@@ -240,20 +201,16 @@ public final class Main extends Canvas implements Runnable {
 		height = MathHelper.clamp(getHeight(), 0, Integer.MAX_VALUE);
 	}
 	
-	public static int getWindowWidth() {
-		return width;
+	public static void setDoesRoomExist(boolean bool) {
+		doesRoomExist = bool;
 	}
 	
-	public static int getWindowHeight() {
-		return height;
+	public static Camera getCamera() {
+		return cam;
 	}
 	
-	public static int getGameWidth() {
-		return w2;
-	}
-	
-	public static int getGameHeight() {
-		return h2;
+	public static RoomBuilder getRoomBuilder() {
+		return roomBuilder;
 	}
 	
 	public static int getHudWidth() {
@@ -263,42 +220,8 @@ public final class Main extends Canvas implements Runnable {
 	public static int getHudHeight() {
 		return HUD_HEIGHT;
 	}
-	
-	public static boolean getIsDebug() {
-		return isDebug;
-	}
-	
-	public static DebugConsole getCommandConsole() {
-		return CONSOLE;
-	}
-	
-	public static Camera getCamera() {
-		return camera;
-	}
-	
-	public static WorldHandler getWorldHandler() {
-		return worldHandler;
-	}
-	
-	public enum Gamestate {
-		run      (0),
-		softPause(1),
-		hardPause(2);
-		
-		public final int fId;
-		
-		private Gamestate(int id) {
-			fId = id;
-		}
-		
-		public static Gamestate getFromNumber(int id) {
-			for (Gamestate type : values()) {
-				if (type.fId == id) {
-					return type;
-				}
-			}
-			throw new IllegalArgumentException("Invalid Type id: " + id);
-		}
+
+	public static boolean getDoesRoomExist() {
+		return doesRoomExist;
 	}
 }
-

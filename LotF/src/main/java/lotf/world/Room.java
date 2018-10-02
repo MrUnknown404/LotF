@@ -5,22 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import main.java.lotf.Main;
 import main.java.lotf.entity.Entity;
 import main.java.lotf.tile.Tile;
-import main.java.lotf.tile.TileBlueWall;
-import main.java.lotf.tile.TileBlueWallCorner;
-import main.java.lotf.tile.TileBlueWallHalf;
+import main.java.lotf.tile.TileAir;
 import main.java.lotf.tile.TileGrass;
 import main.java.lotf.tile.TileGrassFlowerLeft;
 import main.java.lotf.tile.TileGrassFlowerRight;
 import main.java.lotf.tile.TileGrassLeft;
 import main.java.lotf.tile.TileGrassRight;
-import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
+import main.java.lotf.world.World.WorldType;
 
 public class Room {
 	
@@ -37,28 +36,17 @@ public class Room {
 	
 	protected boolean wasAllEnemiesDefeated = false;
 	
-	public Room(RoomPos roomPos, World.WorldType type, EnumDungeonType dungeonType, RoomSize size, int roomID) {
-		this.roomPos = roomPos;
+	public Room(World.WorldType type, EnumDungeonType dungeonType, RoomSize size, int roomID) {
 		this.type = type;
 		this.dungeonType = dungeonType;
 		this.roomID = roomID;
+		this.roomSize = new Vec2i(size.x, size.y);
+		this.roomPos = IDToRoomPos(roomID);
 		
-		if (size == RoomSize.small) {
-			this.roomSize = new Vec2i(16, 9);
-		} else if (size == RoomSize.medium) {
-			this.roomSize = new Vec2i(24, 13);
-		} else if (size == RoomSize.big) {
-			this.roomSize = new Vec2i(32, 17);
-		} else if (size == RoomSize.veryBig) {
-			this.roomSize = new Vec2i(48, 25);
+		for (int i = 0; i < roomSize.getBothMulti(); i++) {
+			tileLayer_0.add(new TileAir(IDToTilePos(i), this));
+			tileLayer_1.add(new TileAir(IDToTilePos(i), this));
 		}
-		
-		for (int i = 0; i < roomSize.getBothMuli(); i++) {
-			tileLayer_0.add(Tile.AIR);
-			tileLayer_1.add(Tile.AIR);
-		}
-		
-		generate();
 	}
 	
 	public void tick() {
@@ -79,13 +67,13 @@ public class Room {
 			}
 		}
 		
-		if (!tb && !wasAllEnemiesDefeated) {
+		if (!entities.isEmpty() && !tb && !wasAllEnemiesDefeated) {
 			onAllEnemyDefeated();
 		}
 	}
 	
 	public void onRoomEnter() {
-		
+		Main.getWorldHandler().getPlayerWorld().updateMap(roomID);
 	}
 	
 	public void onRoomExit() {
@@ -104,11 +92,44 @@ public class Room {
 		wasAllEnemiesDefeated = false;
 	}
 	
+	public void resetAnimations() {
+		for (int i = 0; i < getTileLayer0().size(); i++) {
+			if (getTileLayer0().get(i).getIsAnimated()) {
+				getTileLayer0().get(i).resetAnimation();
+			}
+			if (getTileLayer1().get(i).getIsAnimated()) {
+				getTileLayer1().get(i).resetAnimation();
+			}
+		}
+	}
+	
 	public TilePos IDToTilePos(int id) {
 		int ytt = MathHelper.floor((double) id / roomSize.getX());
 		int xtt = id - (ytt * roomSize.getX());
 		
 		return new TilePos(xtt, ytt);
+	}
+	
+	public RoomPos IDToRoomPos(int id) {
+		int xtt, ytt;
+		
+		if (type != WorldType.dungeon) {
+			ytt = MathHelper.floor((double) id / type.size);
+			xtt = id - (ytt * roomSize.getX());
+		} else {
+			ytt = MathHelper.floor((double) id / dungeonType.size);
+			xtt = id - (ytt * roomSize.getX());
+		}
+		
+		return new RoomPos(xtt, ytt);
+	}
+	
+	public int TilePosToID(RoomSize size, int x, int y) {
+		return (y * size.x) + x;
+	}
+	
+	public void setRoomPos(RoomPos roomPos) {
+		this.roomPos = roomPos;
 	}
 	
 	public int getRoomID() {
@@ -181,15 +202,17 @@ public class Room {
 	}
 	
 	public enum RoomSize {
-		small  (0),
-		medium (1),
-		big    (2),
-		veryBig(3);
+		small  (0, 16, 9),
+		medium (1, 24, 13),
+		big    (2, 32, 17),
+		veryBig(3, 40, 21);
 		
-		private final int fId;
+		private final int fId, x, y;
 		
-		private RoomSize(int id) {
-			fId = id;
+		private RoomSize(int id, int x, int y) {
+			this.fId = id;
+			this.x = x;
+			this.y = y;
 		}
 		
 		public static RoomSize getFromNumber(int id) {
@@ -225,71 +248,6 @@ public class Room {
 				} else {
 					tileLayer_0.set(i, new TileGrass(IDToTilePos(i), this));
 				}
-			}
-		}
-	}
-	
-	public void generate() {
-		if (type == World.WorldType.overworld) {
-			generateRandomGrassFloor();
-			
-			if (roomID == 149) {
-				tileLayer_1.set(0, new TileBlueWallCorner(IDToTilePos(0), this, 0));
-				tileLayer_1.set(15, new TileBlueWallCorner(IDToTilePos(15), this, 1));
-				tileLayer_1.set(128, new TileBlueWallCorner(IDToTilePos(128), this, 3));
-				tileLayer_1.set(143, new TileBlueWallCorner(IDToTilePos(143), this, 2));
-				
-				for (int i = 1; i < 8; i++) {
-					if (i != 4) {
-						tileLayer_1.set(roomSize.getX() * i, new TileBlueWall(IDToTilePos(roomSize.getX() * i), this, 3));
-						tileLayer_1.set(roomSize.getX() * i + 15, new TileBlueWall(IDToTilePos(roomSize.getX() * i + 15), this, 1));
-					}
-				}
-				
-				for (int i = 1; i < 15; i++) {
-					if (i == 7) {
-						tileLayer_1.set(i, new TileBlueWallHalf(IDToTilePos(i), this, 0));
-						tileLayer_1.set(roomSize.getBothMuli() - i - 1, new TileBlueWallHalf(IDToTilePos(roomSize.getBothMuli() - i - 1), this, 3));
-					} else if (i == 8) {
-						tileLayer_1.set(i, new TileBlueWallHalf(IDToTilePos(i), this, 1));
-						tileLayer_1.set(roomSize.getBothMuli() - i - 1, new TileBlueWallHalf(IDToTilePos(roomSize.getBothMuli() - i - 1), this, 2));
-					} else {
-						tileLayer_1.set(i, new TileBlueWall(IDToTilePos(i), this, 0));
-						tileLayer_1.set(roomSize.getBothMuli() - i - 1, new TileBlueWall(IDToTilePos(roomSize.getBothMuli() - i - 1), this, 2));
-					}
-				}
-			}
-		} else if (type == World.WorldType.underworld) {
-			
-		} else if (type == World.WorldType.inside) {
-			
-		} else if (type == World.WorldType.dungeon) {
-			if (dungeonType == EnumDungeonType.nil) {
-				Console.print(Console.WarningType.FatalError, "Unknown dungeon generation type!");
-			} else if (dungeonType == EnumDungeonType.one) {
-				
-			} else if (dungeonType == EnumDungeonType.two) {
-				
-			} else if (dungeonType == EnumDungeonType.three) {
-				
-			} else if (dungeonType == EnumDungeonType.four) {
-				
-			} else if (dungeonType == EnumDungeonType.five) {
-				
-			} else if (dungeonType == EnumDungeonType.six) {
-				
-			} else if (dungeonType == EnumDungeonType.seven) {
-				
-			} else if (dungeonType == EnumDungeonType.eight) {
-				
-			} else if (dungeonType == EnumDungeonType.nine) {
-				
-			} else if (dungeonType == EnumDungeonType.ten) {
-				
-			} else if (dungeonType == EnumDungeonType.eleven) {
-				
-			} else if (dungeonType == EnumDungeonType.twelve) {
-				
 			}
 		}
 	}

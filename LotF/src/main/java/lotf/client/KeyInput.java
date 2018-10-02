@@ -100,32 +100,38 @@ public final class KeyInput extends KeyAdapter {
 						keyDown[3] = true;
 					}
 				} else {
-					if (key == KeyEvent.VK_LEFT) {
-						player.getInventory().setSelected(true);
-					} else if (key == KeyEvent.VK_RIGHT) {
-						player.getInventory().setSelected(false);
-					}
-					
 					if (!player.getInventory().isSelectingPage) {
 						if (key == KeyEvent.VK_UP) {
-							System.err.println("up while in inv");
+							player.getInventory().changeSelectedScreen();
+						}
+					}
+					
+					if (player.getInventory().getSelectedScreen() == 0) {
+						if (key == KeyEvent.VK_LEFT) {
+							player.getInventory().setSelected(true);
+						} else if (key == KeyEvent.VK_RIGHT) {
+							player.getInventory().setSelected(false);
 						}
 						
-						if (key == KeyEvent.VK_W) {
-							player.getInventory().addUpSlot();
-						} else if (key == KeyEvent.VK_S) {
-							player.getInventory().addDownSlot();
-						} else if (key == KeyEvent.VK_A) {
-							player.getInventory().addLeftSlot();
-						} else if (key == KeyEvent.VK_D) {
-							player.getInventory().addRightSlot();
+						if (!player.getInventory().isSelectingPage) {
+							if (key == KeyEvent.VK_W) {
+								player.getInventory().addUpSlot();
+							} else if (key == KeyEvent.VK_S) {
+								player.getInventory().addDownSlot();
+							} else if (key == KeyEvent.VK_A) {
+								player.getInventory().addLeftSlot();
+							} else if (key == KeyEvent.VK_D) {
+								player.getInventory().addRightSlot();
+							}
+						} else {
+							if (key == KeyEvent.VK_A) {
+								((ItemSpellBook) player.getInventory().findItem("spellBook", 0)).getSpellPageList().leftSelectedPage();
+							} else if (key == KeyEvent.VK_D) {
+								((ItemSpellBook) player.getInventory().findItem("spellBook", 0)).getSpellPageList().rightSelectedPage();
+							}
 						}
 					} else {
-						if (key == KeyEvent.VK_A) {
-							((ItemSpellBook) player.getInventory().findItem("spellBook", 0)).getSpellPageList().leftSelectedPage();
-						} else if (key == KeyEvent.VK_D) {
-							((ItemSpellBook) player.getInventory().findItem("spellBook", 0)).getSpellPageList().rightSelectedPage();
-						}
+						int doLater;
 					}
 				}
 			}

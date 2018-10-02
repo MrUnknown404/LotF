@@ -10,14 +10,14 @@ import javax.swing.text.StyledDocument;
 
 import main.java.lotf.client.ConsoleWindow;
 
-public final class ConsoleMain extends Canvas {
+public final class MainConsole extends Canvas {
 	private static final long serialVersionUID = 359980311258365686L;
 	
 	private static ConsoleWindow w;
 	private static StyledDocument doc;
 	private static Style style;
 	
-	public ConsoleMain() {
+	public MainConsole() {
 		w = new ConsoleWindow(this);
 		doc = w.getTextArea().getStyledDocument();
 		style = w.getTextArea().addStyle("Color Style", null);

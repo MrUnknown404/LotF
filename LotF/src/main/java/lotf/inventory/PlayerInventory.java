@@ -16,7 +16,7 @@ public class PlayerInventory extends Inventory {
 	private Inventory hiddenItems = new Inventory(32, 32);
 	private Inventory hiddenRings = new Inventory(32, 32);
 	
-	private int selectedSword = -1, selectedRing = -1, selectedSlot, selectedInv;
+	private int selectedSword = -1, selectedRing = -1, selectedSlot, selectedInv, selectedScreen;
 	private Item selectedLeft = InitItems.EMPTY, selectedRight = InitItems.EMPTY;
 	
 	public PlayerInventory() {
@@ -158,6 +158,14 @@ public class PlayerInventory extends Inventory {
 		}
 	}
 	
+	public void changeSelectedScreen() {
+		if (selectedScreen == 1) {
+			selectedScreen = 0;
+		} else {
+			selectedScreen = 1;
+		}
+	}
+	
 	public boolean hasDungeonItem(EnumDungeonType type) {
 		if (hiddenItems.findItem("dungeonItem", type.fId) != null) {
 			return true;
@@ -191,6 +199,10 @@ public class PlayerInventory extends Inventory {
 			return true;
 		}
 		return false;
+	}
+	
+	public int getSelectedScreen() {
+		return selectedScreen;
 	}
 	
 	public int getSelectedSlot() {

@@ -44,7 +44,7 @@ public class Vec2i {
 		return y;
 	}
 	
-	public int getBothMuli() {
+	public int getBothMulti() {
 		return x * y;
 	}
 	

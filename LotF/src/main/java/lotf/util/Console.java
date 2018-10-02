@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import main.java.lotf.ConsoleMain;
+import main.java.lotf.MainConsole;
 import main.java.lotf.Main;
 
 public final class Console {
@@ -15,7 +15,7 @@ public final class Console {
 	/** Prints date info to the console Example: <p> [12:34:56:789] [Info] [ExampleClass.exampleMethod.69] [Hour/Minute/Second/Millisecond] */
 	public static void getTimeExample() {
 		if (Main.getIsDebug()) {
-			ConsoleMain.print(new Color(100, 100, 100), "[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + WarningType.Info + "] [" + getCallerInfo(Console.class.getName()) + "] [Hour/Minute/Second/Millisecond]");
+			MainConsole.print(new Color(100, 100, 100), "[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + WarningType.Info + "] [" + getCallerInfo(Console.class.getName()) + "] [Hour/Minute/Second/Millisecond]");
 		}
 		
 		System.out.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + WarningType.Info + "] [" + getCallerInfo(Console.class.getName()) + "] [Hour/Minute/Second/Millisecond]");
@@ -34,7 +34,7 @@ public final class Console {
 		}
 		
 		if (Main.getIsDebug()) {
-			ConsoleMain.print(colors[type.fId], "[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() +  "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
+			MainConsole.print(colors[type.fId], "[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() +  "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
 		}
 		
 		if (type == WarningType.Error || type == WarningType.FatalError) {
