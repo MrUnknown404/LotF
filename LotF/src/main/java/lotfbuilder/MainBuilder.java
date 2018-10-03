@@ -20,7 +20,7 @@ import main.java.lotfbuilder.client.Window;
 import main.java.lotfbuilder.client.gui.DebugHud;
 import main.java.lotfbuilder.room.RoomBuilder;
 
-public class MainBuilder extends Canvas implements Runnable {
+public final class MainBuilder extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 	
 	private static final int HUD_WIDTH = 224 * 2, HUD_HEIGHT = 126 * 2;

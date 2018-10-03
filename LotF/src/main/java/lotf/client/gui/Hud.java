@@ -270,6 +270,57 @@ public class Hud {
 		*/
 		
 		if (inv.isInventoryOpen) {
+			//Mapping
+			for (int i = 0; i < 12; i++) {
+				if (i < 6) {
+					if (player.getDungeon().fId == i) {
+						g.drawImage(selSmall, 153 * pM, (26 * pM) + (i * (16 * pM)), 9 * pM, 9 * pM, null);
+						g.drawImage(selSmall, 179 * pM, (26 * pM) + (i * (16 * pM)), 9 * pM, 9 * pM, null);
+					}
+					
+					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
+						g.drawImage(map, 154 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+					} else {
+						g.drawImage(missingItemSmall, 154 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+					}
+					
+					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
+						g.drawImage(compasses.get(i), 180 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+					} else {
+						g.drawImage(missingItemSmall, 180 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+					}
+					
+					if (inv.hasDungeonItem(EnumDungeonType.getFromNumber(i))) {
+						g.drawImage(dungeonItems.get(i), 163 * pM, (23 * pM) + (i * (16 * pM)), 15 * pM, 15 * pM, null);
+					} else {
+						g.drawImage(missingItemBig, 163 * pM, (23 * pM) + (i * (16 * pM)), 15 * pM, 15 * pM, null);
+					}
+				} else {
+					if (player.getDungeon().fId == i) {
+						g.drawImage(selSmall, 187 * pM, (26 * pM) + ((i - 6) * (16 * pM)), 9 * pM, 9 * pM, null);
+						g.drawImage(selSmall, 213 * pM, (26 * pM) + ((i - 6) * (16 * pM)), 9 * pM, 9 * pM, null);
+					}
+					
+					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
+						g.drawImage(map, 188 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+					} else {
+						g.drawImage(missingItemSmall, 188 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+					}
+					
+					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
+						g.drawImage(compasses.get(i), 214 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+					} else {
+						g.drawImage(missingItemSmall, 214 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+					}
+					
+					if (inv.hasDungeonItem(EnumDungeonType.getFromNumber(i))) {
+						g.drawImage(dungeonItems.get(i), 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
+					} else {
+						g.drawImage(missingItemBig, 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
+					}
+				}
+			}
+			
 			if (inv.getSelectedScreen() == 0) {
 				for (int i = 0; i < inv.getItems().size(); i++) {
 					if (inv.getSelectedInv() == 0 && inv.getSelectedSlot() == i) {
@@ -377,57 +428,6 @@ public class Hud {
 					}
 				} else if (m.getWorldType() == World.WorldType.dungeon) {
 					int drawDungeonLater;
-				}
-			}
-			
-			//Mapping
-			for (int i = 0; i < 12; i++) {
-				if (i < 6) {
-					if (player.getDungeon().fId == i) {
-						g.drawImage(selSmall, 153 * pM, (26 * pM) + (i * (16 * pM)), 9 * pM, 9 * pM, null);
-						g.drawImage(selSmall, 179 * pM, (26 * pM) + (i * (16 * pM)), 9 * pM, 9 * pM, null);
-					}
-					
-					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(map, 154 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
-					} else {
-						g.drawImage(missingItemSmall, 154 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
-					}
-					
-					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(compasses.get(i), 180 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
-					} else {
-						g.drawImage(missingItemSmall, 180 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
-					}
-					
-					if (inv.hasDungeonItem(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(dungeonItems.get(i), 163 * pM, (23 * pM) + (i * (16 * pM)), 15 * pM, 15 * pM, null);
-					} else {
-						g.drawImage(missingItemBig, 163 * pM, (23 * pM) + (i * (16 * pM)), 15 * pM, 15 * pM, null);
-					}
-				} else {
-					if (player.getDungeon().fId == i) {
-						g.drawImage(selSmall, 187 * pM, (26 * pM) + ((i - 6) * (16 * pM)), 9 * pM, 9 * pM, null);
-						g.drawImage(selSmall, 213 * pM, (26 * pM) + ((i - 6) * (16 * pM)), 9 * pM, 9 * pM, null);
-					}
-					
-					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(map, 188 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
-					} else {
-						g.drawImage(missingItemSmall, 188 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
-					}
-					
-					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(compasses.get(i), 214 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
-					} else {
-						g.drawImage(missingItemSmall, 214 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
-					}
-					
-					if (inv.hasDungeonItem(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(dungeonItems.get(i), 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
-					} else {
-						g.drawImage(missingItemBig, 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
-					}
 				}
 			}
 		}

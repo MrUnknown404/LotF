@@ -14,7 +14,7 @@ import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.util.ItemTile;
 
-public class MouseInput extends MouseAdapter {
+public final class MouseInput extends MouseAdapter {
 	
 	private static Vec2i camVec = new Vec2i(), hudVec = new Vec2i();
 	private int mouse;

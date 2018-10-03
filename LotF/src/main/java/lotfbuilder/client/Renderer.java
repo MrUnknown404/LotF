@@ -17,7 +17,7 @@ import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.room.RoomBuilder;
 import main.java.lotfbuilder.util.ItemTile;
 
-public class Renderer {
+public final class Renderer {
 	
 	private List<ImageList> tiles = new ArrayList<ImageList>(Tile.TileType.values().length);
 	
@@ -85,7 +85,7 @@ public class Renderer {
 				}
 				
 				for (int i = 0; i < tiles.size(); i++) {
-					if (t.getStringID().substring(4).equals(tiles.get(i).stringKey)) {
+					if (t.getName().equals(tiles.get(i).stringKey)) {
 						if (t.getMaxMeta() == 0) {
 							g.drawImage(tiles.get(i).images.get(0), t.getPositionX(), t.getPositionY(), Tile.TILE_SIZE, Tile.TILE_SIZE, null);
 						} else {

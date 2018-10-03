@@ -20,12 +20,12 @@ public final class Camera {
 		
 		if (!p.getMovingToRoom()) {
 			int xt = MathHelper.clamp((p.getPositionX() + (p.getWidth() / 2)) - Main.getHudWidth() / 2,
-					(rpos.getX() * r.getRoomSize().getX()) * Tile.TILE_SIZE,
-					(((rpos.getX() + 1) * r.getRoomSize().getX()) * Tile.TILE_SIZE) - Main.getHudWidth());
+					(rpos.getX() * r.getVecRoomSize().getX()) * Tile.TILE_SIZE,
+					(((rpos.getX() + 1) * r.getVecRoomSize().getX()) * Tile.TILE_SIZE) - Main.getHudWidth());
 			
 			int yt = MathHelper.clamp((p.getPositionY() + (p.getHeight() / 2)) - Main.getHudHeight() / 2,
-					(rpos.getY() * r.getRoomSize().getY()) * Tile.TILE_SIZE - Tile.TILE_SIZE,
-					(((rpos.getY() + 1) * r.getRoomSize().getY()) * Tile.TILE_SIZE) - Main.getHudHeight());
+					(rpos.getY() * r.getVecRoomSize().getY()) * Tile.TILE_SIZE - Tile.TILE_SIZE,
+					(((rpos.getY() + 1) * r.getVecRoomSize().getY()) * Tile.TILE_SIZE) - Main.getHudHeight());
 			
 			if (pos.getX() != xt) {
 				pos.setX(xt);
@@ -41,13 +41,13 @@ public final class Camera {
 		Room r = Main.getWorldHandler().getPlayerRoom();
 		
 		if (dir == EnumDirection.north) {
-			pos.add(0, -((r.getRoomSize().getY() * Tile.TILE_SIZE) / 36));
+			pos.add(0, -((r.getVecRoomSize().getY() * Tile.TILE_SIZE) / 36));
 		} else if (dir == EnumDirection.east) {
-			pos.add((r.getRoomSize().getX() * Tile.TILE_SIZE) / 32, 0);
+			pos.add((r.getVecRoomSize().getX() * Tile.TILE_SIZE) / 32, 0);
 		} else if (dir == EnumDirection.south) {
-			pos.add(0, (r.getRoomSize().getY() * Tile.TILE_SIZE) / 36);
+			pos.add(0, (r.getVecRoomSize().getY() * Tile.TILE_SIZE) / 36);
 		} else if (dir == EnumDirection.west) {
-			pos.add(-((r.getRoomSize().getX() * Tile.TILE_SIZE) / 32), 0);
+			pos.add(-((r.getVecRoomSize().getX() * Tile.TILE_SIZE) / 32), 0);
 		}
 	}
 	

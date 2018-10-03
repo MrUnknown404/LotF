@@ -16,7 +16,7 @@ public final class WorldHandler {
 	public WorldHandler() {
 		worlds.add(new World(World.WorldType.overworld));
 		worlds.add(new World(World.WorldType.underworld));
-		worlds.add(new World(World.WorldType.inside)); //change later!
+		worlds.add(new World(World.WorldType.inside));
 		worlds.add(new World(EnumDungeonType.one));
 		worlds.add(new World(EnumDungeonType.two));
 		worlds.add(new World(EnumDungeonType.three));
@@ -31,8 +31,8 @@ public final class WorldHandler {
 		worlds.add(new World(EnumDungeonType.twelve));
 		
 		player = (EntityPlayer) InitEntities.get("ENT_player");
-		player.setWorld(worlds.get(0));
-		player.setRoom(player.getWorld().getRoomAt(5, 9));
+		player.setWorld(worlds.get(2));
+		player.setRoom(player.getWorld().getRoomAt(0, 0));
 	}
 	
 	public void tick() {

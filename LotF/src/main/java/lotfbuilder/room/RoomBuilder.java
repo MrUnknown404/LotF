@@ -19,6 +19,7 @@ import main.java.lotf.items.ItemEmpty;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumDungeonType;
+import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
@@ -40,20 +41,15 @@ public final class RoomBuilder {
 	
 	public ItemTile hand;
 	
-	private World.WorldType type;
-	private EnumDungeonType type2;
-	private Room.RoomSize size;
-	
 	public void setup(World.WorldType type, EnumDungeonType type2, Room.RoomSize size, int id) {
-		for (int i = 0; i < 2; i++) {
-			pages.add(new BlockInventory(i));
-		}
+		setPages();
 		
 		room = new Room(type, type2, size, id);
+		room.setRoomPos(new RoomPos(0, 0));
 		
-		this.type = type;
-		this.type2 = type2;
-		this.size = size;
+		for (int i = 0; i < room.getTileLayer0().size(); i++) {
+			room.getTileLayer0().get(i).tileUpdate();
+		}
 		
 		MainBuilder.setDoesRoomExist(true);
 	}
@@ -67,7 +63,7 @@ public final class RoomBuilder {
 	}
 	
 	public void saveRoom() {
-		Console.print(Console.WarningType.Info, "Saving room...");
+		Console.print(Console.WarningType.Debug, "Creating file chooser!");
 		MainBuilder.gamestate = Main.Gamestate.hardPause;
 		
 		Gson g = new Gson().newBuilder().setPrettyPrinting().create();
@@ -79,15 +75,17 @@ public final class RoomBuilder {
 		fc.setAcceptAllFileFilterUsed(true);
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		
-		if (type2 == null) {
-			fc.setSelectedFile(new File(type + ".lotfroom"));
+		if (room.getWorldType() == null) {
+			fc.setSelectedFile(new File(room.getWorldType() + "_" + room.getRoomID() + ".lotfroom"));
 		} else {
-			fc.setSelectedFile(new File(type + "_" + type2 + ".lotfroom"));
+			fc.setSelectedFile(new File(room.getWorldType() + "_" + room.getRoomID() + ".lotfroom"));
 		}
 		
+		Console.print(Console.WarningType.Debug, "Opening file chooser!");
 		int returnVal = fc.showSaveDialog(new JFrame());
 		
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			Console.print(Console.WarningType.Info, "Saving room...");
 			f = fc.getSelectedFile();
 			
 			try {
@@ -99,14 +97,17 @@ public final class RoomBuilder {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			Console.print(Console.WarningType.Info, "Finished saving room!");
+		} else {
+			Console.print(Console.WarningType.FatalError, "Saving room failed!");
 		}
 		
 		MainBuilder.gamestate = Main.Gamestate.run;
-		Console.print(Console.WarningType.Info, "Finished saving room!");
 	}
 	
 	public void loadRoom() {
-		Console.print(Console.WarningType.Info, "Saving room...");
+		Console.print(Console.WarningType.Debug, "Creating file chooser!");
 		MainBuilder.gamestate = Main.Gamestate.hardPause;
 		
 		Gson g = new Gson().newBuilder().setPrettyPrinting().create();
@@ -118,66 +119,92 @@ public final class RoomBuilder {
 		fc.setAcceptAllFileFilterUsed(true);
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		
+		Console.print(Console.WarningType.Debug, "Opening file chooser!");
 		int returnVal = fc.showOpenDialog(new JFrame());
 		
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			Console.print(Console.WarningType.Info, "Loading room...");
 			f = fc.getSelectedFile();
 			
 			try {
 				fr = new FileReader(f);
 				
 				room = g.fromJson(fr, Room.class);
+				
+				fr.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
+			Console.print(Console.WarningType.Info, "Finished loading room!");
+		} else {
+			Console.print(Console.WarningType.FatalError, "Loading room failed!");
+			MainBuilder.gamestate = Main.Gamestate.run;
+			return;
 		}
+		
+		Console.print(Console.WarningType.Info, "Setting up the room...");
+		setPages();
+		
+		room.setRoomPos(room.IDToRoomPos(room.getRoomID()));
 		
 		for (int i = 0; i < room.getTileLayer0().size(); i++) {
 			room.getTileLayer0().get(i).setRoom(room);
 			room.getTileLayer1().get(i).setRoom(room);
+			room.getTileLayer0().get(i).tileUpdate();
+			room.getTileLayer1().get(i).tileUpdate();
 		}
-		
-		room.setRoomPos(room.IDToRoomPos(room.getRoomID()));
+		Console.print(Console.WarningType.Info, "Finished setting up the room!");
 		
 		MainBuilder.setDoesRoomExist(true);
-		
 		MainBuilder.gamestate = Main.Gamestate.run;
-		Console.print(Console.WarningType.Info, "Finished saving room!");
 	}
 	
 	public void resetRoom() {
 		MainBuilder.setDoesRoomExist(false);
 		
+		selectedSlot = 0;
+		selectedInv = 0;
 		creationState = 0;
+		lastTileType = 1;
+		lastMeta = 0;
 		
 		isOpen = false;
 		
 		room = null;
-		type = null;
-		type2 = null;
-		size = null;
 		hand = null;
+		
+		pages = new ArrayList<BlockInventory>();
+		selInv.clearItems();
 		
 		MainBuilder.getCamera().pos = new Vec2i();
 	}
 	
+	private void setPages() {
+		pages.clear();
+		for (int i = 0; i < 2; i++) {
+			pages.add(new BlockInventory(i));
+		}
+	}
+	
 	public void setTile(Vec2i vec) {
-		if (getSelectedItem().getTileType() == Tile.TileType.air) {
-			deleteTile(vec);
-		} else if (getSelectedItem().getTileType().hasCollision) {
-			room.getTileLayer1().set(room.TilePosToID(size, vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
-		} else {
-			room.getTileLayer0().set(room.TilePosToID(size, vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+		if (getSelectedItem().getTileType() != Tile.TileType.air) {
+			if (getSelectedItem().getTileType().hasCollision) {
+				room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+			} else {
+				room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+			}
 		}
 		
 		room.resetAnimations();
 	}
 	
 	public void deleteTile(Vec2i vec) {
-		if (room.getTileLayer1().get(room.TilePosToID(size, vec.getX(), vec.getY())).getTileType() == Tile.TileType.air) {
-			room.getTileLayer0().set(room.TilePosToID(size, vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+		if (room.getTileLayer1().get(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY())).getTileType() == Tile.TileType.air) {
+			room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
 		} else {
-			room.getTileLayer1().set(room.TilePosToID(size, vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+			room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
 		}
 	}
 	

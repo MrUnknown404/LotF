@@ -31,10 +31,10 @@ public class CommandTeleport extends Command {
 		} else if (argInt.get(1) <= 0) {
 			console.addLine("* Y cannot be zero or below");
 			return;
-		} else if (argInt.get(0) > Main.getWorldHandler().getPlayer().getRoom().getRoomSize().getX()) {
+		} else if (argInt.get(0) > Main.getWorldHandler().getPlayer().getRoom().getVecRoomSize().getX()) {
 			console.addLine("* X is bigger then the room size");
 			return;
-		} else if (argInt.get(1) > Main.getWorldHandler().getPlayer().getRoom().getRoomSize().getY()) {
+		} else if (argInt.get(1) > Main.getWorldHandler().getPlayer().getRoom().getVecRoomSize().getY()) {
 			console.addLine("* Y is bigger then the room size");
 			return;
 		}

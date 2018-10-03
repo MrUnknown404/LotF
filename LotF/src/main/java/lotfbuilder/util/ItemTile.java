@@ -3,7 +3,7 @@ package main.java.lotfbuilder.util;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.tile.Tile;
 
-public class ItemTile extends Item {
+public final class ItemTile extends Item {
 
 	private Tile.TileType type;
 	

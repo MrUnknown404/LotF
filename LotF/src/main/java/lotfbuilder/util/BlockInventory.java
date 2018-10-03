@@ -4,7 +4,7 @@ import main.java.lotf.inventory.Inventory;
 import main.java.lotf.tile.Tile;
 import main.java.lotfbuilder.MainBuilder;
 
-public class BlockInventory extends Inventory {
+public final class BlockInventory extends Inventory {
 	
 	public BlockInventory(int pageNumber) {
 		super(11, 5);

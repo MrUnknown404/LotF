@@ -38,7 +38,7 @@ public abstract class Entity extends TickableGameObject {
 		if (isAlive) {
 			tickAlive();
 			
-			if (getPositionX() != ((room.getRoomPos().getX() * room.getRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX() || getPositionY() != ((room.getRoomPos().getY() * room.getRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY()) {
+			if (getPositionX() != ((room.getRoomPos().getX() * room.getVecRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX() || getPositionY() != ((room.getRoomPos().getY() * room.getVecRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY()) {
 				updatePosition();
 			}
 		}
@@ -47,7 +47,7 @@ public abstract class Entity extends TickableGameObject {
 	public abstract void tickAlive();
 	
 	public void updatePosition() {
-		setPosition(((room.getRoomPos().getX() * room.getRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX(), ((room.getRoomPos().getY() * room.getRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY());
+		setPosition(((room.getRoomPos().getX() * room.getVecRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX(), ((room.getRoomPos().getY() * room.getVecRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY());
 	}
 	
 	public void setRelativePos(int x, int y) {

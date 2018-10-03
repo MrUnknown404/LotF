@@ -4,19 +4,22 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import main.java.lotf.util.EnumDungeonType;
+import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.world.Room;
 import main.java.lotf.world.World;
 import main.java.lotf.world.World.WorldType;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.client.gui.DebugHud;
 
-public class KeyInput extends KeyAdapter {
+public final class KeyInput extends KeyAdapter {
 
 	private static final int SPEED = 10;
 	private boolean[] keys = new boolean[4];
 	
 	private World.WorldType type;
 	private EnumDungeonType dungeonType;
+	private Room.RoomSize size;
+	private static int roomID;
 	
 	public KeyInput() {
 		for (int i = 0; i < keys.length; i++) {
@@ -58,6 +61,37 @@ public class KeyInput extends KeyAdapter {
 				MainBuilder.getRoomBuilder().isOpen = !MainBuilder.getRoomBuilder().isOpen;
 			}
 		} else {
+			if (key == KeyEvent.VK_0) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+			} else if (key == KeyEvent.VK_1) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 1, 0, 255);
+			} else if (key == KeyEvent.VK_2) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 2, 0, 255);
+			} else if (key == KeyEvent.VK_3) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 3, 0, 255);
+			} else if (key == KeyEvent.VK_4) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 4, 0, 255);
+			} else if (key == KeyEvent.VK_5) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 5, 0, 255);
+			} else if (key == KeyEvent.VK_6) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 6, 0, 255);
+			} else if (key == KeyEvent.VK_7) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 7, 0, 255);
+			} else if (key == KeyEvent.VK_8) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 8, 0, 255);
+			} else if (key == KeyEvent.VK_9) {
+				roomID = MathHelper.clamp(roomID * 10, 0, 255);
+				roomID = MathHelper.clamp(roomID + 9, 0, 255);
+			}
+			
 			if (key == KeyEvent.VK_F1) {
 				if (MainBuilder.getRoomBuilder().creationState == 0) {
 					MainBuilder.getRoomBuilder().creationState = 1;
@@ -68,7 +102,10 @@ public class KeyInput extends KeyAdapter {
 					dungeonType = EnumDungeonType.one;
 					MainBuilder.getRoomBuilder().creationState = 3;
 				} else if (MainBuilder.getRoomBuilder().creationState == 3) {
-					MainBuilder.getRoomBuilder().setup(type, dungeonType, Room.RoomSize.small, 0);
+					size = Room.RoomSize.small;
+					MainBuilder.getRoomBuilder().creationState = 4;
+				} else if (MainBuilder.getRoomBuilder().creationState == 4) {
+					MainBuilder.getRoomBuilder().setup(type, dungeonType, size, roomID);
 				}
 			} else if (key == KeyEvent.VK_F2) {
 				if (MainBuilder.getRoomBuilder().creationState == 1) {
@@ -78,7 +115,8 @@ public class KeyInput extends KeyAdapter {
 					dungeonType = EnumDungeonType.two;
 					MainBuilder.getRoomBuilder().creationState = 3;
 				} else if (MainBuilder.getRoomBuilder().creationState == 3) {
-					MainBuilder.getRoomBuilder().setup(type, dungeonType, Room.RoomSize.medium, 0);
+					size = Room.RoomSize.medium;
+					MainBuilder.getRoomBuilder().creationState = 4;
 				} else {
 					MainBuilder.getRoomBuilder().loadRoom();
 				}
@@ -90,7 +128,8 @@ public class KeyInput extends KeyAdapter {
 					dungeonType = EnumDungeonType.three;
 					MainBuilder.getRoomBuilder().creationState = 3;
 				} else if (MainBuilder.getRoomBuilder().creationState == 3) {
-					MainBuilder.getRoomBuilder().setup(type, dungeonType, Room.RoomSize.big, 0);
+					size = Room.RoomSize.big;
+					MainBuilder.getRoomBuilder().creationState = 4;
 				}
 			} else if (key == KeyEvent.VK_F4) {
 				if (MainBuilder.getRoomBuilder().creationState == 1) {
@@ -100,7 +139,8 @@ public class KeyInput extends KeyAdapter {
 					dungeonType = EnumDungeonType.four;
 					MainBuilder.getRoomBuilder().creationState = 3;
 				} else if (MainBuilder.getRoomBuilder().creationState == 3) {
-					MainBuilder.getRoomBuilder().setup(type, dungeonType, Room.RoomSize.veryBig, 0);
+					size = Room.RoomSize.veryBig;
+					MainBuilder.getRoomBuilder().creationState = 4;
 				}
 			} else if (key == KeyEvent.VK_F5) {
 				if (MainBuilder.getRoomBuilder().creationState == 2) {
@@ -170,5 +210,9 @@ public class KeyInput extends KeyAdapter {
 				MainBuilder.getCamera().moveDir.setX(0);
 			}
 		}
+	}
+	
+	public static int getRoomID() {
+		return roomID;
 	}
 }

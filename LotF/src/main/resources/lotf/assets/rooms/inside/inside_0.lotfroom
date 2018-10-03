@@ -1,0 +1,4623 @@
+{
+  "tileLayer_0": [
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodFloor",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 1,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 8
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 256
+      }
+    }
+  ],
+  "tileLayer_1": [
+    {
+      "tileType": "woodWallCorner",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 0
+      },
+      "meta": 0,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWallCorner",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 0
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 0
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 1
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 1
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 1
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 32
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 2
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 2
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 2
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 64
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 3
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 3
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 3
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 96
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 4
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 4
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 4
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 128
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 5
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 5
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 5
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 160
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 6
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 6
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 6
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 192
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 7
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "air",
+      "collisionType": "none",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 7
+      },
+      "meta": 0,
+      "maxMeta": 0,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 7
+      },
+      "meta": 1,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 224
+      }
+    },
+    {
+      "tileType": "woodWallCorner",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 0,
+        "y": 8
+      },
+      "meta": 3,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 0,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 1,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 32,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 2,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 64,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 3,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 96,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 4,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 128,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 5,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 160,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 6,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 192,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 7,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 224,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 8,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 256,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 9,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 288,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 10,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 320,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 11,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 352,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 12,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 384,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 13,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 416,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWall",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 14,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 448,
+        "y": 256
+      }
+    },
+    {
+      "tileType": "woodWallCorner",
+      "collisionType": "whole",
+      "relativeTilePos": {
+        "x": 15,
+        "y": 8
+      },
+      "meta": 2,
+      "maxMeta": 4,
+      "animationTime": 0,
+      "isAnimated": false,
+      "pos": {
+        "x": 480,
+        "y": 256
+      }
+    }
+  ],
+  "entities": [],
+  "roomSize": {
+    "x": 16,
+    "y": 9
+  },
+  "type": "inside",
+  "size": "small",
+  "roomID": 0,
+  "wasAllEnemiesDefeated": false
+}

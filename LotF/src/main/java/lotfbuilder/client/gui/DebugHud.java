@@ -5,8 +5,9 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import main.java.lotfbuilder.MainBuilder;
+import main.java.lotfbuilder.client.KeyInput;
 
-public class DebugHud {
+public final class DebugHud {
 
 	private static final Font FONT = new Font("Font", Font.BOLD, 16);
 	private static boolean showDebug = true;
@@ -45,6 +46,9 @@ public class DebugHud {
 					g.drawString("Press F2 for RoomSize.medium!", 1, y += 15);
 					g.drawString("Press F3 for RoomSize.big!", 1, y += 15);
 					g.drawString("Press F4 for RoomSize.veryBig!", 1, y += 15);
+				} else if (MainBuilder.getRoomBuilder().creationState == 4) {
+					g.drawString("Press F1 to set RoomID!", 1, y += 30);
+					g.drawString("RoomID (0-255) : " + KeyInput.getRoomID(), 1, y += 15);
 				}
 			} else {
 				g.drawString("Press F2 to save the room!", 1, y += 30);

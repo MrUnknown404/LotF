@@ -128,7 +128,7 @@ public final class Renderer {
 				}
 				
 				for (int k = 0; k < tiles.size(); k++) {
-					if (t.getStringID().substring(4, t.getStringID().length()).equals(tiles.get(k).stringKey)) {
+					if (t.getName().equals(tiles.get(k).stringKey)) {
 						if (t.getMaxMeta() == 0) {
 							g.drawImage(tiles.get(k).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
 						} else {

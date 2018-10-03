@@ -12,9 +12,8 @@ public class Tile extends TickableGameObject {
 	protected transient Room room;
 	protected TileType tileType;
 	protected CollisionType collisionType;
-	protected TilePos relativeTilePos = new TilePos(), tilePos = new TilePos();
+	protected TilePos relativeTilePos = new TilePos();
 	
-	protected String stringID;
 	protected int meta, maxMeta, animationTime;
 	protected boolean isAnimated;
 	
@@ -43,12 +42,10 @@ public class Tile extends TickableGameObject {
 			this.collisionType = CollisionType.none;
 		}
 		
-		this.stringID = "TIL_" + tileType.toString();
-		
 		tileUpdate();
 	}
 	
-	private int ti;
+	private transient int ti;
 	
 	@Override
 	public void tick() {
@@ -71,7 +68,10 @@ public class Tile extends TickableGameObject {
 			return;
 		}
 		
-		tilePos = new TilePos(relativeTilePos.getX() + (room.getRoomPos().getX() * room.getRoomSize().getX()), relativeTilePos.getY() + (room.getRoomPos().getY() * room.getRoomSize().getY()));
+		width = Tile.TILE_SIZE;
+		height = Tile.TILE_SIZE;
+		
+		TilePos tilePos = new TilePos(relativeTilePos.getX() + (room.getRoomPos().getX() * room.getVecRoomSize().getX()), relativeTilePos.getY() + (room.getRoomPos().getY() * room.getVecRoomSize().getY()));
 		setPosition(tilePos.getX() * TILE_SIZE, tilePos.getY() * TILE_SIZE);
 	}
 	
@@ -88,16 +88,8 @@ public class Tile extends TickableGameObject {
 		return isAnimated;
 	}
 	
-	public TilePos getTilePos() {
-		return tilePos;
-	}
-	
-	public TilePos getRelativeTilePos() {
-		return relativeTilePos;
-	}
-	
-	public String getStringID() {
-		return stringID;
+	public String getName() {
+		return tileType.toString();
 	}
 	
 	public int getMeta() {
@@ -106,6 +98,10 @@ public class Tile extends TickableGameObject {
 	
 	public int getMaxMeta() {
 		return maxMeta;
+	}
+	
+	public TilePos getRelativeTilePos() {
+		return relativeTilePos;
 	}
 	
 	public CollisionType getCollisionType() {
@@ -119,7 +115,7 @@ public class Tile extends TickableGameObject {
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Tile) {
-			if (((Tile) obj).getTilePos().equals(tilePos) && ((Tile) obj).getStringID().equals(stringID) && ((Tile) obj).getTileType() == tileType) {
+			if (((Tile) obj).getTileType() == tileType) {
 				return true;
 			}
 		}
@@ -128,16 +124,19 @@ public class Tile extends TickableGameObject {
 	
 	/** Must be the same as the texture name! */
 	public enum TileType {
-		air             (0, 1, false, 0, false),
-		blueWall        (1, 4, false, 0, true),
-		blueWallCorner  (2, 4, false, 0, true),
-		blueWallHalf    (3, 4, false, 0, true),
-		sand            (4, 2, false, 0, false),
-		grass           (5, 1, true, 90, false),
-		grassLeft       (6, 2, true, 90, false),
-		grassRight      (7, 2, true, 90, false),
-		grassFlowerLeft (8, 2, true, 90, false),
-		grassFlowerRight(9, 2, true, 90, false);
+		air             (0,  1, false, 0, false),
+		blueWall        (1,  4, false, 0, true),
+		blueWallCorner  (2,  4, false, 0, true),
+		blueWallHalf    (3,  4, false, 0, true),
+		sand            (4,  2, false, 0, false),
+		grass           (5,  1, true, 90, false),
+		grassLeft       (6,  2, true, 90, false),
+		grassRight      (7,  2, true, 90, false),
+		grassFlowerLeft (8,  2, true, 90, false),
+		grassFlowerRight(9,  2, true, 90, false),
+		woodWall        (10, 4, false, 0, true),
+		woodWallCorner  (11, 4, false, 0, true),
+		woodFloor       (12, 1, false, 0, false);
 		
 		public final int fId, count, animationTime;
 		public final boolean isAnimated, hasCollision;

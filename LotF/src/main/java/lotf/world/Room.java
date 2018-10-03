@@ -3,17 +3,11 @@ package main.java.lotf.world;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import main.java.lotf.Main;
 import main.java.lotf.entity.Entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileAir;
-import main.java.lotf.tile.TileGrass;
-import main.java.lotf.tile.TileGrassFlowerLeft;
-import main.java.lotf.tile.TileGrassFlowerRight;
-import main.java.lotf.tile.TileGrassLeft;
-import main.java.lotf.tile.TileGrassRight;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
@@ -21,13 +15,13 @@ import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.World.WorldType;
 
-public class Room {
+public final class Room {
 	
 	protected List<Tile> tileLayer_0 = new ArrayList<Tile>();
 	protected List<Tile> tileLayer_1 = new ArrayList<Tile>();
 	protected List<Entity> entities = new ArrayList<Entity>();
 	
-	protected RoomPos roomPos = new RoomPos();
+	protected transient RoomPos roomPos = new RoomPos();
 	protected Vec2i roomSize, mapPos;
 	protected World.WorldType type;
 	protected EnumDungeonType dungeonType;
@@ -42,6 +36,7 @@ public class Room {
 		this.roomID = roomID;
 		this.roomSize = new Vec2i(size.x, size.y);
 		this.roomPos = IDToRoomPos(roomID);
+		this.size = size;
 		
 		for (int i = 0; i < roomSize.getBothMulti(); i++) {
 			tileLayer_0.add(new TileAir(IDToTilePos(i), this));
@@ -73,7 +68,9 @@ public class Room {
 	}
 	
 	public void onRoomEnter() {
-		Main.getWorldHandler().getPlayerWorld().updateMap(roomID);
+		if (type != World.WorldType.inside) {
+			Main.getWorldHandler().getPlayerWorld().updateMap(roomID);
+		}
 	}
 	
 	public void onRoomExit() {
@@ -140,8 +137,20 @@ public class Room {
 		return roomPos;
 	}
 	
-	public Vec2i getRoomSize() {
+	public Vec2i getVecRoomSize() {
 		return roomSize;
+	}
+	
+	public RoomSize getRoomSize() {
+		return size;
+	}
+	
+	public World.WorldType getWorldType() {
+		return type;
+	}
+	
+	public EnumDungeonType getDungeonType() {
+		return dungeonType;
 	}
 	
 	public Vec2i getMapPos() {
@@ -207,7 +216,7 @@ public class Room {
 		big    (2, 32, 17),
 		veryBig(3, 40, 21);
 		
-		private final int fId, x, y;
+		public final int fId, x, y;
 		
 		private RoomSize(int id, int x, int y) {
 			this.fId = id;
@@ -228,27 +237,5 @@ public class Room {
 	@Override
 	public String toString() {
 		return roomPos.toString();
-	}
-	
-	public void generateRandomGrassFloor() {
-		for (int i = 0; i < tileLayer_0.size(); i++) {
-			if (new Random().nextInt(32) == 0) {
-				if (new Random().nextBoolean()) {
-					tileLayer_0.set(i, new TileGrassFlowerLeft(IDToTilePos(i), this));
-				} else {
-					tileLayer_0.set(i, new TileGrassFlowerRight(IDToTilePos(i), this));
-				}
-			} else {
-				if (new Random().nextBoolean()) {
-					if (new Random().nextBoolean()) {
-						tileLayer_0.set(i, new TileGrassLeft(IDToTilePos(i), this));
-					} else {
-						tileLayer_0.set(i, new TileGrassRight(IDToTilePos(i), this));
-					}
-				} else {
-					tileLayer_0.set(i, new TileGrass(IDToTilePos(i), this));
-				}
-			}
-		}
 	}
 }

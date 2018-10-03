@@ -55,7 +55,7 @@ public class EntityPlayer extends Entity {
 			}
 		} else {
 			if (moveDir == EnumDirection.west) {
-				if (getRelativePos().getX() < room.getRoomSize().getX() * Tile.TILE_SIZE) {
+				if (getRelativePos().getX() < room.getVecRoomSize().getX() * Tile.TILE_SIZE) {
 					if (mt == 0) {
 						facing = EnumDirection.east;
 						addRelativePos(1, 0);
@@ -63,7 +63,7 @@ public class EntityPlayer extends Entity {
 					}
 				}
 				
-				if (getRelativePos().getX() == room.getRoomSize().getX() * Tile.TILE_SIZE) {
+				if (getRelativePos().getX() == room.getVecRoomSize().getX() * Tile.TILE_SIZE) {
 					moveDir = EnumDirection.nil;
 					canMove = true;
 					
@@ -71,7 +71,7 @@ public class EntityPlayer extends Entity {
 					room.onRoomEnter();
 					roomToBe = null;
 					
-					setRelativePos(getRelativePos().getX() - (room.getRoomSize().getX() * Tile.TILE_SIZE), getRelativePos().getY());
+					setRelativePos(getRelativePos().getX() - (room.getVecRoomSize().getX() * Tile.TILE_SIZE), getRelativePos().getY());
 				}
 			} else if (moveDir == EnumDirection.east) {
 				if (getRelativePos().getX() > -Tile.TILE_SIZE) {
@@ -90,10 +90,10 @@ public class EntityPlayer extends Entity {
 					room.onRoomEnter();
 					roomToBe = null;
 					
-					setRelativePos(getRelativePos().getX() + (room.getRoomSize().getX() * Tile.TILE_SIZE), getRelativePos().getY());
+					setRelativePos(getRelativePos().getX() + (room.getVecRoomSize().getX() * Tile.TILE_SIZE), getRelativePos().getY());
 				}
 			} else if (moveDir == EnumDirection.north) {
-				if (getRelativePos().getY() < room.getRoomSize().getY() * Tile.TILE_SIZE) {
+				if (getRelativePos().getY() < room.getVecRoomSize().getY() * Tile.TILE_SIZE) {
 					if (mt == 0) {
 						facing = EnumDirection.south;
 						addRelativePos(0, 1);
@@ -101,7 +101,7 @@ public class EntityPlayer extends Entity {
 					}
 				}
 				
-				if (getRelativePos().getY() == room.getRoomSize().getY() * Tile.TILE_SIZE) {
+				if (getRelativePos().getY() == room.getVecRoomSize().getY() * Tile.TILE_SIZE) {
 					moveDir = EnumDirection.nil;
 					canMove = true;
 					
@@ -109,7 +109,7 @@ public class EntityPlayer extends Entity {
 					room.onRoomEnter();
 					roomToBe = null;
 					
-					setRelativePos(getRelativePos().getX(), getRelativePos().getY() - (room.getRoomSize().getY() * Tile.TILE_SIZE));
+					setRelativePos(getRelativePos().getX(), getRelativePos().getY() - (room.getVecRoomSize().getY() * Tile.TILE_SIZE));
 				}
 			} else if (moveDir == EnumDirection.south) {
 				if (getRelativePos().getY() > -Tile.TILE_SIZE) {
@@ -128,7 +128,7 @@ public class EntityPlayer extends Entity {
 					room.onRoomEnter();
 					roomToBe = null;
 					
-					setRelativePos(getRelativePos().getX(), getRelativePos().getY() + (room.getRoomSize().getY() * Tile.TILE_SIZE));
+					setRelativePos(getRelativePos().getX(), getRelativePos().getY() + (room.getVecRoomSize().getY() * Tile.TILE_SIZE));
 				}
 			}
 		}

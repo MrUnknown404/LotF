@@ -83,6 +83,12 @@ public class Inventory {
 		}
 	}
 	
+	public void clearItems() {
+		for (int i = 0; i < slots; i++) {
+			items.set(i, InitItems.EMPTY);
+		}
+	}
+	
 	public List<Item> getItems() {
 		return items;
 	}

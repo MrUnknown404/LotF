@@ -2,7 +2,7 @@ package main.java.lotfbuilder.client;
 
 import main.java.lotf.util.math.Vec2i;
 
-public class Camera {
+public final class Camera {
 
 	public Vec2i pos = new Vec2i(), moveDir = new Vec2i();
 	

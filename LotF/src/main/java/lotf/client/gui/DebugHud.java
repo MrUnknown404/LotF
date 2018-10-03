@@ -18,7 +18,7 @@ public final class DebugHud {
 	private String playerWorld;
 	
 	public void getInfo(EntityPlayer player) {
-		activePlayerRoom = player.getRoom().toString();
+		activePlayerRoom = player.getRoom().toString() + ", " + player.getRoom().getRoomID();
 		playerRelativePosition = "X:" + player.getRelativePos().getX() + " Y: " + player.getRelativePos().getY();
 		playerPosition = "X:" + player.getPositionX() + " Y: " + player.getPositionY();
 		playerWorld = player.getWorld().toString();
@@ -37,7 +37,7 @@ public final class DebugHud {
 			
 			g.drawString(fps, 1, y);
 			g.drawString("World : " + playerWorld, 1, y += 15);
-			g.drawString("Player room pos : " + activePlayerRoom, 1, y += 15);
+			g.drawString("Player room : " + activePlayerRoom, 1, y += 15);
 			g.drawString("Player Rel-Pos : " + playerRelativePosition, 1, y += 15);
 			g.drawString("Player Pos : " + playerPosition, 1, y += 15);
 		}

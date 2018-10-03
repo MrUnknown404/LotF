@@ -1,14 +1,21 @@
 package main.java.lotf.world;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
+import main.java.lotf.Main;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.Vec2i;
 
-public class World {
+public final class World {
 	
 	private List<Room> rooms = new ArrayList<Room>();
 	
@@ -21,9 +28,11 @@ public class World {
 	public World(WorldType type) {
 		this.type = type;
 		this.size = new Vec2i(type.size, type.size);
-		this.map = new Map(type);
+		if (type != WorldType.inside) {
+			this.map = new Map(type);
+		}
 		
-		generate(type.size, type.size);
+		loadRooms(type.size, type.size);
 	}
 	
 	public World(EnumDungeonType dungeonType) {
@@ -31,15 +40,66 @@ public class World {
 		this.dungeonType = dungeonType;
 		this.isDungeon = true;
 		this.size = new Vec2i(dungeonType.size, dungeonType.size);
-		this.map = new Map(type);
+		this.map = new Map(dungeonType);
 		
-		generate(dungeonType.size, dungeonType.size);
+		loadRooms(dungeonType.size, dungeonType.size);
 	}
 	
-	private void generate(int xt, int yt) {
+	private static final String BASE_LOCATION = "/main/resources/lotf/assets/rooms/";
+	
+	public void loadRooms(int xt, int yt) {
+		Main.gamestate = Main.Gamestate.hardPause;
+		
+		Gson g = new Gson().newBuilder().setPrettyPrinting().create();
+		FileReader fr;
+		
 		for (int i = 0; i < xt * yt; i++) {
-			rooms.add(new Room(type, dungeonType, Room.RoomSize.small, i));
+			try {
+				File f = null;
+				String p = (World.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + BASE_LOCATION;
+				
+				
+				if (type != WorldType.dungeon) {
+					if (new File(p + type.toString() + "/" + type.toString() + "_" + i + ".lotfroom").exists()) {
+						f = new File(p + type.toString() + "/" + type.toString() + "_" + i + ".lotfroom");
+					} else {
+						Console.print(Console.WarningType.FatalError, "Could not find room at " + p + type.toString() + "/" + type.toString() + "_" + i + ".lotfroom");
+						f = new File(p + "missingRoom.lotfroom");
+					}
+				} else {
+					if (new File(p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom").exists()) {
+						f = new File(p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
+					} else {
+						Console.print(Console.WarningType.FatalError, "Could not find room at " + p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
+						f = new File(p + "missingRoom.lotfroom");
+					}
+				}
+				
+				fr = new FileReader(f);
+				
+				rooms.add(g.fromJson(fr, Room.class));
+				
+				rooms.get(i).type = type;
+				rooms.get(i).dungeonType = dungeonType;
+				rooms.get(i).roomID = i;
+				rooms.get(i).setRoomPos(rooms.get(i).IDToRoomPos(i));
+				
+				for (int j = 0; j < rooms.get(i).getTileLayer0().size(); j++) {
+					rooms.get(i).getTileLayer0().get(j).setRoom(rooms.get(i));
+					rooms.get(i).getTileLayer1().get(j).setRoom(rooms.get(i));
+					rooms.get(i).getTileLayer0().get(j).tileUpdate();
+					rooms.get(i).getTileLayer1().get(j).tileUpdate();
+				}
+				
+				fr.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (URISyntaxException e) {
+				e.printStackTrace();
+			}
 		}
+		
+		Main.gamestate = Main.Gamestate.run;
 	}
 	
 	public void updateMap(int roomID) {
