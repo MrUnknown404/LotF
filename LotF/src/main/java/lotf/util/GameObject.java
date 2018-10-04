@@ -7,7 +7,7 @@ import main.java.lotf.util.math.Vec2i;
 
 public abstract class GameObject {
 	
-	private Vec2i pos = new Vec2i();
+	private transient Vec2i pos = new Vec2i();
 	protected transient int width, height;
 	
 	public GameObject(int x, int y, int width, int height) {

@@ -60,20 +60,16 @@ public final class KeyInput extends KeyAdapter {
 				}
 			} else if (key == KeyEvent.VK_F2) {
 				if (MainBuilder.getRoomBuilder().creationState == 0) {
-					MainBuilder.getRoomBuilder().creationState = 1;
+					MainBuilder.getRoomBuilder().loadRoom();
 				} else if (MainBuilder.getRoomBuilder().creationState == 1) {
 					MainBuilder.getRoomBuilder().setup(Room.RoomSize.medium);
 				}
 			} else if (key == KeyEvent.VK_F3) {
-				if (MainBuilder.getRoomBuilder().creationState == 0) {
-					MainBuilder.getRoomBuilder().creationState = 1;
-				} else if (MainBuilder.getRoomBuilder().creationState == 1) {
+				if (MainBuilder.getRoomBuilder().creationState == 1) {
 					MainBuilder.getRoomBuilder().setup(Room.RoomSize.big);
 				}
 			} else if (key == KeyEvent.VK_F4) {
-				if (MainBuilder.getRoomBuilder().creationState == 0) {
-					MainBuilder.getRoomBuilder().creationState = 1;
-				} else if (MainBuilder.getRoomBuilder().creationState == 1) {
+				if (MainBuilder.getRoomBuilder().creationState == 1) {
 					MainBuilder.getRoomBuilder().setup(Room.RoomSize.veryBig);
 				}
 			}
