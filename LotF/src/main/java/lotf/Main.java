@@ -18,7 +18,6 @@ import main.java.lotf.client.gui.DebugHud;
 import main.java.lotf.client.gui.Hud;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.InitCommands;
-import main.java.lotf.init.InitEntities;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
@@ -47,6 +46,7 @@ public final class Main extends Canvas implements Runnable {
 	private static WorldHandler worldHandler;
 	private static Camera camera;
 	private Renderer renderer;
+	private KeyInput keyInput;
 	
 	public static Gamestate gamestate = Gamestate.run;
 	
@@ -87,8 +87,9 @@ public final class Main extends Canvas implements Runnable {
 		Console.print(Console.WarningType.Info, "Pre-Initialization started...");
 		
 		MouseInput mouse = new MouseInput();
+		keyInput = new KeyInput();
 		
-		addKeyListener(new KeyInput());
+		addKeyListener(keyInput);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
 		addMouseWheelListener(mouse);
@@ -104,7 +105,6 @@ public final class Main extends Canvas implements Runnable {
 		});
 		
 		InitItems.registerAll();
-		InitEntities.registerAll();
 		
 		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
 	}
@@ -183,6 +183,7 @@ public final class Main extends Canvas implements Runnable {
 	
 	private void tick() {
 		consoleHud.tick();
+		keyInput.tick();
 		
 		if (Main.gamestate.fId >= 1) {
 			return;

@@ -53,6 +53,7 @@ public final class KeyInput extends KeyAdapter {
 				}
 			}
 		} else if (!player.getMovingToRoom()) {
+			//if (Main.getIsDebug()) {
 			if (key == KeyEvent.VK_BACK_QUOTE) {
 				console.isConsoleOpen = true;
 				Main.gamestate = Main.Gamestate.softPause;
@@ -61,6 +62,7 @@ public final class KeyInput extends KeyAdapter {
 				console.addKey(e.getKeyChar());
 				Main.gamestate = Main.Gamestate.softPause;
 			}
+			//}
 			
 			if (player != null) {
 				if (!player.getInventory().isSelectingPage) {
@@ -85,18 +87,14 @@ public final class KeyInput extends KeyAdapter {
 					}
 					
 					if (key == KeyEvent.VK_W) {
-						player.setMoveDirectionY(-EntityPlayer.MOVE_SPEED);
 						keyDown[0] = true;
 					} else if (key == KeyEvent.VK_S) {
-						player.setMoveDirectionY(EntityPlayer.MOVE_SPEED);
 						keyDown[1] = true;
 					}
 					
 					if (key == KeyEvent.VK_A) {
-						player.setMoveDirectionX(-EntityPlayer.MOVE_SPEED);
 						keyDown[2] = true;
 					} else if (key == KeyEvent.VK_D) {
-						player.setMoveDirectionX(EntityPlayer.MOVE_SPEED);	
 						keyDown[3] = true;
 					}
 				} else {
@@ -159,6 +157,25 @@ public final class KeyInput extends KeyAdapter {
 			if (!keyDown[2] && !keyDown[3]) {
 				player.setMoveDirectionX(0);
 			}
+		}
+	}
+	
+	public void tick() {
+		EntityPlayer player = Main.getWorldHandler().getPlayer();
+		if (keyDown[0] && keyDown[1]) {
+			player.setMoveDirectionY(0);
+		} else if (keyDown[0]) {
+			player.setMoveDirectionY(-EntityPlayer.MOVE_SPEED);
+		} else if (keyDown[1]) {
+			player.setMoveDirectionY(EntityPlayer.MOVE_SPEED);
+		}
+		
+		if (keyDown[2] && keyDown[3]) {
+			player.setMoveDirectionX(0);
+		} else if (keyDown[2]) {
+			player.setMoveDirectionX(-EntityPlayer.MOVE_SPEED);
+		} else if (keyDown[3]) {
+			player.setMoveDirectionX(EntityPlayer.MOVE_SPEED);
 		}
 	}
 }

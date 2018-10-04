@@ -1,53 +1,60 @@
 package main.java.lotf.entity;
 
 import main.java.lotf.tile.Tile;
+import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.TickableGameObject;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 
 public abstract class Entity extends TickableGameObject {
 	
-	protected Room room;
-	protected boolean isAlive;
+	protected transient Room room;
 	protected Vec2i relativePos = new Vec2i();
 	
-	protected String stringID, name;
+	protected String name;
 	protected int meta = -1;
+	protected EntityType type;
 	
-	public int count;
-	
-	public Entity(int x, int y, int width, int height, Room room, boolean isAlive, String stringID, int count) {
+	public Entity(int x, int y, int width, int height, EntityType type) {
 		super(x, y, width, height);
-		this.room = room;
-		this.isAlive = isAlive;
-		this.stringID = stringID;
-		this.count = count;
-		this.name = stringID.substring(4, stringID.length());
+		this.type = type;
+		this.name = type.toString();
 	}
-	
-	public Entity(int x, int y, int width, int height, boolean isAlive, String stringID, int count) {
-		super(x, y, width, height);
-		this.isAlive = isAlive;
-		this.stringID = stringID;
-		this.count = count;
-		this.name = stringID.substring(4, stringID.length());
-	}
-	
-	@Override
-	public void tick() {
-		if (isAlive) {
-			tickAlive();
-			
-			if (getPositionX() != ((room.getRoomPos().getX() * room.getVecRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX() || getPositionY() != ((room.getRoomPos().getY() * room.getVecRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY()) {
-				updatePosition();
-			}
-		}
-	}
-	
-	public abstract void tickAlive();
 	
 	public void updatePosition() {
 		setPosition(((room.getRoomPos().getX() * room.getVecRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX(), ((room.getRoomPos().getY() * room.getVecRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY());
+	}
+	
+	public void tick() {
+		updatePosition();
+	}
+	
+	protected Tile getInfront(EnumDirection dir) {
+		for (int i = 0; i < room.getTileLayer1().size(); i++) {
+			Tile t = room.getTileLayer1().get(i);
+			
+			if (t.getTileType() != Tile.TileType.air) {
+				if (dir == EnumDirection.east) {
+					if (getBounds().intersects(t.getBounds().x - 2, t.getBounds().y, t.getBounds().width, t.getBounds().height)) {
+						return t;
+					}
+				} else if (dir == EnumDirection.west) {
+					if (getBounds().intersects(t.getBounds().x + 2, t.getBounds().y, t.getBounds().width, t.getBounds().height)) {
+						return t;
+					}
+				} else if (dir == EnumDirection.north) {
+					if (getBounds().intersects(t.getBounds().x, t.getBounds().y + 2, t.getBounds().width, t.getBounds().height)) {
+						return t;
+					}
+				} else if (dir == EnumDirection.south) {
+					if (getBounds().intersects(t.getBounds().x, t.getBounds().y - 2, t.getBounds().width, t.getBounds().height)) {
+						return t;
+					}
+				}
+			}
+		}
+		
+		return null;
 	}
 	
 	public void setRelativePos(int x, int y) {
@@ -67,7 +74,7 @@ public abstract class Entity extends TickableGameObject {
 	}
 	
 	public void addRelativePos(int x, int y) {
-		relativePos.add(x, y);
+		addRelativePos(new Vec2i(x, y));
 	}
 	
 	public Room getRoom() {
@@ -78,24 +85,36 @@ public abstract class Entity extends TickableGameObject {
 		return relativePos;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
-	public String getStringID() {
-		return stringID;
-	}
-	
 	public int getMeta() {
 		return meta;
 	}
 	
-	public boolean getIsAlive() {
-		return isAlive;
+	public String getName() {
+		return name;
 	}
 	
-	@Override
-	public String toString() {
-		return "(" + getStringID() + ")";
+	public EntityType getEntityType() {
+		return type;
+	}
+	
+	public enum EntityType {
+		player (0),
+		monster(1),
+		npc    (2);
+		
+		public final int fId;
+		
+		private EntityType(int id) {
+			this.fId = id;
+		}
+		
+		public static EntityType getFromNumber(int id) {
+			for (EntityType type : values()) {
+				if (type.fId == id) {
+					return type;
+				}
+			}
+			throw new IllegalArgumentException("Invalid Type id: " + id);
+		}
 	}
 }

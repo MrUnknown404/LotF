@@ -64,14 +64,14 @@ public final class World {
 						f = new File(p + type.toString() + "/" + type.toString() + "_" + i + ".lotfroom");
 					} else {
 						Console.print(Console.WarningType.FatalError, "Could not find room at " + p + type.toString() + "/" + type.toString() + "_" + i + ".lotfroom");
-						f = new File(p + "missingRoom.lotfroom");
+						f = new File(p + "testRoom.lotfroom");
 					}
 				} else {
 					if (new File(p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom").exists()) {
 						f = new File(p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
 					} else {
 						Console.print(Console.WarningType.FatalError, "Could not find room at " + p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
-						f = new File(p + "missingRoom.lotfroom");
+						f = new File(p + "testRoom.lotfroom");
 					}
 				}
 				

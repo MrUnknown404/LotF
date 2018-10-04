@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.entity.EntityPlayer;
-import main.java.lotf.init.InitEntities;
 import main.java.lotf.util.EnumDungeonType;
 
 public final class WorldHandler {
@@ -30,7 +29,7 @@ public final class WorldHandler {
 		worlds.add(new World(EnumDungeonType.eleven));
 		worlds.add(new World(EnumDungeonType.twelve));
 		
-		player = (EntityPlayer) InitEntities.get("ENT_player");
+		player = new EntityPlayer();
 		player.setWorld(worlds.get(2));
 		player.setRoom(player.getWorld().getRoomAt(0, 0));
 	}
@@ -40,6 +39,10 @@ public final class WorldHandler {
 			player.tick();
 			player.getRoom().tick();;
 		}
+	}
+	
+	public List<World> getWorlds() {
+		return worlds;
 	}
 	
 	public EntityPlayer getPlayer() {

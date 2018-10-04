@@ -81,28 +81,7 @@ public abstract class GameObject {
 		return height;
 	}
 	
-	/** Gets the entities entire bounds */
-	public Rectangle getBoundsAll() {
+	public Rectangle getBounds() {
 		return new Rectangle(MathHelper.floor(getPositionX()), MathHelper.floor(getPositionY()), width, height);
-	}
-	
-	/** Gets the entities top bounds */
-	public Rectangle getBoundsTop() {
-		return new Rectangle(MathHelper.floor(getPositionX()), MathHelper.floor(getPositionY()), width, height / 4);
-	}
-	
-	/** Gets the entities bottom bounds */
-	public Rectangle getBoundsBottom() {
-		return new Rectangle(MathHelper.floor(getPositionX()), MathHelper.floor(getPositionY()) + (height - (height / 4)), width, height / 4);
-	}
-	
-	/** Gets the entities left bounds */
-	public Rectangle getBoundsLeft() {
-		return new Rectangle(MathHelper.floor(getPositionX()), MathHelper.floor(getPositionY()), width / 4, height);
-	}
-	
-	/** Gets the entities right bounds */
-	public Rectangle getBoundsRight() {
-		return new Rectangle(MathHelper.floor(getPositionX() + (width - (width / 4))), MathHelper.floor(getPositionY()), width / 4, height);
 	}
 }

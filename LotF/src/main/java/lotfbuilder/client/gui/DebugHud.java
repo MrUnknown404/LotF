@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import main.java.lotfbuilder.MainBuilder;
-import main.java.lotfbuilder.client.KeyInput;
 
 public final class DebugHud {
 
@@ -35,20 +34,10 @@ public final class DebugHud {
 					g.drawString("Press F1 to create a room!", 1, y += 30);
 					g.drawString("Press F2 to load a room!", 1, y += 15);
 				} else if (MainBuilder.getRoomBuilder().creationState == 1) {
-					g.drawString("Press F1 for WorldType.overworld!", 1, y += 30);
-					g.drawString("Press F2 for WorldType.underworld!", 1, y += 15);
-					g.drawString("Press F3 for WorldType.inside!", 1, y += 15);
-					g.drawString("Press F4 for WorldType.dungeon!", 1, y += 15);
-				} else if (MainBuilder.getRoomBuilder().creationState == 2) {
-					g.drawString("Press F1-12 for EnumDungeonType!", 1, y += 30);
-				} else if (MainBuilder.getRoomBuilder().creationState == 3) {
 					g.drawString("Press F1 for RoomSize.small!", 1, y += 30);
 					g.drawString("Press F2 for RoomSize.medium!", 1, y += 15);
 					g.drawString("Press F3 for RoomSize.big!", 1, y += 15);
 					g.drawString("Press F4 for RoomSize.veryBig!", 1, y += 15);
-				} else if (MainBuilder.getRoomBuilder().creationState == 4) {
-					g.drawString("Press F1 to set RoomID!", 1, y += 30);
-					g.drawString("RoomID (0-255) : " + KeyInput.getRoomID(), 1, y += 15);
 				}
 			} else {
 				g.drawString("Press F2 to save the room!", 1, y += 30);

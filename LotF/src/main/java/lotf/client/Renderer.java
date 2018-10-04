@@ -1,5 +1,6 @@
 package main.java.lotf.client;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -7,11 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.Main;
-import main.java.lotf.entity.Entity;
 import main.java.lotf.entity.EntityPlayer;
-import main.java.lotf.init.InitEntities;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.EnumCollisionType;
 import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
@@ -25,14 +25,14 @@ public final class Renderer {
 	private BufferedImage[] playerTexture = new BufferedImage[4];
 	
 	private List<ImageList> tiles = new ArrayList<ImageList>(Tile.TileType.values().length);
-	private List<ImageList> entities = new ArrayList<ImageList>(InitEntities.getEntities().size());
+	//private List<ImageList> entities = new ArrayList<ImageList>();
 	
 	public Renderer() {
 		handler = Main.getWorldHandler();
 	}
 	
 	public void loadTextures() {
-		for (int i = 0; i < handler.getPlayer().count; i++) {
+		for (int i = 0; i < 4; i++) {
 			playerTexture[i] = GetResource.getTexture(GetResource.ResourceType.entity, "player/player_" + i);
 			Console.print(Console.WarningType.Texture, "Registered texture for EntityPlayer : " + "entity/player/player_" + i + ".png!");
 		}
@@ -66,34 +66,35 @@ public final class Renderer {
 			}
 		}
 		
-		for (int i = 0; i < InitEntities.getEntities().size(); i++) {
+		/*
+		for (int i = 0; i < Entity.EntityType.values().length; i++) {
 			entities.add(new ImageList());
 			
 			if (i == 0) {
 				entities.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.entity, "missing"));
-				entities.get(i).stringKey = InitEntities.getEntities().get(i).toString();
-				entities.get(i).meta = InitEntities.getEntities().get(i).count;
+				entities.get(i).stringKey = Entity.EntityType.getFromNumber(i).toString();
+				entities.get(i).meta = Entity.EntityType.getFromNumber(i).count;
 				
 				Console.print(Console.WarningType.Texture, "Registered missing texture Entity : entity/missing.png!");
 			} else {
 				if (Tile.TileType.getFromNumber(i).count == 1) {
-					entities.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.entity, InitEntities.getEntities().get(i).toString()));
-					entities.get(i).stringKey = InitEntities.getEntities().get(i).toString();
-					entities.get(i).meta = InitEntities.getEntities().get(i).count;
+					entities.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.entity,Entity.EntityType.getFromNumber(i).toString()));
+					entities.get(i).stringKey = Entity.EntityType.getFromNumber(i).toString();
+					entities.get(i).meta = Entity.EntityType.getFromNumber(i).count;
 					
-					Console.print(Console.WarningType.Texture, "Registered texture for " + entities.get(i).getClass().getCanonicalName() + " : " + "entity/" + InitEntities.getEntities().get(i).toString() + ".png!");
+					Console.print(Console.WarningType.Texture, "Registered texture for " + entities.get(i).getClass().getCanonicalName() + " : " + "entity/" + Entity.EntityType.getFromNumber(i).toString() + ".png!");
 				} else {
 					for (int j = 0; j < Tile.TileType.getFromNumber(i).count; j++) {
-						entities.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.entity, InitEntities.getEntities().get(i).toString() + "/" + InitEntities.getEntities().get(i).toString() + "_" + j));
+						entities.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.entity, Entity.EntityType.getFromNumber(i).toString() + "/" + Entity.EntityType.getFromNumber(i).toString() + "_" + j));
 						
-						Console.print(Console.WarningType.Texture, "Registered texture for " + entities.get(i).getClass().getCanonicalName() + " : " + "entity/" + InitEntities.getEntities().get(i).toString() + "/" + InitEntities.getEntities().get(i).toString() + "_" + j + ".png!");
+						Console.print(Console.WarningType.Texture, "Registered texture for " + entities.get(i).getClass().getCanonicalName() + " : " + "entity/" + Entity.EntityType.getFromNumber(i).toString() + "/" + Entity.EntityType.getFromNumber(i).toString() + "_" + j + ".png!");
 					}
 					
-					entities.get(i).stringKey = InitEntities.getEntities().get(i).toString();
-					entities.get(i).meta = InitEntities.getEntities().get(i).count;
+					entities.get(i).stringKey = Entity.EntityType.getFromNumber(i).toString();
+					entities.get(i).meta = Entity.EntityType.getFromNumber(i).count;
 				}
 			}
-		}
+		}*/
 	}
 	
 	public void render(Graphics g2) {
@@ -114,7 +115,7 @@ public final class Renderer {
 			List<Tile> ts = new ArrayList<>();
 			
 			for (int j = 0; j < r.getTileLayer0().size(); j++) {
-				if (r.getTileLayer1().get(j).getCollisionType() != Tile.CollisionType.whole) {
+				if (r.getTileLayer1().get(j).getCollisionType() != EnumCollisionType.whole) {
 					ts.add(r.getTileLayer0().get(j));
 				}
 				ts.add(r.getTileLayer1().get(j));
@@ -139,15 +140,21 @@ public final class Renderer {
 								Console.print(Console.WarningType.Error, "Invalid meta " + t.getMeta());
 							}
 						}
+						
+						if (t.getCollisionType() != EnumCollisionType.none) {
+							g.setColor(Color.RED);
+							//g.drawRect(t.getBounds().x, t.getBounds().y, t.getBounds().width, t.getBounds().height);
+						}
 					}
 				}
 			}
 			
+			/*
 			for (int j = 0; j < r.getEntities().size(); j++) {
 				Entity e = r.getEntities().get(j);
 				
 				for (int k = 0; k < entities.size(); k++) {
-					if (e.getStringID().substring(4, e.getStringID().length()).equals(tiles.get(k).stringKey)) {
+					if (e.getName().equals(tiles.get(k).stringKey)) {
 						if (e.getMeta() == -1) {
 							g.drawImage(entities.get(k).images.get(0), e.getPositionX(), e.getPositionY(), e.getWidth(), e.getHeight(), null);
 						} else {
@@ -160,7 +167,7 @@ public final class Renderer {
 						}
 					}
 				}
-			}
+			}*/
 			
 			EntityPlayer player = handler.getPlayer();
 			if (player != null) {

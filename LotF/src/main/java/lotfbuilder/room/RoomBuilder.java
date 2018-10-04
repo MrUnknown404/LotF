@@ -18,12 +18,11 @@ import main.java.lotf.inventory.Inventory;
 import main.java.lotf.items.ItemEmpty;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
-import main.java.lotf.util.EnumDungeonType;
+import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
-import main.java.lotf.world.World;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.util.BlockInventory;
 import main.java.lotfbuilder.util.ItemTile;
@@ -34,17 +33,17 @@ public final class RoomBuilder {
 	private Room room;
 	
 	public boolean isOpen;
-	public int selectedSlot, selectedInv, creationState, lastTileType = 1, lastMeta;
+	public int selectedSlot, selectedPage, creationState, lastTileType = 1, lastMeta;
 	
 	public List<BlockInventory> pages = new ArrayList<BlockInventory>();
 	public Inventory selInv = new Inventory(11, 1);
 	
 	public ItemTile hand;
 	
-	public void setup(World.WorldType type, EnumDungeonType type2, Room.RoomSize size, int id) {
+	public void setup(Room.RoomSize size) {
 		setPages();
 		
-		room = new Room(type, type2, size, id);
+		room = new Room(size);
 		room.setRoomPos(new RoomPos(0, 0));
 		
 		for (int i = 0; i < room.getTileLayer0().size(); i++) {
@@ -76,9 +75,9 @@ public final class RoomBuilder {
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 		
 		if (room.getWorldType() == null) {
-			fc.setSelectedFile(new File(room.getWorldType() + "_" + room.getRoomID() + ".lotfroom"));
+			fc.setSelectedFile(new File("null.lotfroom"));
 		} else {
-			fc.setSelectedFile(new File(room.getWorldType() + "_" + room.getRoomID() + ".lotfroom"));
+			fc.setSelectedFile(new File("null.lotfroom"));
 		}
 		
 		Console.print(Console.WarningType.Debug, "Opening file chooser!");
@@ -165,7 +164,7 @@ public final class RoomBuilder {
 		MainBuilder.setDoesRoomExist(false);
 		
 		selectedSlot = 0;
-		selectedInv = 0;
+		selectedPage = 0;
 		creationState = 0;
 		lastTileType = 1;
 		lastMeta = 0;
@@ -183,17 +182,24 @@ public final class RoomBuilder {
 	
 	private void setPages() {
 		pages.clear();
-		for (int i = 0; i < 2; i++) {
+		int ti = 0;
+		
+		for (int i = 0; i < Tile.TileType.values().length; i++) {
+			Tile.TileType t = Tile.TileType.getFromNumber(i);
+			ti += t.count;
+		}
+		
+		for (int i = 0; i < 1 + MathHelper.floor(ti / 55); i++) {
 			pages.add(new BlockInventory(i));
 		}
 	}
 	
 	public void setTile(Vec2i vec) {
 		if (getSelectedItem().getTileType() != Tile.TileType.air) {
-			if (getSelectedItem().getTileType().hasCollision) {
-				room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+			if (getSelectedItem().getTileType().colType != Tile.CollisionType.none) {
+				room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
 			} else {
-				room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+				room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
 			}
 		}
 		
@@ -202,14 +208,14 @@ public final class RoomBuilder {
 	
 	public void deleteTile(Vec2i vec) {
 		if (room.getTileLayer1().get(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY())).getTileType() == Tile.TileType.air) {
-			room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+			room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta()));
 		} else {
-			room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta(), getSelectedItem().getMaxMeta()));
+			room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), Tile.TileType.air, room, getSelectedItem().getMeta()));
 		}
 	}
 	
 	public void addSelectedSlot() {
-		if (selectedSlot == getSelectedInv().getSlotsX() - 1) {
+		if (selectedSlot == getSelectedPage().getSlotsX() - 1) {
 			selectedSlot = 0;
 		} else {
 			selectedSlot++;
@@ -218,30 +224,30 @@ public final class RoomBuilder {
 	
 	public void decreaseSelectedSlot() {
 		if (selectedSlot == 0) {
-			selectedSlot = getSelectedInv().getSlotsX() - 1;
+			selectedSlot = getSelectedPage().getSlotsX() - 1;
 		} else {
 			selectedSlot--;
 		}
 	}
 	
 	public void addSelectedInv() {
-		if (selectedInv == pages.size() - 1) {
-			selectedInv = 0;
+		if (selectedPage == pages.size() - 1) {
+			selectedPage = 0;
 		} else {
-			selectedInv++;
+			selectedPage++;
 		}
 	}
 	
 	public void decreaseSelectedInv() {
-		if (selectedInv == 0) {
-			selectedInv = pages.size() - 1;
+		if (selectedPage == 0) {
+			selectedPage = pages.size() - 1;
 		} else {
-			selectedInv--;
+			selectedPage--;
 		}
 	}
 	
-	public BlockInventory getSelectedInv() {
-		return pages.get(selectedInv);
+	public BlockInventory getSelectedPage() {
+		return pages.get(selectedPage);
 	}
 	
 	public ItemTile getSelectedItem() {

@@ -1,5 +1,7 @@
 package main.java.lotf.entity;
 
+import java.awt.Rectangle;
+
 import main.java.lotf.Main;
 import main.java.lotf.entity.util.Hearts;
 import main.java.lotf.inventory.PlayerInventory;
@@ -21,27 +23,46 @@ public class EntityPlayer extends Entity {
 	private EnumDungeonType curDungeon = EnumDungeonType.nil;
 	private Room roomToBe;
 	private World world;
-	private int mt = 0;
 	
 	private PlayerInventory inv = new PlayerInventory();
 	private Hearts hearts;
 	
 	private int money, keys, mana;
 	
-	public EntityPlayer(int x, int y, boolean isAlive) {
-		super(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE, isAlive, "ENT_player", 4);
-		relativePos = new Vec2i(x * Tile.TILE_SIZE, y * Tile.TILE_SIZE);
+	public EntityPlayer() {
+		super(5 * Tile.TILE_SIZE, 5 * Tile.TILE_SIZE, Tile.TILE_SIZE, Tile.TILE_SIZE, EntityType.player);
+		relativePos = new Vec2i(5 * Tile.TILE_SIZE, 5 * Tile.TILE_SIZE);
 		
 		hearts = new Hearts(3);
 	}
 	
 	@Override
-	public void tickAlive() {
+	public void tick() {
+		super.tick();
+		
 		if (canMove) {
 			checkRoom();
 			
 			if (moveDirX != 0 || moveDirY != 0) {
-				addRelativePos(moveDirX, moveDirY);
+				if (moveDirX > 0) {
+					if (getInfront(EnumDirection.east) == null) {
+						addRelativePos(moveDirX, 0);
+					}
+				} else if (moveDirX < 0) {
+					if (getInfront(EnumDirection.west) == null) {
+						addRelativePos(moveDirX, 0);
+					}
+				}
+				
+				if (moveDirY > 0) {
+					if (getInfront(EnumDirection.south) == null) {
+						addRelativePos(0, moveDirY);
+					}
+				} else if (moveDirY < 0) {
+					if (getInfront(EnumDirection.north) == null) {
+						addRelativePos(0, moveDirY);
+					}
+				}
 				
 				if (moveDirX > 0) {
 					facing = EnumDirection.east;
@@ -56,11 +77,9 @@ public class EntityPlayer extends Entity {
 		} else {
 			if (moveDir == EnumDirection.west) {
 				if (getRelativePos().getX() < room.getVecRoomSize().getX() * Tile.TILE_SIZE) {
-					if (mt == 0) {
-						facing = EnumDirection.east;
-						addRelativePos(1, 0);
-						Main.getCamera().moveDir(facing);
-					}
+					facing = EnumDirection.east;
+					addRelativePos(1, 0);
+					Main.getCamera().moveDir(facing);
 				}
 				
 				if (getRelativePos().getX() == room.getVecRoomSize().getX() * Tile.TILE_SIZE) {
@@ -75,11 +94,9 @@ public class EntityPlayer extends Entity {
 				}
 			} else if (moveDir == EnumDirection.east) {
 				if (getRelativePos().getX() > -Tile.TILE_SIZE) {
-					if (mt == 0) {
-						facing = EnumDirection.west;
-						addRelativePos(-1, 0);
-						Main.getCamera().moveDir(facing);
-					}
+					facing = EnumDirection.west;
+					addRelativePos(-1, 0);
+					Main.getCamera().moveDir(facing);
 				}
 				
 				if (getRelativePos().getX() == -Tile.TILE_SIZE) {
@@ -94,11 +111,9 @@ public class EntityPlayer extends Entity {
 				}
 			} else if (moveDir == EnumDirection.north) {
 				if (getRelativePos().getY() < room.getVecRoomSize().getY() * Tile.TILE_SIZE) {
-					if (mt == 0) {
-						facing = EnumDirection.south;
-						addRelativePos(0, 1);
-						Main.getCamera().moveDir(facing);
-					}
+					facing = EnumDirection.south;
+					addRelativePos(0, 1);
+					Main.getCamera().moveDir(facing);
 				}
 				
 				if (getRelativePos().getY() == room.getVecRoomSize().getY() * Tile.TILE_SIZE) {
@@ -113,11 +128,9 @@ public class EntityPlayer extends Entity {
 				}
 			} else if (moveDir == EnumDirection.south) {
 				if (getRelativePos().getY() > -Tile.TILE_SIZE) {
-					if (mt == 0) {
-						facing = EnumDirection.north;
-						addRelativePos(0, -1);
-						Main.getCamera().moveDir(facing);
-					}
+					facing = EnumDirection.north;
+					addRelativePos(0, -1);
+					Main.getCamera().moveDir(facing);
 				}
 				
 				if (getRelativePos().getY() == -Tile.TILE_SIZE) {
@@ -132,28 +145,52 @@ public class EntityPlayer extends Entity {
 				}
 			}
 		}
-		
-		if (mt == 1) {
-			mt = 0;
-		} else {
-			mt++;
-		}
 	}
 	
 	private void checkRoom() {
-		for (int i = 0; i < Main.getWorldHandler().getPlayerWorld().getRooms().size(); i++) {
-			if (!Main.getWorldHandler().getPlayerWorld().getRooms().get(i).equals(room) && !Main.getWorldHandler().getPlayerWorld().getRooms().get(i).equals(roomToBe)) {
-				if (getBoundsAll().intersects(Main.getWorldHandler().getPlayerWorld().getRooms().get(i).getBoundsWest())) {
-					moveToRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(i), EnumDirection.west);
-				} else if (getBoundsAll().intersects(Main.getWorldHandler().getPlayerWorld().getRooms().get(i).getBoundsEast())) {
-					moveToRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(i), EnumDirection.east);
-				} else if (getBoundsAll().intersects(Main.getWorldHandler().getPlayerWorld().getRooms().get(i).getBoundsNorth())) {
-					moveToRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(i), EnumDirection.north);
-				} else if (getBoundsAll().intersects(Main.getWorldHandler().getPlayerWorld().getRooms().get(i).getBoundsSouth())) {
-					moveToRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(i), EnumDirection.south);
+		World w = Main.getWorldHandler().getPlayerWorld();
+		for (int i = 0; i < w.getRooms().size(); i++) {
+			if (!w.getRooms().get(i).equals(room) && !w.getRooms().get(i).equals(roomToBe)) {
+				if (getBounds().intersects(w.getRooms().get(i).getBoundsWest())) {
+					if (room.getExitID() == -1) {
+						moveToRoom(w.getRooms().get(i), EnumDirection.west);
+					} else {
+						gotoRoom(room.getExitID(), room.getWorldID(), EnumDirection.west);
+					}
+				} else if (getBounds().intersects(w.getRooms().get(i).getBoundsEast())) {
+					if (room.getExitID() == -1) {
+						moveToRoom(w.getRooms().get(i), EnumDirection.east);
+					} else {
+						gotoRoom(room.getExitID(), room.getWorldID(), EnumDirection.east);
+					}
+				} else if (getBounds().intersects(w.getRooms().get(i).getBoundsNorth())) {
+					if (room.getExitID() == -1) {
+						moveToRoom(w.getRooms().get(i), EnumDirection.north);
+					} else {
+						gotoRoom(room.getExitID(), room.getWorldID(), EnumDirection.north);
+					}
+				} else if (getBounds().intersects(w.getRooms().get(i).getBoundsSouth())) {
+					if (room.getExitID() == -1) {
+						moveToRoom(w.getRooms().get(i), EnumDirection.south);
+					} else {
+						gotoRoom(room.getExitID(), room.getWorldID(), EnumDirection.south);
+					}
 				}
 			}
 		}
+	}
+	
+	private void gotoRoom(int roomID, int worldID, EnumDirection dir) {
+		canMove = false;
+		room.onRoomExit();
+		
+		world = Main.getWorldHandler().getWorlds().get(worldID);
+		room = world.getRooms().get(roomID);
+		
+		setRelativePos(room.getExitPos().getX(), room.getExitPos().getY());
+		
+		canMove = true;
+		room.onRoomEnter();
 	}
 	
 	private void moveToRoom(Room room, EnumDirection dir) {
@@ -238,5 +275,10 @@ public class EntityPlayer extends Entity {
 	
 	public EnumDirection getFacing() {
 		return facing;
+	}
+	
+	@Override
+	public Rectangle getBounds() {
+		return new Rectangle(MathHelper.floor(getPositionX() + 2), MathHelper.floor(getPositionY() + 2), width - 4, height - 4);
 	}
 }

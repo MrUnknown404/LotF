@@ -38,16 +38,14 @@ public final class Camera {
 	}
 	
 	public void moveDir(EnumDirection dir) {
-		Room r = Main.getWorldHandler().getPlayerRoom();
-		
 		if (dir == EnumDirection.north) {
-			pos.add(0, -((r.getVecRoomSize().getY() * Tile.TILE_SIZE) / 36));
+			pos.add(0, -(Main.getHudHeight() / 26));
 		} else if (dir == EnumDirection.east) {
-			pos.add((r.getVecRoomSize().getX() * Tile.TILE_SIZE) / 32, 0);
+			pos.add(Main.getHudWidth() / 26, 0);
 		} else if (dir == EnumDirection.south) {
-			pos.add(0, (r.getVecRoomSize().getY() * Tile.TILE_SIZE) / 36);
+			pos.add(0, Main.getHudHeight() / 26);
 		} else if (dir == EnumDirection.west) {
-			pos.add(-((r.getVecRoomSize().getX() * Tile.TILE_SIZE) / 32), 0);
+			pos.add(-(Main.getHudWidth() / 26), 0);
 		}
 	}
 	

@@ -27,13 +27,13 @@ public final class MouseInput extends MouseAdapter {
 		if (MainBuilder.getDoesRoomExist()) {
 			if (key == 1) {
 				if (MainBuilder.getRoomBuilder().isOpen) {
-					List<Slot> ss = MainBuilder.getRoomBuilder().getSelectedInv().getSlotsList();
+					List<Slot> ss = MainBuilder.getRoomBuilder().getSelectedPage().getSlotsList();
 					for (int i = 0; i < ss.size(); i++) {
 						Slot s = ss.get(i);
 						if (new Rectangle(hudVec.getX(), hudVec.getY(), 1, 1).intersects(s.getBoundsAll().x, s.getBoundsAll().y, s.getBoundsAll().width, s.getBoundsAll().height)) {
-							if (!(MainBuilder.getRoomBuilder().getSelectedInv().getItems().get(i) instanceof ItemEmpty)) {
+							if (!(MainBuilder.getRoomBuilder().getSelectedPage().getItems().get(i) instanceof ItemEmpty)) {
 								if (MainBuilder.getRoomBuilder().hand == null) {
-									MainBuilder.getRoomBuilder().hand = (ItemTile) MainBuilder.getRoomBuilder().getSelectedInv().getItems().get(i);
+									MainBuilder.getRoomBuilder().hand = (ItemTile) MainBuilder.getRoomBuilder().getSelectedPage().getItems().get(i);
 								} else {
 									MainBuilder.getRoomBuilder().hand = null;
 								}

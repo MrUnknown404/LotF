@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.Main;
-import main.java.lotf.entity.Entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileAir;
 import main.java.lotf.util.EnumDungeonType;
@@ -13,27 +12,25 @@ import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
-import main.java.lotf.world.World.WorldType;
 
 public final class Room {
 	
 	protected List<Tile> tileLayer_0 = new ArrayList<Tile>();
 	protected List<Tile> tileLayer_1 = new ArrayList<Tile>();
-	protected List<Entity> entities = new ArrayList<Entity>();
+	//protected List<Entity> entities = new ArrayList<Entity>();
 	
 	protected transient RoomPos roomPos = new RoomPos();
-	protected Vec2i roomSize, mapPos;
-	protected World.WorldType type;
+	protected transient World.WorldType type;
+	protected Vec2i roomSize, mapPos, exitPos = new Vec2i();
 	protected EnumDungeonType dungeonType;
 	protected RoomSize size;
-	protected int roomID;
+	protected transient int roomID;
 	
-	protected boolean wasAllEnemiesDefeated = false;
+	protected int exitID = -1, worldID;
 	
-	public Room(World.WorldType type, EnumDungeonType dungeonType, RoomSize size, int roomID) {
-		this.type = type;
-		this.dungeonType = dungeonType;
-		this.roomID = roomID;
+	protected transient boolean  wasAllEnemiesDefeated = false;
+	
+	public Room(RoomSize size) {
 		this.roomSize = new Vec2i(size.x, size.y);
 		this.roomPos = IDToRoomPos(roomID);
 		this.size = size;
@@ -45,26 +42,28 @@ public final class Room {
 	}
 	
 	public void tick() {
-		boolean tb = false;
-		
 		for (int i = 0; i < tileLayer_0.size(); i++) {
 			tileLayer_0.get(i).tick();
 			tileLayer_1.get(i).tick();
 		}
 		
+		/*
+		boolean tb = false;
 		if (!entities.isEmpty()) {
 			for (int i = 0; i < entities.size(); i++) {
 				entities.get(i).tick();
 				
-				if (entities.get(i).getIsAlive()) {
-					tb = true;
+				if (entities.get(i) instanceof EntityMonster) {
+					if (((EntityMonster) entities.get(i)).getIsAlive()) {
+						tb = true;
+					}
 				}
 			}
 		}
 		
 		if (!entities.isEmpty() && !tb && !wasAllEnemiesDefeated) {
 			onAllEnemyDefeated();
-		}
+		}*/
 	}
 	
 	public void onRoomEnter() {
@@ -108,15 +107,8 @@ public final class Room {
 	}
 	
 	public RoomPos IDToRoomPos(int id) {
-		int xtt, ytt;
-		
-		if (type != WorldType.dungeon) {
-			ytt = MathHelper.floor((double) id / type.size);
-			xtt = id - (ytt * roomSize.getX());
-		} else {
-			ytt = MathHelper.floor((double) id / dungeonType.size);
-			xtt = id - (ytt * roomSize.getX());
-		}
+		int ytt = MathHelper.floor((double) id / roomSize.getX());
+		int xtt = id - (ytt * roomSize.getX());
 		
 		return new RoomPos(xtt, ytt);
 	}
@@ -129,12 +121,24 @@ public final class Room {
 		this.roomPos = roomPos;
 	}
 	
+	public int getExitID() {
+		return exitID;
+	}
+	
+	public int getWorldID() {
+		return worldID;
+	}
+	
 	public int getRoomID() {
 		return roomID;
 	}
 	
 	public RoomPos getRoomPos() {
 		return roomPos;
+	}
+	
+	public Vec2i getExitPos() {
+		return exitPos;
 	}
 	
 	public Vec2i getVecRoomSize() {
@@ -165,9 +169,9 @@ public final class Room {
 		return tileLayer_1;
 	}
 	
-	public List<Entity> getEntities() {
-		return entities;
-	}
+	//public List<Entity> getEntities() {
+	//	return entities;
+	//}
 	
 	public Rectangle getBounds() {
 		return new Rectangle((getRoomPos().getX() * roomSize.getX()) * Tile.TILE_SIZE, 
@@ -214,7 +218,7 @@ public final class Room {
 		small  (0, 16, 9),
 		medium (1, 24, 13),
 		big    (2, 32, 17),
-		veryBig(3, 40, 21);
+		veryBig(3, 48, 25);
 		
 		public final int fId, x, y;
 		

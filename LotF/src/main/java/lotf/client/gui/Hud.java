@@ -43,9 +43,7 @@ public class Hud {
 	private List<ImageList> items = new ArrayList<ImageList>(InitItems.getItems().size());
 	private List<ImageList> ammos = new ArrayList<ImageList>(Ammo.AmmoType.values().length);
 	
-	private BufferedImage rupee, x, key, map, slot, slotSel, missingItemSmall, missingItemBig, selSmall, blankMapIcon, overworldMap, underworldMap, insideMap;
-	
-	private int pM = 2, imgSize = 7 * pM, both = (imgSize + pM), hW = both * 10, nW = 38 + hW + (3 * pM);
+	private BufferedImage rupee, x, key, map, slot, slotSel, missingItemSmall, missingItemBig, selSmall, blankMapIcon, overworldMap, underworldMap;
 	
 	public void loadTextures() {
 		for (int i = 0; i < 5; i++) {
@@ -76,16 +74,10 @@ public class Hud {
 		
 		blankMapIcon = GetResource.getTexture(GetResource.ResourceType.gui, "maps/blankMapIcon");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/mapss/blankMapIcon.png!");
-		
 		overworldMap = GetResource.getTexture(GetResource.ResourceType.gui, "maps/overworldMap");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/maps/overworldMap.png!");
-		
 		underworldMap = GetResource.getTexture(GetResource.ResourceType.gui, "maps/underworldMap");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/mapIcons/underworldMap.png!");
-		
-		insideMap = GetResource.getTexture(GetResource.ResourceType.gui, "maps/insideMap");
-		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/maps/insideMap.png!");
-		
 		
 		rupee = GetResource.getTexture(GetResource.ResourceType.gui, "rupee");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/rupee.png!");
@@ -180,26 +172,26 @@ public class Hud {
 		
 		if (inv.isInventoryOpen) {
 			g.setColor(Color.DARK_GRAY);
-			g.fillRect(0, 16 * pM, 224 * pM, 110 * pM);
+			g.fillRect(0, 32, 448, 220);
 			g.setColor(Color.LIGHT_GRAY);
-			g.fillRect(1 * pM, 17 * pM, 222 * pM, 108 * pM);
+			g.fillRect(2, 34, 444, 216);
 		}
 		
-		g.fillRect(0, 0, 224 * pM, 16 * pM);
+		g.fillRect(0, 0, 448, 32);
 		g.setColor(Color.BLACK);
 		
 		for (int i = 0; i < player.getHearts().getHearts().size(); i++) {
 			int h = player.getHearts().getHearts().get(i);
 			
 			if (i >= 10) {
-				g.drawImage(hearts.get(h), pM * (i + 1) + i * imgSize - both * 10, imgSize + pM, imgSize, imgSize, null);
+				g.drawImage(hearts.get(h), 2 * (i + 1) + i * 14 - 16 * 10, 16, 14, 14, null);
 			} else {
-				g.drawImage(hearts.get(h), pM * (i + 1) + i * imgSize, 0 + pM, imgSize, imgSize, null);
+				g.drawImage(hearts.get(h), 2 * (i + 1) + i * 14, 0, 14, 14, null);
 			}
 		}
 		
-		g.drawImage(rupee, hW + 3  * pM,     pM, imgSize, imgSize, null);
-		g.drawImage(x,     hW + 11 * pM, 5 * pM, 3 * pM, 3 * pM, null);
+		g.drawImage(rupee, 166, 2, 14, 14, null);
+		g.drawImage(x, 182, 10, 6, 6, null);
 		
 		StringBuilder b = new StringBuilder();
 		if (String.valueOf(player.getMoney()).length() < 5) {
@@ -208,49 +200,53 @@ public class Hud {
 			}
 		}
 		
-		g.drawString(b.toString() + player.getMoney(), hW + 3 * pM - 1, 8 * pM + 10);
+		g.drawString(b.toString() + player.getMoney(), 165, 26);
 		
-		g.drawImage(magicBars.get(player.getMana()), nW + 3 * pM, 9 * pM, 34 * pM, 5 * pM, null);
+		g.drawImage(magicBars.get(player.getMana()), 210, 18, 68, 10, null);
 		
-		g.drawImage(key, nW + 5  * pM, 0, 5 * pM, 8 * pM, null);
-		g.drawImage(x,   nW + 11 * pM, 5    * pM, 3 * pM, 3 * pM, null);
-		g.drawString("" + player.getKeys(), nW + 15 * pM - 1, 7 * pM);
+		g.drawImage(key, 214, 0, 10, 16, null);
+		g.drawImage(x, 226, 10, 6, 6, null);
+		g.drawString("" + player.getKeys(), 233, 14);
 		
-		g.drawImage(slots.get(1), nW + 40 * pM, 0, 22 * pM, 16 * pM, null);
+		/*
+		**  #INVENTORY#  //To-do : draw count
+		*/
+		
+		g.drawImage(slots.get(1), 284, 0, 44, 32, null);
 		if (!inv.getSelectedSword().equals(InitItems.EMPTY)) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).stringKey.equals(inv.getSelectedSword().getName())) {
 					if (items.get(i).meta == inv.getSelectedSword().getMeta()) {
-						g.drawImage(items.get(i).images.get(0), nW + 43 * pM, 0, 16 * pM, 16 * pM, null);
+						g.drawImage(items.get(i).images.get(0), 290, 0, 32, 32, null);
 					}
 				}
 			}
 		}
 		
-		g.drawImage(slots.get(0), nW + 64 * pM, 0, 27 * pM, 16 * pM, null);
+		g.drawImage(slots.get(0), 204 + 64 * 2, 0, 27 * 2, 16 * 2, null);
 		if (!inv.getSelectedLeft().equals(InitItems.EMPTY)) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).stringKey.equals(inv.getSelectedLeft().getName())) {
 					if (items.get(i).meta == inv.getSelectedLeft().getMeta()) {
 						if (inv.getSelectedLeft().getUseAmmo()) {
-							g.drawImage(items.get(i).images.get(0), nW + 67 * pM, 0, 16 * pM, 16 * pM, null);
+							g.drawImage(items.get(i).images.get(0), 338, 0, 32, 32, null);
 						} else {
-							g.drawImage(items.get(i).images.get(0), nW + 70 * pM - 1, 0, 16 * pM, 16 * pM, null);
+							g.drawImage(items.get(i).images.get(0), 343, 0, 32, 32, null);
 						}
 					}
 				}
 			}
 		}
 		
-		g.drawImage(slots.get(0), nW + 93 * pM, 0, 27 * pM, 16 * pM, null);
+		g.drawImage(slots.get(0), 204 + 93 * 2, 0, 27 * 2, 16 * 2, null);
 		if (!inv.getSelectedRight().equals(InitItems.EMPTY)) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).stringKey.equals(inv.getSelectedRight().getName())) {
 					if (items.get(i).meta == inv.getSelectedRight().getMeta()) {
 						if (inv.getSelectedRight().getUseAmmo()) {
-							g.drawImage(items.get(i).images.get(0), nW + 96 * pM, 0, 16 * pM, 16 * pM, null);
+							g.drawImage(items.get(i).images.get(0), 396, 0, 32, 32, null);
 						} else {
-							g.drawImage(items.get(i).images.get(0), nW + 98 * pM + 1, 0, 16 * pM, 16 * pM, null);
+							g.drawImage(items.get(i).images.get(0), 401, 0, 32, 32, null);
 						}
 					}
 				}
@@ -258,65 +254,61 @@ public class Hud {
 		}
 		
 		if (inv.hasMap()) {
-			g.drawImage(map, nW + 20 * pM, pM, imgSize, imgSize, null);
+			g.drawImage(map, 244, 2, 14, 14, null);
 		}
 		
 		if (inv.hasCompass()) {
-			g.drawImage(compasses.get(0), nW + 28 * pM, pM, imgSize, imgSize, null);
+			g.drawImage(compasses.get(0), 260, 2, 14, 14, null);
 		}
-		
-		/*
-		**  #INVENTORY#  //To-do : draw count
-		*/
 		
 		if (inv.isInventoryOpen) {
 			//Mapping
 			for (int i = 0; i < 12; i++) {
 				if (i < 6) {
 					if (player.getDungeon().fId == i) {
-						g.drawImage(selSmall, 153 * pM, (26 * pM) + (i * (16 * pM)), 9 * pM, 9 * pM, null);
-						g.drawImage(selSmall, 179 * pM, (26 * pM) + (i * (16 * pM)), 9 * pM, 9 * pM, null);
+						g.drawImage(selSmall, 306, 52 + (i * 32), 18, 18, null);
+						g.drawImage(selSmall, 358, 52 + (i * 32), 18, 18, null);
 					}
 					
 					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(map, 154 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(map, 308, 54 + (i * 32), 14, 14, null);
 					} else {
-						g.drawImage(missingItemSmall, 154 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(missingItemSmall, 308, 54 + (i * 32), 14, 14, null);
 					}
 					
 					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(compasses.get(i), 180 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(compasses.get(i), 360, 54 + (i * 32), 14, 14, null);
 					} else {
-						g.drawImage(missingItemSmall, 180 * pM, (27 * pM) + (i * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(missingItemSmall, 360, 54 + (i * 32), 14, 14, null);
 					}
 					
 					if (inv.hasDungeonItem(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(dungeonItems.get(i), 163 * pM, (23 * pM) + (i * (16 * pM)), 15 * pM, 15 * pM, null);
+						g.drawImage(dungeonItems.get(i), 326, 46 + (i * 32), 30, 30, null);
 					} else {
-						g.drawImage(missingItemBig, 163 * pM, (23 * pM) + (i * (16 * pM)), 15 * pM, 15 * pM, null);
+						g.drawImage(missingItemBig, 326, 46 + (i * 32), 30, 30, null);
 					}
 				} else {
 					if (player.getDungeon().fId == i) {
-						g.drawImage(selSmall, 187 * pM, (26 * pM) + ((i - 6) * (16 * pM)), 9 * pM, 9 * pM, null);
-						g.drawImage(selSmall, 213 * pM, (26 * pM) + ((i - 6) * (16 * pM)), 9 * pM, 9 * pM, null);
+						g.drawImage(selSmall, 374, 52 + ((i - 6) * 32), 18, 18, null);
+						g.drawImage(selSmall, 426, 52 + ((i - 6) * 32), 18, 18, null);
 					}
 					
 					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(map, 188 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(map, 376, 54 + ((i - 6) * 32), 14, 14, null);
 					} else {
-						g.drawImage(missingItemSmall, 188 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(missingItemSmall, 376 * 2, 54 + ((i - 6) * 32), 14, 14, null);
 					}
 					
 					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(compasses.get(i), 214 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(compasses.get(i), 428, 54 + ((i - 6) * 32), 14, 14, null);
 					} else {
-						g.drawImage(missingItemSmall, 214 * pM, (27 * pM) + ((i - 6) * (16 * pM)), imgSize, imgSize, null);
+						g.drawImage(missingItemSmall, 428, 54 + ((i - 6) * 32), 14, 14, null);
 					}
 					
 					if (inv.hasDungeonItem(EnumDungeonType.getFromNumber(i))) {
-						g.drawImage(dungeonItems.get(i), 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
+						g.drawImage(dungeonItems.get(i), 394, 46 + ((i - 6) * 32), 30, 30, null);
 					} else {
-						g.drawImage(missingItemBig, 197 * pM, (23 * pM) + ((i - 6) * (16 * pM)), 15 * pM, 15 * pM, null);
+						g.drawImage(missingItemBig, 394, 46 + ((i - 6) * 32), 30, 30, null);
 					}
 				}
 			}
@@ -324,9 +316,9 @@ public class Hud {
 			if (inv.getSelectedScreen() == 0) {
 				for (int i = 0; i < inv.getItems().size(); i++) {
 					if (inv.getSelectedInv() == 0 && inv.getSelectedSlot() == i) {
-						g.drawImage(slotSel, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+						g.drawImage(slotSel, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 40, 40, null);
 					} else {
-						g.drawImage(slot, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+						g.drawImage(slot, inv.getSlotsList().get(i).getX(), inv.getSlotsList().get(i).getY(), 40, 40, null);
 					}
 					
 					for (int j = 0; j < items.size(); j++) {
@@ -334,11 +326,11 @@ public class Hud {
 							if (items.get(j).stringKey.equals(inv.getItems().get(i).getName())) {
 								if (inv.getItems().get(i) instanceof ItemBow || inv.getItems().get(i) instanceof ItemRCBombBag || inv.getItems().get(i) instanceof ItemBombBag) {
 									if (items.get(j).meta == 0) {
-										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 32, 32, null);
 									}
 								} else {
 									if (items.get(j).meta == inv.getItems().get(i).getMeta()) {
-										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 32, 32, null);
 									}
 								}
 							}
@@ -348,16 +340,16 @@ public class Hud {
 				
 				for (int i = 0; i < inv.getSwordInv().getItems().size(); i++) {
 					if (inv.getSelectedInv() == 1 && inv.getSelectedSlot() == i) {
-						g.drawImage(slotSel, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+						g.drawImage(slotSel, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 40, 40, null);
 					} else {
-						g.drawImage(slot, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+						g.drawImage(slot, inv.getSwordInv().getSlotsList().get(i).getX() + 208, inv.getSwordInv().getSlotsList().get(i).getY(), 40, 40, null);
 					}
 					
 					for (int j = 0; j < items.size(); j++) {
 						if (!inv.getSwordInv().getItems().get(i).equals(InitItems.EMPTY)) {
 							if (items.get(j).stringKey.equals(inv.getSwordInv().getItems().get(i).getName())) {
 								if (items.get(j).meta == inv.getSwordInv().getItems().get(i).getMeta()) {
-									g.drawImage(items.get(j).images.get(0), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+									g.drawImage(items.get(j).images.get(0), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 32, 32, null);
 								}
 							}
 						}
@@ -366,16 +358,16 @@ public class Hud {
 				
 				for (int i = 0; i < inv.getRingInv().getItems().size(); i++) {
 					if (inv.getSelectedInv() == 2 && inv.getSelectedSlot() == i) {
-						g.drawImage(slotSel, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+						g.drawImage(slotSel, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 40, 40, null);
 					} else {
-						g.drawImage(slot, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 20 * pM, 20 * pM, null);
+						g.drawImage(slot, inv.getRingInv().getSlotsList().get(i).getX() + 256, inv.getRingInv().getSlotsList().get(i).getY(), 40, 40, null);
 					}
 					
 					for (int j = 0; j < items.size(); j++) {
 						if (!inv.getRingInv().getItems().get(i).equals(InitItems.EMPTY)) {
 							if (items.get(j).stringKey.equals(inv.getRingInv().getItems().get(i).getName())) {
 								if (items.get(j).meta == inv.getRingInv().getItems().get(i).getMeta()) {
-									g.drawImage(items.get(j).images.get(0), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 16 * pM, 16 * pM, null);
+									g.drawImage(items.get(j).images.get(0), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 32, 32, null);
 								}
 							}
 						}
@@ -385,49 +377,43 @@ public class Hud {
 				//Spell book
 				if (inv.isSelectingPage) {
 					g.setColor(new Color(0, 0, 0, 225));
-					g.fillRect(1 * pM, 17 * pM, 222 * pM, 108 * pM);
+					g.fillRect(2, 34, 444, 216);
 					
 					for (int i = 0; i < 5; i++) {
 						if (((ItemSpellBook) inv.findItem("spellBook", 0)).getSpellPageList().getSelectedPageInt() == i) {
-							g.drawImage(slotSel, 108 + 48 * i, 122, 20 * pM, 20 * pM, null);
+							g.drawImage(slotSel, 108 + 48 * i, 122, 40, 40, null);
 						} else {
-							g.drawImage(slot, 108 + 48 * i, 122, 20 * pM, 20 * pM, null);
+							g.drawImage(slot, 108 + 48 * i, 122, 40, 40, null);
 						}
 						
 						if (((ItemSpellBook) inv.findItem("spellBook", 0)).getSpellPageList().getHas().get(i)) {
-							g.drawImage(pages.get(i), 112 + 48 * i, 126, 16 * pM, 16 * pM, null);
+							g.drawImage(pages.get(i), 112 + 48 * i, 126, 32, 32, null);
 						}
 					}
 				}
 			} else {
 				//Map
-				Map m = player.getWorld().getMap();
-				if (m.getWorldType() == World.WorldType.overworld) {
-					for (int i = 0; i < m.getRooms().size(); i++) {
-						int size = World.WorldType.overworld.size;
-						g.drawImage(overworldMap, 51, 38, 209, 209, null);
-						if (!m.getRooms().get(i)) {
-							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+				if (player.getWorld().getWorldType() != World.WorldType.inside) {
+					Map m = player.getWorld().getMap();
+					if (m.getWorldType() == World.WorldType.overworld) {
+						for (int i = 0; i < m.getRooms().size(); i++) {
+							int size = World.WorldType.overworld.size;
+							g.drawImage(overworldMap, 51, 38, 209, 209, null);
+							if (!m.getRooms().get(i)) {
+								g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+							}
 						}
-					}
-				} else if (m.getWorldType() == World.WorldType.underworld) {
-					for (int i = 0; i < m.getRooms().size(); i++) {
-						int size = World.WorldType.underworld.size;
-						g.drawImage(underworldMap, 51, 38, 209, 209, null);
-						if (!m.getRooms().get(i)) {
-							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+					} else if (m.getWorldType() == World.WorldType.underworld) {
+						for (int i = 0; i < m.getRooms().size(); i++) {
+							int size = World.WorldType.underworld.size;
+							g.drawImage(underworldMap, 51, 38, 209, 209, null);
+							if (!m.getRooms().get(i)) {
+								g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+							}
 						}
+					} else if (m.getWorldType() == World.WorldType.dungeon) {
+						int drawDungeonLater;
 					}
-				} else if (m.getWorldType() == World.WorldType.inside) {
-					for (int i = 0; i < m.getRooms().size(); i++) {
-						int size = World.WorldType.inside.size;
-						g.drawImage(insideMap, 51, 38, 209, 209, null);
-						if (!m.getRooms().get(i)) {
-							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
-						}
-					}
-				} else if (m.getWorldType() == World.WorldType.dungeon) {
-					int drawDungeonLater;
 				}
 			}
 		}
