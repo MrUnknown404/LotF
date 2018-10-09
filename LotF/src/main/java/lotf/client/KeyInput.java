@@ -129,7 +129,7 @@ public final class KeyInput extends KeyAdapter {
 							}
 						}
 					} else {
-						int doLater;
+						int doMapSelectionLater;
 					}
 				}
 			}

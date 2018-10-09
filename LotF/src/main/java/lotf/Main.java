@@ -185,12 +185,15 @@ public final class Main extends Canvas implements Runnable {
 		consoleHud.tick();
 		keyInput.tick();
 		
-		if (Main.gamestate.fId >= 1) {
-			return;
+		if (Main.gamestate.fId == 0) {
+			worldHandler.tick();
+			worldHandler.tickAnimation();
+			camera.tick();
+		} else if (Main.gamestate.fId == 1) {
+			worldHandler.tickAnimation();
+		} else if (Main.gamestate.fId == 2) {
+			
 		}
-		
-		worldHandler.tick();
-		camera.tick();
 	}
 	
 	public void render() {

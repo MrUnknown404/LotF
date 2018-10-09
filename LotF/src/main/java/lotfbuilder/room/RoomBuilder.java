@@ -195,12 +195,14 @@ public final class RoomBuilder {
 	}
 	
 	public void setTile(Vec2i vec) {
-		if (getSelectedItem().getTileType() != Tile.TileType.air) {
+		if (getSelectedItem().getTileType() != Tile.TileType.air && getSelectedItem().getTileType() != Tile.TileType.door) {
 			if (getSelectedItem().getTileType().colType != Tile.CollisionType.none) {
 				room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
 			} else {
 				room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
 			}
+		} else if (getSelectedItem().getTileType() == Tile.TileType.door) {
+			room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
 		}
 		
 		room.resetAnimations();

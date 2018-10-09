@@ -21,6 +21,35 @@ public class PlayerInventory extends Inventory {
 	
 	public PlayerInventory() {
 		super(5, 5);
+		
+		//delete this
+		addItem(InitItems.get("bombBag", 0));
+		addItem(InitItems.get("boomerang", 0));
+		addItem(InitItems.get("bottle", 0));
+		addItem(InitItems.get("bottle", 1));
+		addItem(InitItems.get("bottle", 2));
+		addItem(InitItems.get("bottle", 3));
+		addItem(InitItems.get("bottle", 4));
+		addItem(InitItems.get("bottle", 5));
+		addItem(InitItems.get("bow", 0));
+		addItem(InitItems.get("cape", 0));
+		addItem(InitItems.get("clock", 0));
+		addItem(InitItems.get("flippers", 0));
+		addItem(InitItems.get("lavaFlippers", 0));
+		addItem(InitItems.get("graplingHook", 0));
+		addItem(InitItems.get("hammer", 0));
+		addItem(InitItems.get("hermesBoots", 0));
+		addItem(InitItems.get("rcBombBag", 0));
+		addItem(InitItems.get("spellBook", 0));
+		swords.addItem(InitItems.get("sword", 0));
+		swords.addItem(InitItems.get("sword", 1));
+		swords.addItem(InitItems.get("sword", 2));
+		swords.addItem(InitItems.get("sword", 3));
+		swords.addItem(InitItems.get("sword", 4));
+		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(1);
+		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(2);
+		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(3);
+		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(4);
 	}
 	
 	public void setSelected(boolean left) {
@@ -174,7 +203,7 @@ public class PlayerInventory extends Inventory {
 	}
 	
 	public boolean hasMap() {
-		if (hiddenItems.findItem("map", Main.getWorldHandler().getPlayer().getDungeon().fId) != null) {
+		if (hiddenItems.findItem("map", Main.getWorldHandler().getPlayerWorld().getDungeonType().fId) != null) {
 			return true;
 		}
 		return false;
@@ -188,7 +217,7 @@ public class PlayerInventory extends Inventory {
 	}
 	
 	public boolean hasCompass() {
-		if (hiddenItems.findItem("compass", Main.getWorldHandler().getPlayer().getDungeon().fId) != null) {
+		if (hiddenItems.findItem("compass", Main.getWorldHandler().getPlayerWorld().getDungeonType().fId) != null) {
 			return true;
 		}
 		return false;

@@ -10,12 +10,17 @@ import java.util.List;
 import com.google.gson.Gson;
 
 import main.java.lotf.Main;
+import main.java.lotf.entity.EntityMonster;
+import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.Vec2i;
 
 public final class World {
+	
+	private static final String BASE_LOCATION = "/main/resources/lotf/assets/rooms/";
 	
 	private List<Room> rooms = new ArrayList<Room>();
 	
@@ -33,6 +38,10 @@ public final class World {
 		}
 		
 		loadRooms(type.size, type.size);
+		
+		if (type.fId == 0) {
+			rooms.get(149).addMonster(new EntityMonster(128, 128, 32, 32, EntityMonster.MonsterType.test1));
+		}
 	}
 	
 	public World(EnumDungeonType dungeonType) {
@@ -44,8 +53,6 @@ public final class World {
 		
 		loadRooms(dungeonType.size, dungeonType.size);
 	}
-	
-	private static final String BASE_LOCATION = "/main/resources/lotf/assets/rooms/";
 	
 	public void loadRooms(int xt, int yt) {
 		Main.gamestate = Main.Gamestate.hardPause;
@@ -84,11 +91,31 @@ public final class World {
 				rooms.get(i).roomID = i;
 				rooms.get(i).setRoomPos(rooms.get(i).IDToRoomPos(i));
 				
+				boolean tb = false;
 				for (int j = 0; j < rooms.get(i).getTileLayer0().size(); j++) {
 					rooms.get(i).getTileLayer0().get(j).setRoom(rooms.get(i));
 					rooms.get(i).getTileLayer1().get(j).setRoom(rooms.get(i));
 					rooms.get(i).getTileLayer0().get(j).tileUpdate();
 					rooms.get(i).getTileLayer1().get(j).tileUpdate();
+					
+					if (rooms.get(i).getTileLayer1().get(j).getTileType() == Tile.TileType.door) {
+						rooms.get(i).setEnterPos(new Vec2i(rooms.get(i).getTileLayer1().get(j).getRelativeTilePos().getX() * Tile.TILE_SIZE, rooms.get(i).getTileLayer1().get(j).getRelativeTilePos().getY() * Tile.TILE_SIZE));
+						tb = true;
+					}
+				}
+				
+				if (!tb) {
+					if (rooms.get(i).getEntranceDir() == EnumDirection.nil) {
+						rooms.get(i).setEnterPos(new Vec2i(0, 0));
+					} else if (rooms.get(i).getEntranceDir() == EnumDirection.north) {
+						rooms.get(i).setEnterPos(new Vec2i((rooms.get(i).roomSize.getX() * Tile.TILE_SIZE) / 2, 0));
+					} else if (rooms.get(i).getEntranceDir() == EnumDirection.south) {
+						rooms.get(i).setEnterPos(new Vec2i((rooms.get(i).roomSize.getX() * Tile.TILE_SIZE) / 2 - 16, (rooms.get(i).roomSize.getY() - 1) * Tile.TILE_SIZE));
+					} else if (rooms.get(i).getEntranceDir() == EnumDirection.west) {
+						rooms.get(i).setEnterPos(new Vec2i(0, (rooms.get(i).roomSize.getY() * Tile.TILE_SIZE) / 2 - 16));
+					} else if (rooms.get(i).getEntranceDir() == EnumDirection.east) {
+						rooms.get(i).setEnterPos(new Vec2i((rooms.get(i).roomSize.getX() - 1) * Tile.TILE_SIZE, (rooms.get(i).roomSize.getY() * Tile.TILE_SIZE) / 2 - 16));
+					}
 				}
 				
 				fr.close();
@@ -167,6 +194,10 @@ public final class World {
 	
 	public List<Room> getRooms() {
 		return rooms;
+	}
+	
+	public EnumDungeonType getDungeonType() {
+		return dungeonType;
 	}
 	
 	public WorldType getWorldType() {

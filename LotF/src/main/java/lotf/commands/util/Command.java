@@ -28,16 +28,17 @@ public abstract class Command {
 	protected abstract String setUsage();
 	
 	public String getUsage() {
-		StringBuilder b = new StringBuilder();
-		if (isArgsOptional) {
-			b.append("(optional) ");
-		}
+		//StringBuilder b = new StringBuilder();
+		//if (isArgsOptional) {
+		//	b.append("(optional) ");
+		//}
 		
-		for (Command.ArgumentType type : typeOfArgs) {
-			b.append("<" + type.toString() + "> ");
-		}
+		//for (Command.ArgumentType type : typeOfArgs) {
+		//	b.append("<" + type.toString() + "> ");
+		//}
 		
-		return "/" + name + " : usage -> /" + name + " " + b.toString() + ": " + setUsage() + "!";
+		//return "/" + name + " : usage -> /" + name + " " + b.toString() + ": " + setUsage() + "!";
+		return "/" + name + " : " + setUsage() + "!";
 	}
 	
 	public abstract void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString);

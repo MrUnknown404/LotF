@@ -20,6 +20,8 @@ public class CommandHeal extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		Main.getWorldHandler().getPlayer().getHearts().heal(argInt.get(0));
+		if (Main.getWorldHandler().getPlayer() != null) {
+			Main.getWorldHandler().getPlayer().getHearts().heal(argInt.get(0));
+		}
 	}
 }

@@ -14,9 +14,12 @@ public abstract class Entity extends TickableGameObject {
 	protected String name;
 	protected int meta = -1;
 	protected EntityType type;
+	protected EnumDirection facing = EnumDirection.north;
+	private boolean hasCollision = true;
 	
 	public Entity(int x, int y, int width, int height, EntityType type) {
 		super(x, y, width, height);
+		relativePos = new Vec2i(x, y);
 		this.type = type;
 		this.name = type.toString();
 	}
@@ -29,7 +32,11 @@ public abstract class Entity extends TickableGameObject {
 		updatePosition();
 	}
 	
-	protected Tile getInfront(EnumDirection dir) {
+	public Tile getInfront(EnumDirection dir) {
+		if (!hasCollision) {
+			return null;
+		}
+		
 		for (int i = 0; i < room.getTileLayer1().size(); i++) {
 			Tile t = room.getTileLayer1().get(i);
 			
@@ -55,6 +62,14 @@ public abstract class Entity extends TickableGameObject {
 		}
 		
 		return null;
+	}
+	
+	public void toggleCollision() {
+		hasCollision = !hasCollision;
+	}
+	
+	public void setFacing(EnumDirection facing) {
+		this.facing = facing;
 	}
 	
 	public void setRelativePos(int x, int y) {
@@ -91,6 +106,10 @@ public abstract class Entity extends TickableGameObject {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public EnumDirection getFacing() {
+		return facing;
 	}
 	
 	public EntityType getEntityType() {

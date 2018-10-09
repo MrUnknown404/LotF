@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.Main;
+import main.java.lotf.entity.EntityMonster;
+import main.java.lotf.entity.EntityNPC;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileAir;
+import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
@@ -17,16 +20,20 @@ public final class Room {
 	
 	protected List<Tile> tileLayer_0 = new ArrayList<Tile>();
 	protected List<Tile> tileLayer_1 = new ArrayList<Tile>();
-	//protected List<Entity> entities = new ArrayList<Entity>();
+	
+	protected List<EntityNPC> npcs = new ArrayList<EntityNPC>();
+	protected List<EntityMonster> monsters = new ArrayList<EntityMonster>();
 	
 	protected transient RoomPos roomPos = new RoomPos();
 	protected transient World.WorldType type;
-	protected Vec2i roomSize, mapPos, exitPos = new Vec2i();
+	protected transient Vec2i enterPos = new Vec2i();
+	protected Vec2i roomSize, mapPos;
 	protected EnumDungeonType dungeonType;
+	protected EnumDirection entranceDir = EnumDirection.nil;
 	protected RoomSize size;
 	protected transient int roomID;
 	
-	protected int exitID = -1, worldID;
+	protected int exitID, worldID;
 	
 	protected transient boolean  wasAllEnemiesDefeated = false;
 	
@@ -47,23 +54,33 @@ public final class Room {
 			tileLayer_1.get(i).tick();
 		}
 		
-		/*
+		if (!npcs.isEmpty()) {
+			for (int i = 0; i < npcs.size(); i++) {
+				npcs.get(i).tick();
+			}
+		}
+		
 		boolean tb = false;
-		if (!entities.isEmpty()) {
-			for (int i = 0; i < entities.size(); i++) {
-				entities.get(i).tick();
+		if (!monsters.isEmpty()) {
+			for (int i = 0; i < monsters.size(); i++) {
+				monsters.get(i).tick();
 				
-				if (entities.get(i) instanceof EntityMonster) {
-					if (((EntityMonster) entities.get(i)).getIsAlive()) {
-						tb = true;
-					}
+				if (monsters.get(i).getIsAlive()) {
+					tb = true;
 				}
 			}
 		}
 		
-		if (!entities.isEmpty() && !tb && !wasAllEnemiesDefeated) {
+		if (!tb && !monsters.isEmpty() && !wasAllEnemiesDefeated) {
 			onAllEnemyDefeated();
-		}*/
+		}
+	}
+	
+	public void tickAnimation() {
+		for (int i = 0; i < tileLayer_0.size(); i++) {
+			tileLayer_0.get(i).tickAnimation();
+			tileLayer_1.get(i).tickAnimation();
+		}
 	}
 	
 	public void onRoomEnter() {
@@ -117,6 +134,15 @@ public final class Room {
 		return (y * size.x) + x;
 	}
 	
+	public void addMonster(EntityMonster monster) {
+		monster.setRoom(this);
+		monsters.add(monster);
+	}
+	
+	public void setEnterPos(Vec2i enterPos) {
+		this.enterPos = enterPos;
+	}
+	
 	public void setRoomPos(RoomPos roomPos) {
 		this.roomPos = roomPos;
 	}
@@ -137,8 +163,8 @@ public final class Room {
 		return roomPos;
 	}
 	
-	public Vec2i getExitPos() {
-		return exitPos;
+	public Vec2i getEnterPos() {
+		return enterPos;
 	}
 	
 	public Vec2i getVecRoomSize() {
@@ -157,8 +183,20 @@ public final class Room {
 		return dungeonType;
 	}
 	
+	public EnumDirection getEntranceDir() {
+		return entranceDir;
+	}
+	
 	public Vec2i getMapPos() {
 		return mapPos;
+	}
+	
+	public List<EntityMonster> getMonsters() {
+		return monsters;
+	}
+	
+	public List<EntityNPC> getNPCs() {
+		return npcs;
 	}
 	
 	public List<Tile> getTileLayer0() {

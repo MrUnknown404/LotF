@@ -6,6 +6,8 @@ import main.java.lotf.commands.CommandDebug;
 import main.java.lotf.commands.CommandGive;
 import main.java.lotf.commands.CommandHeal;
 import main.java.lotf.commands.CommandHelp;
+import main.java.lotf.commands.CommandCHelp;
+import main.java.lotf.commands.CommandNoclip;
 import main.java.lotf.commands.CommandSetRoom;
 import main.java.lotf.commands.CommandTeleport;
 import main.java.lotf.commands.util.Command;
@@ -15,11 +17,13 @@ public final class InitCommands {
 	
 	public static void registerAll() {
 		registerCommand(new CommandHelp());
+		registerCommand(new CommandCHelp());
 		registerCommand(new CommandTeleport());
 		registerCommand(new CommandSetRoom());
 		registerCommand(new CommandHeal());
 		registerCommand(new CommandDamage());
 		registerCommand(new CommandGive());
+		registerCommand(new CommandNoclip());
 		
 		registerCommand(new CommandDebug(), 99);
 	}

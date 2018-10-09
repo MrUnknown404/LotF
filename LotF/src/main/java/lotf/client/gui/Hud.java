@@ -184,14 +184,14 @@ public class Hud {
 			int h = player.getHearts().getHearts().get(i);
 			
 			if (i >= 10) {
-				g.drawImage(hearts.get(h), 2 * (i + 1) + i * 14 - 16 * 10, 16, 14, 14, null);
+				g.drawImage(hearts.get(h), 2 * (i + 1) + i * 16 - 160, 16, 14, 14, null);
 			} else {
 				g.drawImage(hearts.get(h), 2 * (i + 1) + i * 14, 0, 14, 14, null);
 			}
 		}
 		
-		g.drawImage(rupee, 166, 2, 14, 14, null);
-		g.drawImage(x, 182, 10, 6, 6, null);
+		g.drawImage(rupee, 166, 3, 14, 14, null);
+		g.drawImage(x, 182, 11, 6, 6, null);
 		
 		StringBuilder b = new StringBuilder();
 		if (String.valueOf(player.getMoney()).length() < 5) {
@@ -200,17 +200,15 @@ public class Hud {
 			}
 		}
 		
-		g.drawString(b.toString() + player.getMoney(), 165, 26);
+		g.drawString(b.toString() + player.getMoney(), 165, 27);
 		
-		g.drawImage(magicBars.get(player.getMana()), 210, 18, 68, 10, null);
+		g.drawImage(magicBars.get(player.getMana()), 210, 19, 68, 10, null);
 		
-		g.drawImage(key, 214, 0, 10, 16, null);
+		g.drawImage(key, 214, 2, 10, 16, null);
 		g.drawImage(x, 226, 10, 6, 6, null);
 		g.drawString("" + player.getKeys(), 233, 14);
 		
-		/*
-		**  #INVENTORY#  //To-do : draw count
-		*/
+		int drawItemCountLater;
 		
 		g.drawImage(slots.get(1), 284, 0, 44, 32, null);
 		if (!inv.getSelectedSword().equals(InitItems.EMPTY)) {
@@ -265,7 +263,7 @@ public class Hud {
 			//Mapping
 			for (int i = 0; i < 12; i++) {
 				if (i < 6) {
-					if (player.getDungeon().fId == i) {
+					if (player.getWorld().getDungeonType().fId == i) {
 						g.drawImage(selSmall, 306, 52 + (i * 32), 18, 18, null);
 						g.drawImage(selSmall, 358, 52 + (i * 32), 18, 18, null);
 					}
@@ -288,7 +286,7 @@ public class Hud {
 						g.drawImage(missingItemBig, 326, 46 + (i * 32), 30, 30, null);
 					}
 				} else {
-					if (player.getDungeon().fId == i) {
+					if (player.getWorld().getDungeonType().fId == i) {
 						g.drawImage(selSmall, 374, 52 + ((i - 6) * 32), 18, 18, null);
 						g.drawImage(selSmall, 426, 52 + ((i - 6) * 32), 18, 18, null);
 					}
@@ -393,27 +391,31 @@ public class Hud {
 				}
 			} else {
 				//Map
+				Map m;
 				if (player.getWorld().getWorldType() != World.WorldType.inside) {
-					Map m = player.getWorld().getMap();
-					if (m.getWorldType() == World.WorldType.overworld) {
-						for (int i = 0; i < m.getRooms().size(); i++) {
-							int size = World.WorldType.overworld.size;
-							g.drawImage(overworldMap, 51, 38, 209, 209, null);
-							if (!m.getRooms().get(i)) {
-								g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
-							}
+					m = player.getWorld().getMap();
+				} else {
+					m = Main.getWorldHandler().getWorlds().get(player.getRoom().getWorldID()).getMap();
+				}
+				
+				if (m.getWorldType() == World.WorldType.overworld) {
+					for (int i = 0; i < m.getRooms().size(); i++) {
+						int size = World.WorldType.overworld.size;
+						g.drawImage(overworldMap, 51, 38, 209, 209, null);
+						if (!m.getRooms().get(i)) {
+							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
 						}
-					} else if (m.getWorldType() == World.WorldType.underworld) {
-						for (int i = 0; i < m.getRooms().size(); i++) {
-							int size = World.WorldType.underworld.size;
-							g.drawImage(underworldMap, 51, 38, 209, 209, null);
-							if (!m.getRooms().get(i)) {
-								g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
-							}
-						}
-					} else if (m.getWorldType() == World.WorldType.dungeon) {
-						int drawDungeonLater;
 					}
+				} else if (m.getWorldType() == World.WorldType.underworld) {
+					for (int i = 0; i < m.getRooms().size(); i++) {
+						int size = World.WorldType.underworld.size;
+						g.drawImage(underworldMap, 51, 38, 209, 209, null);
+						if (!m.getRooms().get(i)) {
+							g.drawImage(blankMapIcon, 52 + (i * 13) - ((i / size) * (size * 13)), 39 + ((i / size) * 13), 12, 12, null);
+						}
+					}
+				} else if (m.getWorldType() == World.WorldType.dungeon) {
+					int drawDungeonMapLater;
 				}
 			}
 		}

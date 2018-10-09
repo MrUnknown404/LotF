@@ -17,12 +17,14 @@ public class CommandHelp extends Command {
 	
 	@Override
 	public String setUsage() {
-		return "Prints all commands and there useage";
+		return "Prints all commands and there usage";
 	}
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		DebugConsole console = Main.getCommandConsole();
+		console.lines.clear();
+		console.lines.add("");
 		
 		int ti = 0, tii = 1;
 		if (!argInt.isEmpty()) {

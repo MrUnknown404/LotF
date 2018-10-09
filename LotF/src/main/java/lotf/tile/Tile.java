@@ -34,6 +34,10 @@ public class Tile extends TickableGameObject {
 	
 	@Override
 	public void tick() {
+		
+	}
+	
+	public void tickAnimation() {
 		if (tileType == TileType.grassLeft || tileType == TileType.grassRight || tileType == TileType.grassFlowerLeft || tileType == TileType.grassFlowerRight ) {
 			if (ti == tileType.animationTime) {
 				if (meta == 0) {
@@ -64,11 +68,25 @@ public class Tile extends TickableGameObject {
 			collisionType = EnumCollisionType.none;
 		} else if (tileType.colType == CollisionType.whole) {
 			collisionType = EnumCollisionType.whole;
-		} else if (tileType.colType == CollisionType.half) {
+		} else if (tileType.colType == CollisionType.halfTop) {
+			collisionType = EnumCollisionType.top;
+		} else if (tileType.colType == CollisionType.halfBottom) { 
+			collisionType = EnumCollisionType.bottom;
+		} else if (tileType.colType == CollisionType.halfLeft) {
+			collisionType = EnumCollisionType.left;
+		} else if (tileType.colType == CollisionType.halfRight) {
+			collisionType = EnumCollisionType.right;
+		} else if (tileType.colType == CollisionType.halfHorz) {
 			if (meta == 0 || meta == 2) {
 				collisionType = EnumCollisionType.left;
 			} else if (meta == 1 || meta == 3) {
 				collisionType = EnumCollisionType.right;
+			}
+		} else if (tileType.colType == CollisionType.halfVert) {
+			if (meta == 0 || meta == 2) {
+				collisionType = EnumCollisionType.top;
+			} else if (meta == 1 || meta == 3) {
+				collisionType = EnumCollisionType.bottom;
 			}
 		} else if (tileType.colType == CollisionType.corner) {
 			if (meta == 0) {
@@ -80,6 +98,8 @@ public class Tile extends TickableGameObject {
 			} else if (meta == 3) {
 				collisionType = EnumCollisionType.bottomLeft;
 			}
+		} else if (tileType.colType == CollisionType.door) {
+			collisionType = EnumCollisionType.door;
 		}
 		
 		TilePos tilePos = new TilePos(relativeTilePos.getX() + (room.getRoomPos().getX() * room.getVecRoomSize().getX()), relativeTilePos.getY() + (room.getRoomPos().getY() * room.getVecRoomSize().getY()));
@@ -143,9 +163,10 @@ public class Tile extends TickableGameObject {
 			return new Rectangle(MathHelper.floor(getPositionX()), MathHelper.floor(getPositionY() + height / 2), width / 2, height / 2);
 		} else if (collisionType == EnumCollisionType.bottomRight) {
 			return new Rectangle(MathHelper.floor(getPositionX() + width / 2), MathHelper.floor(getPositionY() + height / 2), width / 2, height / 2);
+		} else if (collisionType == EnumCollisionType.door) {
+			return new Rectangle(MathHelper.floor(getPositionX()), MathHelper.floor(getPositionY() - Tile.TILE_SIZE), width, height);
 		}
 		
-		System.out.println(collisionType);
 		return null;
 	}
 	
@@ -161,32 +182,40 @@ public class Tile extends TickableGameObject {
 	
 	/** Must be the same as the texture name! */
 	public enum TileType {
-		air             (0,  1, false, 0, CollisionType.none),
-		blueWall        (1,  4, false, 0, CollisionType.whole),
-		blueWallCorner  (2,  4, false, 0, CollisionType.whole),
-		blueWallHalf    (3,  4, false, 0, CollisionType.half),
-		sand            (4,  2, false, 0, CollisionType.none),
-		grass           (5,  1, true, 90, CollisionType.none),
-		grassLeft       (6,  2, true, 90, CollisionType.none),
-		grassRight      (7,  2, true, 90, CollisionType.none),
-		grassFlowerLeft (8,  2, true, 90, CollisionType.none),
-		grassFlowerRight(9,  2, true, 90, CollisionType.none),
-		woodWall        (10, 4, false, 0, CollisionType.whole),
-		woodWallCorner  (11, 4, false, 0, CollisionType.whole),
-		woodFloor       (12, 1, false, 0, CollisionType.none),
-		stoneWall       (13, 1, false, 0, CollisionType.whole),
-		stoneWallCorner (14, 4, false, 0, CollisionType.whole);
+		air               (0,  1, false, 0, CollisionType.none,       false),
+		door              (1,  2, false, 0, CollisionType.door,       false),
+		blueWall          (2,  4, false, 0, CollisionType.whole,      true),
+		blueWallCorner    (3,  4, false, 0, CollisionType.whole,      true),
+		blueWallHalf      (4,  4, false, 0, CollisionType.halfHorz,   false),
+		sand              (5,  2, false, 0, CollisionType.none,       false),
+		grass             (6,  1, true, 90, CollisionType.none,       false),
+		grassLeft         (7,  2, true, 90, CollisionType.none,       false),
+		grassRight        (8,  2, true, 90, CollisionType.none,       false),
+		grassFlowerLeft   (9,  2, true, 90, CollisionType.none,       false),
+		grassFlowerRight  (10, 2, true, 90, CollisionType.none,       false),
+		woodWall          (11, 4, false, 0, CollisionType.whole,      true),
+		woodWallCorner    (12, 4, false, 0, CollisionType.whole,      true),
+		woodWallHalf      (13, 4, false, 0, CollisionType.halfHorz,   false),
+		woodFloor         (14, 1, false, 0, CollisionType.none,       false),
+		stoneWall         (15, 2, false, 0, CollisionType.whole,      true),
+		stoneWallCorner   (16, 4, false, 0, CollisionType.whole,      false),
+		stoneWallSide     (17, 4, false, 0, CollisionType.whole,      false),
+		stoneWallTop      (18, 1, false, 0, CollisionType.whole,      true),
+		stoneWallTopCorner(19, 2, false, 0, CollisionType.whole,      false),
+		stoneWallJump     (20, 1, false, 0, CollisionType.halfBottom, false),
+		stairs            (21, 1, false, 0, CollisionType.none,       false);
 		
 		public final int fId, count, animationTime;
-		public final boolean isAnimated;
+		public final boolean isAnimated, shouldRenderBehind;
 		public CollisionType colType;
 		
-		private TileType(int id, int count, boolean isAnimated, int animationTime, CollisionType colType) {
+		private TileType(int id, int count, boolean isAnimated, int animationTime, CollisionType colType, boolean shouldRenderBehind) {
 			this.fId = id;
 			this.count = count;
 			this.isAnimated = isAnimated;
 			this.animationTime = animationTime;
 			this.colType = colType;
+			this.shouldRenderBehind = shouldRenderBehind;
 		}
 		
 		public static TileType getFromNumber(int id) {
@@ -200,10 +229,16 @@ public class Tile extends TickableGameObject {
 	}
 	
 	public enum CollisionType {
-		none  (0),
-		whole (1),
-		half  (2),
-		corner(3);
+		none      (0),
+		whole     (1),
+		halfTop   (2),
+		halfBottom(3),
+		halfLeft  (4),
+		halfRight (5),
+		halfHorz  (6),
+		halfVert  (7),
+		corner    (8),
+		door      (9);
 		
 		public final int fId;
 		

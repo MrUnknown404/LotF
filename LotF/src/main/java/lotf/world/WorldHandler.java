@@ -41,6 +41,12 @@ public final class WorldHandler {
 		}
 	}
 	
+	public void tickAnimation() {
+		if (player != null) {
+			player.getRoom().tickAnimation();;
+		}
+	}
+	
 	public List<World> getWorlds() {
 		return worlds;
 	}

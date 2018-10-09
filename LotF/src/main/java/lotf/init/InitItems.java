@@ -8,6 +8,7 @@ import main.java.lotf.items.ItemBoomerang;
 import main.java.lotf.items.ItemBottle;
 import main.java.lotf.items.ItemBow;
 import main.java.lotf.items.ItemCape;
+import main.java.lotf.items.ItemClock;
 import main.java.lotf.items.ItemCompass;
 import main.java.lotf.items.ItemDungeonItem;
 import main.java.lotf.items.ItemEmpty;
@@ -16,9 +17,9 @@ import main.java.lotf.items.ItemGraplingHook;
 import main.java.lotf.items.ItemHammer;
 import main.java.lotf.items.ItemHermesBoots;
 import main.java.lotf.items.ItemLavaFlippers;
-import main.java.lotf.items.ItemRing;
 import main.java.lotf.items.ItemMap;
 import main.java.lotf.items.ItemRCBombBag;
+import main.java.lotf.items.ItemRing;
 import main.java.lotf.items.ItemSpellBook;
 import main.java.lotf.items.ItemSword;
 import main.java.lotf.items.util.Item;
@@ -71,6 +72,7 @@ public final class InitItems {
 		registerItem(new ItemLavaFlippers());
 		registerItem(new ItemGraplingHook());
 		registerItem(new ItemHermesBoots());
+		registerItem(new ItemClock());
 		
 		registerItem(new ItemCape(0));
 		registerItem(new ItemCape(1));

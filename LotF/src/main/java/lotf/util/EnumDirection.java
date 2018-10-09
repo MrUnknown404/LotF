@@ -7,7 +7,7 @@ public enum EnumDirection {
 	south(3),
 	west (4);
 	
-	private final int fId;
+	public final int fId;
 	
 	private EnumDirection(int id) {
 		fId = id;

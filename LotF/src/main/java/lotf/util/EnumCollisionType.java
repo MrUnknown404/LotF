@@ -10,7 +10,8 @@ public enum EnumCollisionType {
 	top        (6),
 	bottom     (7),
 	left       (8),
-	right      (9);
+	right      (9),
+	door       (10);
 	
 	public final int fId;
 	

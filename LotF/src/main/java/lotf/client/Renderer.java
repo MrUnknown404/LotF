@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.Main;
+import main.java.lotf.entity.EntityMonster;
 import main.java.lotf.entity.EntityPlayer;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
-import main.java.lotf.util.EnumCollisionType;
-import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
 import main.java.lotf.world.Room;
+import main.java.lotf.world.World;
 import main.java.lotf.world.WorldHandler;
 
 public final class Renderer {
@@ -100,50 +100,48 @@ public final class Renderer {
 	public void render(Graphics g2) {
 		Graphics2D g = (Graphics2D) g2;
 		
-		List<Room> rooms = new ArrayList<>();
 		
-		if (handler.getPlayerRoom() != null) {
-			rooms.add(handler.getPlayerRoom());
-		}
-		if (handler.getPlayerRoomToBe() != null) {
-			rooms.add(handler.getPlayerRoomToBe());
-		}
-		
-		for (int i = 0; i < rooms.size(); i++) {
-			Room r = rooms.get(i);
+		if (!handler.getPlayer().getInventory().isInventoryOpen) {
+			List<Room> rooms = new ArrayList<>();
 			
-			List<Tile> ts = new ArrayList<>();
-			
-			for (int j = 0; j < r.getTileLayer0().size(); j++) {
-				if (r.getTileLayer1().get(j).getCollisionType() != EnumCollisionType.whole) {
-					ts.add(r.getTileLayer0().get(j));
-				}
-				ts.add(r.getTileLayer1().get(j));
+			if (handler.getPlayerRoom() != null) {
+				rooms.add(handler.getPlayerRoom());
+			}
+			if (handler.getPlayerRoomToBe() != null) {
+				rooms.add(handler.getPlayerRoomToBe());
 			}
 			
-			for (int j = 0; j < ts.size(); j++) {
-				Tile t = ts.get(j);
+			for (int i = 0; i < rooms.size(); i++) {
+				Room r = rooms.get(i);
 				
-				if (t.getTileType() == Tile.TileType.air) {
-					continue;
+				List<Tile> ts = new ArrayList<>();
+				
+				for (int j = 0; j < r.getTileLayer0().size(); j++) {
+					if (!r.getTileLayer1().get(j).getTileType().shouldRenderBehind) {
+						ts.add(r.getTileLayer0().get(j));
+					}
+					ts.add(r.getTileLayer1().get(j));
 				}
 				
-				for (int k = 0; k < tiles.size(); k++) {
-					if (t.getName().equals(tiles.get(k).stringKey)) {
-						if (t.getMaxMeta() == 0) {
-							g.drawImage(tiles.get(k).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
-						} else {
-							if (t.getMeta() < tiles.get(k).images.size()) {
-								g.drawImage(tiles.get(k).images.get(t.getMeta()), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
+				for (int j = 0; j < ts.size(); j++) {
+					Tile t = ts.get(j);
+					
+					if (t.getTileType() == Tile.TileType.air) {
+						continue;
+					}
+					
+					for (int k = 0; k < tiles.size(); k++) {
+						if (t.getName().equals(tiles.get(k).stringKey)) {
+							if (t.getMaxMeta() == 0) {
+								g.drawImage(tiles.get(k).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
 							} else {
-								g.drawImage(tiles.get(0).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
-								Console.print(Console.WarningType.Error, "Invalid meta " + t.getMeta());
+								if (t.getMeta() < tiles.get(k).images.size()) {
+									g.drawImage(tiles.get(k).images.get(t.getMeta()), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
+								} else {
+									g.drawImage(tiles.get(0).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
+									Console.print(Console.WarningType.Error, "Invalid meta " + t.getMeta());
+								}
 							}
-						}
-						
-						if (t.getCollisionType() != EnumCollisionType.none) {
-							g.setColor(Color.RED);
-							//g.drawRect(t.getBounds().x, t.getBounds().y, t.getBounds().width, t.getBounds().height);
 						}
 					}
 				}
@@ -169,17 +167,21 @@ public final class Renderer {
 				}
 			}*/
 			
+			/** temp */
+			if (handler.getPlayerWorld().getWorldType() == World.WorldType.overworld) {
+				if (handler.getPlayerRoom().getRoomID() == 149) {
+					for (int i = 0; i < handler.getPlayerRoom().getMonsters().size(); i++) {
+						EntityMonster m = handler.getPlayerRoom().getMonsters().get(i);
+						
+						g.setColor(Color.RED);
+						g.drawImage(playerTexture[m.getFacing().fId - 1], m.getPositionX(), m.getPositionY(), m.getWidth(), m.getHeight(), null);
+					}
+				}
+			}
+			
 			EntityPlayer player = handler.getPlayer();
 			if (player != null) {
-				if (player.getFacing() == EnumDirection.north) {
-					g.drawImage(playerTexture[0], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
-				} else if (player.getFacing() == EnumDirection.east) {
-					g.drawImage(playerTexture[1], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
-				} else if (player.getFacing() == EnumDirection.south) {
-					g.drawImage(playerTexture[2], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
-				} else if (player.getFacing() == EnumDirection.west) {
-					g.drawImage(playerTexture[3], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
-				}
+				g.drawImage(playerTexture[player.getFacing().fId - 1], player.getPositionX(), player.getPositionY(), player.getWidth(), player.getHeight(), null);
 			}
 		}
 	}

@@ -1,15 +1,13 @@
-package main.java.lotf.entity.npc;
+package main.java.lotf.entity;
 
-import main.java.lotf.entity.Entity;
-
-public abstract class EntityNPC extends Entity {
+public class EntityNPC extends Entity {
 
 	protected boolean isAlive;
-	protected NPCType type;
+	protected NPCType npcType;
 	
-	public EntityNPC(int x, int y, int width, int height, EntityType type, NPCType type2) {
-		super(x, y, width, height, type);
-		this.type = type2;
+	public EntityNPC(int x, int y, int width, int height, NPCType npcType) {
+		super(x, y, width, height, EntityType.npc);
+		this.npcType = npcType;
 	}
 	
 	@Override
@@ -21,14 +19,16 @@ public abstract class EntityNPC extends Entity {
 		}
 	}
 	
-	public abstract void tickAlive();
+	public void tickAlive() {
+		
+	}
 	
 	public boolean getIsAlive() {
 		return isAlive;
 	}
 	
 	public NPCType getNPCType() {
-		return type;
+		return npcType;
 	}
 	
 	public enum NPCType {

@@ -21,13 +21,15 @@ public class CommandSetRoom extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		DebugConsole console = Main.getCommandConsole();
-		
-		if (Main.getWorldHandler().getPlayerRoom().equals(Main.getWorldHandler().getPlayerWorld().getRooms().get(argInt.get(0)))) {
-			console.addLine("* Player is already in that room");
-			return;
+		if (Main.getWorldHandler().getPlayer() != null) {
+			DebugConsole console = Main.getCommandConsole();
+			
+			if (Main.getWorldHandler().getPlayerRoom().equals(Main.getWorldHandler().getPlayerWorld().getRooms().get(argInt.get(0)))) {
+				console.addLine("* Player is already in that room");
+				return;
+			}
+			
+			Main.getWorldHandler().getPlayer().setRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(argInt.get(0)));
 		}
-		
-		Main.getWorldHandler().getPlayer().setRoom(Main.getWorldHandler().getPlayerWorld().getRooms().get(argInt.get(0)));
 	}
 }

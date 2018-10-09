@@ -10,7 +10,6 @@ import main.java.lotf.inventory.Inventory;
 import main.java.lotf.items.ItemEmpty;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
-import main.java.lotf.util.EnumCollisionType;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
 import main.java.lotf.world.Room;
@@ -67,7 +66,7 @@ public final class Renderer {
 			List<Tile> ts = new ArrayList<>();
 			
 			for (int j = 0; j < r.getTileLayer0().size(); j++) {
-				if (r.getTileLayer1().get(j).getCollisionType() != EnumCollisionType.whole) {
+				if (!r.getTileLayer1().get(j).getTileType().shouldRenderBehind) {
 					ts.add(r.getTileLayer0().get(j));
 				}
 				ts.add(r.getTileLayer1().get(j));

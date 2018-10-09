@@ -23,24 +23,26 @@ public class CommandTeleport extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		DebugConsole console = Main.getCommandConsole();
-		
-		if (argInt.get(0) <= 0) {
-			console.addLine("* X cannot be zero or below");
-			return;
-		} else if (argInt.get(1) <= 0) {
-			console.addLine("* Y cannot be zero or below");
-			return;
-		} else if (argInt.get(0) > Main.getWorldHandler().getPlayer().getRoom().getVecRoomSize().getX()) {
-			console.addLine("* X is bigger then the room size");
-			return;
-		} else if (argInt.get(1) > Main.getWorldHandler().getPlayer().getRoom().getVecRoomSize().getY()) {
-			console.addLine("* Y is bigger then the room size");
-			return;
+		if (Main.getWorldHandler().getPlayer() != null) {
+			DebugConsole console = Main.getCommandConsole();
+			
+			if (argInt.get(0) <= 0) {
+				console.addLine("* X cannot be zero or below");
+				return;
+			} else if (argInt.get(1) <= 0) {
+				console.addLine("* Y cannot be zero or below");
+				return;
+			} else if (argInt.get(0) > Main.getWorldHandler().getPlayer().getRoom().getVecRoomSize().getX()) {
+				console.addLine("* X is bigger then the room size");
+				return;
+			} else if (argInt.get(1) > Main.getWorldHandler().getPlayer().getRoom().getVecRoomSize().getY()) {
+				console.addLine("* Y is bigger then the room size");
+				return;
+			}
+			
+			Vec2i vec = new Vec2i((argInt.get(0) - 1) * Tile.TILE_SIZE, (argInt.get(1) - 1) * Tile.TILE_SIZE);
+			
+			Main.getWorldHandler().getPlayer().setRelativePos(vec);
 		}
-		
-		Vec2i vec = new Vec2i((argInt.get(0) - 1) * Tile.TILE_SIZE, (argInt.get(1) - 1) * Tile.TILE_SIZE);
-		
-		Main.getWorldHandler().getPlayer().setRelativePos(vec);
 	}
 }
