@@ -146,7 +146,7 @@ public final class RoomBuilder {
 		Console.print(Console.WarningType.Info, "Setting up the room...");
 		setPages();
 		
-		room.setRoomPos(room.IDToRoomPos(room.getRoomID()));
+		room.setRoomPos(new RoomPos());
 		
 		for (int i = 0; i < room.getTileLayer0().size(); i++) {
 			room.getTileLayer0().get(i).setRoom(room);

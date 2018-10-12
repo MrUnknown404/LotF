@@ -52,7 +52,8 @@ public class AITimedWander extends AIBase {
 		}
 	}
 	
-	private void move() {
+	@Override
+	protected void move() {
 		int v;
 		while (true) {
 			v = new Random().nextInt(EnumDirection.values().length - 1);
@@ -67,6 +68,7 @@ public class AITimedWander extends AIBase {
 		}
 		
 		moveDir = EnumDirection.getFromNumber(v + 1);
+		e.setMeta((moveDir.fId - 1) * 2);
 		e.setFacing(moveDir);
 	}
 }

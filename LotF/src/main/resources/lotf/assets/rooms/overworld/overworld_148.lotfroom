@@ -2315,6 +2315,6 @@
   },
   "entranceDir": "nil",
   "size": "small",
-  "exitRoomID": 0,
-  "exitWorldID": 2
+  "exitRoomID": 26,
+  "exitWorldID": 3
 }

@@ -51,13 +51,13 @@ public class EntityPlayer extends Entity {
 						if (getInfront(EnumDirection.east) == null) {
 							addRelativePos(moveDirX, 0);
 						} else if (getInfront(EnumDirection.east).getTileType() == Tile.TileType.door) {
-							useDoor(room.getExitID(), room.getWorldID(), EnumDirection.east);
+							useDoor();
 						}
 					} else if (moveDirX < 0) {
 						if (getInfront(EnumDirection.west) == null) {
 							addRelativePos(moveDirX, 0);
 						} else if (getInfront(EnumDirection.west).getTileType() == Tile.TileType.door) {
-							useDoor(room.getExitID(), room.getWorldID(), EnumDirection.west);
+							useDoor();
 						}
 					}
 					
@@ -66,7 +66,7 @@ public class EntityPlayer extends Entity {
 							cliffJumpTimer = 10;
 							addRelativePos(0, moveDirY);
 						} else if (getInfront(EnumDirection.south).getTileType() == Tile.TileType.door) {
-							useDoor(room.getExitID(), room.getWorldID(), EnumDirection.south);
+							useDoor();
 						} else if (getInfront(EnumDirection.south).getTileType() == Tile.TileType.stoneWallJump) {
 							if (cliffJumpTimer == 0) {
 								cliffJumpTimer = 10;
@@ -79,7 +79,7 @@ public class EntityPlayer extends Entity {
 						if (getInfront(EnumDirection.north) == null) {
 							addRelativePos(0, moveDirY);
 						} else if (getInfront(EnumDirection.north).getTileType() == Tile.TileType.door) {
-							useDoor(room.getExitID(), room.getWorldID(), EnumDirection.north);
+							useDoor();
 						}
 					}
 					
@@ -176,43 +176,49 @@ public class EntityPlayer extends Entity {
 	
 	private void checkRoom() {
 		World w = Main.getWorldHandler().getPlayerWorld();
-		for (int i = 0; i < w.getRooms().size(); i++) {
-			if (!w.getRooms().get(i).equals(room) && !w.getRooms().get(i).equals(roomToBe)) {
-				if (getBounds().intersects(w.getRooms().get(i).getBoundsWest())) {
-					if (world.getWorldType() != World.WorldType.inside) {
-						moveToRoom(w.getRooms().get(i), EnumDirection.west);
-					} else {
-						useDoor(room.getExitID(), room.getWorldID(), EnumDirection.west);
-					}
-				} else if (getBounds().intersects(w.getRooms().get(i).getBoundsEast())) {
-					if (world.getWorldType() != World.WorldType.inside) {
-						moveToRoom(w.getRooms().get(i), EnumDirection.east);
-					} else {
-						useDoor(room.getExitID(), room.getWorldID(), EnumDirection.east);
-					}
-				} else if (getBounds().intersects(w.getRooms().get(i).getBoundsNorth())) {
-					if (world.getWorldType() != World.WorldType.inside) {
-						moveToRoom(w.getRooms().get(i), EnumDirection.north);
-					} else {
-						useDoor(room.getExitID(), room.getWorldID(), EnumDirection.north);
-					}
-				} else if (getBounds().intersects(w.getRooms().get(i).getBoundsSouth())) {
-					if (world.getWorldType() != World.WorldType.inside) {
-						moveToRoom(w.getRooms().get(i), EnumDirection.south);
-					} else {
-						useDoor(room.getExitID(), room.getWorldID(), EnumDirection.south);
-					}
+		Room r = room;
+		
+		if (getBounds().intersects(r.getBoundsNorth())) {
+			if (r.getEntranceDir() == EnumDirection.north) {
+				useDoor();
+			} else {
+				if (w.getRoomAt(r.getRoomPos().getX(), r.getRoomPos().getY() - 1) != null) {
+					moveToRoom(w.getRoomAt(r.getRoomPos().getX(), r.getRoomPos().getY() - 1), EnumDirection.south);
+				}
+			}
+		} else if (getBounds().intersects(r.getBoundsEast())) {
+			if (r.getEntranceDir() == EnumDirection.east) {
+				useDoor();
+			} else {
+				if (w.getRoomAt(r.getRoomPos().getX() + 1, r.getRoomPos().getY()) != null) {
+					moveToRoom(w.getRoomAt(r.getRoomPos().getX() + 1, r.getRoomPos().getY()), EnumDirection.west);
+				}
+			}
+		} else if (getBounds().intersects(r.getBoundsSouth())) {
+			if (r.getEntranceDir() == EnumDirection.south) {
+				useDoor();
+			} else {
+				if (w.getRoomAt(r.getRoomPos().getX(), r.getRoomPos().getY() + 1) != null) {
+					moveToRoom(w.getRoomAt(r.getRoomPos().getX(), r.getRoomPos().getY() + 1), EnumDirection.north);
+				}
+			}
+		} else if (getBounds().intersects(r.getBoundsWest())) {
+			if (r.getEntranceDir() == EnumDirection.west) {
+				useDoor();
+			} else {
+				if (w.getRoomAt(r.getRoomPos().getX() - 1, r.getRoomPos().getY()) != null) {
+					moveToRoom(w.getRoomAt(r.getRoomPos().getX() - 1, r.getRoomPos().getY()), EnumDirection.east);
 				}
 			}
 		}
 	}
 	
-	private void useDoor(int roomID, int worldID, EnumDirection dir) {
+	private void useDoor() {
 		canMove = false;
 		room.onRoomExit();
 		
-		world = Main.getWorldHandler().getWorlds().get(worldID);
-		room = world.getRooms().get(roomID);
+		world = Main.getWorldHandler().getWorlds().get(room.getExitWorldID());
+		room = world.getRooms().get(room.getExitRoomID());
 		
 		setRelativePos(room.getEnterPos().getX(), room.getEnterPos().getY());
 		

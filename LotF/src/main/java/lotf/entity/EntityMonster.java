@@ -11,6 +11,7 @@ public class EntityMonster extends Entity {
 	public EntityMonster(int x, int y, int width, int height, MonsterType monsterType) {
 		super(x, y, width, height, EntityType.monster);
 		this.monsterType = monsterType;
+		this.name = monsterType.toString();
 		
 		monsterType.ai.setEntity(this);
 	}
@@ -38,7 +39,7 @@ public class EntityMonster extends Entity {
 	}
 	
 	public enum MonsterType {
-		test1(0, 4, new AITimedWander(), 1);
+		testWander(0, 2, new AITimedWander(), 1);
 		
 		public final int fId, count, moveSpeed;
 		public AIBase ai;

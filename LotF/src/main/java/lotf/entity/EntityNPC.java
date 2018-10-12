@@ -8,6 +8,7 @@ public class EntityNPC extends Entity {
 	public EntityNPC(int x, int y, int width, int height, NPCType npcType) {
 		super(x, y, width, height, EntityType.npc);
 		this.npcType = npcType;
+		this.name = npcType.toString();
 	}
 	
 	@Override
@@ -32,7 +33,7 @@ public class EntityNPC extends Entity {
 	}
 	
 	public enum NPCType {
-		test1(0, 4);
+		test1(0, 2);
 		
 		public final int fId, count;
 		

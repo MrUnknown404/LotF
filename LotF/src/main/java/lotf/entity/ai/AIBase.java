@@ -11,4 +11,6 @@ public abstract class AIBase {
 	public void setEntity(EntityMonster e) {
 		this.e = e;
 	}
+	
+	protected abstract void move();
 }

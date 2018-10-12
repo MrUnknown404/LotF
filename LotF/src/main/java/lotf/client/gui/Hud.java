@@ -294,7 +294,7 @@ public class Hud {
 					if (inv.hasMap(EnumDungeonType.getFromNumber(i))) {
 						g.drawImage(map, 376, 54 + ((i - 6) * 32), 14, 14, null);
 					} else {
-						g.drawImage(missingItemSmall, 376 * 2, 54 + ((i - 6) * 32), 14, 14, null);
+						g.drawImage(missingItemSmall, 376, 54 + ((i - 6) * 32), 14, 14, null);
 					}
 					
 					if (inv.hasCompass(EnumDungeonType.getFromNumber(i))) {
@@ -395,7 +395,7 @@ public class Hud {
 				if (player.getWorld().getWorldType() != World.WorldType.inside) {
 					m = player.getWorld().getMap();
 				} else {
-					m = Main.getWorldHandler().getWorlds().get(player.getRoom().getWorldID()).getMap();
+					m = Main.getWorldHandler().getWorlds().get(player.getRoom().getExitWorldID()).getMap();
 				}
 				
 				if (m.getWorldType() == World.WorldType.overworld) {

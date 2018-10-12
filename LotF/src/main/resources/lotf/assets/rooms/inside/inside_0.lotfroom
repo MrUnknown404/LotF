@@ -2307,14 +2307,14 @@
       "meta": 2
     }
   ],
+  "npcs": [],
+  "monsters": [],
   "roomSize": {
     "x": 16,
     "y": 9
   },
-  "npcs": [],
-  "monsters": [],
   "entranceDir": "south",
   "size": "small",
-  "exitID": 149,
-  "worldID": 0
+  "exitRoomID": 149,
+  "exitWorldID": 0
 }

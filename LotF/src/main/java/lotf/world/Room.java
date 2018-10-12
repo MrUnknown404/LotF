@@ -15,6 +15,7 @@ import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
+import main.java.lotf.world.World.WorldType;
 
 public final class Room {
 	
@@ -33,13 +34,12 @@ public final class Room {
 	protected RoomSize size;
 	protected transient int roomID;
 	
-	protected int exitID, worldID;
+	protected int exitRoomID, exitWorldID;
 	
 	protected transient boolean  wasAllEnemiesDefeated = false;
 	
 	public Room(RoomSize size) {
 		this.roomSize = new Vec2i(size.x, size.y);
-		this.roomPos = IDToRoomPos(roomID);
 		this.size = size;
 		
 		for (int i = 0; i < roomSize.getBothMulti(); i++) {
@@ -124,8 +124,15 @@ public final class Room {
 	}
 	
 	public RoomPos IDToRoomPos(int id) {
-		int ytt = MathHelper.floor((double) id / roomSize.getX());
-		int xtt = id - (ytt * roomSize.getX());
+		int xtt, ytt;
+		
+		if (type != WorldType.dungeon) {
+			ytt = MathHelper.floor((double) id / type.size);
+			xtt = id - (ytt * type.size);
+		} else {
+			ytt = MathHelper.floor((double) id / dungeonType.size);
+			xtt = id - (ytt * dungeonType.size);
+		}
 		
 		return new RoomPos(xtt, ytt);
 	}
@@ -147,12 +154,12 @@ public final class Room {
 		this.roomPos = roomPos;
 	}
 	
-	public int getExitID() {
-		return exitID;
+	public int getExitRoomID() {
+		return exitRoomID;
 	}
 	
-	public int getWorldID() {
-		return worldID;
+	public int getExitWorldID() {
+		return exitWorldID;
 	}
 	
 	public int getRoomID() {
@@ -206,10 +213,6 @@ public final class Room {
 	public List<Tile> getTileLayer1() {
 		return tileLayer_1;
 	}
-	
-	//public List<Entity> getEntities() {
-	//	return entities;
-	//}
 	
 	public Rectangle getBounds() {
 		return new Rectangle((getRoomPos().getX() * roomSize.getX()) * Tile.TILE_SIZE, 

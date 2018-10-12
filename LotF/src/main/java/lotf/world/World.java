@@ -15,12 +15,13 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.EnumDungeonType;
+import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.RoomPos;
 import main.java.lotf.util.math.Vec2i;
 
 public final class World {
 	
-	private static final String BASE_LOCATION = "/main/resources/lotf/assets/rooms/";
+	private static final String BASE_LOCATION = "main/resources/lotf/assets/rooms/";
 	
 	private List<Room> rooms = new ArrayList<Room>();
 	
@@ -30,6 +31,8 @@ public final class World {
 	protected boolean isDungeon;
 	protected Map map;
 	
+	private int jj = 0;
+	
 	public World(WorldType type) {
 		this.type = type;
 		this.size = new Vec2i(type.size, type.size);
@@ -37,10 +40,10 @@ public final class World {
 			this.map = new Map(type);
 		}
 		
-		loadRooms(type.size, type.size);
+		loadRooms(type.size);
 		
 		if (type.fId == 0) {
-			rooms.get(149).addMonster(new EntityMonster(128, 128, 32, 32, EntityMonster.MonsterType.test1));
+			rooms.get(149).addMonster(new EntityMonster(128, 128, 32, 32, EntityMonster.MonsterType.testWander));
 		}
 	}
 	
@@ -51,16 +54,16 @@ public final class World {
 		this.size = new Vec2i(dungeonType.size, dungeonType.size);
 		this.map = new Map(dungeonType);
 		
-		loadRooms(dungeonType.size, dungeonType.size);
+		loadRooms(dungeonType.size);
 	}
 	
-	public void loadRooms(int xt, int yt) {
+	public void loadRooms(int size) {
 		Main.gamestate = Main.Gamestate.hardPause;
 		
 		Gson g = new Gson().newBuilder().setPrettyPrinting().create();
 		FileReader fr;
 		
-		for (int i = 0; i < xt * yt; i++) {
+		for (int i = 0; i < size * size; i++) {
 			try {
 				File f = null;
 				String p = (World.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + BASE_LOCATION;
@@ -74,11 +77,16 @@ public final class World {
 						f = new File(p + "testRoom.lotfroom");
 					}
 				} else {
-					if (new File(p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom").exists()) {
-						f = new File(p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
+					if (dungeonType.has[MathHelper.clamp(jj, 0, dungeonType.has.length - 1)] == i) {
+						if (new File(p + "dungeon/" + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom").exists()) {
+							f = new File(p + "dungeon/" + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
+							jj++;
+						} else {
+							Console.print(Console.WarningType.FatalError, "Could not find room at " + p + "dungeon/" + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
+							f = new File(p + "testRoom.lotfroom");
+						}
 					} else {
-						Console.print(Console.WarningType.FatalError, "Could not find room at " + p + dungeonType.toString() + "/" + dungeonType.toString() + "_" + i + ".lotfroom");
-						f = new File(p + "testRoom.lotfroom");
+						f = new File(p + "emptyRoom.lotfroom");
 					}
 				}
 				
@@ -131,51 +139,6 @@ public final class World {
 	
 	public void updateMap(int roomID) {
 		map.addRoom(roomID);
-	}
-	
-	public Room getStartingRoom(World.WorldType type, EnumDungeonType dungeon) {
-		
-		/* 
-		 * CHANGE TO PROPER COORDS LATER
-		 */
-		
-		if (type == World.WorldType.overworld) {
-			return getRoomAt(5, 9);
-		} else if (type == World.WorldType.underworld) {
-			return null;
-		} else if (type == World.WorldType.inside) {
-			return null;
-		} else if (type == World.WorldType.dungeon) {
-			if (dungeon == EnumDungeonType.nil) {
-				Console.print(Console.WarningType.FatalError, "Unknown dungeon generation type!");
-			} else if (dungeon == EnumDungeonType.one) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.two) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.three) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.four) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.five) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.six) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.seven) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.eight) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.nine) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.ten) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.eleven) {
-				return getRoomAt(0, 0);
-			} else if (dungeon == EnumDungeonType.twelve) {
-				return getRoomAt(0, 0);
-			}
-		}
-		
-		return null;
 	}
 	
 	public Room getRoomAt(int x, int y) {

@@ -12,7 +12,7 @@ public abstract class Entity extends TickableGameObject {
 	protected Vec2i relativePos = new Vec2i();
 	
 	protected String name;
-	protected int meta = -1;
+	protected int meta;
 	protected EntityType type;
 	protected EnumDirection facing = EnumDirection.north;
 	private boolean hasCollision = true;
@@ -82,6 +82,10 @@ public abstract class Entity extends TickableGameObject {
 	
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	
+	public void setMeta(int meta) {
+		this.meta = meta;
 	}
 	
 	public void addRelativePos(Vec2i vec) {
