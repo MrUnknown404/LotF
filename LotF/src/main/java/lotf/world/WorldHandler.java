@@ -30,8 +30,8 @@ public final class WorldHandler {
 		worlds.add(new World(EnumDungeonType.twelve));
 		
 		player = new EntityPlayer();
-		player.setWorld(worlds.get(0));
-		player.setRoom(player.getWorld().getRoomAt(4, 9));
+		player.setWorld(worlds.get(2));
+		player.setRoom(player.getWorld().getRoomAt(0, 0));
 	}
 	
 	public void tick() {

@@ -65,7 +65,7 @@ public final class RoomBuilder {
 		Console.print(Console.WarningType.Debug, "Creating file chooser!");
 		MainBuilder.gamestate = Main.Gamestate.hardPause;
 		
-		Gson g = new Gson().newBuilder().setPrettyPrinting().create();
+		Gson g = new Gson().newBuilder().create();
 		FileWriter fw;
 		JFileChooser fc = new JFileChooser("D:/");
 		File f = null;
