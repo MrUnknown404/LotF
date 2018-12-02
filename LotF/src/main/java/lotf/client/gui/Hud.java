@@ -112,36 +112,39 @@ public class Hud {
 			Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "item/ammo/" + Ammo.AmmoType.getFromNumber(i).toString() + ".png!");
 		}
 		
-		int j = 0;
+		firstLoop:
 		for (int i = 0; i < InitItems.getItems().size(); i++) {
 			if (i == 0) {
-				items.add(new ImageList());
+				ImageList iL = new ImageList();
 				
-				items.get(j).images.add(GetResource.getTexture(GetResource.ResourceType.item, "missing"));
-				items.get(j).stringKey = "missing";
-				items.get(j).meta = 0;
-				j++;
 				
+				iL.images.add(GetResource.getTexture(GetResource.ResourceType.item, "missing"));
+				iL.stringKey = "missing";
+				
+				items.add(iL);
 				Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "item/missing.png!");
 			} else {
 				if (!(InitItems.getItems().get(i) instanceof ItemDungeon)) {
-					items.add(new ImageList());
-					
-					if (InitItems.getItems().get(i).getMaxMeta() == 0) {
-						items.get(j).images.add(GetResource.getTexture(GetResource.ResourceType.item, InitItems.getItems().get(i).getName()));
-					} else {
-						items.get(j).images.add(GetResource.getTexture(GetResource.ResourceType.item, InitItems.getItems().get(i).getName() + "s/" + InitItems.getItems().get(i).getName() + "_" + InitItems.getItems().get(i).getMeta()));
+					for (int j = 0; j < items.size(); j++) {
+						if (items.get(j).stringKey == InitItems.getItems().get(i).getName()) {
+							items.get(j).images.add(GetResource.getTexture(GetResource.ResourceType.item, InitItems.getItems().get(i).getName() + "s/" + InitItems.getItems().get(i).getName() + "_" + InitItems.getItems().get(i).getMeta()));
+							
+							continue firstLoop;
+						}
 					}
 					
-					items.get(j).stringKey = InitItems.getItems().get(i).getName();
-					items.get(j).meta = InitItems.getItems().get(i).getMeta();
-					j++;
+					ImageList iL = new ImageList();
 					
 					if (InitItems.getItems().get(i).getMaxMeta() == 0) {
+						iL.images.add(GetResource.getTexture(GetResource.ResourceType.item, InitItems.getItems().get(i).getName()));
 						Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "item/" + InitItems.getItems().get(i).getName() + ".png!");
 					} else {
+						iL.images.add(GetResource.getTexture(GetResource.ResourceType.item, InitItems.getItems().get(i).getName() + "s/" + InitItems.getItems().get(i).getName() + "_" + InitItems.getItems().get(i).getMeta()));
 						Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "item/" + InitItems.getItems().get(i).getName() + "s/" + InitItems.getItems().get(i).getName() + "_" + InitItems.getItems().get(i).getMeta() + ".png!");
 					}
+					
+					iL.stringKey = InitItems.getItems().get(i).getName();
+					items.add(iL);
 				}
 			}
 		}
@@ -214,9 +217,7 @@ public class Hud {
 		if (!inv.getSelectedSword().equals(InitItems.EMPTY)) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).stringKey.equals(inv.getSelectedSword().getName())) {
-					if (items.get(i).meta == inv.getSelectedSword().getMeta()) {
-						g.drawImage(items.get(i).images.get(0), 290, 0, 32, 32, null);
-					}
+					g.drawImage(items.get(i).images.get(inv.getSelectedSword().getMeta()), 290, 0, 32, 32, null);
 				}
 			}
 		}
@@ -225,12 +226,10 @@ public class Hud {
 		if (!inv.getSelectedLeft().equals(InitItems.EMPTY)) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).stringKey.equals(inv.getSelectedLeft().getName())) {
-					if (items.get(i).meta == inv.getSelectedLeft().getMeta()) {
-						if (inv.getSelectedLeft().getUseAmmo()) {
-							g.drawImage(items.get(i).images.get(0), 338, 0, 32, 32, null);
-						} else {
-							g.drawImage(items.get(i).images.get(0), 343, 0, 32, 32, null);
-						}
+					if (inv.getSelectedLeft().getUseAmmo()) {
+						g.drawImage(items.get(i).images.get(0), 338, 0, 32, 32, null);
+					} else {
+						g.drawImage(items.get(i).images.get(inv.getSelectedLeft().getMeta()), 343, 0, 32, 32, null);
 					}
 				}
 			}
@@ -240,12 +239,10 @@ public class Hud {
 		if (!inv.getSelectedRight().equals(InitItems.EMPTY)) {
 			for (int i = 0; i < items.size(); i++) {
 				if (items.get(i).stringKey.equals(inv.getSelectedRight().getName())) {
-					if (items.get(i).meta == inv.getSelectedRight().getMeta()) {
-						if (inv.getSelectedRight().getUseAmmo()) {
-							g.drawImage(items.get(i).images.get(0), 396, 0, 32, 32, null);
-						} else {
-							g.drawImage(items.get(i).images.get(0), 401, 0, 32, 32, null);
-						}
+					if (inv.getSelectedRight().getUseAmmo()) {
+						g.drawImage(items.get(i).images.get(0), 396, 0, 32, 32, null);
+					} else {
+						g.drawImage(items.get(i).images.get(inv.getSelectedRight().getMeta()), 401, 0, 32, 32, null);
 					}
 				}
 			}
@@ -323,13 +320,9 @@ public class Hud {
 						if (!inv.getItems().get(i).equals(InitItems.EMPTY)) {
 							if (items.get(j).stringKey.equals(inv.getItems().get(i).getName())) {
 								if (inv.getItems().get(i) instanceof ItemBow || inv.getItems().get(i) instanceof ItemRCBombBag || inv.getItems().get(i) instanceof ItemBombBag) {
-									if (items.get(j).meta == 0) {
-										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 32, 32, null);
-									}
+									g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 32, 32, null);
 								} else {
-									if (items.get(j).meta == inv.getItems().get(i).getMeta()) {
-										g.drawImage(items.get(j).images.get(0), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 32, 32, null);
-									}
+									g.drawImage(items.get(j).images.get(inv.getItems().get(i).getMeta()), inv.getSlotsList().get(i).getX() + 4, inv.getSlotsList().get(i).getY() + 4, 32, 32, null);
 								}
 							}
 						}
@@ -346,9 +339,7 @@ public class Hud {
 					for (int j = 0; j < items.size(); j++) {
 						if (!inv.getSwordInv().getItems().get(i).equals(InitItems.EMPTY)) {
 							if (items.get(j).stringKey.equals(inv.getSwordInv().getItems().get(i).getName())) {
-								if (items.get(j).meta == inv.getSwordInv().getItems().get(i).getMeta()) {
-									g.drawImage(items.get(j).images.get(0), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 32, 32, null);
-								}
+								g.drawImage(items.get(j).images.get(inv.getSwordInv().getItems().get(i).getMeta()), inv.getSwordInv().getSlotsList().get(i).getX() + 212, inv.getSwordInv().getSlotsList().get(i).getY() + 4, 32, 32, null);
 							}
 						}
 					}
@@ -364,9 +355,7 @@ public class Hud {
 					for (int j = 0; j < items.size(); j++) {
 						if (!inv.getRingInv().getItems().get(i).equals(InitItems.EMPTY)) {
 							if (items.get(j).stringKey.equals(inv.getRingInv().getItems().get(i).getName())) {
-								if (items.get(j).meta == inv.getRingInv().getItems().get(i).getMeta()) {
-									g.drawImage(items.get(j).images.get(0), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 32, 32, null);
-								}
+								g.drawImage(items.get(j).images.get(inv.getRingInv().getItems().get(i).getMeta()), inv.getRingInv().getSlotsList().get(i).getX() + 212, inv.getRingInv().getSlotsList().get(i).getY() + 4, 32, 32, null);
 							}
 						}
 					}

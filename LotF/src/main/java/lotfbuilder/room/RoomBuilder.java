@@ -14,8 +14,12 @@ import javax.swing.JFrame;
 import com.google.gson.Gson;
 
 import main.java.lotf.Main;
+import main.java.lotf.entity.Entity;
+import main.java.lotf.entity.EntityMonster;
+import main.java.lotf.entity.EntityNPC;
 import main.java.lotf.inventory.Inventory;
 import main.java.lotf.items.ItemEmpty;
+import main.java.lotf.items.util.Item;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
@@ -24,7 +28,8 @@ import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
-import main.java.lotfbuilder.util.BlockInventory;
+import main.java.lotfbuilder.util.BuilderInventory;
+import main.java.lotfbuilder.util.ItemEntity;
 import main.java.lotfbuilder.util.ItemTile;
 import main.java.lotfbuilder.util.RoomFileFilter;
 
@@ -33,14 +38,16 @@ public final class RoomBuilder {
 	private Room room;
 	
 	public boolean isOpen;
-	public int selectedSlot, selectedPage, creationState, lastTileType = 1, lastMeta;
 	
-	public List<BlockInventory> pages = new ArrayList<BlockInventory>();
+	public int selectedSlot, selectedPage, creationState, lastType = 1, lastMeta;
+	
+	public List<BuilderInventory> pages = new ArrayList<BuilderInventory>();
 	public Inventory selInv = new Inventory(11, 1);
 	
-	public ItemTile hand;
+	public Item hand;
 	
 	public void setup(Room.RoomSize size) {
+		Console.print(Console.WarningType.Info, "Creating room!");
 		setPages();
 		
 		room = new Room(size);
@@ -51,6 +58,7 @@ public final class RoomBuilder {
 		}
 		
 		MainBuilder.setDoesRoomExist(true);
+		Console.print(Console.WarningType.Info, "Finished creating room!");
 	}
 	
 	public void tick() {
@@ -166,7 +174,7 @@ public final class RoomBuilder {
 		selectedSlot = 0;
 		selectedPage = 0;
 		creationState = 0;
-		lastTileType = 1;
+		lastType = 1;
 		lastMeta = 0;
 		
 		isOpen = false;
@@ -174,7 +182,7 @@ public final class RoomBuilder {
 		room = null;
 		hand = null;
 		
-		pages = new ArrayList<BlockInventory>();
+		pages = new ArrayList<BuilderInventory>();
 		selInv.clearItems();
 		
 		MainBuilder.getCamera().pos = new Vec2i();
@@ -182,27 +190,46 @@ public final class RoomBuilder {
 	
 	private void setPages() {
 		pages.clear();
+		selectedPage = 0;
+		BuilderInventory.didBlocks = false;
+		BuilderInventory.didMonsters = false;
+		
 		int ti = 0;
 		
 		for (int i = 0; i < Tile.TileType.values().length; i++) {
-			Tile.TileType t = Tile.TileType.getFromNumber(i);
-			ti += t.count;
+			ti += Tile.TileType.getFromNumber(i).count;
+		}
+		
+		for (int i = 0; i < EntityMonster.MonsterType.values().length; i++) {
+			ti += EntityMonster.MonsterType.getFromNumber(i).count;
+		}
+		
+		for (int i = 0; i < EntityNPC.NPCType.values().length; i++) {
+			ti += EntityNPC.NPCType.getFromNumber(i).count;
 		}
 		
 		for (int i = 0; i < 1 + MathHelper.floor(ti / 55); i++) {
-			pages.add(new BlockInventory(i));
+			pages.add(new BuilderInventory(i));
 		}
 	}
 	
 	public void setTile(Vec2i vec) {
-		if (getSelectedItem().getTileType() != Tile.TileType.air && getSelectedItem().getTileType() != Tile.TileType.door) {
-			if (getSelectedItem().getTileType().colType != Tile.CollisionType.none) {
-				room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
-			} else {
-				room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
+		if (getSelectedItem() instanceof ItemTile) {
+			if (((ItemTile) getSelectedItem()).getTileType() != Tile.TileType.air && ((ItemTile) getSelectedItem()).getTileType() != Tile.TileType.door) {
+				if (((ItemTile) getSelectedItem()).getTileType().colType != Tile.CollisionType.none) {
+					room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), ((ItemTile) getSelectedItem()).getTileType(), room, getSelectedItem().getMeta()));
+				} else {
+					room.getTileLayer0().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), ((ItemTile) getSelectedItem()).getTileType(), room, getSelectedItem().getMeta()));
+				}
+			} else if (((ItemTile) getSelectedItem()).getTileType() == Tile.TileType.door) {
+				room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), ((ItemTile) getSelectedItem()).getTileType(), room, getSelectedItem().getMeta()));
 			}
-		} else if (getSelectedItem().getTileType() == Tile.TileType.door) {
-			room.getTileLayer1().set(room.TilePosToID(room.getRoomSize(), vec.getX(), vec.getY()), new Tile(new TilePos(vec), getSelectedItem().getTileType(), room, getSelectedItem().getMeta()));
+		} else {
+			if (((ItemEntity) getSelectedItem()).getEntityType() == Entity.EntityType.monster) {
+				
+			} else {
+				
+			}
 		}
 		
 		room.resetAnimations();
@@ -232,7 +259,7 @@ public final class RoomBuilder {
 		}
 	}
 	
-	public void addSelectedInv() {
+	public void addSelectedPage() {
 		if (selectedPage == pages.size() - 1) {
 			selectedPage = 0;
 		} else {
@@ -240,7 +267,7 @@ public final class RoomBuilder {
 		}
 	}
 	
-	public void decreaseSelectedInv() {
+	public void decreaseSelectedPage() {
 		if (selectedPage == 0) {
 			selectedPage = pages.size() - 1;
 		} else {
@@ -248,15 +275,15 @@ public final class RoomBuilder {
 		}
 	}
 	
-	public BlockInventory getSelectedPage() {
+	public BuilderInventory getSelectedPage() {
 		return pages.get(selectedPage);
 	}
 	
-	public ItemTile getSelectedItem() {
+	public Item getSelectedItem() {
 		if (selInv.getItems().get(selectedSlot) instanceof ItemEmpty) {
 			return new ItemTile(Tile.TileType.air, 0);
 		}
-		return (ItemTile) selInv.getItems().get(selectedSlot);
+		return selInv.getItems().get(selectedSlot);
 	}
 	
 	public Room getRoom() {

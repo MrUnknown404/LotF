@@ -37,32 +37,33 @@ public final class Renderer {
 		}
 		
 		for (int i = 0; i < Tile.TileType.values().length; i++) {
-			tiles.add(new ImageList());
+			ImageList iL = new ImageList();
 			
 			if (i == 0) {
-				tiles.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.tile, "missing"));
-				tiles.get(i).stringKey = Tile.TileType.getFromNumber(i).toString();
-				tiles.get(i).meta = Tile.TileType.getFromNumber(i).count;
+				iL.images.add(GetResource.getTexture(GetResource.ResourceType.tile, "missing"));
+				iL.stringKey = Tile.TileType.getFromNumber(i).toString();
+				iL.meta = Tile.TileType.getFromNumber(i).count;
 				
 				Console.print(Console.WarningType.Texture, "Registered missing texture Tile : tile/missing.png!");
 			} else {
 				if (Tile.TileType.getFromNumber(i).count == 1) {
-					tiles.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.tile, Tile.TileType.getFromNumber(i).toString()));
-					tiles.get(i).stringKey = Tile.TileType.getFromNumber(i).toString();
-					tiles.get(i).meta = Tile.TileType.getFromNumber(i).count;
+					iL.images.add(GetResource.getTexture(GetResource.ResourceType.tile, Tile.TileType.getFromNumber(i).toString()));
+					iL.stringKey = Tile.TileType.getFromNumber(i).toString();
+					iL.meta = Tile.TileType.getFromNumber(i).count;
 					
 					Console.print(Console.WarningType.Texture, "Registered texture for Tile : " + "tile/" + Tile.TileType.getFromNumber(i) + ".png!");
 				} else {
 					for (int j = 0; j < Tile.TileType.getFromNumber(i).count; j++) {
-						tiles.get(i).images.add(GetResource.getTexture(GetResource.ResourceType.tile, Tile.TileType.getFromNumber(i).toString() + "/" + Tile.TileType.getFromNumber(i).toString() + "_" + j));
+						iL.images.add(GetResource.getTexture(GetResource.ResourceType.tile, Tile.TileType.getFromNumber(i).toString() + "/" + Tile.TileType.getFromNumber(i).toString() + "_" + j));
 						
 						Console.print(Console.WarningType.Texture, "Registered texture for Tile : " + "tile/" + Tile.TileType.getFromNumber(i).toString() + "/" + Tile.TileType.getFromNumber(i).toString() + "_" + j + ".png!");
 					}
 					
-					tiles.get(i).stringKey = Tile.TileType.getFromNumber(i).toString();
-					tiles.get(i).meta = Tile.TileType.getFromNumber(i).count;
+					iL.stringKey = Tile.TileType.getFromNumber(i).toString();
+					iL.meta = Tile.TileType.getFromNumber(i).count;
 				}
 			}
+			tiles.add(iL);
 		}
 		
 		entities.add(new ImageList());
@@ -72,32 +73,32 @@ public final class Renderer {
 		Console.print(Console.WarningType.Texture, "Registered missing texture Entity : entity/missing.png!");
 		
 		for (int i = 0; i < EntityMonster.MonsterType.values().length; i++) {
-			ImageList img = new ImageList();
+			ImageList iL = new ImageList();
 			
 			for (int j = 0; j < EntityMonster.MonsterType.getFromNumber(i).count * 4; j++) {
-				img.images.add(GetResource.getTexture(GetResource.ResourceType.entity, EntityMonster.MonsterType.getFromNumber(i).toString() + "/" + EntityMonster.MonsterType.getFromNumber(i).toString() + "_" + j));
+				iL.images.add(GetResource.getTexture(GetResource.ResourceType.entity, EntityMonster.MonsterType.getFromNumber(i).toString() + "/" + EntityMonster.MonsterType.getFromNumber(i).toString() + "_" + j));
 				
 				Console.print(Console.WarningType.Texture, "Registered texture for Entity : " + "entity/" + EntityMonster.MonsterType.getFromNumber(i).toString() + "/" + EntityMonster.MonsterType.getFromNumber(i).toString() + "_" + j + ".png!");
 			}
 			
-			img.stringKey = EntityMonster.MonsterType.getFromNumber(i).toString();
-			img.meta = EntityMonster.MonsterType.getFromNumber(i).count;
-			entities.add(img);
+			iL.stringKey = EntityMonster.MonsterType.getFromNumber(i).toString();
+			iL.meta = EntityMonster.MonsterType.getFromNumber(i).count;
+			entities.add(iL);
 		}
 		
 		for (int i = 0; i < EntityNPC.NPCType.values().length; i++) {
-			ImageList img = new ImageList();
+			ImageList iL = new ImageList();
 			
 			for (int j = 0; j < EntityNPC.NPCType.getFromNumber(i).count * 4; j++) {
-				img.images.add(GetResource.getTexture(GetResource.ResourceType.entity, EntityNPC.NPCType.getFromNumber(i).toString() + "/" + EntityNPC.NPCType.getFromNumber(i).toString() + "_" + j));
+				iL.images.add(GetResource.getTexture(GetResource.ResourceType.entity, EntityNPC.NPCType.getFromNumber(i).toString() + "/" + EntityNPC.NPCType.getFromNumber(i).toString() + "_" + j));
 				
 				Console.print(Console.WarningType.Texture, "Registered texture for Entity : " + "entity/" + EntityNPC.NPCType.getFromNumber(i).toString() + "/" + EntityNPC.NPCType.getFromNumber(i).toString() + "_" + j + ".png!");
 			}
 			
-			img.stringKey = EntityNPC.NPCType.getFromNumber(i).toString();
-			img.meta = EntityNPC.NPCType.getFromNumber(i).count;
+			iL.stringKey = EntityNPC.NPCType.getFromNumber(i).toString();
+			iL.meta = EntityNPC.NPCType.getFromNumber(i).count;
 			
-			entities.add(img);
+			entities.add(iL);
 		}
 	}
 	
@@ -136,16 +137,7 @@ public final class Renderer {
 					
 					for (int k = 0; k < tiles.size(); k++) {
 						if (t.getName().equals(tiles.get(k).stringKey)) {
-							if (t.getMaxMeta() == 0) {
-								g.drawImage(tiles.get(k).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
-							} else {
-								if (t.getMeta() < tiles.get(k).images.size()) {
-									g.drawImage(tiles.get(k).images.get(t.getMeta()), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
-								} else {
-									g.drawImage(tiles.get(0).images.get(0), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
-									Console.print(Console.WarningType.Error, "Invalid meta " + t.getMeta());
-								}
-							}
+							g.drawImage(tiles.get(k).images.get(t.getMeta()), t.getPositionX(), t.getPositionY(), t.getWidth(), t.getHeight(), null);
 						}
 					}
 				}

@@ -67,7 +67,7 @@ public final class Console {
 		for (int i = 1; i < stElements.length; i++) {
 			StackTraceElement ste = stElements[i];
 			if (!ste.getClassName().equals(className) && ste.getClassName().indexOf("java.lang.Thread") != 0) {
-				return ste.getClassName().replaceAll(ste.getClassName().substring(0, ste.getClassName().lastIndexOf('.') + 1), "") + "." + ste.getMethodName() + "." + ste.getLineNumber();
+				return (ste.getClassName().replaceAll(ste.getClassName().substring(0, ste.getClassName().lastIndexOf('.') + 1), "") + "." + ste.getMethodName() + "." + ste.getLineNumber()).replace("$", ".").replace("<", "").replace(">", "");
 			}
 		}
 		return null;

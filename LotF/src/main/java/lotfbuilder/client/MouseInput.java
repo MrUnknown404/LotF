@@ -12,7 +12,6 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
-import main.java.lotfbuilder.util.ItemTile;
 
 public final class MouseInput extends MouseAdapter {
 	
@@ -33,7 +32,7 @@ public final class MouseInput extends MouseAdapter {
 						if (new Rectangle(hudVec.getX(), hudVec.getY(), 1, 1).intersects(s.getBoundsAll().x, s.getBoundsAll().y, s.getBoundsAll().width, s.getBoundsAll().height)) {
 							if (!(MainBuilder.getRoomBuilder().getSelectedPage().getItems().get(i) instanceof ItemEmpty)) {
 								if (MainBuilder.getRoomBuilder().hand == null) {
-									MainBuilder.getRoomBuilder().hand = (ItemTile) MainBuilder.getRoomBuilder().getSelectedPage().getItems().get(i);
+									MainBuilder.getRoomBuilder().hand = MainBuilder.getRoomBuilder().getSelectedPage().getItems().get(i);
 								} else {
 									MainBuilder.getRoomBuilder().hand = null;
 								}
@@ -94,13 +93,13 @@ public final class MouseInput extends MouseAdapter {
 				if (!MainBuilder.getRoomBuilder().isOpen) {
 					MainBuilder.getRoomBuilder().decreaseSelectedSlot();
 				} else {
-					MainBuilder.getRoomBuilder().addSelectedInv();
+					MainBuilder.getRoomBuilder().addSelectedPage();
 				}
 			} else if (e.getWheelRotation() == 1) {
 				if (!MainBuilder.getRoomBuilder().isOpen) {
 					MainBuilder.getRoomBuilder().addSelectedSlot();
 				} else {
-					MainBuilder.getRoomBuilder().decreaseSelectedInv();
+					MainBuilder.getRoomBuilder().decreaseSelectedPage();
 				}
 			}
 		}

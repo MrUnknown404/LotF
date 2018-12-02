@@ -2,6 +2,7 @@ package main.java.lotf.tile;
 
 import java.awt.Rectangle;
 
+import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumCollisionType;
 import main.java.lotf.util.TickableGameObject;
 import main.java.lotf.util.math.MathHelper;
@@ -180,43 +181,61 @@ public class Tile extends TickableGameObject {
 		return false;
 	}
 	
+	private static int tileTypeMarker = 0;
+	
 	/** Must be the same as the texture name! */
 	public enum TileType {
-		air               (0,  1, false, 0, CollisionType.none,       false),
-		door              (1,  2, false, 0, CollisionType.door,       false),
-		blueWall          (2,  4, false, 0, CollisionType.whole,      true),
-		blueWallCorner    (3,  8, false, 0, CollisionType.whole,      true),
-		blueWallHalf      (4,  4, false, 0, CollisionType.halfHorz,   false),
-		blueFloor         (5,  1, false, 0, CollisionType.none,       false),
-		sand              (6,  2, false, 0, CollisionType.none,       false),
-		grass             (7,  1, true, 90, CollisionType.none,       false),
-		grassLeft         (8,  2, true, 90, CollisionType.none,       false),
-		grassRight        (9,  2, true, 90, CollisionType.none,       false),
-		grassFlowerLeft   (10, 2, true, 90, CollisionType.none,       false),
-		grassFlowerRight  (11, 2, true, 90, CollisionType.none,       false),
-		woodWall          (12, 4, false, 0, CollisionType.whole,      true),
-		woodWallCorner    (13, 4, false, 0, CollisionType.whole,      true),
-		woodWallHalf      (14, 4, false, 0, CollisionType.halfHorz,   false),
-		woodFloor         (15, 1, false, 0, CollisionType.none,       false),
-		stoneWall         (16, 2, false, 0, CollisionType.whole,      true),
-		stoneWallCorner   (17, 4, false, 0, CollisionType.whole,      false),
-		stoneWallSide     (18, 4, false, 0, CollisionType.whole,      false),
-		stoneWallTop      (19, 1, false, 0, CollisionType.whole,      true),
-		stoneWallTopCorner(20, 2, false, 0, CollisionType.whole,      false),
-		stoneWallJump     (21, 1, false, 0, CollisionType.halfBottom, false),
-		stairs            (22, 1, false, 0, CollisionType.none,       false);
+		air               (1, CollisionType.none,       false),
+		door              (2, CollisionType.door,       false),
+		blueWall          (4, CollisionType.whole,      true ),
+		blueWallCorner    (8, CollisionType.whole,      true ),
+		blueWallHalf      (4, CollisionType.halfHorz,   false),
+		blueFloor         (1, CollisionType.none,       false),
+		sand              (2, CollisionType.none,       false),
+		woodWall          (4, CollisionType.whole,      true ),
+		woodWallCorner    (4, CollisionType.whole,      true ),
+		woodWallHalf      (4, CollisionType.halfHorz,   false),
+		woodFloor         (1, CollisionType.none,       false),
+		stoneWall         (2, CollisionType.whole,      true ),
+		stoneWallCorner   (4, CollisionType.whole,      false),
+		stoneWallSide     (4, CollisionType.whole,      false),
+		stoneWallTop      (1, CollisionType.whole,      true ),
+		stoneWallTopCorner(2, CollisionType.whole,      false),
+		stoneWallJump     (1, CollisionType.halfBottom, false),
+		stairs            (1, CollisionType.none,       false),
+		
+		grass             (1, 90, CollisionType.none,   false),
+		grassLeft         (2, 90, CollisionType.none,   false),
+		grassRight        (2, 90, CollisionType.none,   false),
+		grassFlowerLeft   (2, 90, CollisionType.none,   false),
+		grassFlowerRight  (2, 90, CollisionType.none,   false);
 		
 		public final int fId, count, animationTime;
 		public final boolean isAnimated, shouldRenderBehind;
 		public CollisionType colType;
 		
-		private TileType(int id, int count, boolean isAnimated, int animationTime, CollisionType colType, boolean shouldRenderBehind) {
-			this.fId = id;
+		private TileType(int count, int animationTime, CollisionType colType, boolean shouldRenderBehind) {
+			this.fId = tileTypeMarker;
 			this.count = count;
-			this.isAnimated = isAnimated;
+			this.isAnimated = true;
 			this.animationTime = animationTime;
 			this.colType = colType;
 			this.shouldRenderBehind = shouldRenderBehind;
+			
+			Console.print(Console.WarningType.Register, this.toString() + ":" + fId + " was registered!");
+			tileTypeMarker++;
+		}
+		
+		private TileType(int count, CollisionType colType, boolean shouldRenderBehind) {
+			this.fId = tileTypeMarker;
+			this.count = count;
+			this.isAnimated = false;
+			this.animationTime = 0;
+			this.colType = colType;
+			this.shouldRenderBehind = shouldRenderBehind;
+			
+			Console.print(Console.WarningType.Register, this.toString() + ":" + fId + " was registered!");
+			tileTypeMarker++;
 		}
 		
 		public static TileType getFromNumber(int id) {
