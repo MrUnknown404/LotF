@@ -7,7 +7,7 @@ public class ItemRing extends Item {
 	private RingType type;
 	
 	public ItemRing(RingType type) {
-		super("ring", type.fId, RingType.values().length, 4);
+		super("ring", type.fId, RingType.values().length, InventoryType.ringUnID);
 		this.type = type;
 	}
 	

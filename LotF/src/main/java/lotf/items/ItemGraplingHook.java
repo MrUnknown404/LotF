@@ -5,7 +5,7 @@ import main.java.lotf.items.util.Item;
 public class ItemGraplingHook extends Item {
 
 	public ItemGraplingHook() {
-		super("graplingHook", 0);
+		super("graplingHook", InventoryType.normal);
 	}
 	
 	@Override

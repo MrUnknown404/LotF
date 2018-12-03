@@ -7,7 +7,7 @@ public abstract class ItemDungeon extends Item {
 	private EnumDungeonType type = EnumDungeonType.one;
 	
 	public ItemDungeon(String name, EnumDungeonType type) {
-		super(name, type.fId, EnumDungeonType.values().length, 3);
+		super(name, type.fId, EnumDungeonType.values().length, InventoryType.hidden);
 		this.type = type;
 	}
 	

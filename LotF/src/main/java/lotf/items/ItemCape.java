@@ -7,7 +7,7 @@ public class ItemCape extends Item {
 	private int level;
 	
 	public ItemCape(int level) {
-		super("cape", level, 1, 0);
+		super("cape", level, 1, InventoryType.normal);
 		this.level = level;
 	}
 	

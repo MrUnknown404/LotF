@@ -7,7 +7,6 @@ public class Ammo {
 	
 	public Ammo(AmmoType type, int level) {
 		this.type = type;
-		this.count = maxCount;
 		
 		if (level == 0) {
 			maxCount = 10;
@@ -18,6 +17,16 @@ public class Ammo {
 		} else if (level == 3) {
 			maxCount = 99;
 		}
+		
+		this.count = maxCount;
+	}
+	
+	public void decreaseAmmo() {
+		count--;
+	}
+	
+	public void maxOutAmmo() {
+		count = maxCount;
 	}
 	
 	public int getLevel() {

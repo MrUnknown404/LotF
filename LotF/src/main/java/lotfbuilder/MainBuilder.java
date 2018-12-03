@@ -18,7 +18,7 @@ import main.java.lotfbuilder.client.MouseInput;
 import main.java.lotfbuilder.client.Renderer;
 import main.java.lotfbuilder.client.Window;
 import main.java.lotfbuilder.client.gui.DebugHud;
-import main.java.lotfbuilder.room.RoomBuilder;
+import main.java.lotfbuilder.util.RoomBuilder;
 
 public final class MainBuilder extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;

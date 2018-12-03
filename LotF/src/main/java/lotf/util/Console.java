@@ -88,7 +88,7 @@ public final class Console {
 			fId = id;
 		}
 		
-		public static WarningType getNumber(int id) {
+		public static WarningType getFromNumber(int id) {
 			for (WarningType type : values()) {
 				if (type.fId == id) {
 					return type;

@@ -5,7 +5,7 @@ import main.java.lotf.items.util.Item;
 public class ItemBoomerang extends Item {
 
 	public ItemBoomerang() {
-		super("boomerang", 0);
+		super("boomerang", InventoryType.normal);
 	}
 	
 	@Override

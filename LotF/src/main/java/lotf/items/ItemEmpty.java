@@ -5,7 +5,7 @@ import main.java.lotf.items.util.Item;
 public final class ItemEmpty extends Item {
 
 	public ItemEmpty() {
-		super("empty", 3);
+		super("empty", InventoryType.hidden);
 	}
 	
 	@Override

@@ -126,54 +126,12 @@ public class CommandGive extends Command {
 			
 			Item item = InitItems.get(argString.get(0), argInt.get(0));
 			
-			if (item.getInventoryType() == 0) {
-				if (!p.isFull()) {
-					if (p.findItem(argString.get(0), argInt.get(0)) == null) {
-						p.addItem(item);
-						console.addLine("$ Gave the player " + item.getStringID() + ":" + item.getMeta() + "!");
-					} else {
-						console.addLine("* Player already has that item!");
-						return;
-					}
-				} else {
-					console.addLine("* Players item inventory is full!");
-				}
-			} else if (item.getInventoryType() == 1) {
-				if (!p.getSwordInv().isFull()) {
-					if (p.getSwordInv().findItem(argString.get(0), argInt.get(0)) == null) {
-						p.getSwordInv().addItem(item);
-						console.addLine("$ Gave the player " + item.getStringID() + ":" + item.getMeta() + "!");
-					} else {
-						console.addLine("* Player already has that item!");
-						return;
-					}
-				} else {
-					console.addLine("* Players item inventory is full!");
-				}
-			} else if (item.getInventoryType() == 2) {
-				if (!p.getRingInv().isFull()) {
-					if (p.getRingInv().findItem(argString.get(0), argInt.get(0)) == null) {
-						p.getRingInv().addItem(item);
-						console.addLine("$ Gave the player " + item.getStringID() + ":" + item.getMeta() + "!");
-					} else {
-						console.addLine("* Player already has that item!");
-						return;
-					}
-				} else {
-					console.addLine("* Players item inventory is full!");
-				}
-			} else if (item.getInventoryType() == 3) {
-				if (!p.getHiddenInv().isFull()) {
-					if (p.getHiddenInv().findItem(argString.get(0), argInt.get(0)) == null) {
-						p.getHiddenInv().addItem(item);
-						console.addLine("$ Gave the player " + item.getStringID() + ":" + item.getMeta() + "!");
-					} else {
-						console.addLine("* Player already has that item!");
-						return;
-					}
-				} else {
-					console.addLine("* Players item inventory is full!");
-				}
+			if (p.findItem(argString.get(0), argInt.get(0)) == null) {
+				p.addItem(item);
+				console.addLine("$ Gave the player " + item.getName() + ":" + item.getMeta() + "!");
+			} else {
+				console.addLine("* Player already has that item!");
+				return;
 			}
 		}
 	}

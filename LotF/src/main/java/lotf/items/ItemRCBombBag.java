@@ -8,7 +8,7 @@ public class ItemRCBombBag extends Item {
 	private int level;
 	
 	public ItemRCBombBag(int level) {
-		super("rcBombBag", new Ammo(Ammo.AmmoType.rcBomb, level), level, 4, 0);
+		super("rcBombBag", new Ammo(Ammo.AmmoType.rcBomb, level), level, 4, InventoryType.normal);
 		this.level = level;
 	}
 	

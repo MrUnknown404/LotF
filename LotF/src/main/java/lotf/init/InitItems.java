@@ -85,8 +85,8 @@ public final class InitItems {
 	public static void registerItem(Item item) {
 		if (!regItem.isEmpty()) {
 			for (int i = 0; i < regItem.size(); i++) {
-				if (regItem.get(i).getStringID().equals(item.getStringID()) && regItem.get(i).getMeta() == item.getMeta()) {
-					Console.print(Console.WarningType.Error, "Item already registered with this ID : " + item.getStringID() + ":" + item.getMeta());
+				if (regItem.get(i).getName().equals(item.getName()) && regItem.get(i).getMeta() == item.getMeta()) {
+					Console.print(Console.WarningType.Error, "Item already registered with this ID : " + item.getName() + ":" + item.getMeta());
 					return;
 				}
 			}
@@ -94,12 +94,12 @@ public final class InitItems {
 		
 		regItem.add(item);
 		
-		Console.print(Console.WarningType.Register, "Registered Item with IDs : \"" + item.getStringID() + "\":" + item.getMeta() + "!");
+		Console.print(Console.WarningType.Register, "Registered Item with IDs : \"" + item.getName() + "\":" + item.getMeta() + "!");
 	}
 	
 	public static Item get(String name, int meta) {
 		for (int i = 0; i < regItem.size(); i++) {
-			if ((regItem.get(i).getName().equals(name) || regItem.get(i).getStringID().equals(name)) && regItem.get(i).getMeta() == meta) {
+			if (regItem.get(i).getName().equals(name) && regItem.get(i).getMeta() == meta) {
 				return regItem.get(i);
 			}
 		}

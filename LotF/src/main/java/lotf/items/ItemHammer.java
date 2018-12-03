@@ -7,7 +7,7 @@ public class ItemHammer extends Item {
 	protected int damage = 2;
 	
 	public ItemHammer() {
-		super("hammer", 0);
+		super("hammer", InventoryType.normal);
 	}
 	
 	@Override

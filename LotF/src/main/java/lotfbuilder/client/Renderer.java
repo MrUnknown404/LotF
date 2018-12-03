@@ -17,9 +17,9 @@ import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
-import main.java.lotfbuilder.room.RoomBuilder;
 import main.java.lotfbuilder.util.ItemEntity;
 import main.java.lotfbuilder.util.ItemTile;
+import main.java.lotfbuilder.util.RoomBuilder;
 
 public final class Renderer {
 	

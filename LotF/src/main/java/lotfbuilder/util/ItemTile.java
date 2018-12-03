@@ -8,7 +8,7 @@ public final class ItemTile extends Item {
 	private Tile.TileType type;
 	
 	public ItemTile(Tile.TileType type, int meta) {
-		super(type.toString(), meta, type.count, -99);
+		super(type.toString(), meta, type.count, InventoryType.hidden);
 		this.type = type;
 	}
 	

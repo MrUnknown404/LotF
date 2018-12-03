@@ -1,4 +1,4 @@
-package main.java.lotfbuilder.room;
+package main.java.lotfbuilder.util;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,10 +28,6 @@ import main.java.lotf.util.math.TilePos;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
-import main.java.lotfbuilder.util.BuilderInventory;
-import main.java.lotfbuilder.util.ItemEntity;
-import main.java.lotfbuilder.util.ItemTile;
-import main.java.lotfbuilder.util.RoomFileFilter;
 
 public final class RoomBuilder {
 

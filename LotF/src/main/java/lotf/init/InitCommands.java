@@ -1,13 +1,14 @@
 package main.java.lotf.init;
 
 import main.java.lotf.Main;
+import main.java.lotf.commands.CommandCHelp;
 import main.java.lotf.commands.CommandDamage;
 import main.java.lotf.commands.CommandDebug;
 import main.java.lotf.commands.CommandGive;
 import main.java.lotf.commands.CommandHeal;
 import main.java.lotf.commands.CommandHelp;
-import main.java.lotf.commands.CommandCHelp;
 import main.java.lotf.commands.CommandNoclip;
+import main.java.lotf.commands.CommandRefillAmmo;
 import main.java.lotf.commands.CommandSetRoom;
 import main.java.lotf.commands.CommandTeleport;
 import main.java.lotf.commands.util.Command;
@@ -24,6 +25,7 @@ public final class InitCommands {
 		registerCommand(new CommandDamage());
 		registerCommand(new CommandGive());
 		registerCommand(new CommandNoclip());
+		registerCommand(new CommandRefillAmmo());
 		
 		registerCommand(new CommandDebug(), 99);
 	}

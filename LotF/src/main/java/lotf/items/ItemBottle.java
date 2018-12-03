@@ -7,7 +7,7 @@ public class ItemBottle extends Item {
 	private BottleType type = BottleType.empty;
 	
 	public ItemBottle(BottleType type) {
-		super("bottle", type.fId, BottleType.values().length, 0);
+		super("bottle", type.fId, BottleType.values().length, InventoryType.normal);
 		this.type = type;
 	}
 	

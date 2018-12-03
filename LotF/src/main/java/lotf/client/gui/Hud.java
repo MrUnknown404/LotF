@@ -26,6 +26,7 @@ import main.java.lotf.util.Console;
 import main.java.lotf.util.EnumDungeonType;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ImageList;
+import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.world.Map;
 import main.java.lotf.world.World;
 
@@ -43,7 +44,7 @@ public class Hud {
 	private List<ImageList> items = new ArrayList<ImageList>(InitItems.getItems().size());
 	private List<ImageList> ammos = new ArrayList<ImageList>(Ammo.AmmoType.values().length);
 	
-	private BufferedImage rupee, x, key, map, slot, slotSel, missingItemSmall, missingItemBig, selSmall, blankMapIcon, overworldMap, underworldMap;
+	private BufferedImage rupee, X, key, map, slot, slotSel, missingItemSmall, missingItemBig, selSmall, blankMapIcon, overworldMap, underworldMap;
 	
 	public void loadTextures() {
 		for (int i = 0; i < 5; i++) {
@@ -81,7 +82,7 @@ public class Hud {
 		
 		rupee = GetResource.getTexture(GetResource.ResourceType.gui, "rupee");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/rupee.png!");
-		x = GetResource.getTexture(GetResource.ResourceType.gui, "x");
+		X = GetResource.getTexture(GetResource.ResourceType.gui, "x");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/x.png!");
 		key = GetResource.getTexture(GetResource.ResourceType.gui, "key");
 		Console.print(Console.WarningType.Texture, "Registered texture for Hud : " + "gui/key.png!");
@@ -194,7 +195,7 @@ public class Hud {
 		}
 		
 		g.drawImage(rupee, 166, 3, 14, 14, null);
-		g.drawImage(x, 182, 11, 6, 6, null);
+		g.drawImage(X, 182, 11, 6, 6, null);
 		
 		StringBuilder b = new StringBuilder();
 		if (String.valueOf(player.getMoney()).length() < 5) {
@@ -208,10 +209,8 @@ public class Hud {
 		g.drawImage(magicBars.get(player.getMana()), 210, 19, 68, 10, null);
 		
 		g.drawImage(key, 214, 2, 10, 16, null);
-		g.drawImage(x, 226, 10, 6, 6, null);
+		g.drawImage(X, 226, 10, 6, 6, null);
 		g.drawString("" + player.getKeys(), 233, 14);
-		
-		int drawItemCountLater;
 		
 		g.drawImage(slots.get(1), 284, 0, 44, 32, null);
 		if (!inv.getSelectedSword().equals(InitItems.EMPTY)) {
@@ -228,6 +227,11 @@ public class Hud {
 				if (items.get(i).stringKey.equals(inv.getSelectedLeft().getName())) {
 					if (inv.getSelectedLeft().getUseAmmo()) {
 						g.drawImage(items.get(i).images.get(0), 338, 0, 32, 32, null);
+						
+						int topCount = MathHelper.floor(inv.getSelectedLeft().getAmmo().getCount() / 10);
+						
+						g.drawString("" + topCount, 372, 13);
+						g.drawString("" + (inv.getSelectedLeft().getAmmo().getCount() - (topCount * 10)), 372, 25);
 					} else {
 						g.drawImage(items.get(i).images.get(inv.getSelectedLeft().getMeta()), 343, 0, 32, 32, null);
 					}
@@ -241,6 +245,11 @@ public class Hud {
 				if (items.get(i).stringKey.equals(inv.getSelectedRight().getName())) {
 					if (inv.getSelectedRight().getUseAmmo()) {
 						g.drawImage(items.get(i).images.get(0), 396, 0, 32, 32, null);
+						
+						int topCount = MathHelper.floor(inv.getSelectedRight().getAmmo().getCount() / 10);
+						
+						g.drawString("" + topCount, 430, 13);
+						g.drawString("" + (inv.getSelectedRight().getAmmo().getCount() - (topCount * 10)), 430, 25);
 					} else {
 						g.drawImage(items.get(i).images.get(inv.getSelectedRight().getMeta()), 401, 0, 32, 32, null);
 					}

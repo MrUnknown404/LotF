@@ -12,13 +12,13 @@ public class ItemEntity extends Item {
 	private EntityNPC.NPCType type3;
 	
 	public ItemEntity(EntityMonster.MonsterType type2, int meta) {
-		super(type2.toString(), meta, type2.count, -99);
+		super(type2.toString(), meta, type2.count, InventoryType.hidden);
 		this.type1 = Entity.EntityType.monster;
 		this.type2 = type2;
 	}
 	
 	public ItemEntity(EntityNPC.NPCType type3, int meta) {
-		super(type3.toString(), meta, type3.count, -99);
+		super(type3.toString(), meta, type3.count, InventoryType.hidden);
 		this.type1 = Entity.EntityType.npc;
 		this.type3 = type3;
 	}

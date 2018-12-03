@@ -45,16 +45,8 @@ public class Inventory {
 	
 	public Item findItem(String str, int meta) {
 		for (int i = 0; i < items.size(); i++) {
-			if ((items.get(i).getName().equals(str) || items.get(i).getStringID().equals(str)) && items.get(i).getMeta() == meta) {
+			if (items.get(i).getName().equals(str) && items.get(i).getMeta() == meta) {
 				return items.get(i);
-			}
-		}
-		
-		if (this instanceof PlayerInventory) {
-			if ((((PlayerInventory) this).getSelectedLeft().getName().equals(str) || ((PlayerInventory) this).getSelectedLeft().getStringID().equals(str)) && ((PlayerInventory) this).getSelectedLeft().getMeta() == meta) {
-				return ((PlayerInventory) this).getSelectedLeft();
-			} else if ((((PlayerInventory) this).getSelectedRight().getName().equals(str) || ((PlayerInventory) this).getSelectedRight().getStringID().equals(str)) && ((PlayerInventory) this).getSelectedRight().getMeta() == meta) {
-				return ((PlayerInventory) this).getSelectedRight();
 			}
 		}
 		

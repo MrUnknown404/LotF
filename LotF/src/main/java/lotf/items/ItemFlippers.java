@@ -5,7 +5,7 @@ import main.java.lotf.items.util.Item;
 public class ItemFlippers extends Item {
 	
 	public ItemFlippers() {
-		super("flippers", 0);
+		super("flippers", InventoryType.normal);
 	}
 	
 	@Override

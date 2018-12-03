@@ -9,7 +9,7 @@ public class ItemSpellBook extends Item {
 	public boolean side;
 	
 	public ItemSpellBook() {
-		super("spellBook", 0);
+		super("spellBook", InventoryType.normal);
 	}
 	
 	@Override

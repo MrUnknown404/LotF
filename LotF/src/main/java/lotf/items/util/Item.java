@@ -4,10 +4,11 @@ public abstract class Item {
 	
 	protected String stringID, name;
 	protected Ammo ammo;
-	protected int meta, maxMeta, invType;
+	protected int meta, maxMeta;
 	protected boolean useAmmo;
+	protected InventoryType invType;
 	
-	public Item(String name, Ammo ammo, int meta, int maxMeta, int invType) {
+	public Item(String name, Ammo ammo, int meta, int maxMeta, InventoryType invType) {
 		this.name = name;
 		this.ammo = ammo;
 		this.useAmmo = true;
@@ -17,7 +18,7 @@ public abstract class Item {
 		this.stringID = "ITM_" + name;
 	}
 	
-	public Item(String name, int meta, int maxMeta, int invType) {
+	public Item(String name, int meta, int maxMeta, InventoryType invType) {
 		this.name = name;
 		this.meta = meta;
 		this.maxMeta = maxMeta;
@@ -25,15 +26,7 @@ public abstract class Item {
 		this.stringID = "ITM_" + name;
 	}
 	
-	public Item(String name, Ammo ammo, int invType) {
-		this.name = name;
-		this.ammo = ammo;
-		this.useAmmo = true;
-		this.invType = invType;
-		this.stringID = "ITM_" + name;
-	}
-	
-	public Item(String name, int invType) {
+	public Item(String name, InventoryType invType) {
 		this.name = name;
 		this.invType = invType;
 		this.stringID = "ITM_" + name;
@@ -46,7 +39,7 @@ public abstract class Item {
 	
 	protected abstract void onUse();
 	
-	public int getInventoryType() {
+	public InventoryType getInventoryType() {
 		return invType;
 	}
 	
@@ -66,10 +59,6 @@ public abstract class Item {
 		return ammo;
 	}
 	
-	public String getStringID() {
-		return stringID;
-	}
-	
 	public String getName() {
 		return name;
 	}
@@ -87,5 +76,13 @@ public abstract class Item {
 	@Override
 	public String toString() {
 		return "(" + name + ", " + meta + ")";
+	}
+	
+	public enum InventoryType {
+		normal,
+		sword,
+		ringID,
+		ringUnID,
+		hidden;
 	}
 }

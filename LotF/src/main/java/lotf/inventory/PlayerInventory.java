@@ -50,6 +50,63 @@ public class PlayerInventory extends Inventory {
 		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(2);
 		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(3);
 		((ItemSpellBook) findItem("spellBook", 0)).getSpellPageList().addSpell(4);
+		//*/
+	}
+	
+	@Override
+	public void addItem(Item item) {
+		if (item.getInventoryType() == Item.InventoryType.normal) {
+			super.addItem(item);
+		} else if (item.getInventoryType() == Item.InventoryType.sword) {
+			swords.addItem(item);
+		} else if (item.getInventoryType() == Item.InventoryType.ringID) {
+			rings.addItem(item);
+		} else if (item.getInventoryType() == Item.InventoryType.ringUnID) {
+			hiddenRings.addItem(item);
+		} else if (item.getInventoryType() == Item.InventoryType.hidden) {
+			hiddenItems.addItem(item);
+		}
+	}
+	
+	@Override
+	public Item findItem(String str, int meta) {
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getName().equals(str) && items.get(i).getMeta() == meta) {
+				return items.get(i);
+			}
+		}
+		
+		for (int i = 0; i < swords.getItems().size(); i++) {
+			if (swords.getItems().get(i).getName().equals(str) && swords.getItems().get(i).getMeta() == meta) {
+				return swords.getItems().get(i);
+			}
+		}
+		
+		for (int i = 0; i < rings.getItems().size(); i++) {
+			if (rings.getItems().get(i).getName().equals(str) && rings.getItems().get(i).getMeta() == meta) {
+				return rings.getItems().get(i);
+			}
+		}
+		
+		for (int i = 0; i < hiddenRings.getItems().size(); i++) {
+			if (hiddenRings.getItems().get(i).getName().equals(str) && hiddenRings.getItems().get(i).getMeta() == meta) {
+				return hiddenRings.getItems().get(i);
+			}
+		}
+		
+		for (int i = 0; i < hiddenItems.getItems().size(); i++) {
+			if (hiddenItems.getItems().get(i).getName().equals(str) && hiddenItems.getItems().get(i).getMeta() == meta) {
+				return hiddenItems.getItems().get(i);
+			}
+		}
+		
+		if (getSelectedLeft().getName().equals(str) && getSelectedLeft().getMeta() == meta) {
+			return getSelectedLeft();
+		} else if (getSelectedRight().getName().equals(str) && getSelectedRight().getMeta() == meta) {
+			return getSelectedRight();
+		}
+		
+		return null;
 	}
 	
 	public void setSelected(boolean left) {
