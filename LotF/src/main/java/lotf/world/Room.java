@@ -31,6 +31,7 @@ public final class Room {
 	protected Vec2i roomSize, mapPos;
 	protected EnumDungeonType dungeonType;
 	protected EnumDirection entranceDir = EnumDirection.nil;
+	protected EnumDirection[] connectedSides = new EnumDirection[] {EnumDirection.north};
 	protected RoomSize size;
 	protected transient int roomID;
 	
@@ -192,6 +193,10 @@ public final class Room {
 	
 	public EnumDirection getEntranceDir() {
 		return entranceDir;
+	}
+	
+	public EnumDirection[] getConnectedSides() {
+		return connectedSides;
 	}
 	
 	public Vec2i getMapPos() {

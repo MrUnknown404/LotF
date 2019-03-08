@@ -21,8 +21,6 @@ import main.java.lotf.util.math.Vec2i;
 
 public final class World {
 	
-	private static final String BASE_LOCATION = "main/resources/lotf/assets/rooms/";
-	
 	private List<Room> rooms = new ArrayList<Room>();
 	
 	protected Vec2i size = new Vec2i();;
@@ -43,7 +41,7 @@ public final class World {
 		loadRooms(type.size);
 		
 		if (type.fId == 0) {
-			rooms.get(149).addMonster(new EntityMonster(128, 128, 32, 32, EntityMonster.MonsterType.testWander));
+			rooms.get(149).addMonster(new EntityMonster(64, 64, 16, 16, EntityMonster.MonsterType.testWander));
 		}
 	}
 	
@@ -66,7 +64,7 @@ public final class World {
 		for (int i = 0; i < size * size; i++) {
 			try {
 				File f = null;
-				String p = (World.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + BASE_LOCATION;
+				String p = (World.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + Main.getBaseLocationRooms();
 				
 				
 				if (type != WorldType.dungeon) {

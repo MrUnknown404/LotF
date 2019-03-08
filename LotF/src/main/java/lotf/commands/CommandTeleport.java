@@ -42,7 +42,7 @@ public class CommandTeleport extends Command {
 			
 			Vec2i vec = new Vec2i((argInt.get(0) - 1) * Tile.TILE_SIZE, (argInt.get(1) - 1) * Tile.TILE_SIZE);
 			
-			Main.getWorldHandler().getPlayer().setRelativePos(vec);
+			Main.getWorldHandler().getPlayer().setPosition(vec);
 		}
 	}
 }

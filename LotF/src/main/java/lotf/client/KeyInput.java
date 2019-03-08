@@ -78,6 +78,12 @@ public final class KeyInput extends KeyAdapter {
 				}
 				
 				if (!player.getInventory().isInventoryOpen) {
+					if (key == KeyEvent.VK_F2) {
+						Main.save();
+					} else if (key == KeyEvent.VK_F3) {
+						Main.load();
+					}
+					
 					if (key == KeyEvent.VK_UP) {
 						player.getInventory().getSelectedSword().use();
 					} else if (key == KeyEvent.VK_LEFT) {

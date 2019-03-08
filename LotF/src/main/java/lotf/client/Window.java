@@ -12,8 +12,8 @@ public final class Window {
 	public Window(String title, Main main) {
 		JFrame frame = new JFrame(title);
 		
-		frame.setPreferredSize(new Dimension(224 * 2 + 16, 144 * 2 + 3));
-		frame.setMinimumSize(new Dimension(224 * 2 + 16, 144 * 2 + 3));
+		frame.setPreferredSize(new Dimension(256 + 16, 144 + 39));
+		frame.setMinimumSize(new Dimension(256 + 16, 144 + 39));
 		
 		Container pane = frame.getContentPane();
 		pane.setBackground(Color.BLACK);

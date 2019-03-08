@@ -12,23 +12,29 @@ import main.java.lotf.util.Console;
 public class Inventory {
 	
 	protected List<Item> items;
-	protected List<Slot> slotsList = new ArrayList<Slot>();
-	protected int slotsX, slotsY;
-	protected final int slots;
+	protected transient List<Slot> slotsList = new ArrayList<Slot>();
+	protected transient int slots, slotsX, slotsY;
 	
 	public Inventory(int slotsX, int slotsY) {
-		this.slotsX = slotsX;
-		this.slotsY = slotsY;
-		slots = slotsX * slotsY;
+		setupSlots(slotsX, slotsY);
 		items = new ArrayList<Item>(slots);
 		
 		for (int i = 0; i < slots; i++) {
 			items.add(InitItems.EMPTY);
 		}
 		
+		
+	}
+	
+	public void setupSlots(int slotsX, int slotsY) {
+		this.slotsX = slotsX;
+		this.slotsY = slotsY;
+		slots = slotsX * slotsY;
+		
+		slotsList.clear();
 		for (int sy = 0; sy < slotsY; sy++) {
 			for (int sx = 0; sx < slotsX; sx++) {
-				slotsList.add(new Slot(6 + sx * 40, 42 + sy * 40, sx + (sy * slotsX)));
+				slotsList.add(new Slot(10 + sx * 22, 26 + sy * 22, sx + (sy * slotsX)));
 			}
 		}
 	}

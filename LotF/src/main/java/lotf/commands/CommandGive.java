@@ -50,8 +50,8 @@ public class CommandGive extends Command {
 				
 				int ti = 0;
 				for (int i = 0; i < argInt.get(0); i++) {
-					if (player.getHearts().canAddHeartContainer()) {
-						player.getHearts().addHeartContainer();
+					if (player.canAddHeartContainer()) {
+						player.addHeartContainer();
 					} else {
 						ti = argInt.get(0) - i;
 						break;

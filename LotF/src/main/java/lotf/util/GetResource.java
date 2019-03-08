@@ -6,18 +6,21 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
+import main.java.lotf.Main;
+
 public final class GetResource {
 	
-	private static final String BASE_LOCATION = "/main/resources/lotf/assets/textures/";
 	private static final String FILE_TYPE = ".png";
 	
 	public static BufferedImage getTexture(ResourceType location, String textureName) {
 		InputStream f = null;;
-		if (GetResource.class.getResourceAsStream(BASE_LOCATION + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE) == null) {
-			Console.print(Console.WarningType.Error, "Cannot find texture : " + BASE_LOCATION + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE);
-			f = GetResource.class.getResourceAsStream(BASE_LOCATION + "missing" + FILE_TYPE);
+		String loc = Main.getBaseLocationTextures();
+		
+		if (GetResource.class.getResourceAsStream(loc + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE) == null) {
+			Console.print(Console.WarningType.Error, "Cannot find texture : " + loc + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE);
+			f = GetResource.class.getResourceAsStream(loc + "missing" + FILE_TYPE);
 		} else {
-			f = GetResource.class.getResourceAsStream(BASE_LOCATION + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE);
+			f = GetResource.class.getResourceAsStream(loc + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE);
 		}
 		BufferedImage i = null;
 		

@@ -3,33 +3,26 @@ package main.java.lotf.entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.EnumDirection;
 import main.java.lotf.util.TickableGameObject;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 
 public abstract class Entity extends TickableGameObject {
 	
 	protected transient Room room;
-	protected Vec2i relativePos = new Vec2i();
 	
 	protected String name;
 	protected int meta;
 	protected EntityType type;
 	protected EnumDirection facing = EnumDirection.north;
-	private boolean hasCollision = true;
+	private transient boolean hasCollision = true;
 	
 	public Entity(int x, int y, int width, int height, EntityType type) {
 		super(x, y, width, height);
-		relativePos = new Vec2i(x, y);
 		this.type = type;
 		this.name = type.toString();
 	}
 	
-	public void updatePosition() {
-		setPosition(((room.getRoomPos().getX() * room.getVecRoomSize().getX()) * Tile.TILE_SIZE) + getRelativePos().getX(), ((room.getRoomPos().getY() * room.getVecRoomSize().getY()) * Tile.TILE_SIZE) + getRelativePos().getY());
-	}
-	
 	public void tick() {
-		updatePosition();
+		
 	}
 	
 	public Tile getInfront(EnumDirection dir) {
@@ -72,14 +65,6 @@ public abstract class Entity extends TickableGameObject {
 		this.facing = facing;
 	}
 	
-	public void setRelativePos(int x, int y) {
-		relativePos = new Vec2i(x, y);
-	}
-	
-	public void setRelativePos(Vec2i vec) {
-		relativePos = vec;
-	}
-	
 	public void setRoom(Room room) {
 		this.room = room;
 	}
@@ -88,20 +73,8 @@ public abstract class Entity extends TickableGameObject {
 		this.meta = meta;
 	}
 	
-	public void addRelativePos(Vec2i vec) {
-		relativePos.add(vec);
-	}
-	
-	public void addRelativePos(int x, int y) {
-		addRelativePos(new Vec2i(x, y));
-	}
-	
 	public Room getRoom() {
 		return room;
-	}
-	
-	public Vec2i getRelativePos() {
-		return relativePos;
 	}
 	
 	public int getMeta() {

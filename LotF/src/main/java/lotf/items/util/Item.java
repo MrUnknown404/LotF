@@ -2,7 +2,7 @@ package main.java.lotf.items.util;
 
 public abstract class Item {
 	
-	protected String stringID, name;
+	protected String name;
 	protected Ammo ammo;
 	protected int meta, maxMeta;
 	protected boolean useAmmo;
@@ -15,7 +15,6 @@ public abstract class Item {
 		this.meta = meta;
 		this.maxMeta = maxMeta;
 		this.invType = invType;
-		this.stringID = "ITM_" + name;
 	}
 	
 	public Item(String name, int meta, int maxMeta, InventoryType invType) {
@@ -23,13 +22,11 @@ public abstract class Item {
 		this.meta = meta;
 		this.maxMeta = maxMeta;
 		this.invType = invType;
-		this.stringID = "ITM_" + name;
 	}
 	
 	public Item(String name, InventoryType invType) {
 		this.name = name;
 		this.invType = invType;
-		this.stringID = "ITM_" + name;
 	}
 	
 	public void use() {

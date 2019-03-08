@@ -8,7 +8,7 @@ import main.java.lotf.util.EnumDungeonType;
 
 public class PlayerInventory extends Inventory {
 	
-	public boolean isInventoryOpen = false, isSelectingPage = false;
+	public transient boolean isInventoryOpen = false, isSelectingPage = false;
 	
 	private Inventory swords = new Inventory(1, 5);
 	private Inventory rings = new Inventory(1, 5);

@@ -10,36 +10,30 @@ import main.java.lotf.entity.EntityPlayer;
 
 public final class DebugHud {
 
-	private static final Font FONT = new Font("Font", Font.BOLD, 16);
+	private static final Font FONT = new Font("Font", Font.BOLD, 9);
 	
 	private String activePlayerRoom;
-	//private String playerRelativePosition;
-	//private String playerPosition;
 	private String playerWorld;
 	
 	public void getInfo(EntityPlayer player) {
 		activePlayerRoom = player.getRoom().toString() + ", " + player.getRoom().getRoomID();
-		//playerRelativePosition = "X:" + player.getRelativePos().getX() + " Y: " + player.getRelativePos().getY();
-		//playerPosition = "X:" + player.getPositionX() + " Y: " + player.getPositionY();
 		playerWorld = player.getWorld().toString();
 	}
 	
 	public void drawText(Graphics2D g, String fps) {
 		if (!Main.getWorldHandler().getPlayer().getInventory().isInventoryOpen) {
-			int y = 46;
+			int y = 24;
 			
 			if (Main.getCommandConsole().isConsoleOpen) {
-				y += ((DebugConsole.getMaxLines() + 2) * 12) - 6;
+				y += DebugConsole.getMaxLines() * 9 - 8;
 			}
 			
 			g.setColor(Color.RED);
 			g.setFont(FONT);
 			
 			g.drawString(fps, 1, y);
-			g.drawString("World : " + playerWorld, 1, y += 15);
-			g.drawString("Player room : " + activePlayerRoom, 1, y += 15);
-			//g.drawString("Player Rel-Pos : " + playerRelativePosition, 1, y += 15);
-			//g.drawString("Player Pos : " + playerPosition, 1, y += 15);
+			g.drawString("World : " + playerWorld, 1, y += 8);
+			g.drawString("Player room : " + activePlayerRoom, 1, y += 8);
 		}
 	}
 }

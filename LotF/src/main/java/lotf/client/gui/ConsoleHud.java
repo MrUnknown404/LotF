@@ -9,7 +9,7 @@ import main.java.lotf.commands.util.DebugConsole;
 
 public final class ConsoleHud {
 
-	private static final Font FONT = new Font("Font", Font.BOLD, 16);
+	private static final Font FONT = new Font("Font", Font.BOLD, 9);
 	
 	private boolean tb = false;
 	private int ti = 0;
@@ -21,13 +21,13 @@ public final class ConsoleHud {
 		
 		if (console.isConsoleOpen) {
 			g.setColor(new Color(0.2f, 0.2f, 0.2f, 0.5f));
-			g.fillRect(0, 0, Main.getHudWidth(), ((DebugConsole.getMaxLines() + 2) * 16) - 10);
+			g.fillRect(0, 0, Main.getHudWidth(), ((DebugConsole.getMaxLines() + 2) * 9) - 10);
 			g.setColor(Color.GREEN);
 			
 			if (tb) {
-				g.drawString(">: " + console.input + ":", 2, ((DebugConsole.getMaxLines() + 2) * 16) - 12);
+				g.drawString(">: " + console.input + ":", 2, ((DebugConsole.getMaxLines() + 2) *9) - 12);
 			} else {
-				g.drawString(">: " + console.input, 2, ((DebugConsole.getMaxLines() + 2) * 16) - 12);
+				g.drawString(">: " + console.input, 2, ((DebugConsole.getMaxLines() + 2) * 9) - 12);
 			}
 			
 			if (!console.lines.isEmpty()) {
@@ -40,7 +40,7 @@ public final class ConsoleHud {
 						g.setColor(Color.GREEN);
 					}
 					
-					g.drawString("<: " + console.lines.get(i), 2, ((DebugConsole.getMaxLines() + 1) * 16) - (i * 16));
+					g.drawString("<: " + console.lines.get(i), 2, ((DebugConsole.getMaxLines() + 1) * 9) - (i * 9));
 				}
 			}
 		}

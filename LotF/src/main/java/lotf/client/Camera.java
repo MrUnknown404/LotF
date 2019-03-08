@@ -39,13 +39,13 @@ public final class Camera {
 	
 	public void moveDir(EnumDirection dir) {
 		if (dir == EnumDirection.north) {
-			pos.add(0, -(Main.getHudHeight() / 26));
+			pos.add(0, -(Main.getHudHeight() / 20));
 		} else if (dir == EnumDirection.east) {
-			pos.add(Main.getHudWidth() / 26, 0);
+			pos.add(Main.getHudWidth() / 20, 0);
 		} else if (dir == EnumDirection.south) {
-			pos.add(0, Main.getHudHeight() / 26);
+			pos.add(0, Main.getHudHeight() / 20);
 		} else if (dir == EnumDirection.west) {
-			pos.add(-(Main.getHudWidth() / 26), 0);
+			pos.add(-(Main.getHudWidth() / 20), 0);
 		}
 	}
 	

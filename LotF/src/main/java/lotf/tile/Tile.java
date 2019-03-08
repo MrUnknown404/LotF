@@ -11,7 +11,7 @@ import main.java.lotf.world.Room;
 
 public class Tile extends TickableGameObject {
 	
-	public static final int TILE_SIZE = 32;
+	public static final int TILE_SIZE = 16;
 	
 	/** Must be set after load! */
 	protected transient Room room;

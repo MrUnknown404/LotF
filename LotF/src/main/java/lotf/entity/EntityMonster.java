@@ -1,6 +1,6 @@
 package main.java.lotf.entity;
 
-import main.java.lotf.entity.ai.AIBase;
+import main.java.lotf.entity.ai.AIMonsterBase;
 import main.java.lotf.entity.ai.AITimedWander;
 
 public class EntityMonster extends Entity {
@@ -42,9 +42,9 @@ public class EntityMonster extends Entity {
 		testWander(0, 2, new AITimedWander(), 1);
 		
 		public final int fId, count, moveSpeed;
-		public AIBase ai;
+		public AIMonsterBase ai;
 		
-		private MonsterType(int id, int count, AIBase ai, int moveSpeed) {
+		private MonsterType(int id, int count, AIMonsterBase ai, int moveSpeed) {
 			this.fId = id;
 			this.count = count;
 			this.ai = ai;

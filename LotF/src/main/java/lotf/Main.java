@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 
 import main.java.lotf.client.Camera;
 import main.java.lotf.client.KeyInput;
@@ -29,8 +30,8 @@ public final class Main extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = -2518563563721413864L;
 	
-	private static final int HUD_WIDTH = 224 * 2, HUD_HEIGHT = 126 * 2;
-	private static int width = 432, height = 213, w2, h2;
+	private static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
+	private static int width = 256, height = 144, w2, h2;
 	private static boolean isDebug, isBuilder;
 	
 	private int fps;
@@ -47,6 +48,10 @@ public final class Main extends Canvas implements Runnable {
 	private static Camera camera;
 	private Renderer renderer;
 	private KeyInput keyInput;
+	
+	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
+	private static final String BASE_LOCATION_ROOMS = "main/resources/lotf/assets/rooms/";
+	private static final String BASE_LOCATION_TEXTURES = "/main/resources/lotf/assets/textures/";
 	
 	public static Gamestate gamestate = Gamestate.run;
 	
@@ -85,6 +90,12 @@ public final class Main extends Canvas implements Runnable {
 	
 	private void preInit() {
 		Console.print(Console.WarningType.Info, "Pre-Initialization started...");
+		
+		Console.print(Console.WarningType.Info, "Creating file path!");
+		File f = new File(SAVE_LOCATION);
+		if (!f.exists()) {
+			f.mkdirs();
+		}
 		
 		MouseInput mouse = new MouseInput();
 		keyInput = new KeyInput();
@@ -239,6 +250,20 @@ public final class Main extends Canvas implements Runnable {
 		bs.show();
 	}
 	
+	public static void save() {
+		Console.print(Console.WarningType.Info, "Started saving...");
+		gamestate = Gamestate.hardPause;
+		worldHandler.getPlayer().savePlayerData();
+		gamestate = Gamestate.run;
+		Console.print(Console.WarningType.Info, "Finished saving!");
+	}
+	
+	public static void load() {
+		Console.print(Console.WarningType.Info, "Started loading...");
+		worldHandler.getPlayer().loadPlayerData();
+		Console.print(Console.WarningType.Info, "Finished loading!");
+	}
+	
 	private void resize() {
 		width = MathHelper.clamp(getWidth(), 0, Integer.MAX_VALUE);
 		height = MathHelper.clamp(getHeight(), 0, Integer.MAX_VALUE);
@@ -270,6 +295,18 @@ public final class Main extends Canvas implements Runnable {
 	
 	public static boolean getIsDebug() {
 		return isDebug;
+	}
+	
+	public static String getSaveLocation() {
+		return SAVE_LOCATION;
+	}
+	
+	public static String getBaseLocationRooms() {
+		return BASE_LOCATION_ROOMS;
+	}
+	
+	public static String getBaseLocationTextures() {
+		return BASE_LOCATION_TEXTURES;
 	}
 	
 	public static DebugConsole getCommandConsole() {

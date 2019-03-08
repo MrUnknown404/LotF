@@ -1,5 +1,8 @@
 package main.java.lotf.entity;
 
+import main.java.lotf.entity.ai.AIChest;
+import main.java.lotf.entity.ai.AINPCBase;
+
 public class EntityNPC extends Entity {
 
 	protected boolean isAlive;
@@ -33,13 +36,16 @@ public class EntityNPC extends Entity {
 	}
 	
 	public enum NPCType {
-		test1(0, 2);
+		chest(0, 2, new AIChest(), 0);
 		
-		public final int fId, count;
+		public final int fId, count, moveSpeed;
+		public AINPCBase ai;
 		
-		private NPCType(int id, int count) {
+		private NPCType(int id, int count, AINPCBase ai, int moveSpeed) {
 			this.fId = id;
 			this.count = count;
+			this.ai = ai;
+			this.moveSpeed = moveSpeed;
 		}
 		
 		public static NPCType getFromNumber(int id) {
