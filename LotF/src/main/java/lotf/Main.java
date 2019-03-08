@@ -9,22 +9,12 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
-import main.java.lotf.client.Camera;
-import main.java.lotf.client.KeyInput;
-import main.java.lotf.client.MouseInput;
-import main.java.lotf.client.Renderer;
 import main.java.lotf.client.Window;
 import main.java.lotf.client.gui.ConsoleHud;
-import main.java.lotf.client.gui.DebugHud;
-import main.java.lotf.client.gui.Hud;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.init.InitCommands;
-import main.java.lotf.init.InitItems;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2i;
-import main.java.lotf.world.WorldHandler;
-import main.java.lotfbuilder.MainBuilder;
 
 public final class Main extends Canvas implements Runnable {
 
@@ -32,7 +22,6 @@ public final class Main extends Canvas implements Runnable {
 	
 	private static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
 	private static int width = 256, height = 144, w2, h2;
-	private static boolean isDebug, isBuilder;
 	
 	private int fps;
 	private boolean running = false;
@@ -40,14 +29,7 @@ public final class Main extends Canvas implements Runnable {
 	private Thread thread;
 	
 	private static final DebugConsole CONSOLE = new DebugConsole();
-	private final DebugHud debugHud = new DebugHud();
 	private final ConsoleHud consoleHud = new ConsoleHud();
-	private final Hud hud = new Hud();
-	
-	private static WorldHandler worldHandler;
-	private static Camera camera;
-	private Renderer renderer;
-	private KeyInput keyInput;
 	
 	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
 	private static final String BASE_LOCATION_ROOMS = "main/resources/lotf/assets/rooms/";
@@ -56,20 +38,7 @@ public final class Main extends Canvas implements Runnable {
 	public static Gamestate gamestate = Gamestate.run;
 	
 	public static void main(String args[]) {
-		for (String str : args) {
-			if (str.equals("-debug")) {
-				isDebug = true;
-				new MainConsole();
-			} else if (str.equals("-builder")) {
-				isBuilder = true;
-			}
-		}
-		
-		if (isBuilder) {
-			new MainBuilder();
-		} else {
-			new Main();
-		}
+		new Main();
 	}
 	
 	public Main() {
@@ -97,13 +66,6 @@ public final class Main extends Canvas implements Runnable {
 			f.mkdirs();
 		}
 		
-		MouseInput mouse = new MouseInput();
-		keyInput = new KeyInput();
-		
-		addKeyListener(keyInput);
-		addMouseListener(mouse);
-		addMouseMotionListener(mouse);
-		addMouseWheelListener(mouse);
 		addComponentListener(new ComponentListener() {
 			@Override public void componentShown(ComponentEvent e) {}
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -115,30 +77,17 @@ public final class Main extends Canvas implements Runnable {
 			}
 		});
 		
-		InitItems.registerAll();
-		
 		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
 	}
 	
 	private void init() {
 		Console.print(Console.WarningType.Info, "Initialization started...");
 		
-		InitCommands.registerAll();
-		
 		Console.print(Console.WarningType.Info, "Initialization finished!");
 	}
 	
 	private void postInit() {
 		Console.print(Console.WarningType.Info, "Post-Initialization started...");
-		
-		worldHandler = new WorldHandler();
-		camera = new Camera();
-		
-		renderer = new Renderer();
-		
-		renderer.loadTextures();
-		hud.loadTextures();
-		hud.loadFonts();
 		
 		Console.print(Console.WarningType.Info, "Post-Initialization finished!");
 		
@@ -194,15 +143,12 @@ public final class Main extends Canvas implements Runnable {
 	
 	private void tick() {
 		consoleHud.tick();
-		keyInput.tick();
 		
-		if (Main.gamestate.fId == 0) {
-			worldHandler.tick();
-			worldHandler.tickAnimation();
-			camera.tick();
-		} else if (Main.gamestate.fId == 1) {
-			worldHandler.tickAnimation();
-		} else if (Main.gamestate.fId == 2) {
+		if (gamestate == Gamestate.run) {
+			
+		} else if (gamestate == Gamestate.softPause) {
+			
+		} else if (gamestate == Gamestate.hardPause) {
 			
 		}
 	}
@@ -230,9 +176,7 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, 0, width, height);
 		
 		g2.translate(w2 / 2, h2 / 2);
-		g2.translate(-camera.getPos().getX(), -camera.getPos().getY());
-		renderer.render(g);
-		g2.translate(camera.getPos().getX(), camera.getPos().getY());
+		//render
 		
 		g.setColor(Color.BLACK);
 		g.fillRect((int) (w / scale), 0, w2, height);
@@ -240,28 +184,10 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, (int) (h / scale), width, h2);
 		g.fillRect(0, -h2, width, h2);
 		
-		hud.render(g);
-		
-		debugHud.getInfo(worldHandler.getPlayer());
-		debugHud.drawText(g, "FPS: " + fps);
 		consoleHud.draw(g);
 		
 		g2.dispose();
 		bs.show();
-	}
-	
-	public static void save() {
-		Console.print(Console.WarningType.Info, "Started saving...");
-		gamestate = Gamestate.hardPause;
-		worldHandler.getPlayer().savePlayerData();
-		gamestate = Gamestate.run;
-		Console.print(Console.WarningType.Info, "Finished saving!");
-	}
-	
-	public static void load() {
-		Console.print(Console.WarningType.Info, "Started loading...");
-		worldHandler.getPlayer().loadPlayerData();
-		Console.print(Console.WarningType.Info, "Finished loading!");
 	}
 	
 	private void resize() {
@@ -293,10 +219,6 @@ public final class Main extends Canvas implements Runnable {
 		return HUD_HEIGHT;
 	}
 	
-	public static boolean getIsDebug() {
-		return isDebug;
-	}
-	
 	public static String getSaveLocation() {
 		return SAVE_LOCATION;
 	}
@@ -311,14 +233,6 @@ public final class Main extends Canvas implements Runnable {
 	
 	public static DebugConsole getCommandConsole() {
 		return CONSOLE;
-	}
-	
-	public static Camera getCamera() {
-		return camera;
-	}
-	
-	public static WorldHandler getWorldHandler() {
-		return worldHandler;
 	}
 	
 	public enum Gamestate {
