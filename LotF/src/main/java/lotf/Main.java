@@ -9,8 +9,10 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 
+import main.java.lotf.client.Renderer;
 import main.java.lotf.client.Window;
 import main.java.lotf.client.gui.ConsoleHud;
+import main.java.lotf.client.gui.DebugHud;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
@@ -23,19 +25,23 @@ public final class Main extends Canvas implements Runnable {
 	private static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
 	private static int width = 256, height = 144, w2, h2;
 	
+	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
+	private static final String BASE_LOCATION_ROOMS = "/main/resources/lotf/assets/rooms/";
+	private static final String BASE_LOCATION_TEXTURES = "/main/resources/lotf/assets/textures/";
+	
+	public static Gamestate gamestate = Gamestate.run;
+	
 	private int fps;
 	private boolean running = false;
 	
 	private Thread thread;
 	
 	private static final DebugConsole CONSOLE = new DebugConsole();
+	
 	private final ConsoleHud consoleHud = new ConsoleHud();
+	private final DebugHud debugHud = new DebugHud();
 	
-	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
-	private static final String BASE_LOCATION_ROOMS = "main/resources/lotf/assets/rooms/";
-	private static final String BASE_LOCATION_TEXTURES = "/main/resources/lotf/assets/textures/";
-	
-	public static Gamestate gamestate = Gamestate.run;
+	private Renderer renderer;
 	
 	public static void main(String args[]) {
 		new Main();
@@ -65,6 +71,8 @@ public final class Main extends Canvas implements Runnable {
 		if (!f.exists()) {
 			f.mkdirs();
 		}
+		
+		renderer = new Renderer();
 		
 		addComponentListener(new ComponentListener() {
 			@Override public void componentShown(ComponentEvent e) {}
@@ -176,7 +184,7 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, 0, width, height);
 		
 		g2.translate(w2 / 2, h2 / 2);
-		//render
+		renderer.render(g);
 		
 		g.setColor(Color.BLACK);
 		g.fillRect((int) (w / scale), 0, w2, height);
@@ -184,6 +192,7 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, (int) (h / scale), width, h2);
 		g.fillRect(0, -h2, width, h2);
 		
+		debugHud.render(g, "" + fps);
 		consoleHud.draw(g);
 		
 		g2.dispose();
@@ -236,24 +245,9 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	public enum Gamestate {
-		run      (0),
-		softPause(1),
-		hardPause(2);
-		
-		public final int fId;
-		
-		private Gamestate(int id) {
-			fId = id;
-		}
-		
-		public static Gamestate getFromNumber(int id) {
-			for (Gamestate type : values()) {
-				if (type.fId == id) {
-					return type;
-				}
-			}
-			throw new IllegalArgumentException("Invalid Type id: " + id);
-		}
+		run,
+		softPause,
+		hardPause;
 	}
 }
 

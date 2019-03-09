@@ -7,7 +7,7 @@ import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.util.math.MathHelper;
 
-public class CommandHelp extends Command {
+public final class CommandHelp extends Command {
 	
 	private static final Command.ArgumentType[] types = {Command.ArgumentType.Integer};
 	

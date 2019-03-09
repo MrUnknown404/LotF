@@ -6,7 +6,7 @@ import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
 
-public class CommandCHelp extends Command {
+public final class CommandCHelp extends Command {
 
 	private static final Command.ArgumentType[] types = {Command.ArgumentType.String};
 	

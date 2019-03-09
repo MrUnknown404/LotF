@@ -1,4 +1,4 @@
-package main.java.lotf.util;
+package main.java.lotf.util.enums;
 
 public enum EnumDirection {
 	nil  (0),

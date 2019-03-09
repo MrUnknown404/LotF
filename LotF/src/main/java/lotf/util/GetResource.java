@@ -1,5 +1,8 @@
 package main.java.lotf.util;
 
+import java.awt.Font;
+import java.awt.FontFormatException;
+import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +33,30 @@ public final class GetResource {
 			e.printStackTrace();
 		}
 		return i;
+	}
+	
+	public static Font getFont(String fontName) {
+		InputStream i = null;
+		Font font = null;
+		String loc = "/main/resources/lotf/assets/fonts/";
+		
+		if (GetResource.class.getResourceAsStream(loc + fontName + ".ttf") == null) {
+			Console.print(Console.WarningType.Error, "Cannot find font : " + loc + fontName + ".ttf");
+		} else {
+			i = GetResource.class.getResourceAsStream("/main/resources/lotf/assets/fonts/" + fontName + ".ttf");
+		}
+		
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, i).deriveFont(5f);
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(font);
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return font;
 	}
 	
 	public enum ResourceType {

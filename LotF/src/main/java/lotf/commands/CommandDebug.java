@@ -5,7 +5,7 @@ import java.util.List;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.util.Console;
 
-public class CommandDebug extends Command {
+public final class CommandDebug extends Command {
 
 	private static final Command.ArgumentType[] types = {Command.ArgumentType.Float, Command.ArgumentType.String};
 	
