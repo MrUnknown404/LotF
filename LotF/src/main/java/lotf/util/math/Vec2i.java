@@ -2,16 +2,17 @@ package main.java.lotf.util.math;
 
 public final class Vec2i {
 	
-	public static final Vec2f ZERO = new Vec2f(0, 0);
+	public static final Vec2i ZERO = new Vec2i();
 	protected int x, y;
+	
+	public Vec2i() {
+		x = 0;
+		y = 0;
+	}
 	
 	public Vec2i(int x, int y) {
 		this.x = x;
 		this.y = y;
-	}
-	
-	public Vec2i(float x, float y) {
-		this(MathHelper.floor(x), MathHelper.floor(y));
 	}
 	
 	public void add(Vec2i vec) {
@@ -70,5 +71,10 @@ public final class Vec2i {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "(" + x + ", " + y + ")";
 	}
 }

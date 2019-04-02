@@ -4,16 +4,16 @@ import java.awt.Rectangle;
 
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2f;
+import main.java.lotf.util.math.Vec2i;
 
 public abstract class GameObject {
 	
 	protected Vec2f pos;
-	protected int width, height;
+	protected Vec2i size;
 	
-	public GameObject(Vec2f pos, int width, int height) {
+	public GameObject(Vec2f pos, Vec2i size) {
 		this.pos = pos;
-		this.width = width;
-		this.height = height;
+		this.size = size;
 	}
 	
 	public void setPos(Vec2f pos) {
@@ -48,15 +48,19 @@ public abstract class GameObject {
 		return pos.getY();
 	}
 	
+	public Vec2i getSize() {
+		return size;
+	}
+	
 	public int getWidth() {
-		return width;
+		return size.getX();
 	}
 	
 	public int getHeight() {
-		return height;
+		return size.getY();
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY()), width, height);
+		return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY()), size.getX(), size.getY());
 	}
 }

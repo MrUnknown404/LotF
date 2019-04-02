@@ -18,14 +18,22 @@ public final class GetResource {
 	public static BufferedImage getTexture(ResourceType location, String textureName) {
 		InputStream f = null;;
 		String loc = Main.getBaseLocationTextures();
+		String newLoc = location.toString().toLowerCase();
 		
-		if (GetResource.class.getResourceAsStream(loc + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE) == null) {
-			Console.print(Console.WarningType.Error, "Cannot find texture : " + loc + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE);
-			f = GetResource.class.getResourceAsStream(loc + "missing" + FILE_TYPE);
+		if (location == ResourceType.none) {
+			newLoc = "";
+		}
+		
+		if (GetResource.class.getResourceAsStream(loc + newLoc + "/" + textureName + FILE_TYPE) == null) {
+			Console.print(Console.WarningType.Error, "Cannot find texture : " + loc + newLoc + "/" + textureName + FILE_TYPE);
 		} else {
-			f = GetResource.class.getResourceAsStream(loc + location.toString().toLowerCase() + "/" + textureName + FILE_TYPE);
+			f = GetResource.class.getResourceAsStream(loc + newLoc + "/" + textureName + FILE_TYPE);
 		}
 		BufferedImage i = null;
+		
+		if (f == null) {
+			return null;
+		}
 		
 		try {
 			i = ImageIO.read(f);
@@ -33,6 +41,10 @@ public final class GetResource {
 			e.printStackTrace();
 		}
 		return i;
+	}
+	
+	public static BufferedImage getTexture(String textureName) {
+		return getTexture(ResourceType.none, textureName);
 	}
 	
 	public static Font getFont(String fontName) {
@@ -60,24 +72,10 @@ public final class GetResource {
 	}
 	
 	public enum ResourceType {
-		tile  (0),
-		entity(1),
-		gui   (2),
-		item  (3);
-		
-		private final int fId;
-		
-		private ResourceType(int id) {
-			fId = id;
-		}
-		
-		public static ResourceType getFromNumber(int id) {
-			for (ResourceType type : values()) {
-				if (type.fId == id) {
-					return type;
-				}
-			}
-			throw new IllegalArgumentException("Invalid Type id: " + id);
-		}
+		none,
+		tile,
+		entity,
+		gui,
+		item;
 	}
 }

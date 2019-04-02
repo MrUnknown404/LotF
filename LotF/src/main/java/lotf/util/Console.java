@@ -47,13 +47,13 @@ public final class Console {
 	}
 	
 	public enum WarningType {
-		Debug     (0),
-		Info      (1),
-		Warning   (2),
-		Error     (3),
-		FatalError(4),
-		Texture   (5),
-		Register  (6);
+		Debug        (0),
+		Info         (1),
+		Warning      (2),
+		Error        (3),
+		FatalError   (4),
+		TextureDebug (5),
+		RegisterDebug(6);
 		
 		private final int fId;
 		

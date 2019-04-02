@@ -2,8 +2,13 @@ package main.java.lotf.util.math;
 
 public final class Vec2f {
 	
-	public static final Vec2f ZERO = new Vec2f(0, 0);
+	public static final Vec2f ZERO = new Vec2f();
 	protected float x, y;
+	
+	public Vec2f() {
+		x = 0;
+		y = 0;
+	}
 	
 	public Vec2f(float x, float y) {
 		this.x = x;

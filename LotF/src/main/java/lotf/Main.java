@@ -2,7 +2,6 @@ package main.java.lotf;
 
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -17,13 +16,14 @@ import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2i;
+import main.java.lotf.world.World;
 
 public final class Main extends Canvas implements Runnable {
 
 	private static final long serialVersionUID = -2518563563721413864L;
 	
 	private static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
-	private static int width = 256, height = 144, w2, h2;
+	private static int width = HUD_WIDTH, height =HUD_HEIGHT, w2, h2;
 	
 	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
 	private static final String BASE_LOCATION_ROOMS = "/main/resources/lotf/assets/rooms/";
@@ -42,6 +42,8 @@ public final class Main extends Canvas implements Runnable {
 	private final DebugHud debugHud = new DebugHud();
 	
 	private Renderer renderer;
+	
+	private static World world;
 	
 	public static void main(String args[]) {
 		new Main();
@@ -66,13 +68,14 @@ public final class Main extends Canvas implements Runnable {
 	private void preInit() {
 		Console.print(Console.WarningType.Info, "Pre-Initialization started...");
 		
-		Console.print(Console.WarningType.Info, "Creating file path!");
 		File f = new File(SAVE_LOCATION);
 		if (!f.exists()) {
 			f.mkdirs();
 		}
+		Console.print(Console.WarningType.Info, "Created file path!");
 		
 		renderer = new Renderer();
+		renderer.getTileTextures();
 		
 		addComponentListener(new ComponentListener() {
 			@Override public void componentShown(ComponentEvent e) {}
@@ -84,6 +87,10 @@ public final class Main extends Canvas implements Runnable {
 				resize();
 			}
 		});
+		
+		Console.print(Console.WarningType.Info, "World creation started...");
+		world = new World(new Vec2i(3, 3));
+		Console.print(Console.WarningType.Info, "World creation finished!");
 		
 		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
 	}
@@ -153,7 +160,7 @@ public final class Main extends Canvas implements Runnable {
 		consoleHud.tick();
 		
 		if (gamestate == Gamestate.run) {
-			
+			world.tick();
 		} else if (gamestate == Gamestate.softPause) {
 			
 		} else if (gamestate == Gamestate.hardPause) {
@@ -169,8 +176,7 @@ public final class Main extends Canvas implements Runnable {
 			return;
 		}
 		
-		Graphics g2 = bs.getDrawGraphics();
-		Graphics2D g = (Graphics2D) g2;
+		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
 		
 		double scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
 		int w = (int) Math.ceil((HUD_WIDTH * scale));
@@ -183,7 +189,7 @@ public final class Main extends Canvas implements Runnable {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, width, height);
 		
-		g2.translate(w2 / 2, h2 / 2);
+		g.translate(w2 / 2, h2 / 2);
 		renderer.render(g);
 		
 		g.setColor(Color.BLACK);
@@ -195,7 +201,7 @@ public final class Main extends Canvas implements Runnable {
 		debugHud.render(g, "" + fps);
 		consoleHud.draw(g);
 		
-		g2.dispose();
+		g.dispose();
 		bs.show();
 	}
 	
@@ -238,6 +244,10 @@ public final class Main extends Canvas implements Runnable {
 	
 	public static String getBaseLocationTextures() {
 		return BASE_LOCATION_TEXTURES;
+	}
+	
+	public static World getWorld() {
+		return world;
 	}
 	
 	public static DebugConsole getCommandConsole() {

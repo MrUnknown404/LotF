@@ -1,11 +1,16 @@
 package main.java.lotf.entity;
 
 import main.java.lotf.util.math.Vec2f;
+import main.java.lotf.util.math.Vec2i;
+import main.java.lotf.world.Room;
 
-public class EntityPlayer extends Entity {
+public final class EntityPlayer extends Entity {
 
-	public EntityPlayer(Vec2f pos) {
-		super(pos, 16, 16, 3);
+	private Room r;
+	
+	public EntityPlayer(Vec2f pos, Room r) {
+		super(pos, new Vec2i(16, 16), 3);
+		this.r = r;
 	}
 	
 	@Override
@@ -26,5 +31,9 @@ public class EntityPlayer extends Entity {
 		} else {
 			return false;
 		}
+	}
+	
+	public Room getRoom() {
+		return r;
 	}
 }

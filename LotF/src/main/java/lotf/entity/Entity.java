@@ -7,14 +7,15 @@ import main.java.lotf.util.GameObject;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2f;
+import main.java.lotf.util.math.Vec2i;
 
 public abstract class Entity extends GameObject implements ITickable {
 
 	protected EnumDirection dir = EnumDirection.nil;
 	protected List<Integer> hearts = new ArrayList<>();
 	
-	public Entity(Vec2f pos, int width, int height, int totalHearts) {
-		super(pos, width, height);
+	public Entity(Vec2f pos, Vec2i size, int totalHearts) {
+		super(pos, size);
 		
 		for (int i = 0; i < totalHearts; i++) {
 			hearts.add(4);
