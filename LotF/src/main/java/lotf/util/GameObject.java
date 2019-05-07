@@ -17,7 +17,7 @@ public abstract class GameObject {
 	}
 	
 	public void setPos(Vec2f pos) {
-		pos.set(pos);
+		this.pos.set(pos);
 	}
 	
 	public void setPosX(float x) {

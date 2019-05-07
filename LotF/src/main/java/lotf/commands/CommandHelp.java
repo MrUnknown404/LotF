@@ -7,7 +7,7 @@ import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.util.math.MathHelper;
 
-public final class CommandHelp extends Command {
+public class CommandHelp extends Command {
 	
 	private static final Command.ArgumentType[] types = {Command.ArgumentType.Integer};
 	
@@ -17,14 +17,12 @@ public final class CommandHelp extends Command {
 	
 	@Override
 	public String setUsage() {
-		return "Prints all commands and there usage";
+		return "Prints all commands and their usage";
 	}
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		DebugConsole console = Main.getCommandConsole();
-		console.lines.clear();
-		console.lines.add("");
+		DebugConsole console = Main.getMain().getCommandConsole();
 		
 		int ti = 0, tii = 1;
 		if (!argInt.isEmpty()) {
@@ -32,8 +30,8 @@ public final class CommandHelp extends Command {
 			tii = MathHelper.clamp(argInt.get(0) + 1, 1, Integer.MAX_VALUE);
 		}
 		
-		for (int i = ti; i < console.commands.size(); i++) {
-			Command cmd = console.commands.get(i);
+		for (int i = ti; i < InitCommands.getAmountOfCommands(); i++) {
+			Command cmd = InitCommands.getCommand(i);
 			
 			if (i == DebugConsole.getMaxLines() * tii) {
 				break;

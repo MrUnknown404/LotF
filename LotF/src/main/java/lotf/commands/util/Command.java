@@ -8,17 +8,11 @@ public abstract class Command {
 
 	protected boolean isArgsOptional;
 	protected String name;
-	private int amountOfArgs;
 	private ArgumentType[] typeOfArgs;
-	
-	protected String stringID;
-	protected int id = -1;
 	
 	public Command(String name, @Nullable ArgumentType[] typeOfArgs, boolean isArgsOptional) {
 		this.name = name;
-		this.amountOfArgs = typeOfArgs.length;
 		this.isArgsOptional = isArgsOptional;
-		this.stringID = "CMD_" + name;
 		
 		if (typeOfArgs != null) {
 			this.typeOfArgs = typeOfArgs;
@@ -48,24 +42,12 @@ public abstract class Command {
 	}
 	
 	public int getAmountOfArgs() {
-		return amountOfArgs;
-	}
-	
-	public String getStringID() {
-		return stringID;
-	}
-	
-	public void setID(int id) {
-		this.id = id;
-	}
-	
-	public int getID() {
-		return id;
+		return typeOfArgs.length;
 	}
 	
 	@Override
 	public String toString() {
-		return "(" + name + ", " + stringID + ", " + id + ")";
+		return name;
 	}
 	
 	public ArgumentType[] getArgumentType() {

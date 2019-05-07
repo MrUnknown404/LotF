@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 import main.java.lotf.Main;
 
-public final class Window {
+public class Window {
 	public Window(String title, Main main) {
 		JFrame frame = new JFrame(title);
 		
@@ -26,7 +26,5 @@ public final class Window {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 		frame.add(main);
-		
-		main.start();
 	}
 }

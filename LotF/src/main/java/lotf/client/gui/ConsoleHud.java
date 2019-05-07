@@ -7,9 +7,9 @@ import java.awt.Graphics2D;
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
 
-public final class ConsoleHud {
+public class ConsoleHud {
 
-	private static final Font FONT = new Font("Font", Font.BOLD, 9);
+	private static final Font FONT = new Font("Font", Font.PLAIN, 9);
 	
 	private boolean tb = false;
 	private int ti = 0;
@@ -17,30 +17,30 @@ public final class ConsoleHud {
 	public void draw(Graphics2D g) {
 		g.setFont(FONT);
 		
-		DebugConsole console = Main.getCommandConsole();
+		DebugConsole console = Main.getMain().getCommandConsole();
 		
-		if (console.isConsoleOpen) {
+		if (console.isConsoleOpen()) {
 			g.setColor(new Color(0.2f, 0.2f, 0.2f, 0.5f));
 			g.fillRect(0, 0, Main.getHudWidth(), ((DebugConsole.getMaxLines() + 2) * 9) - 10);
 			g.setColor(Color.GREEN);
 			
 			if (tb) {
-				g.drawString(">: " + console.input + ":", 2, ((DebugConsole.getMaxLines() + 2) *9) - 12);
+				g.drawString(">: " + console.getInput() + ":", 2, ((DebugConsole.getMaxLines() + 2) *9) - 12);
 			} else {
-				g.drawString(">: " + console.input, 2, ((DebugConsole.getMaxLines() + 2) * 9) - 12);
+				g.drawString(">: " + console.getInput(), 2, ((DebugConsole.getMaxLines() + 2) * 9) - 12);
 			}
 			
-			if (!console.lines.isEmpty()) {
-				for (int i = 1; i < console.lines.size(); i++) {
-					if (console.lines.get(i).startsWith("*")) {
+			if (!console.getLines().isEmpty()) {
+				for (int i = 1; i < console.getLines().size(); i++) {
+					if (console.getLines().get(i).startsWith("*")) {
 						g.setColor(Color.RED);
-					} else if (console.lines.get(i).startsWith("$")) {
+					} else if (console.getLines().get(i).startsWith("$")) {
 						g.setColor(new Color(0, 150, 255));
 					} else {
 						g.setColor(Color.GREEN);
 					}
 					
-					g.drawString("<: " + console.lines.get(i), 2, ((DebugConsole.getMaxLines() + 1) * 9) - (i * 9));
+					g.drawString("<: " + console.getLines().get(i), 2, ((DebugConsole.getMaxLines() + 1) * 9) - (i * 9));
 				}
 			}
 		}

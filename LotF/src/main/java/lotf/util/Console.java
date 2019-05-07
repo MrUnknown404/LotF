@@ -5,6 +5,7 @@ import java.util.Date;
 
 public final class Console {
 	
+	//private static final WarningType[] DISABLED_TYPES = {WarningType.RegisterDebug, WarningType.TextureDebug};
 	private static final WarningType[] DISABLED_TYPES = {};
 	
 	/** Prints date info to the console Example: <p> [12:34:56:789] [Info] [ExampleClass.exampleMethod.69] [Hour/Minute/Second/Millisecond] */
@@ -14,11 +15,9 @@ public final class Console {
 	
 	/** Prints date info plus the given string to the console Example: <p> [12:34:56:789] [Debug] [ExampleClass.exampleMethod.69] : Hello! */
 	public static void print(WarningType type, String string) {
-		if (DISABLED_TYPES.length != 0) {
-			for (int i = 0; i < DISABLED_TYPES.length; i++) {
-				if (DISABLED_TYPES[i] == type) {
-					return;
-				}
+		for (WarningType t : DISABLED_TYPES) {
+			if (t == type) {
+				return;
 			}
 		}
 		
@@ -47,27 +46,13 @@ public final class Console {
 	}
 	
 	public enum WarningType {
-		Debug        (0),
-		Info         (1),
-		Warning      (2),
-		Error        (3),
-		FatalError   (4),
-		TextureDebug (5),
-		RegisterDebug(6);
+		Debug,
+		Info,
+		Warning,
+		Error,
+		FatalError,
 		
-		private final int fId;
-		
-		private WarningType(int id) {
-			fId = id;
-		}
-		
-		public static WarningType getFromNumber(int id) {
-			for (WarningType type : values()) {
-				if (type.fId == id) {
-					return type;
-				}
-			}
-			throw new IllegalArgumentException("Invalid Type id: " + id);
-		}
+		TextureDebug,
+		RegisterDebug;
 	}
 }

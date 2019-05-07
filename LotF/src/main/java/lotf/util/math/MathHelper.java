@@ -2,7 +2,7 @@ package main.java.lotf.util.math;
 
 import main.java.lotf.util.Console;
 
-public final class MathHelper {
+public class MathHelper {
 	
 	public static int floor(float value) {
 		int i = (int) value;

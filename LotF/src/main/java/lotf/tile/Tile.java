@@ -1,18 +1,22 @@
 package main.java.lotf.tile;
 
+import java.util.Random;
+
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
-public final class Tile extends GameObject {
+public class Tile extends GameObject {
 
-	private static final Vec2i TILE_SIZE = new Vec2i(16, 16);
+	public static final int TILE_SIZE = 16;
 	
 	private final TileInfo tileInfo;
 	private final Vec2i tilePos;
 	
+	private int flipState = -1;
+	
 	public Tile(Vec2i tilePos, TileInfo tileInfo) {
-		super(new Vec2f(tilePos), TILE_SIZE);
+		super(new Vec2f(tilePos), new Vec2i(16, 16));
 		this.tileInfo = tileInfo;
 		this.tilePos = tilePos;
 		
@@ -20,7 +24,13 @@ public final class Tile extends GameObject {
 	}
 	
 	public void updateTile() {
-		setPos(new Vec2f(tilePos.getX() * 16, tilePos.getY() * 16));
+		if (new Random().nextBoolean()) {
+			flipState = 1;
+		} else {
+			flipState = 0;
+		}
+		
+		setPos(new Vec2f(tilePos.getX() * TILE_SIZE, tilePos.getY() * TILE_SIZE));
 	}
 	
 	public Vec2i getTilePos() {
@@ -35,12 +45,16 @@ public final class Tile extends GameObject {
 		return tilePos.getY();
 	}
 	
+	public int getFlipState() {
+		return flipState;
+	}
+	
 	public TileInfo getTileInfo() {
 		return tileInfo;
 	}
 	
 	@Override
 	public String toString() {
-		return "(" + tileInfo.getName() + ", " + tilePos + ")";
+		return "(" + tileInfo + ", " + tilePos + ")";
 	}
 }

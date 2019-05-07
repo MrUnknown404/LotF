@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 
 import main.java.lotf.Main;
 
-public final class GetResource {
+public class GetResource {
 	
 	private static final String FILE_TYPE = ".png";
 	

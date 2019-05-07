@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
-public final class World implements ITickable {
+public class World implements ITickable, IResetable {
 
 	private List<Room> rooms = new ArrayList<>();
 	
@@ -30,6 +31,16 @@ public final class World implements ITickable {
 		for (Room r : rooms) {
 			r.tick();
 		}
+	}
+	
+	@Override
+	public void softReset() {
+		
+	}
+	
+	@Override
+	public void hardReset() {
+		
 	}
 	
 	public EntityPlayer getPlayer() {

@@ -1,6 +1,6 @@
 package main.java.lotf.util.math;
 
-public final class Vec2i {
+public class Vec2i {
 	
 	public static final Vec2i ZERO = new Vec2i();
 	protected int x, y;
@@ -33,14 +33,14 @@ public final class Vec2i {
 		this.y += y;
 	}
 	
-	public void set(Vec2f vec) {
-		this.x += vec.x;
-		this.y += vec.y;
+	public void set(Vec2i vec) {
+		this.x = vec.x;
+		this.y = vec.y;
 	}
 	
 	public void set(int x, int y) {
-		this.x += x;
-		this.y += y;
+		this.x = x;
+		this.y = y;
 	}
 	
 	public void setX(int x) {

@@ -6,15 +6,14 @@ import java.util.List;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
+import main.java.lotf.commands.InitCommands;
 
-public final class DebugConsole {
-	public List<Command> commands = new ArrayList<Command>();
-	
+public class DebugConsole {
 	private static final int MAX_ARGS = Command.ArgumentType.values().length, MAX_LINES = 7;
-	public boolean isConsoleOpen;
-	public int curLine;
-	public String input = "";
-	public List<String> lines = new ArrayList<String>(), writtenLines = new ArrayList<String>();
+	private boolean isConsoleOpen;
+	private int curLine;
+	private String input = "";
+	private List<String> lines = new ArrayList<String>(), writtenLines = new ArrayList<String>();
 	
 	public DebugConsole() {
 		lines.add("");
@@ -41,46 +40,12 @@ public final class DebugConsole {
 	}
 	
 	public Command findCommand(String name) {
-		for (int i = 0; i < commands.size(); i++) {
-			if (commands.get(i).getName().equals(name)) {
-				return commands.get(i);
+		for (int i = 0; i < InitCommands.getAmountOfCommands(); i++) {
+			if (InitCommands.getCommand(i).getName().equals(name)) {
+				return InitCommands.getCommand(i);
 			}
 		}
 		return null;
-	}
-	
-	private void printError(CommandError error) {
-		String errorStr = null;
-		switch (error) {
-			case noSlash:
-				errorStr = "Commands must start with a /";
-				break;
-			case noCommand:
-				errorStr = "No command was written";
-				break;
-			case noArgs:
-				errorStr = "No arguments were written";
-				break;
-			case notEnoughArgs:
-				errorStr = "Not enough arguments were written";
-				break;
-			case tooManyArgs:
-				errorStr = "Too many arguments were written";
-				break;
-			case wrongArg:
-				errorStr = "Atleast one of the written arguments is not the correct type";
-				break;
-			case notACommand:
-				errorStr = "No valid command was written";
-				break;
-			default:
-				errorStr = "Null! something broke!";
-				break;
-		}
-		
-		addLine(Main.getCommandConsole().input.trim());
-		clearInput();
-		addLine("* " + errorStr.trim());
 	}
 	
 	public void finishCommand() {
@@ -98,7 +63,7 @@ public final class DebugConsole {
 		curLine = 0;
 		
 		if (!cmd.startsWith("/")) {
-			printError(CommandError.noSlash);
+			CommandError.noSlash.printError();
 			return;
 		}
 		
@@ -109,8 +74,9 @@ public final class DebugConsole {
 				break;
 			}
 		}
+		
 		if (!didFind) {
-			printError(CommandError.noCommand);
+			CommandError.noCommand.printError();
 			return;
 		}
 		
@@ -122,14 +88,14 @@ public final class DebugConsole {
 		}
 		
 		Command command = null;
-		for (int i = 0; i < commands.size(); i++) {
-			if (commands.get(i).getName().equals(cmdName)) {
-				command = commands.get(i);
+		for (int i = 0; i < InitCommands.getAmountOfCommands(); i++) {
+			if (InitCommands.getCommand(i).getName().equals(cmdName)) {
+				command = InitCommands.getCommand(i);
 				break;
 			}
 		}
 		if (command == null) {
-			printError(CommandError.notACommand);
+			CommandError.notACommand.printError();
 			return;
 		}
 		
@@ -152,15 +118,15 @@ public final class DebugConsole {
 			
 			if (!command.isArgsOptional) {
 				if (formatedArgs.size() < command.getAmountOfArgs()) {
-					printError(CommandError.notEnoughArgs);
+					CommandError.notEnoughArgs.printError();
 					return;
 				} else if (formatedArgs.size() > MAX_ARGS || formatedArgs.size() > command.getAmountOfArgs()) {
-					printError(CommandError.tooManyArgs);
+					CommandError.tooManyArgs.printError();
 					return;
 				}
 			} else {
 				if (formatedArgs.size() > MAX_ARGS || formatedArgs.size() > command.getAmountOfArgs()) {
-					printError(CommandError.tooManyArgs);
+					CommandError.tooManyArgs.printError();
 					return;
 				}
 			}
@@ -170,21 +136,21 @@ public final class DebugConsole {
 					try {
 						intArgs.add(Integer.parseInt(formatedArgs.get(i)));
 					} catch (NumberFormatException e) {
-						printError(CommandError.wrongArg);
+						CommandError.wrongArg.printError();
 						return;
 					}
 				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.Float)) {
 					try {
 						floatArgs.add(Float.parseFloat(formatedArgs.get(i)));
 					} catch (NumberFormatException e) {
-						printError(CommandError.wrongArg);
+						CommandError.wrongArg.printError();
 						return;
 					}
 				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.Double)) {
 					try {
 						doubleArgs.add(Double.parseDouble(formatedArgs.get(i)));
 					} catch (NumberFormatException e) {
-						printError(CommandError.wrongArg);
+						CommandError.wrongArg.printError();
 						return;
 					}
 				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.Boolean)) {
@@ -193,41 +159,41 @@ public final class DebugConsole {
 					} else if (formatedArgs.get(i).equals("false")) {
 						boolArgs.add(false);
 					} else {
-						printError(CommandError.wrongArg);
+						CommandError.wrongArg.printError();
 						return;
 					}
 				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.String)) {
 					try {
 						Integer.parseInt(formatedArgs.get(i));
-						printError(CommandError.wrongArg);
+						CommandError.wrongArg.printError();
 						return;
 					} catch (NumberFormatException e1) {
 						try {
 							Float.parseFloat(formatedArgs.get(i));
-							printError(CommandError.wrongArg);
+							CommandError.wrongArg.printError();
 							return;
 						} catch (NumberFormatException e2) {
 							try {
 								Double.parseDouble(formatedArgs.get(i));
-								printError(CommandError.wrongArg);
+								CommandError.wrongArg.printError();
 								return;
 							} catch (NumberFormatException e3) {
 								if (!formatedArgs.get(i).equals("true") && !formatedArgs.get(i).equals("false")) {
 									stringArgs.add(formatedArgs.get(i));
 								} else {
-									printError(CommandError.wrongArg);
+									CommandError.wrongArg.printError();
 									return;
 								}
 							}
 						}
 					}
 				} else {
-					printError(CommandError.nil);
+					CommandError.nil.printError();
 					return;
 				}
 			}
 		} else if (command.getAmountOfArgs() != 0 && !command.isArgsOptional) {
-			printError(CommandError.noArgs);
+			CommandError.noArgs.printError();
 			return;
 		}
 		
@@ -238,33 +204,62 @@ public final class DebugConsole {
 		clearInput();
 	}
 	
+	public void setConsoleOpen(boolean isConsoleOpen) {
+		this.isConsoleOpen = isConsoleOpen;
+	}
+	
+	public void setCurLine(int curLine) {
+		this.curLine = curLine;
+	}
+	
+	public void setInput(String input) {
+		this.input = input;
+	}
+	
+	public boolean isConsoleOpen() {
+		return isConsoleOpen;
+	}
+	
+	public int getCurLine() {
+		return curLine;
+	}
+	
+	public String getInput() {
+		return input;
+	}
+	
+	public List<String> getWrittenLines() {
+		return writtenLines;
+	}
+	
+	public List<String> getLines() {
+		return lines;
+	}
+	
 	public static int getMaxLines() {
 		return MAX_LINES;
 	}
 	
 	public enum CommandError {
-		nil          (0),
-		noSlash      (1),
-		noCommand    (2),
-		noArgs       (3),
-		notEnoughArgs(4),
-		tooManyArgs  (5),
-		wrongArg     (6),
-		notACommand  (7);
+		nil          ("Null! something broke!"),
+		noSlash      ("Commands must start with a /"),
+		noCommand    ("No command was written"),
+		noArgs       ("No arguments were written"),
+		notEnoughArgs("Not enough arguments were written"),
+		tooManyArgs  ("Too many arguments were written"),
+		wrongArg     ("At least one of the written arguments is not the correct type"),
+		notACommand  ("No valid command was written");
 		
-		private final int fId;
+		private final String error;
 		
-		private CommandError(int id) {
-			fId = id;
+		private CommandError(String error) {
+			this.error = error;
 		}
-
-		public static CommandError getNumber(int id) {
-			for (CommandError type : values()) {
-				if (type.fId == id) {
-					return type;
-				}
-			}
-			throw new IllegalArgumentException("Invalid Type id: " + id);
+		
+		private void printError() {
+			Main.getMain().getCommandConsole().addLine(Main.getMain().getCommandConsole().input.trim());
+			Main.getMain().getCommandConsole().clearInput();
+			Main.getMain().getCommandConsole().addLine("* " + error);
 		}
 	}
 }

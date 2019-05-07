@@ -4,7 +4,7 @@ import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 
-public final class EntityPlayer extends Entity {
+public class EntityPlayer extends EntityLiving {
 
 	private Room r;
 	
@@ -15,7 +15,16 @@ public final class EntityPlayer extends Entity {
 	
 	@Override
 	public void tick() {
-		super.tick();
+		
+	}
+	
+	@Override
+	public void softReset() {
+		
+	}
+	
+	@Override
+	public void hardReset() {
 		
 	}
 	
