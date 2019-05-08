@@ -25,7 +25,7 @@ public class ConsoleHud {
 			g.setColor(Color.GREEN);
 			
 			if (tb) {
-				g.drawString(">: " + console.getInput() + ":", 2, ((DebugConsole.getMaxLines() + 2) *9) - 12);
+				g.drawString(">: " + console.getInput() + ":", 2, ((DebugConsole.getMaxLines() + 2) * 9) - 12);
 			} else {
 				g.drawString(">: " + console.getInput(), 2, ((DebugConsole.getMaxLines() + 2) * 9) - 12);
 			}
@@ -40,7 +40,7 @@ public class ConsoleHud {
 						g.setColor(Color.GREEN);
 					}
 					
-					g.drawString("<: " + console.getLines().get(i), 2, ((DebugConsole.getMaxLines() + 1) * 9) - (i * 9));
+					g.drawString("<: " + console.getLines().get(i), 2, (DebugConsole.getMaxLines() + 1) * 9 - i * 9 - 1);
 				}
 			}
 		}

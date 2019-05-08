@@ -8,10 +8,8 @@ import main.java.lotf.commands.util.DebugConsole;
 
 public class CommandCHelp extends Command {
 
-	private static final Command.ArgumentType[] types = {Command.ArgumentType.String};
-	
 	public CommandCHelp() {
-		super("chelp", types, false);
+		super("chelp", new ArgumentType[] {ArgumentType.String}, false);
 	}
 	
 	@Override

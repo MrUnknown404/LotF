@@ -12,7 +12,7 @@ public class DebugHud {
 		g.setFont(FONT);
 		g.setColor(Color.GREEN);
 		
-		int y = 9;
+		int y = 24;
 		
 		g.drawString("FPS : " + fps, 1, y);
 	}

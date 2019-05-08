@@ -9,10 +9,8 @@ import main.java.lotf.util.math.MathHelper;
 
 public class CommandHelp extends Command {
 	
-	private static final Command.ArgumentType[] types = {Command.ArgumentType.Integer};
-	
 	public CommandHelp() {
-		super("help", types, true);
+		super("help", new ArgumentType[] {ArgumentType.Integer}, true);
 	}
 	
 	@Override

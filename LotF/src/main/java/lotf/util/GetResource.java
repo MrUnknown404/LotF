@@ -22,12 +22,14 @@ public class GetResource {
 		
 		if (location == ResourceType.none) {
 			newLoc = "";
+		} else {
+			newLoc += "/";
 		}
 		
-		if (GetResource.class.getResourceAsStream(loc + newLoc + "/" + textureName + FILE_TYPE) == null) {
-			Console.print(Console.WarningType.Error, "Cannot find texture : " + loc + newLoc + "/" + textureName + FILE_TYPE);
+		if (GetResource.class.getResourceAsStream(loc + newLoc + textureName + FILE_TYPE) == null) {
+			Console.print(Console.WarningType.Error, "Cannot find texture : " + loc + newLoc + textureName + FILE_TYPE);
 		} else {
-			f = GetResource.class.getResourceAsStream(loc + newLoc + "/" + textureName + FILE_TYPE);
+			f = GetResource.class.getResourceAsStream(loc + newLoc + textureName + FILE_TYPE);
 		}
 		BufferedImage i = null;
 		

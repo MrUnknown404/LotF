@@ -37,14 +37,26 @@ public class World implements ITickable, IResetable {
 		}
 	}
 	
+	public void onEnter() {
+		
+	}
+	
+	public void onLeave() {
+		hardReset();
+	}
+	
 	@Override
 	public void softReset() {
-		
+		for (Room r : rooms) {
+			r.softReset();
+		}
 	}
 	
 	@Override
 	public void hardReset() {
-		
+		for (Room r : rooms) {
+			r.hardReset();
+		}
 	}
 	
 	public EntityPlayer getPlayer() {

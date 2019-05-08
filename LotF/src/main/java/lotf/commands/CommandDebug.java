@@ -7,10 +7,8 @@ import main.java.lotf.util.Console;
 
 public class CommandDebug extends Command {
 
-	private static final Command.ArgumentType[] types = {Command.ArgumentType.Float, Command.ArgumentType.String};
-	
 	public CommandDebug() {
-		super("debug", types, false);
+		super("debug", new ArgumentType[] {ArgumentType.Float, ArgumentType.String}, false);
 	}
 	
 	@Override

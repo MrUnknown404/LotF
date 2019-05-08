@@ -12,6 +12,7 @@ import main.java.lotf.client.KeyHandler;
 import main.java.lotf.client.Window;
 import main.java.lotf.client.gui.ConsoleHud;
 import main.java.lotf.client.gui.DebugHud;
+import main.java.lotf.client.gui.Hud;
 import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.InitCommands;
 import main.java.lotf.commands.util.DebugConsole;
@@ -41,6 +42,7 @@ public final class Main extends Canvas implements Runnable {
 	private final DebugConsole console = new DebugConsole();
 	private final ConsoleHud consoleHud = new ConsoleHud();
 	private final DebugHud debugHud = new DebugHud();
+	private final Hud hud = new Hud();
 	
 	private Renderer renderer;
 	private KeyHandler keyHandler;
@@ -76,6 +78,8 @@ public final class Main extends Canvas implements Runnable {
 		
 		renderer = new Renderer();
 		renderer.getTextures();
+		hud.getFonts();
+		hud.getTextures();
 		
 		InitCommands.registerAll();
 		
@@ -201,6 +205,7 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, (int) (h / scale), width, h2);
 		g.fillRect(0, -h2, width, h2);
 		
+		hud.render(g);
 		debugHud.render(g, "" + fps);
 		consoleHud.draw(g);
 		

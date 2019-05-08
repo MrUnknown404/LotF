@@ -68,12 +68,16 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	@Override
 	public void softReset() {
-		
+		for (Entity e : entities) {
+			e.softReset();
+		}
 	}
 	
 	@Override
 	public void hardReset() {
-		
+		for (Entity e : entities) {
+			e.hardReset();
+		}
 	}
 	
 	public List<TileInfo> getAllTileInfos() {

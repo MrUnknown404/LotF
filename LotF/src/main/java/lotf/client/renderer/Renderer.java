@@ -18,8 +18,10 @@ import main.java.lotf.world.Room;
 
 public class Renderer {
 	
-	public List<ImageInfo> textures = new ArrayList<ImageInfo>();
-	public List<TileImageInfo> tileTextures = new ArrayList<TileImageInfo>();
+	private List<ImageInfo> textures = new ArrayList<ImageInfo>();
+	private List<TileImageInfo> tileTextures = new ArrayList<TileImageInfo>();
+	
+	private BufferedImage player;
 	
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
@@ -41,6 +43,15 @@ public class Renderer {
 					registerTile(TileInfo.getAllTypes().get(i));
 				}
 			}
+		}
+		
+		//TODO temp
+		player = GetResource.getTexture(GetResource.ResourceType.entity, "player");
+		
+		if (player != null) {
+			Console.print(Console.WarningType.TextureDebug, "player was registered!");
+		} else {
+			Console.print(Console.WarningType.TextureDebug, "player was not registered!");
 		}
 		
 		Console.print(Console.WarningType.Info, "Finished texture registering!");
@@ -114,8 +125,7 @@ public class Renderer {
 					}
 				}
 				
-				g.setColor(Color.BLUE);
-				g.fillRect((int) p.getPos().getX(), (int) p.getPosY(), p.getWidth(), p.getHeight());
+				g.drawImage(player, (int) p.getPos().getX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
 			}
 			
 			for (Room r : Main.getMain().getWorld().getRooms()) { //TODO temp

@@ -11,6 +11,9 @@ public class InitCommands {
 	public static void registerAll() {
 		registerCommand(new CommandHelp());
 		registerCommand(new CommandCHelp());
+		registerCommand(new CommandSetMoney());
+		registerCommand(new CommandSetArrows());
+		registerCommand(new CommandSetBombs());
 		
 		registerCommand(new CommandDebug());
 	}
