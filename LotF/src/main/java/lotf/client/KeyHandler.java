@@ -2,22 +2,28 @@ package main.java.lotf.client;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entity.EntityPlayer;
 import main.java.lotf.util.Console;
-import main.java.lotf.util.KeyInfo;
+import main.java.lotf.util.ITickable;
 import main.java.lotf.util.math.MathHelper;
 
-public class KeyHandler extends KeyAdapter {
+public class KeyHandler extends KeyAdapter implements ITickable {
 
-	private List<KeyInfo> keys;
+	public Map<KeyType, Boolean> dualKeys = new HashMap<KeyType, Boolean>();
 	
 	public KeyHandler registerKeys() {
-		for (KeyType type : KeyType.values()) { //TODO load from config
-			type.registerKey(new KeyInfo(type, type.defaultKey, -1));
+		for (KeyType type : KeyType.values()) {
+			type.registerKey(type.defaultKey, -1); //TODO load from config
+			
+			if (type.hasDualAction) {
+				dualKeys.put(type, false);
+			}
 		}
 		
 		return this;
@@ -28,28 +34,71 @@ public class KeyHandler extends KeyAdapter {
 		int key = e.getKeyCode();
 		
 		handleConsole(key, e.getKeyChar());
-		if (Main.getMain().shouldPlayerHaveControl()) {
-			if (Main.getMain().getWorld().getPlayer() != null) {
-				handlePlayer(key);
-			} else {
-				
+		if (Main.getMain().getWorld().getPlayer() != null) {
+			if (Main.getMain().shouldPlayerHaveControl()) {
+				handlePlayer(key, true);
 			}
+		} else {
+			
 		}
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
+		int key = e.getKeyCode();
 		
+		if (Main.getMain().getWorld().getPlayer() != null) {
+			if (Main.getMain().shouldPlayerHaveControl()) {
+				handlePlayer(key, false);
+			}
+		} else {
+			
+		}
 	}
 	
-	private void handlePlayer(int key) {
+	private void handlePlayer(int key, boolean dualKeyBoolean) {
+		if (Main.getMain().shouldPlayerHaveControl()) {
+			for (Entry<KeyType, Boolean> dualKey : dualKeys.entrySet()) {
+				if (dualKey.getKey() == KeyType.player_walk_up && checkKey(dualKey.getKey(), key)) {
+					dualKey.setValue(dualKeyBoolean);
+				} else if (dualKey.getKey() == KeyType.player_walk_down && checkKey(dualKey.getKey(), key)) {
+					dualKey.setValue(dualKeyBoolean);
+				} else if (dualKey.getKey() == KeyType.player_walk_left && checkKey(dualKey.getKey(), key)) {
+					dualKey.setValue(dualKeyBoolean);
+				} else if (dualKey.getKey() == KeyType.player_walk_right && checkKey(dualKey.getKey(), key)) {
+					dualKey.setValue(dualKeyBoolean);
+				}
+				
+				if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
+					Main.getMain().getWorld().getPlayer().setMoveY(0);
+				}
+				
+				if (!dualKeys.get(KeyType.player_walk_left) && !dualKeys.get(KeyType.player_walk_right)) {
+					Main.getMain().getWorld().getPlayer().setMoveX(0);
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void tick() {
 		EntityPlayer player = Main.getMain().getWorld().getPlayer();
 		
-		if (Main.getMain().shouldPlayerHaveControl()) {
-			if (checkKey(KeyType.player_walk_up, key)) {
-				
-			} else if (checkKey(KeyType.player_walk_down, key)) {
-				
+		if (player != null) {
+			if (dualKeys.get(KeyType.player_walk_up) && dualKeys.get(KeyType.player_walk_down)) {
+				player.setMoveY(0);
+			} else if (dualKeys.get(KeyType.player_walk_up)) {
+				player.setMoveY(-1);
+			} else if (dualKeys.get(KeyType.player_walk_down)) {
+				player.setMoveY(1);
+			}
+			
+			if (dualKeys.get(KeyType.player_walk_left) && dualKeys.get(KeyType.player_walk_right)) {
+				player.setMoveX(0);
+			} else if (dualKeys.get(KeyType.player_walk_left)) {
+				player.setMoveX(-1);
+			} else if (dualKeys.get(KeyType.player_walk_right)) {
+				player.setMoveX(1);
 			}
 		}
 	}
@@ -98,9 +147,9 @@ public class KeyHandler extends KeyAdapter {
 	}
 	
 	private boolean checkKey(KeyType type, int keyCode) {
-		for (KeyInfo info : keys) {
-			if (info.getKeyType() == type) {
-				if (info.getKey1() == keyCode || info.getKey2() == keyCode) {
+		for (KeyType key : KeyType.values()) {
+			if (key == type) {
+				if (key.key1 == keyCode || key.key2 == keyCode) {
 					return true;
 				}
 			}
@@ -110,34 +159,33 @@ public class KeyHandler extends KeyAdapter {
 	}
 	
 	public enum KeyType {
-		console_open      (KeyEvent.VK_BACK_QUOTE),
-		console_open_slash(KeyEvent.VK_SLASH),
-		console_up        (KeyEvent.VK_UP),
-		console_down      (KeyEvent.VK_DOWN),
-		console_finish    (KeyEvent.VK_ENTER),
-		console_cancel    (KeyEvent.VK_ESCAPE),
-		console_delete    (KeyEvent.VK_BACK_SPACE),
+		console_open      (false, KeyEvent.VK_BACK_QUOTE),
+		console_open_slash(false, KeyEvent.VK_SLASH),
+		console_up        (false, KeyEvent.VK_UP),
+		console_down      (false, KeyEvent.VK_DOWN),
+		console_finish    (false, KeyEvent.VK_ENTER),
+		console_cancel    (false, KeyEvent.VK_ESCAPE),
+		console_delete    (false, KeyEvent.VK_BACK_SPACE),
 		
-		player_walk_up   (KeyEvent.VK_W),
-		player_walk_down (KeyEvent.VK_S),
-		player_walk_left (KeyEvent.VK_A),
-		player_walk_right(KeyEvent.VK_D);
+		player_walk_up    (true, KeyEvent.VK_W),
+		player_walk_down  (true, KeyEvent.VK_S),
+		player_walk_left  (true, KeyEvent.VK_A),
+		player_walk_right (true, KeyEvent.VK_D);
 		
 		private int defaultKey;
-		private KeyInfo info;
+		private boolean hasDualAction;
+		private int key1, key2;
 		
-		private KeyType(int defaultKey) {
+		private KeyType(boolean hasDualAction, int defaultKey) {
+			this.hasDualAction = hasDualAction;
 			this.defaultKey = defaultKey;
 		}
 		
-		void registerKey(KeyInfo info) {
-			Console.print(Console.WarningType.RegisterDebug, info.getKeyType().toString() + " has been registered to -> (" + KeyEvent.getKeyText(
-					info.getKey1()) + ":" + KeyEvent.getKeyText(info.getKey2()) + " | " + info.getKey1() + ":" + info.getKey2() + ")");
-			this.info = info;
-		}
-		
-		public KeyInfo getKeyInfo() {
-			return info;
+		void registerKey(int key1, int key2) {
+			Console.print(Console.WarningType.RegisterDebug, this.toString() + " has been registered to -> (" + KeyEvent.getKeyText(key1) +
+					":" + KeyEvent.getKeyText(key2) + " | " + key1 + ":" + key2 + ")");
+			this.key1 = key1;
+			this.key2 = key2;
 		}
 	}
 }

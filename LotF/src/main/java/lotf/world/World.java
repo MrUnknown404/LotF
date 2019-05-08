@@ -31,6 +31,10 @@ public class World implements ITickable, IResetable {
 		for (Room r : rooms) {
 			r.tick();
 		}
+		
+		if (player != null) {
+			player.tick();
+		}
 	}
 	
 	@Override

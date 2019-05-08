@@ -18,6 +18,14 @@ public enum EnumDirection {
 		return getFromNumber(oppositeID);
 	}
 	
+	public boolean isHorizontal() {
+		return (this == EnumDirection.east || this == EnumDirection.west) ? true : false;
+	}
+	
+	public boolean isVertical() {
+		return (this == EnumDirection.north || this == EnumDirection.south) ? true : false;
+	}
+	
 	public static EnumDirection getFromNumber(int id) {
 		for (EnumDirection type : values()) {
 			if (type.id == id) {

@@ -43,6 +43,7 @@ public final class Main extends Canvas implements Runnable {
 	private final DebugHud debugHud = new DebugHud();
 	
 	private Renderer renderer;
+	private KeyHandler keyHandler;
 	
 	private World world;
 	
@@ -78,7 +79,7 @@ public final class Main extends Canvas implements Runnable {
 		
 		InitCommands.registerAll();
 		
-		addKeyListener(new KeyHandler().registerKeys());
+		addKeyListener(keyHandler = new KeyHandler().registerKeys());
 		addComponentListener(new ComponentListener() {
 			@Override public void componentShown(ComponentEvent e) {}
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -159,6 +160,7 @@ public final class Main extends Canvas implements Runnable {
 	private void tick() {
 		consoleHud.tick();
 		renderer.tick();
+		keyHandler.tick();
 		
 		if (gamestate == Gamestate.run) {
 			world.tick();
