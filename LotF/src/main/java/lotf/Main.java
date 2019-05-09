@@ -64,6 +64,11 @@ public final class Main extends Canvas implements Runnable {
 		preInit();
 		init();
 		postInit();
+		
+		thread = new Thread(this);
+		thread.start();
+		running = true;
+		Console.print(Console.WarningType.Info, "Started thread!");
 	}
 	
 	private void preInit() {
@@ -72,8 +77,8 @@ public final class Main extends Canvas implements Runnable {
 		File f = new File(SAVE_LOCATION);
 		if (!f.exists()) {
 			f.mkdirs();
+			Console.print(Console.WarningType.Info, "Created file path!");
 		}
-		Console.print(Console.WarningType.Info, "Created file path!");
 		
 		renderer = new Renderer();
 		renderer.getTextures();
@@ -94,13 +99,13 @@ public final class Main extends Canvas implements Runnable {
 			}
 		});
 		
-		worldHandler = new WorldHandler();
-		
 		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
 	}
 	
 	private void init() {
 		Console.print(Console.WarningType.Info, "Initialization started...");
+		
+		worldHandler = new WorldHandler();
 		
 		Console.print(Console.WarningType.Info, "Initialization finished!");
 	}
@@ -109,11 +114,6 @@ public final class Main extends Canvas implements Runnable {
 		Console.print(Console.WarningType.Info, "Post-Initialization started...");
 		
 		Console.print(Console.WarningType.Info, "Post-Initialization finished!");
-		
-		thread = new Thread(this);
-		thread.start();
-		running = true;
-		Console.print(Console.WarningType.Info, "Started thread!");
 	}
 	
 	private synchronized void stop() {
@@ -173,6 +173,10 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	private void render() {
+		if (!Window.canRender) {
+			return;
+		}
+		
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);

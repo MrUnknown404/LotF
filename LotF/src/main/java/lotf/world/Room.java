@@ -16,12 +16,15 @@ import main.java.lotf.util.math.Vec2i;
 
 public class Room extends GameObject implements ITickable, IResetable {
 
+	private final int roomID;
+	
 	private List<Tile> tiles_layer0 = new ArrayList<Tile>();
 	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(Vec2i roomPos, Vec2i size) {
+	public Room(int roomID, Vec2i roomPos, Vec2i size) {
 		super(new Vec2f(roomPos), size);
+		this.roomID = roomID;
 		
 		/*
 		if (size.getX() < 16 || size.getY() < 8) {
@@ -104,6 +107,10 @@ public class Room extends GameObject implements ITickable, IResetable {
 		}
 		
 		return kinds;
+	}
+	
+	public int getRoomID() {
+		return roomID;
 	}
 	
 	public List<Tile> getTilesLayer0() {

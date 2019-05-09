@@ -33,6 +33,10 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
 		
+		if (checkKey(KeyType.debug_fullscreen, key)) {
+			Window.toggleFullscreen();
+		}
+		
 		handleConsole(key, e.getKeyChar());
 		if (Main.getMain().getWorldHandler().getPlayer() != null) {
 			if (Main.getMain().shouldPlayerHaveControl()) {
@@ -159,6 +163,8 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	}
 	
 	public enum KeyType {
+		debug_fullscreen  (false, KeyEvent.VK_F11),
+		
 		console_open      (false, KeyEvent.VK_BACK_QUOTE),
 		console_open_slash(false, KeyEvent.VK_SLASH),
 		console_up        (false, KeyEvent.VK_UP),

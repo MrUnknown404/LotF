@@ -15,7 +15,8 @@ public class EntityPlayer extends Entity implements IDamageable {
 
 	private static final float MOVE_SPEED = 1.2f;
 	
-	private Room r;
+	private Room room;
+	private EnumWorldType worldType;
 	private int money, arrows, bombs;
 	private int moveX, moveY;
 	
@@ -24,9 +25,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 	
 	private Map<EnumWorldType, Integer> keys = new HashMap<EnumWorldType, Integer>();
 	
-	public EntityPlayer(Vec2f pos, Room r) {
+	public EntityPlayer(EnumWorldType worldType, Vec2f pos, Room room) {
 		super(pos, new Vec2i(14, 14));
-		this.r = r;
+		this.room = room;
+		this.worldType = worldType;
 		setupHealth(24);
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
@@ -67,6 +69,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 		} else {
 			return false;
 		}
+	}
+	
+	public void forceSetRoom(Room room) {
+		this.room = room;
 	}
 	
 	public void setMoveX(int moveX) {
@@ -114,7 +120,11 @@ public class EntityPlayer extends Entity implements IDamageable {
 	}
 	
 	public Room getRoom() {
-		return r;
+		return room;
+	}
+	
+	public EnumWorldType getWorldType() {
+		return worldType;
 	}
 	
 	private enum CountableUpgradeState {
@@ -123,8 +133,8 @@ public class EntityPlayer extends Entity implements IDamageable {
 		three(50),
 		four (99);
 		
-		public final int amount;
-
+		private final int amount;
+		
 		private CountableUpgradeState(int amount) {
 			this.amount = amount;
 		}

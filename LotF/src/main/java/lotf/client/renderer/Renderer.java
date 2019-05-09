@@ -91,6 +91,11 @@ public class Renderer {
 		
 		if (Main.getMain().getWorldHandler() != null) {
 			if (p != null) {
+				for (Room r : Main.getMain().getWorldHandler().getPlayerWorld().getRooms()) { //TODO temp
+					g.setColor(Color.BLUE);
+					g.drawRect((int) r.getBounds().x, (int) r.getBounds().y, r.getBounds().width, r.getBounds().height);
+				}
+				
 				if (p.getRoom() != null) {
 					List<Tile> tiles = new ArrayList<>();
 					
@@ -126,11 +131,6 @@ public class Renderer {
 				}
 				
 				g.drawImage(player, (int) p.getPos().getX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
-			}
-			
-			for (Room r : Main.getMain().getWorldHandler().getPlayerWorld().getRooms()) { //TODO temp
-				g.setColor(Color.BLUE);
-				g.drawRect((int) r.getBounds().x, (int) r.getBounds().y, r.getBounds().width, r.getBounds().height);
 			}
 		}
 	}
