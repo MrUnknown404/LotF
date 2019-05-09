@@ -58,8 +58,8 @@ public class Renderer {
 	}
 	
 	public void tick() {
-		if (Main.getMain().getWorld() != null) {
-			EntityPlayer p = Main.getMain().getWorld().getPlayer();
+		if (Main.getMain().getWorldHandler() != null) {
+			EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 			
 			if (p != null && p.getRoom() != null) {
 				for (TileInfo t : p.getRoom().getAllTileInfos()) {
@@ -82,14 +82,14 @@ public class Renderer {
 	}
 	
 	public void render(Graphics2D g) {
-		EntityPlayer p = Main.getMain().getWorld().getPlayer();
+		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
 		if (tileTextures.isEmpty()) {
 			Console.print(Console.WarningType.FatalError, "Tile textures were not set!");
 			return;
 		}
 		
-		if (Main.getMain().getWorld() != null) {
+		if (Main.getMain().getWorldHandler() != null) {
 			if (p != null) {
 				if (p.getRoom() != null) {
 					List<Tile> tiles = new ArrayList<>();
@@ -128,7 +128,7 @@ public class Renderer {
 				g.drawImage(player, (int) p.getPos().getX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
 			}
 			
-			for (Room r : Main.getMain().getWorld().getRooms()) { //TODO temp
+			for (Room r : Main.getMain().getWorldHandler().getPlayerWorld().getRooms()) { //TODO temp
 				g.setColor(Color.BLUE);
 				g.drawRect((int) r.getBounds().x, (int) r.getBounds().y, r.getBounds().width, r.getBounds().height);
 			}

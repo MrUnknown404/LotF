@@ -3,27 +3,25 @@ package main.java.lotf.world;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.Main;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
-import main.java.lotf.util.math.Vec2f;
+import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.Vec2i;
 
 public class World implements ITickable, IResetable {
 
 	private List<Room> rooms = new ArrayList<>();
+	private EnumWorldType worldType;
 	
-	private EntityPlayer player;
-	
-	public World(Vec2i size) {
+	World(Vec2i size, EnumWorldType worldType) {
+		this.worldType = worldType;
+		
 		for (int yi = 0; yi < size.getY(); yi++) {
 			for (int xi = 0; xi < size.getX(); xi++) {
 				rooms.add(new Room(new Vec2i(xi, yi), new Vec2i(5, 5)));
 			}
 		}
-		
-		//temp
-		player = new EntityPlayer(new Vec2f(10, 10), rooms.get(0));
 	}
 	
 	@Override
@@ -31,14 +29,10 @@ public class World implements ITickable, IResetable {
 		for (Room r : rooms) {
 			r.tick();
 		}
-		
-		if (player != null) {
-			player.tick();
-		}
 	}
 	
 	public void onEnter() {
-		
+		Main.getMain().getWorldHandler().setPlayerWorldType(worldType);
 	}
 	
 	public void onLeave() {
@@ -59,11 +53,11 @@ public class World implements ITickable, IResetable {
 		}
 	}
 	
-	public EntityPlayer getPlayer() {
-		return player;
-	}
-	
 	public List<Room> getRooms() {
 		return rooms;
+	}
+	
+	public EnumWorldType getWorldType() {
+		return worldType;
 	}
 }

@@ -34,7 +34,7 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		int key = e.getKeyCode();
 		
 		handleConsole(key, e.getKeyChar());
-		if (Main.getMain().getWorld().getPlayer() != null) {
+		if (Main.getMain().getWorldHandler().getPlayer() != null) {
 			if (Main.getMain().shouldPlayerHaveControl()) {
 				handlePlayer(key, true);
 			}
@@ -47,7 +47,7 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 		
-		if (Main.getMain().getWorld().getPlayer() != null) {
+		if (Main.getMain().getWorldHandler().getPlayer() != null) {
 			if (Main.getMain().shouldPlayerHaveControl()) {
 				handlePlayer(key, false);
 			}
@@ -70,11 +70,11 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 				}
 				
 				if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
-					Main.getMain().getWorld().getPlayer().setMoveY(0);
+					Main.getMain().getWorldHandler().getPlayer().setMoveY(0);
 				}
 				
 				if (!dualKeys.get(KeyType.player_walk_left) && !dualKeys.get(KeyType.player_walk_right)) {
-					Main.getMain().getWorld().getPlayer().setMoveX(0);
+					Main.getMain().getWorldHandler().getPlayer().setMoveX(0);
 				}
 			}
 		}
@@ -82,7 +82,7 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	
 	@Override
 	public void tick() {
-		EntityPlayer player = Main.getMain().getWorld().getPlayer();
+		EntityPlayer player = Main.getMain().getWorldHandler().getPlayer();
 		
 		if (player != null) {
 			if (dualKeys.get(KeyType.player_walk_up) && dualKeys.get(KeyType.player_walk_down)) {

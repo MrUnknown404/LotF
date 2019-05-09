@@ -1,10 +1,12 @@
 package main.java.lotf.commands;
 
+import java.awt.Color;
 import java.util.List;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
+import main.java.lotf.commands.util.InitCommands;
 import main.java.lotf.util.math.MathHelper;
 
 public class CommandHelp extends Command {
@@ -35,7 +37,7 @@ public class CommandHelp extends Command {
 				break;
 			}
 			
-			console.addLine(cmd.getUsage());
+			console.addLine(cmd.getUsage(), Color.GREEN);
 		}
 	}
 }

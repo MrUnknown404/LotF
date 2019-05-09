@@ -14,12 +14,12 @@ import main.java.lotf.client.gui.ConsoleHud;
 import main.java.lotf.client.gui.DebugHud;
 import main.java.lotf.client.gui.Hud;
 import main.java.lotf.client.renderer.Renderer;
-import main.java.lotf.commands.InitCommands;
 import main.java.lotf.commands.util.DebugConsole;
+import main.java.lotf.commands.util.InitCommands;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2i;
-import main.java.lotf.world.World;
+import main.java.lotf.world.WorldHandler;
 
 public final class Main extends Canvas implements Runnable {
 
@@ -27,7 +27,7 @@ public final class Main extends Canvas implements Runnable {
 	private static Main main;
 	
 	private static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
-	private int width = HUD_WIDTH, height =HUD_HEIGHT, w2, h2;
+	private int width = HUD_WIDTH, height = HUD_HEIGHT, w2, h2;
 	
 	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
 	private static final String BASE_LOCATION_ROOMS = "/main/resources/lotf/assets/rooms/";
@@ -46,8 +46,7 @@ public final class Main extends Canvas implements Runnable {
 	
 	private Renderer renderer;
 	private KeyHandler keyHandler;
-	
-	private World world;
+	private WorldHandler worldHandler;
 	
 	public static void main(String args[]) {
 		main = new Main();
@@ -95,9 +94,7 @@ public final class Main extends Canvas implements Runnable {
 			}
 		});
 		
-		Console.print(Console.WarningType.Info, "World creation started...");
-		world = new World(new Vec2i(2, 2)); //TODO temporary
-		Console.print(Console.WarningType.Info, "World creation finished!");
+		worldHandler = new WorldHandler();
 		
 		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
 	}
@@ -167,7 +164,7 @@ public final class Main extends Canvas implements Runnable {
 		keyHandler.tick();
 		
 		if (gamestate == Gamestate.run) {
-			world.tick();
+			worldHandler.tick();
 		} else if (gamestate == Gamestate.softPause) {
 			
 		} else if (gamestate == Gamestate.hardPause) {
@@ -271,8 +268,8 @@ public final class Main extends Canvas implements Runnable {
 		return BASE_LOCATION_TEXTURES;
 	}
 	
-	public World getWorld() {
-		return world;
+	public WorldHandler getWorldHandler() {
+		return worldHandler;
 	}
 	
 	public DebugConsole getCommandConsole() {

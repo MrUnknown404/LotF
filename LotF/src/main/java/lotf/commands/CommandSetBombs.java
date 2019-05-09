@@ -19,6 +19,6 @@ public class CommandSetBombs extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		Main.getMain().getWorld().getPlayer().setBombs(MathHelper.clamp(argInt.get(0), 0, Main.getMain().getWorld().getPlayer().getMaxBombs()));
+		Main.getMain().getWorldHandler().getPlayer().setBombs(MathHelper.clamp(argInt.get(0), 0, Main.getMain().getWorldHandler().getPlayer().getMaxBombs()));
 	}
 }

@@ -53,4 +53,8 @@ public interface IDamageable {
 			amount -= damaged;
 		}
 	}
+	
+	public default List<Integer> getHearts() {
+		return HEARTS;
+	}
 }

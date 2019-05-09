@@ -3,9 +3,10 @@ package main.java.lotf.entity;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.java.lotf.Main;
 import main.java.lotf.entity.util.Entity;
 import main.java.lotf.entity.util.IDamageable;
-import main.java.lotf.util.enums.EnumDungeonType;
+import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
@@ -21,14 +22,14 @@ public class EntityPlayer extends Entity implements IDamageable {
 	private CountableUpgradeState arrowsUpgradeState = CountableUpgradeState.one;
 	private CountableUpgradeState bombsUpgradeState = CountableUpgradeState.one;
 	
-	private Map<EnumDungeonType, Integer> keys = new HashMap<EnumDungeonType, Integer>();
+	private Map<EnumWorldType, Integer> keys = new HashMap<EnumWorldType, Integer>();
 	
 	public EntityPlayer(Vec2f pos, Room r) {
 		super(pos, new Vec2i(14, 14));
 		this.r = r;
-		setupHealth(3);
+		setupHealth(24);
 		
-		for (EnumDungeonType type : EnumDungeonType.values()) {
+		for (EnumWorldType type : EnumWorldType.values()) {
 			keys.put(type, 0);
 		}
 	}
@@ -86,6 +87,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 	
 	public void setBombs(int bombs) {
 		this.bombs = bombs;
+	}
+	
+	public int getKeys() {
+		return keys.get(Main.getMain().getWorldHandler().getPlayerWorldType());
 	}
 	
 	public int getMoney() {

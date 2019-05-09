@@ -1,22 +1,24 @@
 package main.java.lotf.commands.util;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
-import main.java.lotf.commands.InitCommands;
 
 public class DebugConsole {
 	private static final int MAX_ARGS = Command.ArgumentType.values().length, MAX_LINES = 7;
 	private boolean isConsoleOpen;
 	private int curLine;
 	private String input = "";
-	private List<String> lines = new ArrayList<String>(), writtenLines = new ArrayList<String>();
+	private List<Map<String, Color>> lines = new ArrayList<Map<String, Color>>();
+	private List<String> writtenLines = new ArrayList<String>();
 	
 	public DebugConsole() {
-		lines.add("");
+		lines.add(Map.of("", Color.WHITE));
 		writtenLines.add("");
 	}
 	
@@ -28,11 +30,12 @@ public class DebugConsole {
 		input = input.substring(0, input.length() - 1);
 	}
 	
-	public void addLine(String line) {
+	public void addLine(String line, Color color) {
 		if (lines.size() > MAX_LINES) {
 			lines.remove(lines.size() - 1);
 		}
-		lines.add(1, line);
+		
+		lines.add(1, Map.of(line, color));
 	}
 	
 	public void clearInput() {
@@ -198,7 +201,7 @@ public class DebugConsole {
 		}
 		
 		if (!(command instanceof CommandHelp)) {
-			addLine(cmd);
+			addLine(cmd, Color.GREEN);
 		}
 		command.doCommand(intArgs, floatArgs, doubleArgs, boolArgs, stringArgs);
 		clearInput();
@@ -232,7 +235,7 @@ public class DebugConsole {
 		return writtenLines;
 	}
 	
-	public List<String> getLines() {
+	public List<Map<String, Color>> getLines() {
 		return lines;
 	}
 	
@@ -257,9 +260,9 @@ public class DebugConsole {
 		}
 		
 		private void printError() {
-			Main.getMain().getCommandConsole().addLine(Main.getMain().getCommandConsole().input.trim());
+			Main.getMain().getCommandConsole().addLine(Main.getMain().getCommandConsole().input.trim(), Color.GREEN);
 			Main.getMain().getCommandConsole().clearInput();
-			Main.getMain().getCommandConsole().addLine("* " + error);
+			Main.getMain().getCommandConsole().addLine(error, Color.RED);
 		}
 	}
 }

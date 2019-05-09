@@ -3,6 +3,7 @@ package main.java.lotf.client.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
@@ -32,15 +33,10 @@ public class ConsoleHud {
 			
 			if (!console.getLines().isEmpty()) {
 				for (int i = 1; i < console.getLines().size(); i++) {
-					if (console.getLines().get(i).startsWith("*")) {
-						g.setColor(Color.RED);
-					} else if (console.getLines().get(i).startsWith("$")) {
-						g.setColor(new Color(0, 150, 255));
-					} else {
-						g.setColor(Color.GREEN);
-					}
+					Map<String, Color> line = console.getLines().get(i);
 					
-					g.drawString("<: " + console.getLines().get(i), 2, (DebugConsole.getMaxLines() + 1) * 9 - i * 9 - 1);
+					g.setColor((Color) line.values().toArray()[0]);
+					g.drawString("<: " + line.keySet().toArray(new String[0])[0], 2, (DebugConsole.getMaxLines() + 1) * 9 - i * 9 - 1);
 				}
 			}
 		}

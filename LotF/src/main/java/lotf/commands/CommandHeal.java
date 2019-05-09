@@ -4,21 +4,20 @@ import java.util.List;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
-import main.java.lotf.util.math.MathHelper;
 
-public class CommandSetMoney extends Command {
+public class CommandHeal extends Command {
 
-	public CommandSetMoney() {
-		super("setmoney", new ArgumentType[] {ArgumentType.Integer}, false);
+	public CommandHeal() {
+		super("heal", new ArgumentType[] {ArgumentType.Integer}, false);
 	}
 	
 	@Override
 	protected String setUsage() {
-		return "Sets the player's money";
+		return "Heals the player";
 	}
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		Main.getMain().getWorldHandler().getPlayer().setMoney(MathHelper.clamp(argInt.get(0), 0, 999999));
+		Main.getMain().getWorldHandler().getPlayer().heal(argInt.get(0));
 	}
 }

@@ -19,6 +19,6 @@ public class CommandSetArrows extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		Main.getMain().getWorld().getPlayer().setArrows(MathHelper.clamp(argInt.get(0), 0, Main.getMain().getWorld().getPlayer().getMaxArrows()));
+		Main.getMain().getWorldHandler().getPlayer().setArrows(MathHelper.clamp(argInt.get(0), 0, Main.getMain().getWorldHandler().getPlayer().getMaxArrows()));
 	}
 }

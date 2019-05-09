@@ -18,7 +18,7 @@ public class Hud {
 	private static Font font;
 	
 	private BufferedImage baseHud, smallX, money, arrow, bomb, key;
-	private BufferedImage[] hearts = new BufferedImage[4];
+	private BufferedImage[] hearts = new BufferedImage[5];
 	
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
@@ -34,6 +34,7 @@ public class Hud {
 		hearts[1] = registerGUITexture("hearts/heart_1");
 		hearts[2] = registerGUITexture("hearts/heart_2");
 		hearts[3] = registerGUITexture("hearts/heart_3");
+		hearts[4] = registerGUITexture("hearts/heart_4");
 		
 		Console.print(Console.WarningType.Info, "Finished texture registering!");
 	}
@@ -62,7 +63,7 @@ public class Hud {
 	}
 	
 	public void render(Graphics2D g) {
-		EntityPlayer p = Main.getMain().getWorld().getPlayer();
+		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
 		if (p != null) {
 			g.drawImage(baseHud, 0, 0, 256, 16, null);
@@ -83,7 +84,15 @@ public class Hud {
 			
 			g.drawImage(key, 187, 1, 5, 8, null);
 			g.drawImage(smallX, 193, 6, 3, 3, null);
-			g.drawString("0", 196, 8); //TODO update with proper key count
+			g.drawString("" + p.getKeys(), 196, 8);
+			
+			for (int i = 0; i < p.getHearts().size(); i++) {
+				if (i < 12) {
+					g.drawImage(hearts[p.getHearts().get(i)], 1 + (i * 8), 1, 7, 7, null);
+				} else {
+					g.drawImage(hearts[p.getHearts().get(i)], 5 + (i * 8) - (12 * 8), 8, 7, 7, null);
+				}
+			}
 		}
 	}
 	
