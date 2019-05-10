@@ -160,13 +160,13 @@ public final class Main extends Canvas implements Runnable {
 	
 	private void tick() {
 		consoleHud.tick();
-		renderer.tick();
-		keyHandler.tick();
 		
 		if (gamestate == Gamestate.run) {
 			worldHandler.tick();
+			renderer.tick();
+			keyHandler.tick();
 		} else if (gamestate == Gamestate.softPause) {
-			
+			worldHandler.getPlayer().tick();
 		} else if (gamestate == Gamestate.hardPause) {
 			
 		}
@@ -229,7 +229,7 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	public boolean shouldPlayerHaveControl() {
-		if (console.isConsoleOpen()) {
+		if (console.isConsoleOpen() || gamestate != Gamestate.run) {
 			return false;
 		}
 		

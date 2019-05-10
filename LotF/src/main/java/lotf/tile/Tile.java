@@ -15,22 +15,24 @@ public class Tile extends GameObject {
 	
 	private int flipState = -1;
 	
-	public Tile(Vec2i tilePos, TileInfo tileInfo) {
+	public Tile(Vec2i tilePos, TileInfo tileInfo, Vec2i roomPos) {
 		super(new Vec2f(tilePos), new Vec2i(16, 16));
 		this.tileInfo = tileInfo;
 		this.tilePos = tilePos;
 		
-		updateTile();
+		updateTile(roomPos);
 	}
 	
-	public void updateTile() {
-		if (new Random().nextBoolean()) {
-			flipState = 1;
-		} else {
-			flipState = 0;
+	public void updateTile(Vec2i roomPos) {
+		if (flipState == -1) {
+			if (new Random().nextBoolean()) {
+				flipState = 1;
+			} else {
+				flipState = 0;
+			}
 		}
 		
-		setPos(new Vec2f(tilePos.getX() * TILE_SIZE, tilePos.getY() * TILE_SIZE));
+		setPos(new Vec2f(roomPos.getX() + tilePos.getX() * TILE_SIZE, roomPos.getY() + tilePos.getY() * TILE_SIZE));
 	}
 	
 	public Vec2i getTilePos() {

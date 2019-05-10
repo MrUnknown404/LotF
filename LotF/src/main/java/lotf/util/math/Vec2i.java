@@ -15,6 +15,10 @@ public class Vec2i {
 		this.y = y;
 	}
 	
+	public Vec2i(Vec2f vec) {
+		this((int) vec.getX(), (int) vec.getY());
+	}
+	
 	public void add(Vec2i vec) {
 		this.x += vec.x;
 		this.y += vec.y;

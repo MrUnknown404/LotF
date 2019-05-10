@@ -2,6 +2,7 @@ package main.java.lotf.client.renderer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 
 public class Renderer {
@@ -96,12 +98,23 @@ public class Renderer {
 					g.drawRect((int) r.getBounds().x, (int) r.getBounds().y, r.getBounds().width, r.getBounds().height);
 				}
 				
+				List<Room> roomsToRender = new ArrayList<>();
+				
 				if (p.getRoom() != null) {
+					roomsToRender.add(p.getRoom());
+				}
+				
+				if (p.getRoomToBe() != null) {
+					roomsToRender.add(p.getRoomToBe());
+				}
+				
+				//if (p.getRoom() != null) {
+				for (Room r : roomsToRender) {
 					List<Tile> tiles = new ArrayList<>();
 					
-					for (int i = 0; i < p.getRoom().getTilesLayer0().size(); i++) {
-						Tile t1 = p.getRoom().getTilesLayer0().get(i);
-						Tile t2 = p.getRoom().getTilesLayer1().get(i);
+					for (int i = 0; i < r.getTilesLayer0().size(); i++) {
+						Tile t1 = r.getTilesLayer0().get(i);
+						Tile t2 = r.getTilesLayer1().get(i);
 						
 						if (t1.getTileInfo() != TileInfo.AIR || t2.getTileInfo() != TileInfo.AIR) {
 							if (t2.getTileInfo() != TileInfo.AIR) {
@@ -128,6 +141,16 @@ public class Renderer {
 						
 						g.drawImage(getTileImageInfo(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
+					
+					g.setColor(Color.ORANGE);
+					Rectangle rec = p.getRoom().getRoomBounds(EnumDirection.east);
+					g.drawRect(rec.x, rec.y, rec.width, rec.height);
+					rec = p.getRoom().getRoomBounds(EnumDirection.west);
+					g.drawRect(rec.x, rec.y, rec.width, rec.height);
+					rec = p.getRoom().getRoomBounds(EnumDirection.north);
+					g.drawRect(rec.x, rec.y, rec.width, rec.height);
+					rec = p.getRoom().getRoomBounds(EnumDirection.south);
+					g.drawRect(rec.x, rec.y, rec.width, rec.height);
 				}
 				
 				g.drawImage(player, (int) p.getPos().getX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);

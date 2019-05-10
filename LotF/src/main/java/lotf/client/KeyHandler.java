@@ -52,34 +52,30 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		int key = e.getKeyCode();
 		
 		if (Main.getMain().getWorldHandler().getPlayer() != null) {
-			if (Main.getMain().shouldPlayerHaveControl()) {
-				handlePlayer(key, false);
-			}
+			handlePlayer(key, false);
 		} else {
 			
 		}
 	}
 	
-	private void handlePlayer(int key, boolean dualKeyBoolean) {
-		if (Main.getMain().shouldPlayerHaveControl()) {
-			for (Entry<KeyType, Boolean> dualKey : dualKeys.entrySet()) {
-				if (dualKey.getKey() == KeyType.player_walk_up && checkKey(dualKey.getKey(), key)) {
-					dualKey.setValue(dualKeyBoolean);
-				} else if (dualKey.getKey() == KeyType.player_walk_down && checkKey(dualKey.getKey(), key)) {
-					dualKey.setValue(dualKeyBoolean);
-				} else if (dualKey.getKey() == KeyType.player_walk_left && checkKey(dualKey.getKey(), key)) {
-					dualKey.setValue(dualKeyBoolean);
-				} else if (dualKey.getKey() == KeyType.player_walk_right && checkKey(dualKey.getKey(), key)) {
-					dualKey.setValue(dualKeyBoolean);
-				}
-				
-				if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
-					Main.getMain().getWorldHandler().getPlayer().setMoveY(0);
-				}
-				
-				if (!dualKeys.get(KeyType.player_walk_left) && !dualKeys.get(KeyType.player_walk_right)) {
-					Main.getMain().getWorldHandler().getPlayer().setMoveX(0);
-				}
+	private void handlePlayer(int key, boolean isPressed) {
+		for (Entry<KeyType, Boolean> dualKey : dualKeys.entrySet()) {
+			if (dualKey.getKey() == KeyType.player_walk_up && checkKey(dualKey.getKey(), key)) {
+				dualKey.setValue(isPressed);
+			} else if (dualKey.getKey() == KeyType.player_walk_down && checkKey(dualKey.getKey(), key)) {
+				dualKey.setValue(isPressed);
+			} else if (dualKey.getKey() == KeyType.player_walk_left && checkKey(dualKey.getKey(), key)) {
+				dualKey.setValue(isPressed);
+			} else if (dualKey.getKey() == KeyType.player_walk_right && checkKey(dualKey.getKey(), key)) {
+				dualKey.setValue(isPressed);
+			}
+			
+			if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
+				Main.getMain().getWorldHandler().getPlayer().setMoveY(0);
+			}
+			
+			if (!dualKeys.get(KeyType.player_walk_left) && !dualKeys.get(KeyType.player_walk_right)) {
+				Main.getMain().getWorldHandler().getPlayer().setMoveX(0);
 			}
 		}
 	}

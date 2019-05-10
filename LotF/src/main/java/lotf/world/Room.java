@@ -10,6 +10,7 @@ import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
@@ -34,8 +35,8 @@ public class Room extends GameObject implements ITickable, IResetable {
 		
 		for (int yi = 0; yi < size.getY(); yi++) {
 			for (int xi = 0; xi < size.getX(); xi++) {
-				tiles_layer0.add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass()));
-				tiles_layer1.add(new Tile(new Vec2i(xi, yi), TileInfo.AIR));
+				tiles_layer0.add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass(), roomPos));
+				tiles_layer1.add(new Tile(new Vec2i(xi, yi), TileInfo.AIR, roomPos));
 			}
 		}
 		
@@ -53,11 +54,11 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	public void onCreate() {
 		for (Tile t : tiles_layer0) {
-			t.updateTile();
+			t.updateTile(new Vec2i(pos));
 		}
 		
 		for (Tile t : tiles_layer1) {
-			t.updateTile();
+			t.updateTile(new Vec2i(pos));
 		}
 	}
 	
@@ -119,6 +120,23 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	public List<Tile> getTilesLayer1() {
 		return tiles_layer1;
+	}
+	
+	public Rectangle getRoomBounds(EnumDirection dir) {
+		final int boundsSize = 8;
+		
+		switch (dir) {
+			case north:
+				return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY()) - boundsSize, size.getX() * Tile.TILE_SIZE, boundsSize);
+			case east:
+				return new Rectangle(MathHelper.floor(getPosX() + (size.getX() * Tile.TILE_SIZE)), MathHelper.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
+			case south:
+				return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY() + (size.getY() * Tile.TILE_SIZE)), size.getX() * Tile.TILE_SIZE, boundsSize);
+			case west:
+				return new Rectangle(MathHelper.floor(getPosX()) - boundsSize, MathHelper.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
+			default:
+				return getBounds();
+		}
 	}
 	
 	@Override

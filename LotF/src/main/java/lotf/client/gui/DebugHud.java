@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import main.java.lotf.Main;
+import main.java.lotf.util.math.MathHelper;
 import main.java.lotf.world.WorldHandler;
 
 public class DebugHud {
@@ -21,6 +22,7 @@ public class DebugHud {
 		
 		WorldHandler worldHandler = Main.getMain().getWorldHandler();
 		if (worldHandler.getPlayer() != null) {
+			g.drawString("Pos : " + MathHelper.roundTo(worldHandler.getPlayer().getPosX(), 1) + ", " + MathHelper.roundTo(worldHandler.getPlayer().getPosY(), 1), 1, y += 9);
 			g.drawString("World : " + worldHandler.getPlayerWorldType(), 1, y += 9);
 			g.drawString("RoomID : " + worldHandler.getPlayerRoom().getRoomID(), 1, y += 9);
 		}
