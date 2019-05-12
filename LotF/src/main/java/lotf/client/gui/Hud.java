@@ -7,34 +7,50 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import main.java.lotf.Main;
-import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.entities.EntityPlayer;
+import main.java.lotf.items.Item;
+import main.java.lotf.items.rings.Ring;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.math.MathHelper;
 
 public class Hud {
 
 	private static Font font;
 	
-	private BufferedImage baseHud, smallX, money, arrow, bomb, key;
+	private BufferedImage baseHud, invHud, barDecal;
 	private BufferedImage[] hearts = new BufferedImage[5];
+	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>();
+	private Map<String, BufferedImage> rings = new HashMap<String, BufferedImage>();
 	
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
 		
 		baseHud = registerGUITexture("baseHud");
-		smallX = registerGUITexture("x");
-		money = registerGUITexture("money");
-		arrow = registerGUITexture("arrow");
-		bomb = registerGUITexture("bomb");
-		key = registerGUITexture("key");
+		invHud = registerGUITexture("invBackground");
+		barDecal = registerGUITexture("magicBarDecal");
 		
 		hearts[0] = registerGUITexture("hearts/heart_0");
 		hearts[1] = registerGUITexture("hearts/heart_1");
 		hearts[2] = registerGUITexture("hearts/heart_2");
 		hearts[3] = registerGUITexture("hearts/heart_3");
 		hearts[4] = registerGUITexture("hearts/heart_4");
+		
+		for (int i = 0; i < Item.getItemsSize(); i++) {
+			if (Item.getItem(i) != Item.EMPTY) {
+				items.put(Item.getItem(i).getName(), registerItemTexture(Item.getItem(i)));
+			}
+		}
+		
+		for (int i = 0; i < Ring.getRings().size(); i++) {
+			if (Ring.getRings().get(i) != Ring.EMPTY) {
+				rings.put(Ring.getRings().get(i).getName(), registerRingTexture(Ring.getRings().get(i)));
+			}
+		}
 		
 		Console.print(Console.WarningType.Info, "Finished texture registering!");
 	}
@@ -51,7 +67,19 @@ public class Hud {
 	}
 	
 	private BufferedImage registerGUITexture(String name) {
-		BufferedImage img = GetResource.getTexture(GetResource.ResourceType.gui, name);
+		return registerTexture(GetResource.ResourceType.gui, name);
+	}
+	
+	private BufferedImage registerItemTexture(Item item) {
+		return registerTexture(GetResource.ResourceType.item, item.getName());
+	}
+	
+	private BufferedImage registerRingTexture(Ring ring) {
+		return registerTexture(GetResource.ResourceType.ring, ring.getName());
+	}
+	
+	private BufferedImage registerTexture(GetResource.ResourceType type, String name) {
+		BufferedImage img = GetResource.getTexture(type, name);
 		
 		if (img != null) {
 			Console.print(Console.WarningType.TextureDebug, name + " was registered!");
@@ -70,27 +98,48 @@ public class Hud {
 			g.setColor(Color.BLACK);
 			g.setFont(font);
 			
-			g.drawImage(money, 105, 2, 7, 7, null);
-			g.drawImage(smallX, 113, 6, 3, 3, null);
 			g.drawString(setupNumberString(p.getMoney(), 6), 116, 8);
-			
-			g.drawImage(arrow, 142, 2, 7, 7, null);
-			g.drawImage(smallX, 150, 6, 3, 3, null);
 			g.drawString(setupNumberString(p.getArrows(), 2), 153, 8);
-			
-			g.drawImage(bomb, 165, 1, 6, 8, null);
-			g.drawImage(smallX, 172, 6, 3, 3, null);
 			g.drawString(setupNumberString(p.getBombs(), 2), 175, 8);
-			
-			g.drawImage(key, 187, 1, 5, 8, null);
-			g.drawImage(smallX, 193, 6, 3, 3, null);
 			g.drawString("" + p.getKeys(), 196, 8);
+			
+			//TODO draw bar
+			g.drawImage(barDecal, 104, 11, 97, 3, null);
 			
 			for (int i = 0; i < p.getHearts().size(); i++) {
 				if (i < 12) {
 					g.drawImage(hearts[p.getHearts().get(i)], 1 + (i * 8), 1, 7, 7, null);
 				} else {
 					g.drawImage(hearts[p.getHearts().get(i)], 5 + (i * 8) - (12 * 8), 8, 7, 7, null);
+				}
+			}
+			
+			if (p.getInventory().isOpen()) {
+				g.drawImage(invHud, 0, 16, 256, 128, null);
+				
+				for (int i = 0; i < p.getInventory().getNormalInventory().getItemSize(); i++) {
+					Item item = p.getInventory().getNormalInventory().getItem(i);
+					
+					if (item != Item.EMPTY) {
+						g.drawImage(items.get(item.getName()), 5 + i % p.getInventory().getNormalInventory().getSize().getX() * 18,
+								21 + MathHelper.floor(i / p.getInventory().getNormalInventory().getSize().getX()) * 18, 14, 14, null);
+					}
+				}
+				
+				for (int i = 0; i < p.getInventory().getSwordInventory().getItemSize(); i++) {
+					Item item = p.getInventory().getSwordInventory().getItem(i);
+					
+					if (item != Item.EMPTY) {
+						g.drawImage(items.get(item.getName()), 82, 21 + i * 18, 14, 14, null);
+					}
+				}
+				
+				for (int i = 0; i < p.getInventory().getRingInventory().getSelectedRingSize(); i++) {
+					Ring ring = p.getInventory().getRingInventory().getSelectedRing(i);
+					
+					if (ring != Ring.EMPTY) {
+						g.drawImage(rings.get(ring.getName()), 107, 24 + i * 21, 15, 15, null);
+					}
 				}
 			}
 		}

@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.entity.util.Entity;
+import main.java.lotf.entities.util.Entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GameObject;

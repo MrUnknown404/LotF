@@ -1,6 +1,6 @@
-package main.java.lotf.entity.ai;
+package main.java.lotf.entities.ai;
 
-import main.java.lotf.entity.util.Entity;
+import main.java.lotf.entities.util.Entity;
 
 public abstract class AITypeAttack extends AIType {
 	public AITypeAttack(Entity parent) {

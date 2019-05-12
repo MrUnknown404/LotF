@@ -1,4 +1,4 @@
-package main.java.lotf.entity.util;
+package main.java.lotf.entities.util;
 
 import java.util.ArrayList;
 import java.util.List;

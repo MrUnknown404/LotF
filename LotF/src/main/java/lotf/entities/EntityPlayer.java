@@ -1,11 +1,12 @@
-package main.java.lotf.entity;
+package main.java.lotf.entities;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import main.java.lotf.Main;
-import main.java.lotf.entity.util.Entity;
-import main.java.lotf.entity.util.IDamageable;
+import main.java.lotf.entities.util.Entity;
+import main.java.lotf.entities.util.IDamageable;
+import main.java.lotf.inventory.PlayerInventory;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.enums.EnumDirection;
@@ -17,7 +18,7 @@ import main.java.lotf.world.Room;
 
 public class EntityPlayer extends Entity implements IDamageable {
 
-	private static final float MOVE_SPEED = 1.2f, CHANGE_ROOM_SPEED = 0.25f;
+	private static final float MOVE_SPEED = 1.2f, CHANGE_ROOM_SPEED = 0.333f;
 	
 	private EnumWorldType worldType;
 	private EnumDirection toBeRoomDirection;
@@ -29,11 +30,15 @@ public class EntityPlayer extends Entity implements IDamageable {
 	
 	private Map<EnumWorldType, Integer> keys = new HashMap<EnumWorldType, Integer>();
 	
+	private PlayerInventory inv;
+	
 	public EntityPlayer(EnumWorldType worldType, Vec2f pos, Room room) {
 		super(new Vec2f(room.getPosX() + pos.getX(), room.getPosY() + pos.getY()), new Vec2i(14, 14));
 		this.roomID = room.getRoomID();
 		this.worldType = worldType;
 		setupHealth(24);
+		
+		inv = new PlayerInventory();
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
 			keys.put(type, 0);
@@ -55,7 +60,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						getRoom().onEnter();
 						setPosY(getRoom().getPosY() + (getRoom().getSizeY() * Tile.TILE_SIZE) - size.getY());
 						
-						Main.getMain().revertGamestate();
+						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				case east:
@@ -69,7 +74,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						getRoom().onEnter();
 						setPosX(getRoom().getPosX());
 						
-						Main.getMain().revertGamestate();
+						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				case south:
@@ -83,7 +88,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						getRoom().onEnter();
 						setPosY(getRoom().getPosY());
 						
-						Main.getMain().revertGamestate();
+						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				case west:
@@ -97,21 +102,31 @@ public class EntityPlayer extends Entity implements IDamageable {
 						getRoom().onEnter();
 						setPosX(getRoom().getPosX() + (getRoom().getSizeX() * Tile.TILE_SIZE) - size.getX());
 						
-						Main.getMain().revertGamestate();
+						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				default:
 					Console.print(Console.WarningType.FatalError, "Invalid EnumDirection : " + toBeRoomDirection + "!");
 					break;
 			}
+			
+			if (moveX != 0) {
+				addPosX(moveX * MOVE_SPEED);
+			}
+			
+			if (moveY != 0) {
+				addPosY(moveY * MOVE_SPEED);
+			}
 		}
 		
-		if (moveX != 0) {
-			addPosX(moveX * MOVE_SPEED);
-		}
-		
-		if (moveY != 0) {
-			addPosY(moveY * MOVE_SPEED);
+		if (Main.getMain().shouldPlayerHaveControl()) {
+			if (moveX != 0) {
+				addPosX(moveX * MOVE_SPEED);
+			}
+			
+			if (moveY != 0) {
+				addPosY(moveY * MOVE_SPEED);
+			}
 		}
 	}
 	
@@ -131,7 +146,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 		toBeRoomID = room.getRoomID();
 		
 		
-		Main.getMain().setGamestate(Main.Gamestate.softPause);
+		Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
 		
 		switch (type) {
 			case north:
@@ -216,6 +231,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 	
 	public int getMaxBombs() {
 		return bombsUpgradeState.amount;
+	}
+	
+	public PlayerInventory getInventory() {
+		return inv;
 	}
 	
 	public Room getRoom() {

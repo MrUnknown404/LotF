@@ -10,15 +10,16 @@ import java.util.List;
 import main.java.lotf.Main;
 import main.java.lotf.client.renderer.util.ImageInfo;
 import main.java.lotf.client.renderer.util.TileImageInfo;
-import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 
-public class Renderer {
+public class Renderer implements ITickable {
 	
 	private List<ImageInfo> textures = new ArrayList<ImageInfo>();
 	private List<TileImageInfo> tileTextures = new ArrayList<TileImageInfo>();
@@ -37,12 +38,12 @@ public class Renderer {
 			Console.print(Console.WarningType.TextureDebug, "nil was not registered!");
 		}
 		
-		for (int i = 0; i < TileInfo.getAllTypes().size(); i++) {
+		for (int i = 0; i < TileInfo.getAllTilesSize(); i++) {
 			if (i != 0) {
-				if (TileInfo.getAllTypes().get(i).getTextureCount() > 1) {
-					registerTile(TileInfo.getAllTypes().get(i), TileInfo.getAllTypes().get(i).getTextureCount());
+				if (TileInfo.getTileInfo(i).getTextureCount() > 1) {
+					registerTile(TileInfo.getTileInfo(i), TileInfo.getTileInfo(i).getTextureCount());
 				} else {
-					registerTile(TileInfo.getAllTypes().get(i));
+					registerTile(TileInfo.getTileInfo(i));
 				}
 			}
 		}
@@ -59,6 +60,7 @@ public class Renderer {
 		Console.print(Console.WarningType.Info, "Finished texture registering!");
 	}
 	
+	@Override
 	public void tick() {
 		if (Main.getMain().getWorldHandler() != null) {
 			EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();

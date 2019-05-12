@@ -13,6 +13,11 @@ public class DebugHud {
 	private static final Font FONT = new Font("Font", Font.PLAIN, 9);
 	
 	public void render(Graphics2D g, String fps) {
+		WorldHandler worldHandler = Main.getMain().getWorldHandler();
+		if (worldHandler.getPlayer() != null && worldHandler.getPlayer().getInventory().isOpen()) {
+			return;
+		}
+		
 		g.setFont(FONT);
 		g.setColor(Color.RED);
 		
@@ -20,7 +25,6 @@ public class DebugHud {
 		
 		g.drawString("FPS : " + fps, 1, y);
 		
-		WorldHandler worldHandler = Main.getMain().getWorldHandler();
 		if (worldHandler.getPlayer() != null) {
 			g.drawString("Pos : " + MathHelper.roundTo(worldHandler.getPlayer().getPosX(), 1) + ", " + MathHelper.roundTo(worldHandler.getPlayer().getPosY(), 1), 1, y += 9);
 			g.drawString("World : " + worldHandler.getPlayerWorldType(), 1, y += 9);

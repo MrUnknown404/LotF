@@ -78,6 +78,7 @@ public class GetResource {
 		tile,
 		entity,
 		gui,
-		item;
+		item,
+		ring;
 	}
 }

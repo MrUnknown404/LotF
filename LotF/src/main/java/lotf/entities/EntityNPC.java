@@ -1,9 +1,9 @@
-package main.java.lotf.entity;
+package main.java.lotf.entities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.entity.util.Entity;
+import main.java.lotf.entities.util.Entity;
 import main.java.lotf.util.IInteractable;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;

@@ -3,7 +3,7 @@ package main.java.lotf.world;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumWorldType;

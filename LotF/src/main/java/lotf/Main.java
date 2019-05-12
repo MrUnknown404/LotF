@@ -7,6 +7,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import main.java.lotf.client.KeyHandler;
 import main.java.lotf.client.Window;
@@ -33,7 +36,7 @@ public final class Main extends Canvas implements Runnable {
 	private static final String BASE_LOCATION_ROOMS = "/main/resources/lotf/assets/rooms/";
 	private static final String BASE_LOCATION_TEXTURES = "/main/resources/lotf/assets/textures/";
 	
-	private Gamestate gamestate = Gamestate.run, prevGamestate;
+	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
 	private int fps;
 	private boolean running = false;
@@ -160,14 +163,14 @@ public final class Main extends Canvas implements Runnable {
 	
 	private void tick() {
 		consoleHud.tick();
+		keyHandler.tick();
 		
-		if (gamestate == Gamestate.run) {
+		if (getGamestate() == Gamestate.run) {
 			worldHandler.tick();
 			renderer.tick();
-			keyHandler.tick();
-		} else if (gamestate == Gamestate.softPause) {
+		} else if (getGamestate() == Gamestate.softPause) {
 			worldHandler.getPlayer().tick();
-		} else if (gamestate == Gamestate.hardPause) {
+		} else if (getGamestate() == Gamestate.hardPause) {
 			
 		}
 	}
@@ -214,13 +217,8 @@ public final class Main extends Canvas implements Runnable {
 		bs.show();
 	}
 	
-	public void setGamestate(Gamestate state) {
-		prevGamestate = gamestate;
-		gamestate = state;
-	}
-	
-	public void revertGamestate() {
-		gamestate = prevGamestate;
+	public void setGamestate(Class<?> clazz, Gamestate state) {
+		gamestate.put(clazz.getSimpleName(), state);
 	}
 	
 	private void resize() {
@@ -229,11 +227,21 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	public boolean shouldPlayerHaveControl() {
-		if (console.isConsoleOpen() || gamestate != Gamestate.run) {
+		if (console.isConsoleOpen() || getGamestate() != Gamestate.run) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	public Gamestate getGamestate() {
+		for (Entry<String, Gamestate> e : gamestate.entrySet()) {
+			if (e.getValue() != Gamestate.run) {
+				return e.getValue();
+			}
+		}
+		
+		return Gamestate.run;
 	}
 	
 	public int getWindowWidth() {
@@ -278,10 +286,6 @@ public final class Main extends Canvas implements Runnable {
 	
 	public DebugConsole getCommandConsole() {
 		return console;
-	}
-	
-	public Gamestate getGamestate() {
-		return gamestate;
 	}
 	
 	public static Main getMain() {

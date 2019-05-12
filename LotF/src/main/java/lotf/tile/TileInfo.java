@@ -78,8 +78,12 @@ public class TileInfo {
 		return colType;
 	}
 	
-	public static List<TileInfo> getAllTypes() {
-		return all;
+	public static TileInfo getTileInfo(int i) {
+		return all.get(i);
+	}
+	
+	public static int getAllTilesSize() {
+		return all.size();
 	}
 	
 	@Override

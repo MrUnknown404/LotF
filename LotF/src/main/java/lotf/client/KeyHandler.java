@@ -8,7 +8,7 @@ import java.util.Map.Entry;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.math.MathHelper;
@@ -32,14 +32,13 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
-		
 		if (checkKey(KeyType.debug_fullscreen, key)) {
 			Window.toggleFullscreen();
 		}
 		
 		handleConsole(key, e.getKeyChar());
 		if (Main.getMain().getWorldHandler().getPlayer() != null) {
-			if (Main.getMain().shouldPlayerHaveControl()) {
+			if (!Main.getMain().getCommandConsole().isConsoleOpen()) {
 				handlePlayer(key, true);
 			}
 		} else {
@@ -67,6 +66,11 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 			} else if (dualKey.getKey() == KeyType.player_walk_left && checkKey(dualKey.getKey(), key)) {
 				dualKey.setValue(isPressed);
 			} else if (dualKey.getKey() == KeyType.player_walk_right && checkKey(dualKey.getKey(), key)) {
+				dualKey.setValue(isPressed);
+			} else if (dualKey.getKey() == KeyType.player_inventory_toggle && checkKey(dualKey.getKey(), key)) {
+				if (isPressed && !dualKey.getValue()) {
+					Main.getMain().getWorldHandler().getPlayer().getInventory().toggleInventory();
+				}
 				dualKey.setValue(isPressed);
 			}
 			
@@ -119,12 +123,12 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 				}
 			} else if (checkKey(KeyType.console_finish, key)) {
 				console.finishCommand();
-				Main.getMain().revertGamestate();
+				Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 			} else if (checkKey(KeyType.console_cancel, key)) {
 				console.clearInput();
 				console.setConsoleOpen(false);
 				console.setCurLine(0);
-				Main.getMain().revertGamestate();
+				Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 			} else if (checkKey(KeyType.console_delete, key)) {
 				if (!console.getInput().isEmpty()) {
 					console.removeKey();
@@ -137,11 +141,11 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		} else {
 			if (checkKey(KeyType.console_open, key)) {
 				console.setConsoleOpen(true);
-				Main.getMain().setGamestate(Main.Gamestate.softPause);
+				Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
 			} else if (checkKey(KeyType.console_open_slash, key)) {
 				console.setConsoleOpen(true);
 				console.addKey(chr);
-				Main.getMain().setGamestate(Main.Gamestate.softPause);
+				Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
 			}
 		}
 	}
@@ -161,18 +165,19 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	public enum KeyType {
 		debug_fullscreen  (false, KeyEvent.VK_F11),
 		
-		console_open      (false, KeyEvent.VK_BACK_QUOTE),
-		console_open_slash(false, KeyEvent.VK_SLASH),
-		console_up        (false, KeyEvent.VK_UP),
-		console_down      (false, KeyEvent.VK_DOWN),
-		console_finish    (false, KeyEvent.VK_ENTER),
-		console_cancel    (false, KeyEvent.VK_ESCAPE),
-		console_delete    (false, KeyEvent.VK_BACK_SPACE),
+		console_open           (false, KeyEvent.VK_BACK_QUOTE),
+		console_open_slash     (false, KeyEvent.VK_SLASH),
+		console_up             (false, KeyEvent.VK_UP),
+		console_down           (false, KeyEvent.VK_DOWN),
+		console_finish         (false, KeyEvent.VK_ENTER),
+		console_cancel         (false, KeyEvent.VK_ESCAPE),
+		console_delete         (false, KeyEvent.VK_BACK_SPACE),
 		
-		player_walk_up    (true, KeyEvent.VK_W),
-		player_walk_down  (true, KeyEvent.VK_S),
-		player_walk_left  (true, KeyEvent.VK_A),
-		player_walk_right (true, KeyEvent.VK_D);
+		player_walk_up         (true,  KeyEvent.VK_W),
+		player_walk_down       (true,  KeyEvent.VK_S),
+		player_walk_left       (true,  KeyEvent.VK_A),
+		player_walk_right      (true,  KeyEvent.VK_D),
+		player_inventory_toggle(true,  KeyEvent.VK_DOWN);
 		
 		private int defaultKey;
 		private boolean hasDualAction;

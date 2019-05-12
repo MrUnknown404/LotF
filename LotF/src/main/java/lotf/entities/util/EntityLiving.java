@@ -1,7 +1,7 @@
-package main.java.lotf.entity.util;
+package main.java.lotf.entities.util;
 
-import main.java.lotf.entity.ai.AITypeAttack;
-import main.java.lotf.entity.ai.AITypeMovement;
+import main.java.lotf.entities.ai.AITypeAttack;
+import main.java.lotf.entities.ai.AITypeMovement;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.Main;
-import main.java.lotf.entity.EntityPlayer;
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
@@ -21,7 +21,7 @@ public class World implements ITickable, IResetable {
 		
 		for (int yi = 0; yi < size.getY(); yi++) {
 			for (int xi = 0; xi < size.getX(); xi++) {
-				rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(3, 3)));
+				rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(5, 5)));
 			}
 		}
 	}
