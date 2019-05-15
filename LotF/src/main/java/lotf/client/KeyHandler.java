@@ -11,7 +11,7 @@ import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 
 public class KeyHandler extends KeyAdapter implements ITickable {
 
@@ -37,7 +37,7 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		}
 		
 		handleConsole(key, e.getKeyChar());
-		if (Main.getMain().getWorldHandler().getPlayer() != null) {
+		if (Main.getMain().getWorldHandler() != null && Main.getMain().getWorldHandler().getPlayer() != null) {
 			if (!Main.getMain().getCommandConsole().isConsoleOpen()) {
 				handlePlayer(key, true);
 			}
@@ -50,7 +50,7 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 		
-		if (Main.getMain().getWorldHandler().getPlayer() != null) {
+		if (Main.getMain().getWorldHandler() != null && Main.getMain().getWorldHandler().getPlayer() != null) {
 			handlePlayer(key, false);
 		} else {
 			
@@ -113,12 +113,12 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		if (console.isConsoleOpen()) {
 			if (checkKey(KeyType.console_up, key)) {
 				if (console.getWrittenLines().size() > 0) {
-					console.setCurLine(MathHelper.clamp(console.getCurLine() + 1, 0, console.getWrittenLines().size() - 1));
+					console.setCurLine(MathH.clamp(console.getCurLine() + 1, 0, console.getWrittenLines().size() - 1));
 					console.setInput(console.getWrittenLines().get(console.getCurLine()));
 				}
 			} else if (checkKey(KeyType.console_down, key)) {
 				if (console.getWrittenLines().size() > 0) {
-					console.setCurLine(MathHelper.clamp(console.getCurLine() - 1, 0, console.getWrittenLines().size() - 1));
+					console.setCurLine(MathH.clamp(console.getCurLine() - 1, 0, console.getWrittenLines().size() - 1));
 					console.setInput(console.getWrittenLines().get(console.getCurLine()));
 				}
 			} else if (checkKey(KeyType.console_finish, key)) {

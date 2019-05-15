@@ -2,7 +2,7 @@ package main.java.lotf.util;
 
 import java.awt.Rectangle;
 
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
@@ -18,6 +18,10 @@ public abstract class GameObject {
 	
 	public void setPos(Vec2f pos) {
 		this.pos.set(pos);
+	}
+	
+	public void setPos(float x, float y) {
+		this.pos.set(x, y);
 	}
 	
 	public void setPosX(float x) {
@@ -36,20 +40,12 @@ public abstract class GameObject {
 		pos.addY(y);
 	}
 	
-	public Vec2f getPos() {
-		return pos;
-	}
-	
 	public float getPosX() {
 		return pos.getX();
 	}
 	
 	public float getPosY() {
 		return pos.getY();
-	}
-	
-	public Vec2i getSize() {
-		return size;
 	}
 	
 	public int getSizeX() {
@@ -69,6 +65,6 @@ public abstract class GameObject {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY()), size.getX(), size.getY());
+		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), size.getX(), size.getY());
 	}
 }

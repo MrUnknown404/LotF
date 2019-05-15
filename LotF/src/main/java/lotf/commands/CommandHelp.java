@@ -7,7 +7,7 @@ import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.commands.util.InitCommands;
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 
 public class CommandHelp extends Command {
 	
@@ -26,8 +26,8 @@ public class CommandHelp extends Command {
 		
 		int ti = 0, tii = 1;
 		if (!argInt.isEmpty()) {
-			ti = MathHelper.clamp(DebugConsole.getMaxLines() * argInt.get(0), 0, Integer.MAX_VALUE);
-			tii = MathHelper.clamp(argInt.get(0) + 1, 1, Integer.MAX_VALUE);
+			ti = MathH.clamp(DebugConsole.getMaxLines() * argInt.get(0), 0, Integer.MAX_VALUE);
+			tii = MathH.clamp(argInt.get(0) + 1, 1, Integer.MAX_VALUE);
 		}
 		
 		for (int i = ti; i < InitCommands.getAmountOfCommands(); i++) {

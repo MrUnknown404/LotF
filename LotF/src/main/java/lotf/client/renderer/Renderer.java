@@ -2,7 +2,6 @@ package main.java.lotf.client.renderer;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ITickable;
-import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 
 public class Renderer implements ITickable {
@@ -110,7 +108,6 @@ public class Renderer implements ITickable {
 					roomsToRender.add(p.getRoomToBe());
 				}
 				
-				//if (p.getRoom() != null) {
 				for (Room r : roomsToRender) {
 					List<Tile> tiles = new ArrayList<>();
 					
@@ -143,19 +140,9 @@ public class Renderer implements ITickable {
 						
 						g.drawImage(getTileImageInfo(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
-					
-					g.setColor(Color.ORANGE);
-					Rectangle rec = p.getRoom().getRoomBounds(EnumDirection.east);
-					g.drawRect(rec.x, rec.y, rec.width, rec.height);
-					rec = p.getRoom().getRoomBounds(EnumDirection.west);
-					g.drawRect(rec.x, rec.y, rec.width, rec.height);
-					rec = p.getRoom().getRoomBounds(EnumDirection.north);
-					g.drawRect(rec.x, rec.y, rec.width, rec.height);
-					rec = p.getRoom().getRoomBounds(EnumDirection.south);
-					g.drawRect(rec.x, rec.y, rec.width, rec.height);
 				}
 				
-				g.drawImage(player, (int) p.getPos().getX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
+				g.drawImage(player, (int) p.getPosX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
 			}
 		}
 	}

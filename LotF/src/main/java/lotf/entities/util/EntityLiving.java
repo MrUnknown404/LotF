@@ -11,7 +11,7 @@ public abstract class EntityLiving extends Entity implements IDamageable {
 	protected AITypeMovement movementAI;
 	protected AITypeAttack attackAI;
 	
-	protected EnumDirection dir = EnumDirection.nil;
+	protected EnumDirection dir;
 	
 	public EntityLiving(Vec2f pos, Vec2i size, int totalHearts) {
 		super(pos, size);

@@ -4,7 +4,7 @@ import java.util.List;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 
 public class CommandSetArrows extends Command {
 
@@ -19,6 +19,6 @@ public class CommandSetArrows extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		Main.getMain().getWorldHandler().getPlayer().setArrows(MathHelper.clamp(argInt.get(0), 0, Main.getMain().getWorldHandler().getPlayer().getMaxArrows()));
+		Main.getMain().getWorldHandler().getPlayer().setArrows(MathH.clamp(argInt.get(0), 0, Main.getMain().getWorldHandler().getPlayer().getMaxArrows()));
 	}
 }

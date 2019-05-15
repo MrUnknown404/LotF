@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
@@ -11,21 +12,23 @@ import main.java.lotf.util.GameObject;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
 public class Room extends GameObject implements ITickable, IResetable {
 
 	private final int roomID;
+	private boolean isActive;
 	
 	private List<Tile> tiles_layer0 = new ArrayList<Tile>();
 	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(int roomID, Vec2i roomPos, Vec2i size) {
+	public Room(int roomID, Vec2i roomPos, Vec2i size, boolean isActive) {
 		super(new Vec2f(roomPos), size);
 		this.roomID = roomID;
+		this.isActive = isActive;
 		
 		/*
 		if (size.getX() < 16 || size.getY() < 8) {
@@ -40,7 +43,7 @@ public class Room extends GameObject implements ITickable, IResetable {
 			}
 		}
 		
-		setPos(new Vec2f(MathHelper.floor(getPosX() * size.getX() * Tile.TILE_SIZE), MathHelper.floor(getPosY() * size.getY() * Tile.TILE_SIZE)));
+		setPos(MathH.floor(getPosX() * size.getX() * Tile.TILE_SIZE), MathH.floor(getPosY() * size.getY() * Tile.TILE_SIZE));
 		
 		onCreate();
 	}
@@ -49,6 +52,18 @@ public class Room extends GameObject implements ITickable, IResetable {
 	public void tick() {
 		for (Entity e : entities) {
 			e.tick();
+		}
+		
+		for (Tile t : tiles_layer0) {
+			if (t instanceof ITickable) {
+				((ITickable) t).tick();
+			}
+		}
+		
+		for (Tile t : tiles_layer1) {
+			if (t instanceof ITickable) {
+				((ITickable) t).tick();
+			}
 		}
 	}
 	
@@ -62,11 +77,11 @@ public class Room extends GameObject implements ITickable, IResetable {
 		}
 	}
 	
-	public void onEnter() {
-		
+	public void onEnter(EntityPlayer p) {
+		p.exploreRoom(roomID);
 	}
 	
-	public void onLeave() {
+	public void onLeave(EntityPlayer p) {
 		softReset();
 	}
 	
@@ -114,6 +129,10 @@ public class Room extends GameObject implements ITickable, IResetable {
 		return roomID;
 	}
 	
+	public boolean isActive() {
+		return isActive;
+	}
+	
 	public List<Tile> getTilesLayer0() {
 		return tiles_layer0;
 	}
@@ -127,13 +146,13 @@ public class Room extends GameObject implements ITickable, IResetable {
 		
 		switch (dir) {
 			case north:
-				return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY()) - boundsSize, size.getX() * Tile.TILE_SIZE, boundsSize);
+				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) - boundsSize, size.getX() * Tile.TILE_SIZE, boundsSize);
 			case east:
-				return new Rectangle(MathHelper.floor(getPosX() + (size.getX() * Tile.TILE_SIZE)), MathHelper.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
+				return new Rectangle(MathH.floor(getPosX() + (size.getX() * Tile.TILE_SIZE)), MathH.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
 			case south:
-				return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY() + (size.getY() * Tile.TILE_SIZE)), size.getX() * Tile.TILE_SIZE, boundsSize);
+				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY() + (size.getY() * Tile.TILE_SIZE)), size.getX() * Tile.TILE_SIZE, boundsSize);
 			case west:
-				return new Rectangle(MathHelper.floor(getPosX()) - boundsSize, MathHelper.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
+				return new Rectangle(MathH.floor(getPosX()) - boundsSize, MathH.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
 			default:
 				return getBounds();
 		}
@@ -141,6 +160,6 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(MathHelper.floor(getPosX()), MathHelper.floor(getPosY()), size.getX() * Tile.TILE_SIZE, size.getY() * Tile.TILE_SIZE);
+		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), size.getX() * Tile.TILE_SIZE, size.getY() * Tile.TILE_SIZE);
 	}
 }

@@ -3,16 +3,15 @@ package main.java.lotf.world;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.Main;
-import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
-import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.Vec2i;
 
 public class World implements ITickable, IResetable {
 
+	public static final Vec2i WORLD_SIZE = new Vec2i(17, 17);
+	
 	private List<Room> rooms = new ArrayList<>();
 	private EnumWorldType worldType;
 	
@@ -21,7 +20,13 @@ public class World implements ITickable, IResetable {
 		
 		for (int yi = 0; yi < size.getY(); yi++) {
 			for (int xi = 0; xi < size.getX(); xi++) {
-				rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(5, 5)));
+				boolean isActive = false;
+				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() &&
+						xi > worldType.getStartActiveBounds().getX() && xi < worldType.getEndActiveBounds().getX()) {
+					isActive = true;
+				}
+				
+				rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), isActive));
 			}
 		}
 	}
@@ -30,22 +35,6 @@ public class World implements ITickable, IResetable {
 	public void tick() {
 		for (Room r : rooms) {
 			r.tick();
-		}
-		
-		for (EnumDirection type : EnumDirection.values()) {
-			if (type != EnumDirection.nil) {
-				EntityPlayer player = Main.getMain().getWorldHandler().getPlayer();
-				if (player != null) {
-					if (player.getRoom().getRoomBounds(type).intersects(player.getBounds())) {
-						for (Room r : rooms) {
-							if (r != player.getRoom() && player.getRoom().getRoomBounds(type).intersects(r.getBounds())) {
-								player.moveRoom(r, type);
-								return;
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 	

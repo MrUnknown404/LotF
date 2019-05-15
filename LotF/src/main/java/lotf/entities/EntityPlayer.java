@@ -11,24 +11,25 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.enums.EnumWorldType;
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
+import main.java.lotf.world.World;
 
 public class EntityPlayer extends Entity implements IDamageable {
 
-	private static final float MOVE_SPEED = 1.2f, CHANGE_ROOM_SPEED = 0.333f;
+	private static final float MOVE_SPEED = 1.5f, CHANGE_ROOM_SPEED = 0.333f;
 	
 	private EnumWorldType worldType;
 	private EnumDirection toBeRoomDirection;
 	private int roomID, toBeRoomID = -1, money, arrows, bombs;
 	private float moveX, moveY;
 	
-	private CountableUpgradeState arrowsUpgradeState = CountableUpgradeState.one;
-	private CountableUpgradeState bombsUpgradeState = CountableUpgradeState.one;
+	private CountableUpgradeState arrowsUpgradeState = CountableUpgradeState.one, bombsUpgradeState = CountableUpgradeState.one;
 	
 	private Map<EnumWorldType, Integer> keys = new HashMap<EnumWorldType, Integer>();
+	private Map<EnumWorldType, Map<Integer, Boolean>> exploredMaps = new HashMap<EnumWorldType, Map<Integer, Boolean>>();
 	
 	private PlayerInventory inv;
 	
@@ -38,11 +39,22 @@ public class EntityPlayer extends Entity implements IDamageable {
 		this.worldType = worldType;
 		setupHealth(24);
 		
-		inv = new PlayerInventory();
-		
 		for (EnumWorldType type : EnumWorldType.values()) {
 			keys.put(type, 0);
 		}
+		
+		for (EnumWorldType type : EnumWorldType.values()) {
+			Map<Integer, Boolean> exploredRooms = new HashMap<Integer, Boolean>();
+			for (int i = 0; i < World.WORLD_SIZE.getBothMulti(); i++) {
+				exploredRooms.put(i, false);
+			}
+			
+			exploredMaps.put(type, exploredRooms);
+		}
+		
+		exploreRoom(roomID);
+		
+		inv = new PlayerInventory();
 	}
 	
 	@Override
@@ -57,7 +69,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						toBeRoomID = -1;
 						setMoveY(0);
 						
-						getRoom().onEnter();
+						getRoom().onEnter(this);
 						setPosY(getRoom().getPosY() + (getRoom().getSizeY() * Tile.TILE_SIZE) - size.getY());
 						
 						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
@@ -71,7 +83,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						toBeRoomID = -1;
 						setMoveX(0);
 						
-						getRoom().onEnter();
+						getRoom().onEnter(this);
 						setPosX(getRoom().getPosX());
 						
 						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
@@ -85,7 +97,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						toBeRoomID = -1;
 						setMoveY(0);
 						
-						getRoom().onEnter();
+						getRoom().onEnter(this);
 						setPosY(getRoom().getPosY());
 						
 						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
@@ -99,7 +111,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 						toBeRoomID = -1;
 						setMoveX(0);
 						
-						getRoom().onEnter();
+						getRoom().onEnter(this);
 						setPosX(getRoom().getPosX() + (getRoom().getSizeX() * Tile.TILE_SIZE) - size.getX());
 						
 						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
@@ -140,34 +152,68 @@ public class EntityPlayer extends Entity implements IDamageable {
 		
 	}
 	
-	public void moveRoom(Room room, EnumDirection type) {
-		getRoom().onLeave();
+	private void moveRoom(Room room, EnumDirection type) {
+		getRoom().onLeave(this);
 		toBeRoomDirection = type;
 		toBeRoomID = room.getRoomID();
-		
 		
 		Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
 		
 		switch (type) {
 			case north:
-				setPosX(MathHelper.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getSizeX() * Tile.TILE_SIZE)));
+				setPosX(MathH.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getSizeX() * Tile.TILE_SIZE)));
 				setPosY(getRoom().getPosY());
 				break;
 			case east:
 				setPosX(getRoom().getPosX() + (getRoom().getSizeX() * Tile.TILE_SIZE) - size.getX());
-				setPosY(MathHelper.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getSizeY() * Tile.TILE_SIZE)));
+				setPosY(MathH.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getSizeY() * Tile.TILE_SIZE)));
 				break;
 			case south:
-				setPosX(MathHelper.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getSizeX() * Tile.TILE_SIZE)));
+				setPosX(MathH.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getSizeX() * Tile.TILE_SIZE)));
 				setPosY(getRoom().getPosY() + (getRoom().getSizeY() * Tile.TILE_SIZE) - size.getY());
 				break;
 			case west:
 				setPosX(getRoom().getPosX());
-				setPosY(MathHelper.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getSizeY() * Tile.TILE_SIZE)));
+				setPosY(MathH.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getSizeY() * Tile.TILE_SIZE)));
 				break;
 			default:
 				Console.print(Console.WarningType.FatalError, "Invalid EnumDirection : " + type + "!");
 				break;
+		}
+	}
+	
+	private void attemptMoveRoom() {
+		for (EnumDirection type : EnumDirection.values()) {
+			if (getRoom().getRoomBounds(type).intersects(getBounds())) {
+				for (Room r : getWorld().getRooms()) {
+					if (r.isActive() && r != getRoom() && getRoom().getRoomBounds(type).intersects(r.getBounds())) {
+						moveRoom(r, type);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void addPosX(float x) {
+		pos.addX(x);
+		
+		
+		if (toBeRoomID == -1) {
+			attemptMoveRoom();
+			pos.setX(MathH.clamp(pos.getX(), getRoom().getPosX(), getRoom().getPosX() + (getRoom().getSizeX() * Tile.TILE_SIZE) - size.getX()));
+		}
+	}
+	
+	@Override
+	public void addPosY(float y) {
+		pos.addY(y);
+		
+		
+		if (toBeRoomID == -1) {
+			attemptMoveRoom();
+			pos.setY(MathH.clamp(pos.getY(), getRoom().getPosY(), getRoom().getPosY() + (getRoom().getSizeY() * Tile.TILE_SIZE) - size.getY()));
 		}
 	}
 	
@@ -183,6 +229,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 		} else {
 			return false;
 		}
+	}
+	
+	public void exploreRoom(int roomID) {
+		exploredMaps.get(worldType).put(roomID, true);
 	}
 	
 	public void forceSetRoom(Room room) {
@@ -210,7 +260,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 	}
 	
 	public int getKeys() {
-		return keys.get(Main.getMain().getWorldHandler().getPlayerWorldType());
+		return keys.get(worldType);
 	}
 	
 	public int getMoney() {
@@ -237,8 +287,16 @@ public class EntityPlayer extends Entity implements IDamageable {
 		return inv;
 	}
 	
+	public boolean didExploredRoom(int roomID) {
+		return exploredMaps.get(worldType).get(roomID);
+	}
+	
 	public Room getRoom() {
-		return Main.getMain().getWorldHandler().getPlayerWorld().getRoom(roomID);
+		return getWorld().getRoom(roomID);
+	}
+	
+	public World getWorld() {
+		return Main.getMain().getWorldHandler().getPlayerWorld();
 	}
 	
 	public Room getRoomToBe() {
@@ -246,7 +304,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 			return null;
 		}
 		
-		return Main.getMain().getWorldHandler().getPlayerWorld().getRoom(toBeRoomID);
+		return getWorld().getRoom(toBeRoomID);
 	}
 	
 	public EnumWorldType getWorldType() {

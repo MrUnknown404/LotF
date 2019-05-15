@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import main.java.lotf.client.Camera;
 import main.java.lotf.client.KeyHandler;
 import main.java.lotf.client.Window;
 import main.java.lotf.client.gui.ConsoleHud;
@@ -20,7 +21,7 @@ import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.commands.util.InitCommands;
 import main.java.lotf.util.Console;
-import main.java.lotf.util.math.MathHelper;
+import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.WorldHandler;
 
@@ -48,6 +49,7 @@ public final class Main extends Canvas implements Runnable {
 	private final Hud hud = new Hud();
 	
 	private Renderer renderer;
+	private Camera camera;
 	private KeyHandler keyHandler;
 	private WorldHandler worldHandler;
 	
@@ -109,6 +111,7 @@ public final class Main extends Canvas implements Runnable {
 		Console.print(Console.WarningType.Info, "Initialization started...");
 		
 		worldHandler = new WorldHandler();
+		camera = new Camera();
 		
 		Console.print(Console.WarningType.Info, "Initialization finished!");
 	}
@@ -168,6 +171,7 @@ public final class Main extends Canvas implements Runnable {
 		if (getGamestate() == Gamestate.run) {
 			worldHandler.tick();
 			renderer.tick();
+			camera.tick();
 		} else if (getGamestate() == Gamestate.softPause) {
 			worldHandler.getPlayer().tick();
 		} else if (getGamestate() == Gamestate.hardPause) {
@@ -201,7 +205,9 @@ public final class Main extends Canvas implements Runnable {
 		g.fillRect(0, 0, width, height);
 		
 		g.translate(w2 / 2, h2 / 2);
+		g.translate(-camera.getPosX(), -camera.getPosY());
 		renderer.render(g);
+		g.translate(camera.getPosX(), camera.getPosY());
 		
 		g.setColor(Color.BLACK);
 		g.fillRect((int) (w / scale), 0, w2, height);
@@ -222,8 +228,8 @@ public final class Main extends Canvas implements Runnable {
 	}
 	
 	private void resize() {
-		width = MathHelper.clamp(getWidth(), 0, Integer.MAX_VALUE);
-		height = MathHelper.clamp(getHeight(), 0, Integer.MAX_VALUE);
+		width = MathH.clamp(getWidth(), 0, Integer.MAX_VALUE);
+		height = MathH.clamp(getHeight(), 0, Integer.MAX_VALUE);
 	}
 	
 	public boolean shouldPlayerHaveControl() {
@@ -286,6 +292,10 @@ public final class Main extends Canvas implements Runnable {
 	
 	public DebugConsole getCommandConsole() {
 		return console;
+	}
+	
+	public Camera getCamera() {
+		return camera;
 	}
 	
 	public static Main getMain() {
