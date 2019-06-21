@@ -1,22 +1,20 @@
 package main.java.lotf.commands.util;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
 public abstract class Command {
 
-	protected boolean isArgsOptional;
-	protected String name;
-	private ArgumentType[] typeOfArgs;
+	protected final boolean isArgsOptional;
+	protected final String name;
+	protected final Map<Integer, List<ArgumentType>> typeOfArgs;
 	
-	public Command(String name, @Nullable ArgumentType[] typeOfArgs, boolean isArgsOptional) {
+	public Command(String name, @Nullable Map<Integer, List<ArgumentType>> typeOfArgs, boolean isArgsOptional) {
 		this.name = name;
 		this.isArgsOptional = isArgsOptional;
-		
-		if (typeOfArgs != null) {
-			this.typeOfArgs = typeOfArgs;
-		}
+		this.typeOfArgs = typeOfArgs;
 	}
 	
 	protected abstract String setUsage();
@@ -42,7 +40,7 @@ public abstract class Command {
 	}
 	
 	public int getAmountOfArgs() {
-		return typeOfArgs.length;
+		return typeOfArgs.size();
 	}
 	
 	@Override
@@ -50,7 +48,7 @@ public abstract class Command {
 		return name;
 	}
 	
-	public ArgumentType[] getArgumentType() {
+	public Map<Integer, List<ArgumentType>> getArgumentType() {
 		return typeOfArgs;
 	}
 	

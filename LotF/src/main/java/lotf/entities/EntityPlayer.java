@@ -67,6 +67,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 					if (getRoom().getPosY() > pos.getY() + size.getY()) {
 						roomID = toBeRoomID;
 						toBeRoomID = -1;
+						toBeRoomDirection = null;
 						setMoveY(0);
 						
 						getRoom().onEnter(this);
@@ -81,6 +82,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 					if (getRoom().getPosX() + (getRoom().getSizeX() * Tile.TILE_SIZE) < pos.getX()) {
 						roomID = toBeRoomID;
 						toBeRoomID = -1;
+						toBeRoomDirection = null;
 						setMoveX(0);
 						
 						getRoom().onEnter(this);
@@ -95,6 +97,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 					if (getRoom().getPosY() + (getRoom().getSizeY() * Tile.TILE_SIZE) < pos.getY()) {
 						roomID = toBeRoomID;
 						toBeRoomID = -1;
+						toBeRoomDirection = null;
 						setMoveY(0);
 						
 						getRoom().onEnter(this);
@@ -109,6 +112,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 					if (getRoom().getPosX() > pos.getX() + size.getX()) {
 						roomID = toBeRoomID;
 						toBeRoomID = -1;
+						toBeRoomDirection = null;
 						setMoveX(0);
 						
 						getRoom().onEnter(this);
@@ -305,6 +309,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 		}
 		
 		return getWorld().getRoom(toBeRoomID);
+	}
+	
+	public EnumDirection getRoomToBeDir() {
+		return toBeRoomDirection;
 	}
 	
 	public EnumWorldType getWorldType() {

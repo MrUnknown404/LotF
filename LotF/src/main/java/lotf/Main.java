@@ -171,12 +171,13 @@ public final class Main extends Canvas implements Runnable {
 		if (getGamestate() == Gamestate.run) {
 			worldHandler.tick();
 			renderer.tick();
-			camera.tick();
 		} else if (getGamestate() == Gamestate.softPause) {
 			worldHandler.getPlayer().tick();
 		} else if (getGamestate() == Gamestate.hardPause) {
 			
 		}
+		
+		camera.tick();
 	}
 	
 	private void render() {
@@ -308,4 +309,3 @@ public final class Main extends Canvas implements Runnable {
 		hardPause;
 	}
 }
-

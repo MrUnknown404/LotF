@@ -14,14 +14,27 @@ public class Camera implements ITickable {
 	public void tick() {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
-		float xt = MathH.fClamp((p.getPosX() + p.getWidth() / 2) - Main.getHudWidth() / 2, p.getRoom().getPosX(),
-				p.getRoom().getPosX() + (p.getRoom().getSizeX() * Tile.TILE_SIZE) - Main.getHudWidth());
-		
-		float yt = MathH.fClamp((p.getPosY() + p.getHeight() / 2) - Main.getHudHeight() / 2, p.getRoom().getPosY() - 16,
-				p.getRoom().getPosY() + (p.getRoom().getSizeY() * Tile.TILE_SIZE) - Main.getHudHeight());
-		
-		pos.setX(xt);
-		pos.setY(yt);
+		if (p.getRoomToBe() == null) {
+			pos.setX(MathH.fClamp((p.getPosX() + p.getWidth() / 2) - Main.getHudWidth() / 2, p.getRoom().getPosX(),
+					p.getRoom().getPosX() + (p.getRoom().getSizeX() * Tile.TILE_SIZE) - Main.getHudWidth()));
+			pos.setY(MathH.fClamp((p.getPosY() + p.getHeight() / 2) - Main.getHudHeight() / 2, p.getRoom().getPosY() - 16,
+					p.getRoom().getPosY() + (p.getRoom().getSizeY() * Tile.TILE_SIZE) - Main.getHudHeight()));
+		} else {
+			switch (p.getRoomToBeDir()) {
+				case north:
+					pos.addY(-((p.getRoom().getSizeY() * Tile.TILE_SIZE) / 30f));
+					break;
+				case east:
+					pos.addX((p.getRoom().getSizeX() * Tile.TILE_SIZE) / 30f);
+					break;
+				case south:
+					pos.addY((p.getRoom().getSizeY() * Tile.TILE_SIZE) / 30f);
+					break;
+				case west:
+					pos.addX(-((p.getRoom().getSizeX() * Tile.TILE_SIZE) / 30f));
+					break;
+			}
+		}
 	}
 	
 	public float getPosX() {

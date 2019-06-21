@@ -135,28 +135,25 @@ public class DebugConsole {
 			}
 			
 			for (int i = 0; i < formatedArgs.size(); i++) {
-				if (command.getArgumentType()[i].equals(Command.ArgumentType.Integer)) {
+				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Integer)) {
 					try {
 						intArgs.add(Integer.parseInt(formatedArgs.get(i)));
-					} catch (NumberFormatException e) {
-						CommandError.wrongArg.printError();
-						return;
-					}
-				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.Float)) {
+					} catch (NumberFormatException e) {}
+				}
+				
+				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Float)) {
 					try {
 						floatArgs.add(Float.parseFloat(formatedArgs.get(i)));
-					} catch (NumberFormatException e) {
-						CommandError.wrongArg.printError();
-						return;
-					}
-				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.Double)) {
+					} catch (NumberFormatException e) {}
+				}
+				
+				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Double)) {
 					try {
 						doubleArgs.add(Double.parseDouble(formatedArgs.get(i)));
-					} catch (NumberFormatException e) {
-						CommandError.wrongArg.printError();
-						return;
-					}
-				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.Boolean)) {
+					} catch (NumberFormatException e) {}
+				}
+				
+				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Boolean)) {
 					if (formatedArgs.get(i).equals("true")) {
 						boolArgs.add(true);
 					} else if (formatedArgs.get(i).equals("false")) {
@@ -165,7 +162,9 @@ public class DebugConsole {
 						CommandError.wrongArg.printError();
 						return;
 					}
-				} else if (command.getArgumentType()[i].equals(Command.ArgumentType.String)) {
+				}
+				
+				if (command.getArgumentType().get(i).contains(Command.ArgumentType.String)) {
 					try {
 						Integer.parseInt(formatedArgs.get(i));
 						CommandError.wrongArg.printError();
@@ -190,8 +189,10 @@ public class DebugConsole {
 							}
 						}
 					}
-				} else {
-					CommandError.nil.printError();
+				}
+				
+				if (intArgs.isEmpty() && floatArgs.isEmpty() && doubleArgs.isEmpty() && boolArgs.isEmpty() && stringArgs.isEmpty()) {
+					CommandError.wrongArg.printError();
 					return;
 				}
 			}

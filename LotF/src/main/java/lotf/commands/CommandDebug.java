@@ -1,14 +1,24 @@
 package main.java.lotf.commands;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.util.Console;
 
 public class CommandDebug extends Command {
 
+	private static final Map<Integer, List<ArgumentType>> ARGS = new HashMap<Integer, List<ArgumentType>>();
+	
+	static {
+		ARGS.put(0, Arrays.asList(ArgumentType.Float));
+		ARGS.put(1, Arrays.asList(ArgumentType.String));
+	}
+	
 	public CommandDebug() {
-		super("debug", new ArgumentType[] {ArgumentType.Float, ArgumentType.String}, false);
+		super("debug", ARGS, false);
 	}
 	
 	@Override

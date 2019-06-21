@@ -23,7 +23,7 @@ public class WorldHandler implements ITickable {
 		
 		Console.print(Console.WarningType.Info, "World creation finished!");
 		
-		player = new EntityPlayer(worlds.get(0).getWorldType(), new Vec2f(10, 10), worlds.get(0).getRooms().get(0));
+		player = new EntityPlayer(worlds.get(0).getWorldType(), new Vec2f(10, 10), worlds.get(0).getRooms().get(144));
 	}
 	
 	@Override

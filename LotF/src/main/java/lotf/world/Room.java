@@ -8,6 +8,7 @@ import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
+import main.java.lotf.util.Console;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
@@ -30,11 +31,11 @@ public class Room extends GameObject implements ITickable, IResetable {
 		this.roomID = roomID;
 		this.isActive = isActive;
 		
-		/*
+		
 		if (size.getX() < 16 || size.getY() < 8) {
 			Console.print(Console.WarningType.FatalError, "Rooms cannot be under 16x8!");
 			return;
-		}*/
+		}
 		
 		for (int yi = 0; yi < size.getY(); yi++) {
 			for (int xi = 0; xi < size.getX(); xi++) {

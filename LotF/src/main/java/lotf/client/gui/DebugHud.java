@@ -23,6 +23,10 @@ public class DebugHud {
 		
 		int y = 24;
 		
+		if (Main.getMain().getCommandConsole().isConsoleOpen()) {
+			y += 55;
+		}
+		
 		g.drawString("FPS : " + fps, 1, y);
 		
 		if (worldHandler.getPlayer() != null) {
