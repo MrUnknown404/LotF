@@ -52,9 +52,9 @@ public class EntityPlayer extends Entity implements IDamageable {
 			exploredMaps.put(type, exploredRooms);
 		}
 		
-		exploreRoom(roomID);
-		
 		inv = new PlayerInventory();
+		
+		exploreRoom();
 	}
 	
 	@Override
@@ -190,7 +190,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 		for (EnumDirection type : EnumDirection.values()) {
 			if (getRoom().getRoomBounds(type).intersects(getBounds())) {
 				for (Room r : getWorld().getRooms()) {
-					if (r.isActive() && r != getRoom() && getRoom().getRoomBounds(type).intersects(r.getBounds())) {
+					if (r != null && r != getRoom() && getRoom().getRoomBounds(type).intersects(r.getBounds())) {
 						moveRoom(r, type);
 						return;
 					}
@@ -203,7 +203,6 @@ public class EntityPlayer extends Entity implements IDamageable {
 	public void addPosX(float x) {
 		pos.addX(x);
 		
-		
 		if (toBeRoomID == -1) {
 			attemptMoveRoom();
 			pos.setX(MathH.clamp(pos.getX(), getRoom().getPosX(), getRoom().getPosX() + (getRoom().getSizeX() * Tile.TILE_SIZE) - size.getX()));
@@ -213,7 +212,6 @@ public class EntityPlayer extends Entity implements IDamageable {
 	@Override
 	public void addPosY(float y) {
 		pos.addY(y);
-		
 		
 		if (toBeRoomID == -1) {
 			attemptMoveRoom();
@@ -235,7 +233,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 		}
 	}
 	
-	public void exploreRoom(int roomID) {
+	public void exploreRoom() {
 		exploredMaps.get(worldType).put(roomID, true);
 	}
 	

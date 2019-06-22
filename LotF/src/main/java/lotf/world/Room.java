@@ -20,31 +20,28 @@ import main.java.lotf.util.math.Vec2i;
 public class Room extends GameObject implements ITickable, IResetable {
 
 	private final int roomID;
-	private boolean isActive;
 	
 	private List<Tile> tiles_layer0 = new ArrayList<Tile>();
 	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(int roomID, Vec2i roomPos, Vec2i size, boolean isActive) {
+	public Room(int roomID, Vec2i roomPos, Vec2i size) {
 		super(new Vec2f(roomPos), size);
 		this.roomID = roomID;
-		this.isActive = isActive;
-		
 		
 		if (size.getX() < 16 || size.getY() < 8) {
 			Console.print(Console.WarningType.FatalError, "Rooms cannot be under 16x8!");
 			return;
 		}
 		
-		for (int yi = 0; yi < size.getY(); yi++) {
-			for (int xi = 0; xi < size.getX(); xi++) {
+		for (int yi = 0; yi < this.size.getY(); yi++) {
+			for (int xi = 0; xi < this.size.getX(); xi++) {
 				tiles_layer0.add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass(), roomPos));
 				tiles_layer1.add(new Tile(new Vec2i(xi, yi), TileInfo.AIR, roomPos));
 			}
 		}
 		
-		setPos(MathH.floor(getPosX() * size.getX() * Tile.TILE_SIZE), MathH.floor(getPosY() * size.getY() * Tile.TILE_SIZE));
+		setPos(MathH.floor(getPosX() * this.size.getX() * Tile.TILE_SIZE), MathH.floor(getPosY() * this.size.getY() * Tile.TILE_SIZE));
 		
 		onCreate();
 	}
@@ -79,7 +76,7 @@ public class Room extends GameObject implements ITickable, IResetable {
 	}
 	
 	public void onEnter(EntityPlayer p) {
-		p.exploreRoom(roomID);
+		p.exploreRoom();
 	}
 	
 	public void onLeave(EntityPlayer p) {
@@ -128,10 +125,6 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	public int getRoomID() {
 		return roomID;
-	}
-	
-	public boolean isActive() {
-		return isActive;
 	}
 	
 	public List<Tile> getTilesLayer0() {

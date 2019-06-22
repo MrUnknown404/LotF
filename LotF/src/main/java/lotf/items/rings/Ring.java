@@ -3,11 +3,11 @@ package main.java.lotf.items.rings;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ring {
+public abstract class Ring {
 
 	private static List<Ring> rings = new ArrayList<Ring>();
 	
-	public static final Ring EMPTY = new Ring("empty", RingType.passive);
+	public static final Ring EMPTY = null;
 	public static final Ring BASIC = new RingBasic();
 	public static final Ring ARCHER1 = new RingArcher1();
 	

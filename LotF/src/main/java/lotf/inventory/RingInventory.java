@@ -15,7 +15,7 @@ public class RingInventory {
 	private Map<Ring, Boolean> rings = new HashMap<Ring, Boolean>();
 	private List<Ring> selectedRings = new ArrayList<>(5);
 	
-	private final Vec2i size = new Vec2i(1, 5);
+	private final Vec2i size = new Vec2i(6, 1);
 	
 	public RingInventory() {
 		for (Ring r : Ring.getRings()) {
@@ -51,8 +51,12 @@ public class RingInventory {
 		}
 	}
 	
-	public Vec2i getSize() {
-		return size;
+	public int getSizeX() {
+		return size.getX();
+	}
+	
+	public int getSizeY() {
+		return size.getY();
 	}
 	
 	public int getAllRingSize() {

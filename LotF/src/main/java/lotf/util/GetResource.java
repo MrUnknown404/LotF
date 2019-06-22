@@ -49,7 +49,7 @@ public class GetResource {
 		return getTexture(ResourceType.none, textureName);
 	}
 	
-	public static Font getFont(String fontName) {
+	public static Font getFont(String fontName, float size) {
 		InputStream i = null;
 		Font font = null;
 		String loc = "/main/resources/lotf/assets/fonts/";
@@ -61,7 +61,7 @@ public class GetResource {
 		}
 		
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, i).deriveFont(5f);
+			font = Font.createFont(Font.TRUETYPE_FONT, i).deriveFont(size);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 			ge.registerFont(font);
 		} catch (FontFormatException e) {

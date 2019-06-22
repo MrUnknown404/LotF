@@ -1,6 +1,5 @@
 package main.java.lotf.client.renderer;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -93,11 +92,6 @@ public class Renderer implements ITickable {
 		
 		if (Main.getMain().getWorldHandler() != null) {
 			if (p != null) {
-				for (Room r : Main.getMain().getWorldHandler().getPlayerWorld().getRooms()) { //TODO temp
-					g.setColor(Color.BLUE);
-					g.drawRect((int) r.getBounds().x, (int) r.getBounds().y, r.getBounds().width, r.getBounds().height);
-				}
-				
 				List<Room> roomsToRender = new ArrayList<>();
 				
 				if (p.getRoom() != null) {

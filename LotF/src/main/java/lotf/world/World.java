@@ -20,13 +20,12 @@ public class World implements ITickable, IResetable {
 		
 		for (int yi = 0; yi < size.getY(); yi++) {
 			for (int xi = 0; xi < size.getX(); xi++) {
-				boolean isActive = false;
 				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() &&
 						xi > worldType.getStartActiveBounds().getX() && xi < worldType.getEndActiveBounds().getX()) {
-					isActive = true;
+					rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8)));
+				} else {
+					rooms.add(null);
 				}
-				
-				rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), isActive));
 			}
 		}
 	}
@@ -34,7 +33,9 @@ public class World implements ITickable, IResetable {
 	@Override
 	public void tick() {
 		for (Room r : rooms) {
-			r.tick();
+			if (r != null) {
+				r.tick();
+			}
 		}
 	}
 	

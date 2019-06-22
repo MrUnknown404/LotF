@@ -22,16 +22,16 @@ public class Camera implements ITickable {
 		} else {
 			switch (p.getRoomToBeDir()) {
 				case north:
-					pos.addY(-((p.getRoom().getSizeY() * Tile.TILE_SIZE) / 30f));
+					pos.addY(-((p.getRoomToBe().getSizeY() * Tile.TILE_SIZE) / 30f));
 					break;
 				case east:
-					pos.addX((p.getRoom().getSizeX() * Tile.TILE_SIZE) / 30f);
+					pos.addX((p.getRoomToBe().getSizeX() * Tile.TILE_SIZE) / 30f);
 					break;
 				case south:
-					pos.addY((p.getRoom().getSizeY() * Tile.TILE_SIZE) / 30f);
+					pos.addY((p.getRoomToBe().getSizeY() * Tile.TILE_SIZE) / 30f);
 					break;
 				case west:
-					pos.addX(-((p.getRoom().getSizeX() * Tile.TILE_SIZE) / 30f));
+					pos.addX(-((p.getRoomToBe().getSizeX() * Tile.TILE_SIZE) / 30f));
 					break;
 			}
 		}

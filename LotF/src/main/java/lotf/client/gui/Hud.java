@@ -2,16 +2,14 @@ package main.java.lotf.client.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
+import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
 import main.java.lotf.items.Item;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.util.Console;
@@ -22,9 +20,10 @@ import main.java.lotf.world.World;
 
 public class Hud {
 
-	private static Font font;
+	private static Font smallNumbers;
 	
-	private BufferedImage baseHud, invHud, barDecal, mapBlock;
+	private BufferedImage baseHud, barDecal, mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap;
+	private BufferedImage invHud0, invHud1, invHud2;
 	private BufferedImage[] hearts = new BufferedImage[5];
 	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>();
 	private Map<String, BufferedImage> rings = new HashMap<String, BufferedImage>();
@@ -34,9 +33,15 @@ public class Hud {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
 		
 		baseHud = registerGUITexture("baseHud");
-		invHud = registerGUITexture("invBackground");
+		invHud0 = registerGUITexture("inv_background_0");
+		invHud1 = registerGUITexture("inv_background_1");
+		invHud2 = registerGUITexture("inv_background_2");
+		selectedSlotItem = registerGUITexture("selectedSlotItem");
+		selectedSlotRing = registerGUITexture("selectedSlotRing");
+		selectedMap = registerGUITexture("selectedMap");
 		barDecal = registerGUITexture("magicBarDecal");
 		mapBlock = registerGUITexture("mapBlock");
+		mapLocationMarker = registerGUITexture("mapLocationMarker");
 		
 		hearts[0] = registerGUITexture("hearts/heart_0");
 		hearts[1] = registerGUITexture("hearts/heart_1");
@@ -64,14 +69,8 @@ public class Hud {
 	}
 	
 	public void getFonts() {
-		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, GetResource.class.getResourceAsStream("/main/resources/lotf/assets/fonts/font1.ttf")).deriveFont(5f);
-			GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-			
-			Console.print(Console.WarningType.TextureDebug, "Registered font for Hud : " + "fonts/font1.ttf!");
-		} catch (FontFormatException | IOException e) {
-			e.printStackTrace();
-		}
+		smallNumbers = GetResource.getFont("small_numbers", 5);
+		Console.print(Console.WarningType.TextureDebug, "Registered font for Hud : " + "fonts/small_numbers.ttf!");
 	}
 	
 	public void render(Graphics2D g) {
@@ -81,7 +80,7 @@ public class Hud {
 		if (p != null) {
 			g.drawImage(baseHud, 0, 0, 256, 16, null);
 			g.setColor(Color.BLACK);
-			g.setFont(font);
+			g.setFont(smallNumbers);
 			
 			g.drawString(setupNumberString(p.getMoney(), 6), 116, 8);
 			g.drawString(setupNumberString(p.getArrows(), 2), 153, 8);
@@ -100,40 +99,86 @@ public class Hud {
 			}
 			
 			if (p.getInventory().isOpen()) {
-				g.drawImage(invHud, 0, 16, 256, 128, null);
 				g.drawImage(maps.get(p.getWorldType()), 132, 20, 120, 120, null);
 				
+				int iLocation = 0;
 				for (int i = 0; i < World.WORLD_SIZE.getBothMulti(); i++) {
-					if (w.getRoom(i).isActive()) {
+					if (w.getRoom(i) != null) {
 						if (!p.didExploredRoom(i)) {
 							g.drawImage(mapBlock, 132 + i % World.WORLD_SIZE.getX() * 7, 20 + MathH.floor(i / World.WORLD_SIZE.getX()) * 7, 8, 8, null);
+						} else if (p.getRoom().getRoomID() == i) {
+							iLocation = i;
 						}
 					}
 				}
+				g.drawImage(mapLocationMarker, 132 + iLocation % World.WORLD_SIZE.getX() * 7, 20 + MathH.floor(iLocation / World.WORLD_SIZE.getX()) * 7, 8, 8, null);
 				
-				for (int i = 0; i < p.getInventory().getNormalInventory().getItemSize(); i++) {
-					Item item = p.getInventory().getNormalInventory().getItem(i);
+				if (p.getInventory().getCurrentScreen() == 0) {
+					g.drawImage(invHud0, 0, 16, 256, 128, null);
 					
-					if (item != Item.EMPTY) {
-						g.drawImage(items.get(item.getName()), 5 + i % p.getInventory().getNormalInventory().getSize().getX() * 18,
-								21 + MathH.floor(i / p.getInventory().getNormalInventory().getSize().getX()) * 18, 14, 14, null);
+					if (p.getInventory().getSelectedThing() == EnumSelectables.NormalInventory) {
+						g.drawImage(selectedSlotItem, 4 + p.getInventory().getSelectedSlot() % p.getInventory().getNormalInventory().getSizeX() * 18,
+								19 + MathH.floor(p.getInventory().getSelectedSlot() / p.getInventory().getNormalInventory().getSizeX()) * 18, 18, 18, null);
+					} else if (p.getInventory().getSelectedThing() == EnumSelectables.SwordInventory) {
+						g.drawImage(selectedSlotItem, 104, 19 + p.getInventory().getSelectedSlot() * 18, 18, 18, null);
 					}
+					
+					for (int i = 0; i < p.getInventory().getNormalInventory().getItemSize(); i++) {
+						Item item = p.getInventory().getNormalInventory().getItem(i);
+						
+						if (item != Item.EMPTY) {
+							g.drawImage(items.get(item.getName()), 6 + i % p.getInventory().getNormalInventory().getSizeX() * 18,
+									21 + MathH.floor(i / p.getInventory().getNormalInventory().getSizeX()) * 18, 14, 14, null);
+						}
+					}
+					
+					for (int i = 0; i < p.getInventory().getSwordInventory().getItemSize(); i++) {
+						Item item = p.getInventory().getSwordInventory().getItem(i);
+						
+						if (item != Item.EMPTY) {
+							g.drawImage(items.get(item.getName()), 106, 21 + i * 18, 14, 14, null);
+						}
+					}
+				} else if (p.getInventory().getCurrentScreen() == 1) {
+					g.drawImage(invHud1, 0, 16, 256, 128, null);
+					
+					if (p.getInventory().getSelectedThing() == EnumSelectables.RingInventory) {
+						g.drawImage(selectedSlotRing, 3 + p.getInventory().getSelectedSlot() * 20, 19, 20, 20, null);
+					}
+					
+					if (p.getInventory().getSelectedThing() == EnumSelectables.PotionInventory) {
+						g.drawImage(selectedSlotItem, 4 + p.getInventory().getSelectedSlot() * 20, 47, 18, 18, null);
+					}
+					
+					if (p.getInventory().getSelectedThing() == EnumSelectables.SpecialInventory) {
+						g.drawImage(selectedSlotItem, 4 + p.getInventory().getSelectedSlot() * 20, 70, 18, 18, null);
+					}
+					
+					for (int i = 0; i < p.getInventory().getRingInventory().getSelectedRingSize(); i++) {
+						Ring ring = p.getInventory().getRingInventory().getSelectedRing(i);
+						
+						if (ring != Ring.EMPTY) {
+							g.drawImage(rings.get(ring.getName()), 5 + i * 20, 21, 16, 16, null);
+						}
+					}
+					
+					for (int i = 0; i < p.getInventory().getPotionInventory().getItemSize(); i++) {
+						Item item = p.getInventory().getPotionInventory().getItem(i);
+						
+						if (item != Item.EMPTY) {
+							g.drawImage(items.get(item.getName()), 6 + i * 20, 49, 14, 14, null);
+						}
+					}
+					
+					int draw_special_items;
+				} else if (p.getInventory().getCurrentScreen() == 2) {
+					g.drawImage(invHud2, 0, 16, 256, 128, null);
+					
+					int draw_dungeon_item_screen;
 				}
 				
-				for (int i = 0; i < p.getInventory().getSwordInventory().getItemSize(); i++) {
-					Item item = p.getInventory().getSwordInventory().getItem(i);
-					
-					if (item != Item.EMPTY) {
-						g.drawImage(items.get(item.getName()), 82, 21 + i * 18, 14, 14, null);
-					}
-				}
-				
-				for (int i = 0; i < p.getInventory().getRingInventory().getSelectedRingSize(); i++) {
-					Ring ring = p.getInventory().getRingInventory().getSelectedRing(i);
-					
-					if (ring != Ring.EMPTY) {
-						g.drawImage(rings.get(ring.getName()), 107, 24 + i * 21, 15, 15, null);
-					}
+				if (p.getInventory().getSelectedThing() == EnumSelectables.Map) {
+					g.drawImage(selectedMap, 130, 18, 124, 124, null);
 				}
 			}
 		}

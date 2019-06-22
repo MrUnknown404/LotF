@@ -34,8 +34,12 @@ public class Inventory {
 		return false;
 	}
 	
-	public Vec2i getSize() {
-		return size;
+	public int getSizeX() {
+		return size.getX();
+	}
+	
+	public int getSizeY() {
+		return size.getY();
 	}
 	
 	public int getItemSize() {

@@ -9,16 +9,17 @@ public abstract class Item {
 
 	private static List<Item> items = new ArrayList<Item>();
 	
-	public static final Item EMPTY = new Item("empty") {@Override public void onUse() {}};
+	public static final Item EMPTY = null;
 	public static final Item BOW = new ItemBow();
 	public static final Item CAPE = new ItemCape();
 	
 	public static final ItemSword SWORD = new ItemSword("sword", 1);
 	
-	private final String name;
+	private final String name, description;
 	
-	public Item(String name) {
+	public Item(String name, String description) {
 		this.name = name;
+		this.description = description;
 		
 		items.add(this);
 	}

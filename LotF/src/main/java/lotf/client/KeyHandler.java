@@ -11,6 +11,7 @@ import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.MathH;
 
 public class KeyHandler extends KeyAdapter implements ITickable {
@@ -74,13 +75,32 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 				dualKey.setValue(isPressed);
 			}
 			
-			if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
-				Main.getMain().getWorldHandler().getPlayer().setMoveY(0);
+			if (Main.getMain().getWorldHandler().getPlayer().getInventory().isOpen()) {
+				if (dualKey.getKey() == KeyType.player_inventory_switch && checkKey(dualKey.getKey(), key)) {
+					if (isPressed && !dualKey.getValue()) {
+						Main.getMain().getWorldHandler().getPlayer().getInventory().switchInventoryScreen();
+					}
+					dualKey.setValue(isPressed);
+				}
 			}
-			
-			if (!dualKeys.get(KeyType.player_walk_left) && !dualKeys.get(KeyType.player_walk_right)) {
-				Main.getMain().getWorldHandler().getPlayer().setMoveX(0);
-			}
+		}
+		
+		if (checkKey(KeyType.player_inventory_up, key) && isPressed) {
+			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.north);
+		} else if (checkKey(KeyType.player_inventory_down, key) && isPressed) {
+			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.south);
+		} else if (checkKey(KeyType.player_inventory_left, key) && isPressed) {
+			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.west);
+		} else if (checkKey(KeyType.player_inventory_right, key) && isPressed) {
+			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.east);
+		}
+		
+		if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
+			Main.getMain().getWorldHandler().getPlayer().setMoveY(0);
+		}
+		
+		if (!dualKeys.get(KeyType.player_walk_left) && !dualKeys.get(KeyType.player_walk_right)) {
+			Main.getMain().getWorldHandler().getPlayer().setMoveX(0);
 		}
 	}
 	
@@ -151,19 +171,11 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	}
 	
 	private boolean checkKey(KeyType type, int keyCode) {
-		for (KeyType key : KeyType.values()) {
-			if (key == type) {
-				if (key.key1 == keyCode || key.key2 == keyCode) {
-					return true;
-				}
-			}
-		}
-		
-		return false;
+		return (type.key1 == keyCode || type.key2 == keyCode) ? true : false;
 	}
 	
 	public enum KeyType {
-		debug_fullscreen  (false, KeyEvent.VK_F11),
+		debug_fullscreen       (false, KeyEvent.VK_F11),
 		
 		console_open           (false, KeyEvent.VK_BACK_QUOTE),
 		console_open_slash     (false, KeyEvent.VK_SLASH),
@@ -177,7 +189,12 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		player_walk_down       (true,  KeyEvent.VK_S),
 		player_walk_left       (true,  KeyEvent.VK_A),
 		player_walk_right      (true,  KeyEvent.VK_D),
-		player_inventory_toggle(true,  KeyEvent.VK_DOWN);
+		player_inventory_toggle(true,  KeyEvent.VK_DOWN),
+		player_inventory_switch(true,  KeyEvent.VK_UP),
+		player_inventory_up    (false, KeyEvent.VK_W),
+		player_inventory_down  (false, KeyEvent.VK_S),
+		player_inventory_left  (false, KeyEvent.VK_A),
+		player_inventory_right (false, KeyEvent.VK_D);
 		
 		private int defaultKey;
 		private boolean hasDualAction;

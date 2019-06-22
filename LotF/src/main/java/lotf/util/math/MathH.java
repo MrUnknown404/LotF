@@ -9,6 +9,11 @@ public class MathH {
 		return value < (float) i ? i - 1 : i;
 	}
 	
+	public static int ceil(float value) {
+		int i = (int)value;
+		return value > (float) i ? i + 1 : i;
+	}
+	
 	public static int fClamp(float num, float min, float max) {
 		return floor(clamp(num, min, max));
 	}

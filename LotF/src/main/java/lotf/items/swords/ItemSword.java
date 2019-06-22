@@ -7,7 +7,7 @@ public class ItemSword extends Item {
 	protected int damage;
 	
 	public ItemSword(String name, int damage) {
-		super(name);
+		super(name, "Its a sword why do i have to explain this? (write later)");
 		this.damage = damage;
 	}
 	
