@@ -16,7 +16,7 @@ public class Inventory {
 		this.size = size;
 		
 		for (int i = 0; i < size.getBothMulti(); i++) {
-			items.add(Item.EMPTY);
+			items.add(null);
 		}
 	}
 	
@@ -26,8 +26,8 @@ public class Inventory {
 			return false;
 		}
 		
-		if (items.indexOf(Item.EMPTY) != -1) {
-			items.set(items.indexOf(Item.EMPTY), item);
+		if (items.indexOf(null) != -1) {
+			items.set(items.indexOf(null), item);
 			return true;
 		}
 		

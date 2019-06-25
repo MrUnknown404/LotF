@@ -9,7 +9,7 @@ import java.util.Map;
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.commands.util.InitCommands;
+import main.java.lotf.init.InitCommands;
 import main.java.lotf.util.math.MathH;
 
 public class CommandHelp extends Command {

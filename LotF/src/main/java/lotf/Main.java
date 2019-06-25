@@ -19,7 +19,8 @@ import main.java.lotf.client.gui.DebugHud;
 import main.java.lotf.client.gui.Hud;
 import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.commands.util.InitCommands;
+import main.java.lotf.init.InitCommands;
+import main.java.lotf.init.InitItems;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
@@ -85,12 +86,13 @@ public final class Main extends Canvas implements Runnable {
 			Console.print(Console.WarningType.Info, "Created file path!");
 		}
 		
+		InitItems.registerAll();
+		InitCommands.registerAll();
+		
 		renderer = new Renderer();
 		renderer.getTextures();
 		hud.getFonts();
 		hud.getTextures();
-		
-		InitCommands.registerAll();
 		
 		addKeyListener(keyHandler = new KeyHandler().registerKeys());
 		addComponentListener(new ComponentListener() {

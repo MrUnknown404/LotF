@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import main.java.lotf.init.InitItems;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.Vec2i;
@@ -18,12 +19,12 @@ public class RingInventory {
 	private final Vec2i size = new Vec2i(6, 1);
 	
 	public RingInventory() {
-		for (Ring r : Ring.getRings()) {
-			rings.put(r, false);
+		for (int i = 0; i < InitItems.getRingsSize(); i++) {
+			rings.put(InitItems.getRing(i), false);
 		}
 		
 		for (int i = 0; i < size.getBothMulti(); i++) {
-			selectedRings.add(Ring.EMPTY);
+			selectedRings.add(null);
 		}
 	}
 	
@@ -33,8 +34,8 @@ public class RingInventory {
 			return false;
 		}
 		
-		if (selectedRings.indexOf(Ring.EMPTY) != -1) {
-			selectedRings.set(selectedRings.indexOf(Ring.EMPTY), ring);
+		if (selectedRings.indexOf(null) != -1) {
+			selectedRings.set(selectedRings.indexOf(null), ring);
 			return true;
 		}
 		

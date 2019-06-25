@@ -1,19 +1,15 @@
 package main.java.lotf.inventory;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import main.java.lotf.Main;
+import main.java.lotf.init.InitItems;
 import main.java.lotf.items.Item;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2i;
 
 public class PlayerInventory {
 
-	private Inventory normalInventory, swordInventory, potionInventory;
+	private Inventory normalInventory, swordInventory, potionInventory, specialItems;
 	private RingInventory ringInventory;
-	
-	private List<Boolean> specialItems = new ArrayList<Boolean>(6);
 	
 	private EnumSelectables selectedThing = EnumSelectables.NormalInventory;
 	private int currentInvScreen, selectedSlot = 0;
@@ -26,7 +22,9 @@ public class PlayerInventory {
 		
 		ringInventory = new RingInventory();
 		
-		normalInventory.addItem(Item.CAPE);
+		specialItems = new Inventory(new Vec2i(6, 1));
+		
+		normalInventory.addItem(InitItems.CAPE);
 	}
 	
 	public void toggleInventory() {
@@ -205,7 +203,7 @@ public class PlayerInventory {
 						}
 						break;
 					case SpecialInventory:
-						if (selectedSlot == ringInventory.getSizeX() - 1) {
+						if (selectedSlot == specialItems.getSizeX() - 1) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = 0;
 						} else {
@@ -218,6 +216,23 @@ public class PlayerInventory {
 						break;
 				}
 				break;
+		}
+	}
+	
+	public Item getSelectedItem() {
+		switch (selectedThing) {
+			case NormalInventory:
+				return normalInventory.getItem(selectedSlot);
+			case PotionInventory:
+				return potionInventory.getItem(selectedSlot);
+			case RingInventory:
+				return ringInventory.getSelectedRing(selectedSlot);
+			case SpecialInventory:
+				return specialItems.getItem(selectedSlot);
+			case SwordInventory:
+				return swordInventory.getItem(selectedSlot);
+			default:
+				return null;
 		}
 	}
 	

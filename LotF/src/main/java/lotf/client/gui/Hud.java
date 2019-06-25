@@ -2,13 +2,17 @@ package main.java.lotf.client.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.text.WordUtils;
+
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
+import main.java.lotf.init.InitItems;
 import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
 import main.java.lotf.items.Item;
 import main.java.lotf.items.rings.Ring;
@@ -20,7 +24,7 @@ import main.java.lotf.world.World;
 
 public class Hud {
 
-	private static Font smallNumbers;
+	private static Font smallNumbers, lotfFont;
 	
 	private BufferedImage baseHud, barDecal, mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap;
 	private BufferedImage invHud0, invHud1, invHud2;
@@ -53,15 +57,15 @@ public class Hud {
 			maps.put(type, registerGUITexture("maps/" + type.toString().toLowerCase() + "_map"));
 		}
 		
-		for (int i = 0; i < Item.getItemsSize(); i++) {
-			if (Item.getItem(i) != Item.EMPTY) {
-				items.put(Item.getItem(i).getName(), registerItemTexture(Item.getItem(i)));
+		for (int i = 0; i < InitItems.getItemsSize(); i++) {
+			if (InitItems.getItem(i) != null) {
+				items.put(InitItems.getItem(i).getName(), registerItemTexture(InitItems.getItem(i)));
 			}
 		}
 		
-		for (int i = 0; i < Ring.getRings().size(); i++) {
-			if (Ring.getRings().get(i) != Ring.EMPTY) {
-				rings.put(Ring.getRings().get(i).getName(), registerRingTexture(Ring.getRings().get(i)));
+		for (int i = 0; i < InitItems.getRingsSize(); i++) {
+			if (InitItems.getRing(i) != null) {
+				rings.put(InitItems.getRing(i).getName(), registerRingTexture(InitItems.getRing(i)));
 			}
 		}
 		
@@ -71,6 +75,8 @@ public class Hud {
 	public void getFonts() {
 		smallNumbers = GetResource.getFont("small_numbers", 5);
 		Console.print(Console.WarningType.TextureDebug, "Registered font for Hud : " + "fonts/small_numbers.ttf!");
+		lotfFont = GetResource.getFont("lotf", 8);
+		Console.print(Console.WarningType.TextureDebug, "Registered font for Hud : " + "fonts/lotf.ttf!");
 	}
 	
 	public void render(Graphics2D g) {
@@ -126,7 +132,7 @@ public class Hud {
 					for (int i = 0; i < p.getInventory().getNormalInventory().getItemSize(); i++) {
 						Item item = p.getInventory().getNormalInventory().getItem(i);
 						
-						if (item != Item.EMPTY) {
+						if (item != null) {
 							g.drawImage(items.get(item.getName()), 6 + i % p.getInventory().getNormalInventory().getSizeX() * 18,
 									21 + MathH.floor(i / p.getInventory().getNormalInventory().getSizeX()) * 18, 14, 14, null);
 						}
@@ -135,7 +141,7 @@ public class Hud {
 					for (int i = 0; i < p.getInventory().getSwordInventory().getItemSize(); i++) {
 						Item item = p.getInventory().getSwordInventory().getItem(i);
 						
-						if (item != Item.EMPTY) {
+						if (item != null) {
 							g.drawImage(items.get(item.getName()), 106, 21 + i * 18, 14, 14, null);
 						}
 					}
@@ -157,7 +163,7 @@ public class Hud {
 					for (int i = 0; i < p.getInventory().getRingInventory().getSelectedRingSize(); i++) {
 						Ring ring = p.getInventory().getRingInventory().getSelectedRing(i);
 						
-						if (ring != Ring.EMPTY) {
+						if (ring != null) {
 							g.drawImage(rings.get(ring.getName()), 5 + i * 20, 21, 16, 16, null);
 						}
 					}
@@ -165,7 +171,7 @@ public class Hud {
 					for (int i = 0; i < p.getInventory().getPotionInventory().getItemSize(); i++) {
 						Item item = p.getInventory().getPotionInventory().getItem(i);
 						
-						if (item != Item.EMPTY) {
+						if (item != null) {
 							g.drawImage(items.get(item.getName()), 6 + i * 20, 49, 14, 14, null);
 						}
 					}
@@ -174,12 +180,43 @@ public class Hud {
 				} else if (p.getInventory().getCurrentScreen() == 2) {
 					g.drawImage(invHud2, 0, 16, 256, 128, null);
 					
-					int draw_dungeon_item_screen;
+					int draw_dungeon__item_screen;
+				}
+				
+				int animate_the_description;
+				Item itemForDesc = p.getInventory().getSelectedItem();
+				if (itemForDesc != null) {
+					g.setFont(lotfFont);
+					drawStringMultiLine(g, WordUtils.capitalize(itemForDesc.getName()) + " : " + itemForDesc.getDescription(), 124, 2, 124);
 				}
 				
 				if (p.getInventory().getSelectedThing() == EnumSelectables.Map) {
 					g.drawImage(selectedMap, 130, 18, 124, 124, null);
 				}
+			}
+		}
+	}
+	
+	private void drawStringMultiLine(Graphics2D g, String str, int width, int x, int y) {
+		FontMetrics m = g.getFontMetrics();
+		if (m.stringWidth(str) < width) {
+			g.drawString(str, x, y);
+		} else {
+			String[] words = str.split(" ");
+			String currentLine = words[0];
+			
+			for (int i = 1; i < words.length; i++) {
+				if (m.stringWidth(currentLine + words[i]) < width) {
+					currentLine += " " + words[i];
+				} else {
+					g.drawString(currentLine, x, y);
+					y += m.getHeight();
+					currentLine = words[i];
+				}
+			}
+			
+			if (currentLine.trim().length() > 0) {
+				g.drawString(currentLine, x, y);
 			}
 		}
 	}

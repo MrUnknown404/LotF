@@ -1,33 +1,22 @@
 package main.java.lotf.items.rings;
 
-import java.util.ArrayList;
-import java.util.List;
+import main.java.lotf.items.Item;
 
-public abstract class Ring {
-
-	private static List<Ring> rings = new ArrayList<Ring>();
+public abstract class Ring extends Item {
 	
-	public static final Ring EMPTY = null;
-	public static final Ring BASIC = new RingBasic();
-	public static final Ring ARCHER1 = new RingArcher1();
+	protected final RingType ringType;
 	
-	private final String name;
-	private final RingType ringType;
-	
-	Ring(String name, RingType ringType) {
-		this.name = name;
+	public Ring(String name, String description, RingType ringType) {
+		super(name, description);
 		this.ringType = ringType;
-		
-		rings.add(this);
 	}
 	
 	public void onUse(RingType type) {
 		
 	}
 	
-	public static List<Ring> getRings() {
-		return rings;
-	}
+	/** Not going to use */
+	@Override public void onUse() {}
 	
 	public String getName() {
 		return name;

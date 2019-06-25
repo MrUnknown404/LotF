@@ -8,6 +8,7 @@ import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
+import main.java.lotf.init.InitCommands;
 
 public class DebugConsole {
 	private static final int MAX_ARGS = Command.ArgumentType.values().length, MAX_LINES = 7;
