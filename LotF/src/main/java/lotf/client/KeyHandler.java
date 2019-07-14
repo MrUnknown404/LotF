@@ -85,14 +85,20 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 			}
 		}
 		
-		if (checkKey(KeyType.player_inventory_up, key) && isPressed) {
-			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.north);
-		} else if (checkKey(KeyType.player_inventory_down, key) && isPressed) {
-			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.south);
-		} else if (checkKey(KeyType.player_inventory_left, key) && isPressed) {
-			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.west);
-		} else if (checkKey(KeyType.player_inventory_right, key) && isPressed) {
-			Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.east);
+		if (Main.getMain().getWorldHandler().getPlayer().getInventory().isOpen()) {
+			if (checkKey(KeyType.player_inventory_up, key) && isPressed) {
+				Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.north);
+			} else if (checkKey(KeyType.player_inventory_down, key) && isPressed) {
+				Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.south);
+			} else if (checkKey(KeyType.player_inventory_left, key) && isPressed) {
+				Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.west);
+			} else if (checkKey(KeyType.player_inventory_right, key) && isPressed) {
+				Main.getMain().getWorldHandler().getPlayer().getInventory().moveSelectedInvSlot(EnumDirection.east);
+			} else if (checkKey(KeyType.player_inventory_select_left, key) && isPressed) {
+				Main.getMain().getWorldHandler().getPlayer().getInventory().selectLeft();
+			} else if (checkKey(KeyType.player_inventory_select_right, key) && isPressed) {
+				Main.getMain().getWorldHandler().getPlayer().getInventory().selectRight();
+			}
 		}
 		
 		if (!dualKeys.get(KeyType.player_walk_up) && !dualKeys.get(KeyType.player_walk_down)) {
@@ -175,26 +181,28 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 	}
 	
 	public enum KeyType {
-		debug_fullscreen       (false, KeyEvent.VK_F11),
+		debug_fullscreen             (false, KeyEvent.VK_F11),
 		
-		console_open           (false, KeyEvent.VK_BACK_QUOTE),
-		console_open_slash     (false, KeyEvent.VK_SLASH),
-		console_up             (false, KeyEvent.VK_UP),
-		console_down           (false, KeyEvent.VK_DOWN),
-		console_finish         (false, KeyEvent.VK_ENTER),
-		console_cancel         (false, KeyEvent.VK_ESCAPE),
-		console_delete         (false, KeyEvent.VK_BACK_SPACE),
+		console_open                 (false, KeyEvent.VK_BACK_QUOTE),
+		console_open_slash           (false, KeyEvent.VK_SLASH),
+		console_up                   (false, KeyEvent.VK_UP),
+		console_down                 (false, KeyEvent.VK_DOWN),
+		console_finish               (false, KeyEvent.VK_ENTER),
+		console_cancel               (false, KeyEvent.VK_ESCAPE),
+		console_delete               (false, KeyEvent.VK_BACK_SPACE),
 		
-		player_walk_up         (true,  KeyEvent.VK_W),
-		player_walk_down       (true,  KeyEvent.VK_S),
-		player_walk_left       (true,  KeyEvent.VK_A),
-		player_walk_right      (true,  KeyEvent.VK_D),
-		player_inventory_toggle(true,  KeyEvent.VK_DOWN),
-		player_inventory_switch(true,  KeyEvent.VK_UP),
-		player_inventory_up    (false, KeyEvent.VK_W),
-		player_inventory_down  (false, KeyEvent.VK_S),
-		player_inventory_left  (false, KeyEvent.VK_A),
-		player_inventory_right (false, KeyEvent.VK_D);
+		player_walk_up               (true,  KeyEvent.VK_W),
+		player_walk_down             (true,  KeyEvent.VK_S),
+		player_walk_left             (true,  KeyEvent.VK_A),
+		player_walk_right            (true,  KeyEvent.VK_D),
+		player_inventory_toggle      (true,  KeyEvent.VK_DOWN),
+		player_inventory_switch      (true,  KeyEvent.VK_UP),
+		player_inventory_up          (false, KeyEvent.VK_W),
+		player_inventory_down        (false, KeyEvent.VK_S),
+		player_inventory_left        (false, KeyEvent.VK_A),
+		player_inventory_right       (false, KeyEvent.VK_D),
+		player_inventory_select_left (false, KeyEvent.VK_LEFT),
+		player_inventory_select_right(false, KeyEvent.VK_RIGHT);
 		
 		private int defaultKey;
 		private boolean hasDualAction;

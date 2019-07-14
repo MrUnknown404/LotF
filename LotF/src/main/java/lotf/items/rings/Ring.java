@@ -1,26 +1,18 @@
 package main.java.lotf.items.rings;
 
-import main.java.lotf.items.Item;
+import main.java.lotf.items.util.ItemBase;
+import main.java.lotf.items.util.ItemInfo;
 
-public abstract class Ring extends Item {
+public abstract class Ring extends ItemBase {
 	
 	protected final RingType ringType;
 	
-	public Ring(String name, String description, RingType ringType) {
-		super(name, description);
-		this.ringType = ringType;
+	public Ring(ItemInfo info) {
+		super(info);
+		this.ringType = (RingType) info.getData()[0];
 	}
 	
-	public void onUse(RingType type) {
-		
-	}
-	
-	/** Not going to use */
-	@Override public void onUse() {}
-	
-	public String getName() {
-		return name;
-	}
+	public abstract void onUse(RingType type);
 	
 	public RingType getRingType() {
 		return ringType;
@@ -30,7 +22,7 @@ public abstract class Ring extends Item {
 	public boolean equals(Object obj) {
 		if (obj instanceof Ring) {
 			Ring ring = (Ring) obj;
-			if (ring.name == name && ring.ringType == ringType) {
+			if (ring.getName() == getName() && ring.ringType == ringType) {
 				return true;
 			}
 		}

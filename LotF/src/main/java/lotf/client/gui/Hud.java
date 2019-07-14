@@ -8,29 +8,29 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.text.WordUtils;
-
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
-import main.java.lotf.items.Item;
 import main.java.lotf.items.rings.Ring;
+import main.java.lotf.items.util.CollectableInfo;
+import main.java.lotf.items.util.ItemBase;
+import main.java.lotf.items.util.ItemInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.world.World;
 
-public class Hud {
+public class Hud implements ITickable {
 
 	private static Font smallNumbers, lotfFont;
 	
-	private BufferedImage baseHud, barDecal, mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap;
+	private BufferedImage baseHud, barDecal, mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap, map, compass;
 	private BufferedImage invHud0, invHud1, invHud2;
 	private BufferedImage[] hearts = new BufferedImage[5];
-	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>();
-	private Map<String, BufferedImage> rings = new HashMap<String, BufferedImage>();
+	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>(), rings = new HashMap<String, BufferedImage>(), collectables = new HashMap<String, BufferedImage>();
 	private Map<EnumWorldType, BufferedImage> maps = new HashMap<EnumWorldType, BufferedImage>();
 	
 	public void getTextures() {
@@ -46,6 +46,8 @@ public class Hud {
 		barDecal = registerGUITexture("magicBarDecal");
 		mapBlock = registerGUITexture("mapBlock");
 		mapLocationMarker = registerGUITexture("mapLocationMarker");
+		map = registerGUITexture("map");
+		compass = registerGUITexture("compass");
 		
 		hearts[0] = registerGUITexture("hearts/heart_0");
 		hearts[1] = registerGUITexture("hearts/heart_1");
@@ -66,6 +68,12 @@ public class Hud {
 		for (int i = 0; i < InitItems.getRingsSize(); i++) {
 			if (InitItems.getRing(i) != null) {
 				rings.put(InitItems.getRing(i).getName(), registerRingTexture(InitItems.getRing(i)));
+			}
+		}
+		
+		for (ItemInfo info : ItemInfo.values()) {
+			if (info.toString().startsWith("collectable_")) {
+				collectables.put(info.toString(), registerCollectableTexture(info));
 			}
 		}
 		
@@ -104,6 +112,18 @@ public class Hud {
 				}
 			}
 			
+			if (p.getInventory().getLeftItem() != null) {
+				g.drawImage(items.get(p.getInventory().getLeftItem().getName()), 206, 1, 14, 14, null);
+			}
+			
+			if (p.getInventory().getRightItem() != null) {
+				g.drawImage(items.get(p.getInventory().getRightItem().getName()), 223, 1, 14, 14, null);
+			}
+			
+			if (p.getInventory().getSelectedSword() != null) {
+				g.drawImage(items.get(p.getInventory().getSelectedSword().getName()), 240, 1, 14, 14, null);
+			}
+			
 			if (p.getInventory().isOpen()) {
 				g.drawImage(maps.get(p.getWorldType()), 132, 20, 120, 120, null);
 				
@@ -130,7 +150,7 @@ public class Hud {
 					}
 					
 					for (int i = 0; i < p.getInventory().getNormalInventory().getItemSize(); i++) {
-						Item item = p.getInventory().getNormalInventory().getItem(i);
+						ItemBase item = p.getInventory().getNormalInventory().getItem(i);
 						
 						if (item != null) {
 							g.drawImage(items.get(item.getName()), 6 + i % p.getInventory().getNormalInventory().getSizeX() * 18,
@@ -139,7 +159,7 @@ public class Hud {
 					}
 					
 					for (int i = 0; i < p.getInventory().getSwordInventory().getItemSize(); i++) {
-						Item item = p.getInventory().getSwordInventory().getItem(i);
+						ItemBase item = p.getInventory().getSwordInventory().getItem(i);
 						
 						if (item != null) {
 							g.drawImage(items.get(item.getName()), 106, 21 + i * 18, 14, 14, null);
@@ -169,29 +189,156 @@ public class Hud {
 					}
 					
 					for (int i = 0; i < p.getInventory().getPotionInventory().getItemSize(); i++) {
-						Item item = p.getInventory().getPotionInventory().getItem(i);
+						ItemBase item = p.getInventory().getPotionInventory().getItem(i);
 						
 						if (item != null) {
 							g.drawImage(items.get(item.getName()), 6 + i * 20, 49, 14, 14, null);
 						}
 					}
 					
-					int draw_special_items;
+					Map<EnumWorldType, Boolean> compassMap = p.getCompassMap(), mapMap = p.getMapMap();
+					
+					for (int i = 3; i < EnumWorldType.values().length; i++) {
+						EnumWorldType type = EnumWorldType.values()[i];
+						
+						int j = i - 3;
+						
+						if (compassMap.containsKey(type)) {
+							if (j <= 4) {
+								if (compassMap.get(type)) {
+									g.drawImage(compass, 5 + j * 10, 95, 7, 7, null);
+								}
+							} else if (j >= 5 && j <= 6) {
+								if (compassMap.get(type)) {
+									g.drawImage(compass, 10 + j * 9, 95, 7, 7, null);
+								}
+							} else {
+								if (compassMap.get(type)) {
+									g.drawImage(compass, 4 + j * 10, 95, 7, 7, null);
+								}
+							}
+						}
+						
+						if (mapMap.containsKey(type)) {
+							if (j <= 4) {
+								if (mapMap.get(type)) {
+									g.drawImage(map, 5 + j * 10, 103, 7, 7, null);
+								}
+							} else if (j >= 5 && j <= 6) {
+								if (mapMap.get(type)) {
+									g.drawImage(map, 10 + j * 9, 103, 7, 7, null);
+								}
+							} else {
+								if (mapMap.get(type)) {
+									g.drawImage(map, 4 + j * 10, 103, 7, 7, null);
+								}
+							}
+						}
+					}
 				} else if (p.getInventory().getCurrentScreen() == 2) {
 					g.drawImage(invHud2, 0, 16, 256, 128, null);
 					
-					int draw_dungeon__item_screen;
+					if (p.getInventory().getSelectedThing() == EnumSelectables.CollectablesInventory) {
+						g.drawImage(selectedSlotItem, 7 + p.getInventory().getSelectedSlot() % p.getInventory().getCollectablesInventory().getSizeX() * 39,
+								19 + MathH.floor(p.getInventory().getSelectedSlot() / p.getInventory().getCollectablesInventory().getSizeX()) * 18, 18, 18, null);
+					}
+					
+					for (int i = 0; i < p.getInventory().getCollectablesInventory().getCollectables().size(); i++) {
+						CollectableInfo col = p.getInventory().getCollectablesInventory().getCollectables().get(i);
+						
+						g.drawString(setupNumberString(col.getAmount(), 3), 29 + i % p.getInventory().getCollectablesInventory().getSizeX() * 39,
+								33 + MathH.floor(i / p.getInventory().getCollectablesInventory().getSizeX()) * 18);
+						if (col.has()) {
+							g.drawImage(collectables.get(col.getInfo().toString()), 9 + i % p.getInventory().getCollectablesInventory().getSizeX() * 41,
+									21 + MathH.floor(i / p.getInventory().getCollectablesInventory().getSizeX()) * 18, 14, 14, null);
+						}
+					}
+				} else if (p.getInventory().getCurrentScreen() == 3) {
+					int draw_dungeon_item_screen;
 				}
 				
-				int animate_the_description;
-				Item itemForDesc = p.getInventory().getSelectedItem();
-				if (itemForDesc != null) {
-					g.setFont(lotfFont);
-					drawStringMultiLine(g, WordUtils.capitalize(itemForDesc.getName()) + " : " + itemForDesc.getDescription(), 124, 2, 124);
-				}
+				String desc = "";
 				
 				if (p.getInventory().getSelectedThing() == EnumSelectables.Map) {
-					g.drawImage(selectedMap, 130, 18, 124, 124, null);
+					g.drawImage(selectedMap, 132 + p.getInventory().getSelectedSlot() % World.WORLD_SIZE.getX() * 7,
+							20 + MathH.floor(p.getInventory().getSelectedSlot() / World.WORLD_SIZE.getX()) * 7, 8, 8, null);
+					
+					if (w.getRoom(p.getInventory().getSelectedSlot()) != null && w.getRoom(p.getInventory().getSelectedSlot()).getDescription() != null &&
+							!w.getRoom(p.getInventory().getSelectedSlot()).getDescription().isEmpty()) {
+						desc = w.getRoom(p.getInventory().getSelectedSlot()).getDescription();
+					}
+				} else {
+					ItemBase itemForDesc = p.getInventory().getSelectedItem();
+					
+					if (itemForDesc != null) {
+						if (itemForDesc.getName().equalsIgnoreCase(buffer)) {
+							desc = itemForDesc.getName() + " : " + itemForDesc.getDescription();
+						} else {
+							forceReset = true;
+						}
+						
+						if (itemForDesc.getName().equalsIgnoreCase(buffer)) {
+							g.setFont(lotfFont);
+							drawStringMultiLine(g, (itemForDesc.getName() + " : " + itemForDesc.getDescription()).substring(0, descCharacter), 124, 2, 124);
+						} else {
+							forceReset = true;
+						}
+					}
+				}
+				
+				if (!desc.isEmpty()) {
+					g.setFont(lotfFont);
+					drawStringMultiLine(g, desc.substring(0, descCharacter), 124, 2, 124);
+				}
+			}
+		}
+	}
+	
+	private final int maxDescTick = 1;
+	private int descTick, descCharacter;
+	private String buffer;
+	private boolean forceReset = false;
+	
+	@Override
+	public void tick() {
+		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
+		if (p != null) {
+			String desc = "";
+			if (p.getInventory().getSelectedThing() != EnumSelectables.Map) {
+				ItemBase itemForDesc = p.getInventory().getSelectedItem();
+				if (itemForDesc != null) {
+					desc = itemForDesc.getName() + " : " + itemForDesc.getDescription();
+					buffer = itemForDesc.getName();
+				}
+			} else {
+				World w = Main.getMain().getWorldHandler().getPlayerWorld();
+				if (w.getRoom(p.getInventory().getSelectedSlot()) != null && w.getRoom(p.getInventory().getSelectedSlot()).getDescription() != null &&
+						!w.getRoom(p.getInventory().getSelectedSlot()).getDescription().isEmpty()) {
+					desc = w.getRoom(p.getInventory().getSelectedSlot()).getDescription();
+					buffer = desc;
+				}
+			}
+			
+			if (forceReset) {
+				forceReset = false;
+				descCharacter = 0;
+			} else {
+				if (!desc.isEmpty()) {
+					if (descTick == 0) {
+						descTick = maxDescTick;
+						
+						if (descCharacter < desc.length()) {
+							while (desc.charAt(descCharacter) == ' ') {
+								descCharacter++;
+							}
+							
+							descCharacter++;
+						}
+					} else {
+						descTick--;
+					}
+				} else {
+					descCharacter = 0;
 				}
 			}
 		}
@@ -225,12 +372,16 @@ public class Hud {
 		return registerTexture(GetResource.ResourceType.gui, name);
 	}
 	
-	private BufferedImage registerItemTexture(Item item) {
-		return registerTexture(GetResource.ResourceType.item, item.getName());
+	private BufferedImage registerItemTexture(ItemBase item) {
+		return registerTexture(GetResource.ResourceType.item, item.getInfo().toString().replaceAll("item_", "").replaceAll("sword_", ""));
+	}
+	
+	private BufferedImage registerCollectableTexture(ItemInfo item) {
+		return registerTexture(GetResource.ResourceType.item, "collectables/" + item.toString().replaceAll("collectable_", ""));
 	}
 	
 	private BufferedImage registerRingTexture(Ring ring) {
-		return registerTexture(GetResource.ResourceType.ring, ring.getName());
+		return registerTexture(GetResource.ResourceType.ring, ring.getInfo().toString().replaceAll("ring_", ""));
 	}
 	
 	private BufferedImage registerTexture(GetResource.ResourceType type, String name) {

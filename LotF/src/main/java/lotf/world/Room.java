@@ -4,6 +4,8 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.tile.Tile;
@@ -20,14 +22,16 @@ import main.java.lotf.util.math.Vec2i;
 public class Room extends GameObject implements ITickable, IResetable {
 
 	private final int roomID;
+	private final String description;
 	
 	private List<Tile> tiles_layer0 = new ArrayList<Tile>();
 	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(int roomID, Vec2i roomPos, Vec2i size) {
+	public Room(int roomID, Vec2i roomPos, Vec2i size, @Nullable String description) {
 		super(new Vec2f(roomPos), size);
 		this.roomID = roomID;
+		this.description = description;
 		
 		if (size.getX() < 16 || size.getY() < 8) {
 			Console.print(Console.WarningType.FatalError, "Rooms cannot be under 16x8!");
@@ -125,6 +129,10 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	public int getRoomID() {
 		return roomID;
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 	public List<Tile> getTilesLayer0() {

@@ -7,6 +7,7 @@ import main.java.lotf.Main;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.IDamageable;
 import main.java.lotf.inventory.PlayerInventory;
+import main.java.lotf.items.util.ItemInfo;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.enums.EnumDirection;
@@ -30,6 +31,7 @@ public class EntityPlayer extends Entity implements IDamageable {
 	
 	private Map<EnumWorldType, Integer> keys = new HashMap<EnumWorldType, Integer>();
 	private Map<EnumWorldType, Map<Integer, Boolean>> exploredMaps = new HashMap<EnumWorldType, Map<Integer, Boolean>>();
+	private Map<EnumWorldType, Boolean> compass = new HashMap<EnumWorldType, Boolean>(), map = new HashMap<EnumWorldType, Boolean>();
 	
 	private PlayerInventory inv;
 	
@@ -41,6 +43,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
 			keys.put(type, 0);
+			if (type.toString().contains("dungeon")) {
+				compass.put(type, false);
+				map.put(type, false);
+			}
 		}
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
@@ -241,6 +247,10 @@ public class EntityPlayer extends Entity implements IDamageable {
 		this.roomID = room.getRoomID();
 	}
 	
+	public void addCollectable(ItemInfo info, int set) {
+		inv.getCollectablesInventory().addCollectable(info, set);
+	}
+	
 	public void setMoveX(float moveX) {
 		this.moveX = moveX;
 	}
@@ -307,6 +317,14 @@ public class EntityPlayer extends Entity implements IDamageable {
 		}
 		
 		return getWorld().getRoom(toBeRoomID);
+	}
+	
+	public Map<EnumWorldType, Boolean> getCompassMap() {
+		return compass;
+	}
+	
+	public Map<EnumWorldType, Boolean> getMapMap() {
+		return map;
 	}
 	
 	public EnumDirection getRoomToBeDir() {

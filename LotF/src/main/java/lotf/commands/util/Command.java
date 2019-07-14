@@ -11,6 +11,11 @@ public abstract class Command {
 	protected final String name;
 	protected final Map<Integer, List<ArgumentType>> typeOfArgs;
 	
+	/**
+	 * @param name
+	 * @param typeOfArgs
+	 * @param isArgsOptional
+	 */
 	public Command(String name, @Nullable Map<Integer, List<ArgumentType>> typeOfArgs, boolean isArgsOptional) {
 		this.name = name;
 		this.isArgsOptional = isArgsOptional;

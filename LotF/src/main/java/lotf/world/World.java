@@ -22,7 +22,11 @@ public class World implements ITickable, IResetable {
 			for (int xi = 0; xi < size.getX(); xi++) {
 				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() &&
 						xi > worldType.getStartActiveBounds().getX() && xi < worldType.getEndActiveBounds().getX()) {
-					rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8)));
+					if (xi + yi * size.getX() == 144) {
+						rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), "DESCRIPTION"));
+					} else {
+						rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), null));
+					}
 				} else {
 					rooms.add(null);
 				}
@@ -37,6 +41,27 @@ public class World implements ITickable, IResetable {
 				r.tick();
 			}
 		}
+	}
+	
+	public Room getFirstActiveRoom() {
+		for (Room r : rooms) {
+			if (r != null) {
+				return r;
+			}
+		}
+		
+		return null;
+	}
+	
+	public Room getLastActiveRoom() {
+		Room room = null;
+		for (Room r : rooms) {
+			if (r != null) {
+				room = r;
+			}
+		}
+		
+		return room;
 	}
 	
 	public void onEnter() {

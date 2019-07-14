@@ -1,9 +1,13 @@
 package main.java.lotf.items;
 
-public class ItemCape extends Item {
+import main.java.lotf.items.util.IItemUseable;
+import main.java.lotf.items.util.ItemBase;
+import main.java.lotf.items.util.ItemInfo;
+
+public class ItemCape extends ItemBase implements IItemUseable {
 
 	public ItemCape() {
-		super("cape", "Lets you jump (write later)");
+		super(ItemInfo.item_cape);
 	}
 	
 	@Override

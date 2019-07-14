@@ -169,6 +169,7 @@ public final class Main extends Canvas implements Runnable {
 	private void tick() {
 		consoleHud.tick();
 		keyHandler.tick();
+		hud.tick();
 		
 		if (getGamestate() == Gamestate.run) {
 			worldHandler.tick();
