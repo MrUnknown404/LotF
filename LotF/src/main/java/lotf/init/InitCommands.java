@@ -3,7 +3,7 @@ package main.java.lotf.init;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.commands.CommandAddCollectable;
+import main.java.lotf.commands.CommandAddCollectible;
 import main.java.lotf.commands.CommandDamage;
 import main.java.lotf.commands.CommandDebug;
 import main.java.lotf.commands.CommandHeal;
@@ -24,7 +24,7 @@ public class InitCommands {
 		registerCommand(new CommandSetBombs());
 		registerCommand(new CommandDamage());
 		registerCommand(new CommandHeal());
-		registerCommand(new CommandAddCollectable());
+		registerCommand(new CommandAddCollectible());
 		
 		registerCommand(new CommandDebug());
 	}

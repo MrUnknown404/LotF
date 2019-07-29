@@ -8,7 +8,14 @@ import main.java.lotf.util.math.Vec2i;
 
 public abstract class Entity extends GameObject implements ITickable, IResetable {
 	
-	public Entity(Vec2f pos, Vec2i size) {
+	protected EntityInfo info;
+	
+	public Entity(EntityInfo info, Vec2f pos, Vec2i size) {
 		super(pos, size);
+		this.info = info;
+	}
+	
+	public EntityInfo getInfo() {
+		return info;
 	}
 }

@@ -22,6 +22,7 @@ import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.InitCommands;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.GetResource;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.WorldHandler;
@@ -35,8 +36,10 @@ public final class Main extends Canvas implements Runnable {
 	private int width = HUD_WIDTH, height = HUD_HEIGHT, w2, h2;
 	
 	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
-	private static final String BASE_LOCATION_ROOMS = "/main/resources/lotf/assets/rooms/";
-	private static final String BASE_LOCATION_TEXTURES = "/main/resources/lotf/assets/textures/";
+	private static final String ROOM_FOLDER_LOCATION =    "/main/resources/lotf/assets/rooms/";
+	private static final String TEXTURE_FOLDER_LOCATION = "/main/resources/lotf/assets/textures/";
+	private static final String FONT_FOLDER_LOCATION =    "/main/resources/lotf/assets/fonts/";
+	private static final String LANG_FOLDER_LOCATION =     "/main/resources/lotf/assets/lang/";
 	
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
@@ -85,6 +88,8 @@ public final class Main extends Canvas implements Runnable {
 			f.mkdirs();
 			Console.print(Console.WarningType.Info, "Created file path!");
 		}
+		
+		GetResource.getLangFile();
 		
 		InitItems.registerAll();
 		InitCommands.registerAll();
@@ -282,12 +287,20 @@ public final class Main extends Canvas implements Runnable {
 		return SAVE_LOCATION;
 	}
 	
-	public static String getBaseLocationRooms() {
-		return BASE_LOCATION_ROOMS;
+	public static String getRoomFolder() {
+		return ROOM_FOLDER_LOCATION;
 	}
 	
-	public static String getBaseLocationTextures() {
-		return BASE_LOCATION_TEXTURES;
+	public static String getTextureFolder() {
+		return TEXTURE_FOLDER_LOCATION;
+	}
+	
+	public static String getFontFolder() {
+		return FONT_FOLDER_LOCATION;
+	}
+	
+	public static String getLangFolder() {
+		return LANG_FOLDER_LOCATION;
 	}
 	
 	public WorldHandler getWorldHandler() {

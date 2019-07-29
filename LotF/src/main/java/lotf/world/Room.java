@@ -12,8 +12,11 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GameObject;
+import main.java.lotf.util.GetResource;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.LangKey;
+import main.java.lotf.util.LangKey.LangKeyType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
@@ -28,10 +31,15 @@ public class Room extends GameObject implements ITickable, IResetable {
 	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(int roomID, Vec2i roomPos, Vec2i size, @Nullable String description) {
+	public Room(int roomID, Vec2i roomPos, Vec2i size, @Nullable LangKey langKey) {
 		super(new Vec2f(roomPos), size);
 		this.roomID = roomID;
-		this.description = description;
+		
+		if (langKey != null) {
+			description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
+		} else {
+			description = null;
+		}
 		
 		if (size.getX() < 16 || size.getY() < 8) {
 			Console.print(Console.WarningType.FatalError, "Rooms cannot be under 16x8!");
@@ -127,6 +135,10 @@ public class Room extends GameObject implements ITickable, IResetable {
 		return kinds;
 	}
 	
+	public void spawnEntity(Entity entity) {
+		entities.add(entity);
+	}
+	
 	public int getRoomID() {
 		return roomID;
 	}
@@ -141,6 +153,10 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	public List<Tile> getTilesLayer1() {
 		return tiles_layer1;
+	}
+	
+	public List<Entity> getEntities() {
+		return entities;
 	}
 	
 	public Rectangle getRoomBounds(EnumDirection dir) {

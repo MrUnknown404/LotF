@@ -1,17 +1,17 @@
 package main.java.lotf.items.swords;
 
-import main.java.lotf.items.util.IItemUseable;
-import main.java.lotf.items.util.ItemBase;
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.items.util.ItemInfo;
+import main.java.lotf.items.util.ItemUseable;
 
-public class ItemStarterSword extends ItemBase implements IItemUseable {
+public class ItemStarterSword extends ItemUseable {
 
 	public ItemStarterSword() {
 		super(ItemInfo.sword_starterSword);
 	}
 	
 	@Override
-	public void onUse() {
+	public void onUse(EntityPlayer user) {
 		
 	}
 }

@@ -13,7 +13,7 @@ import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
 import main.java.lotf.items.rings.Ring;
-import main.java.lotf.items.util.CollectableInfo;
+import main.java.lotf.items.util.CollectibleInfo;
 import main.java.lotf.items.util.ItemBase;
 import main.java.lotf.items.util.ItemInfo;
 import main.java.lotf.util.Console;
@@ -30,7 +30,7 @@ public class Hud implements ITickable {
 	private BufferedImage baseHud, barDecal, mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap, map, compass;
 	private BufferedImage invHud0, invHud1, invHud2;
 	private BufferedImage[] hearts = new BufferedImage[5];
-	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>(), rings = new HashMap<String, BufferedImage>(), collectables = new HashMap<String, BufferedImage>();
+	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>(), rings = new HashMap<String, BufferedImage>(), collectibles = new HashMap<String, BufferedImage>();
 	private Map<EnumWorldType, BufferedImage> maps = new HashMap<EnumWorldType, BufferedImage>();
 	
 	public void getTextures() {
@@ -60,20 +60,16 @@ public class Hud implements ITickable {
 		}
 		
 		for (int i = 0; i < InitItems.getItemsSize(); i++) {
-			if (InitItems.getItem(i) != null) {
-				items.put(InitItems.getItem(i).getName(), registerItemTexture(InitItems.getItem(i)));
-			}
+			items.put(InitItems.getItem(i).getKey(), registerItemTexture(InitItems.getItem(i)));
 		}
 		
 		for (int i = 0; i < InitItems.getRingsSize(); i++) {
-			if (InitItems.getRing(i) != null) {
-				rings.put(InitItems.getRing(i).getName(), registerRingTexture(InitItems.getRing(i)));
-			}
+			rings.put(InitItems.getRing(i).getKey(), registerRingTexture(InitItems.getRing(i)));
 		}
 		
 		for (ItemInfo info : ItemInfo.values()) {
-			if (info.toString().startsWith("collectable_")) {
-				collectables.put(info.toString(), registerCollectableTexture(info));
+			if (info.toString().startsWith("collectible_")) {
+				collectibles.put(info.toString(), registerCollectibleTexture(info));
 			}
 		}
 		
@@ -82,14 +78,14 @@ public class Hud implements ITickable {
 	
 	public void getFonts() {
 		smallNumbers = GetResource.getFont("small_numbers", 5);
-		Console.print(Console.WarningType.TextureDebug, "Registered font for Hud : " + "fonts/small_numbers.ttf!");
+		Console.print(Console.WarningType.RegisterDebug, "Registered font for Hud : " + "fonts/small_numbers.ttf!");
 		lotfFont = GetResource.getFont("lotf", 8);
-		Console.print(Console.WarningType.TextureDebug, "Registered font for Hud : " + "fonts/lotf.ttf!");
+		Console.print(Console.WarningType.RegisterDebug, "Registered font for Hud : " + "fonts/lotf.ttf!");
 	}
 	
 	public void render(Graphics2D g) {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
-		World w = Main.getMain().getWorldHandler().getPlayerWorld();
+		World w = p.getWorld();
 		
 		if (p != null) {
 			g.drawImage(baseHud, 0, 0, 256, 16, null);
@@ -113,15 +109,15 @@ public class Hud implements ITickable {
 			}
 			
 			if (p.getInventory().getLeftItem() != null) {
-				g.drawImage(items.get(p.getInventory().getLeftItem().getName()), 206, 1, 14, 14, null);
+				g.drawImage(items.get(p.getInventory().getLeftItem().getKey()), 206, 1, 14, 14, null);
 			}
 			
 			if (p.getInventory().getRightItem() != null) {
-				g.drawImage(items.get(p.getInventory().getRightItem().getName()), 223, 1, 14, 14, null);
+				g.drawImage(items.get(p.getInventory().getRightItem().getKey()), 223, 1, 14, 14, null);
 			}
 			
 			if (p.getInventory().getSelectedSword() != null) {
-				g.drawImage(items.get(p.getInventory().getSelectedSword().getName()), 240, 1, 14, 14, null);
+				g.drawImage(items.get(p.getInventory().getSelectedSword().getKey()), 240, 1, 14, 14, null);
 			}
 			
 			if (p.getInventory().isOpen()) {
@@ -153,7 +149,7 @@ public class Hud implements ITickable {
 						ItemBase item = p.getInventory().getNormalInventory().getItem(i);
 						
 						if (item != null) {
-							g.drawImage(items.get(item.getName()), 6 + i % p.getInventory().getNormalInventory().getSizeX() * 18,
+							g.drawImage(items.get(item.getKey()), 6 + i % p.getInventory().getNormalInventory().getSizeX() * 18,
 									21 + MathH.floor(i / p.getInventory().getNormalInventory().getSizeX()) * 18, 14, 14, null);
 						}
 					}
@@ -162,7 +158,7 @@ public class Hud implements ITickable {
 						ItemBase item = p.getInventory().getSwordInventory().getItem(i);
 						
 						if (item != null) {
-							g.drawImage(items.get(item.getName()), 106, 21 + i * 18, 14, 14, null);
+							g.drawImage(items.get(item.getKey()), 106, 21 + i * 18, 14, 14, null);
 						}
 					}
 				} else if (p.getInventory().getCurrentScreen() == 1) {
@@ -184,7 +180,7 @@ public class Hud implements ITickable {
 						Ring ring = p.getInventory().getRingInventory().getSelectedRing(i);
 						
 						if (ring != null) {
-							g.drawImage(rings.get(ring.getName()), 5 + i * 20, 21, 16, 16, null);
+							g.drawImage(rings.get(ring.getKey()), 5 + i * 20, 21, 16, 16, null);
 						}
 					}
 					
@@ -192,7 +188,7 @@ public class Hud implements ITickable {
 						ItemBase item = p.getInventory().getPotionInventory().getItem(i);
 						
 						if (item != null) {
-							g.drawImage(items.get(item.getName()), 6 + i * 20, 49, 14, 14, null);
+							g.drawImage(items.get(item.getKey()), 6 + i * 20, 49, 14, 14, null);
 						}
 					}
 					
@@ -238,19 +234,19 @@ public class Hud implements ITickable {
 				} else if (p.getInventory().getCurrentScreen() == 2) {
 					g.drawImage(invHud2, 0, 16, 256, 128, null);
 					
-					if (p.getInventory().getSelectedThing() == EnumSelectables.CollectablesInventory) {
-						g.drawImage(selectedSlotItem, 7 + p.getInventory().getSelectedSlot() % p.getInventory().getCollectablesInventory().getSizeX() * 39,
-								19 + MathH.floor(p.getInventory().getSelectedSlot() / p.getInventory().getCollectablesInventory().getSizeX()) * 18, 18, 18, null);
+					if (p.getInventory().getSelectedThing() == EnumSelectables.CollectiblesInventory) {
+						g.drawImage(selectedSlotItem, 7 + p.getInventory().getSelectedSlot() % p.getInventory().getCollectiblesInventory().getSizeX() * 39,
+								19 + MathH.floor(p.getInventory().getSelectedSlot() / p.getInventory().getCollectiblesInventory().getSizeX()) * 18, 18, 18, null);
 					}
 					
-					for (int i = 0; i < p.getInventory().getCollectablesInventory().getCollectables().size(); i++) {
-						CollectableInfo col = p.getInventory().getCollectablesInventory().getCollectables().get(i);
+					for (int i = 0; i < p.getInventory().getCollectiblesInventory().getCollectibles().size(); i++) {
+						CollectibleInfo col = p.getInventory().getCollectiblesInventory().getCollectibles().get(i);
 						
-						g.drawString(setupNumberString(col.getAmount(), 3), 29 + i % p.getInventory().getCollectablesInventory().getSizeX() * 39,
-								33 + MathH.floor(i / p.getInventory().getCollectablesInventory().getSizeX()) * 18);
+						g.drawString(setupNumberString(col.getAmount(), 3), 29 + i % p.getInventory().getCollectiblesInventory().getSizeX() * 39,
+								33 + MathH.floor(i / p.getInventory().getCollectiblesInventory().getSizeX()) * 18);
 						if (col.has()) {
-							g.drawImage(collectables.get(col.getInfo().toString()), 9 + i % p.getInventory().getCollectablesInventory().getSizeX() * 41,
-									21 + MathH.floor(i / p.getInventory().getCollectablesInventory().getSizeX()) * 18, 14, 14, null);
+							g.drawImage(collectibles.get(col.getInfo().toString()), 9 + i % p.getInventory().getCollectiblesInventory().getSizeX() * 41,
+									21 + MathH.floor(i / p.getInventory().getCollectiblesInventory().getSizeX()) * 18, 14, 14, null);
 						}
 					}
 				} else if (p.getInventory().getCurrentScreen() == 3) {
@@ -271,13 +267,13 @@ public class Hud implements ITickable {
 					ItemBase itemForDesc = p.getInventory().getSelectedItem();
 					
 					if (itemForDesc != null) {
-						if (itemForDesc.getName().equalsIgnoreCase(buffer)) {
+						if (itemForDesc.getKey().equalsIgnoreCase(buffer)) {
 							desc = itemForDesc.getName() + " : " + itemForDesc.getDescription();
 						} else {
 							forceReset = true;
 						}
 						
-						if (itemForDesc.getName().equalsIgnoreCase(buffer)) {
+						if (itemForDesc.getKey().equalsIgnoreCase(buffer)) {
 							g.setFont(lotfFont);
 							drawStringMultiLine(g, (itemForDesc.getName() + " : " + itemForDesc.getDescription()).substring(0, descCharacter), 124, 2, 124);
 						} else {
@@ -308,10 +304,10 @@ public class Hud implements ITickable {
 				ItemBase itemForDesc = p.getInventory().getSelectedItem();
 				if (itemForDesc != null) {
 					desc = itemForDesc.getName() + " : " + itemForDesc.getDescription();
-					buffer = itemForDesc.getName();
+					buffer = itemForDesc.getKey();
 				}
 			} else {
-				World w = Main.getMain().getWorldHandler().getPlayerWorld();
+				World w = p.getWorld();
 				if (w.getRoom(p.getInventory().getSelectedSlot()) != null && w.getRoom(p.getInventory().getSelectedSlot()).getDescription() != null &&
 						!w.getRoom(p.getInventory().getSelectedSlot()).getDescription().isEmpty()) {
 					desc = w.getRoom(p.getInventory().getSelectedSlot()).getDescription();
@@ -376,8 +372,8 @@ public class Hud implements ITickable {
 		return registerTexture(GetResource.ResourceType.item, item.getInfo().toString().replaceAll("item_", "").replaceAll("sword_", ""));
 	}
 	
-	private BufferedImage registerCollectableTexture(ItemInfo item) {
-		return registerTexture(GetResource.ResourceType.item, "collectables/" + item.toString().replaceAll("collectable_", ""));
+	private BufferedImage registerCollectibleTexture(ItemInfo item) {
+		return registerTexture(GetResource.ResourceType.collectibles, item.toString().replaceAll("collectible_", ""));
 	}
 	
 	private BufferedImage registerRingTexture(Ring ring) {

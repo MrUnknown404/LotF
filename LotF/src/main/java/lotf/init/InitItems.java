@@ -29,13 +29,13 @@ public class InitItems {
 	
 	private static ItemBase addItem(ItemBase item) {
 		items.add(item);
-		Console.print(Console.WarningType.RegisterDebug, item.getName() + " was registered!");
+		Console.print(Console.WarningType.RegisterDebug, item.getKey() + " was registered!");
 		return item;
 	}
 	
 	private static Ring addRing(Ring ring) {
 		rings.add(ring);
-		Console.print(Console.WarningType.RegisterDebug, ring.getName() + " was registered!");
+		Console.print(Console.WarningType.RegisterDebug, ring.getKey() + " was registered!");
 		return ring;
 	}
 	

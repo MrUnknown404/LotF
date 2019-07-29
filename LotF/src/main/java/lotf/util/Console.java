@@ -5,8 +5,8 @@ import java.util.Date;
 
 public final class Console {
 	
-	//private static final WarningType[] DISABLED_TYPES = {WarningType.RegisterDebug, WarningType.TextureDebug};
-	private static final WarningType[] DISABLED_TYPES = {};
+	private static final WarningType[] DISABLED_TYPES = {WarningType.RegisterDebug, WarningType.TextureDebug};
+	//private static final WarningType[] DISABLED_TYPES = {};
 	
 	/** Prints date info to the console Example: <p> [12:34:56:789] [Info] [ExampleClass.exampleMethod.69] [Hour/Minute/Second/Millisecond] */
 	public static void getTimeExample() {

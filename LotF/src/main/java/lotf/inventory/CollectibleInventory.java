@@ -3,20 +3,20 @@ package main.java.lotf.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.items.util.CollectableInfo;
+import main.java.lotf.items.util.CollectibleInfo;
 import main.java.lotf.items.util.ItemInfo;
 import main.java.lotf.util.math.Vec2i;
 
-public class CollectableInventory {
+public class CollectibleInventory {
 
 	private final Vec2i size = new Vec2i(3, 5);
 	
-	private List<CollectableInfo> collectables = new ArrayList<CollectableInfo>();
+	private List<CollectibleInfo> collectibles = new ArrayList<CollectibleInfo>();
 	
-	public CollectableInventory() {
+	public CollectibleInventory() {
 		for (ItemInfo info : ItemInfo.values()) {
-			if (info.toString().startsWith("collectable_")) {
-				collectables.add(new CollectableInfo(info, false, 0));
+			if (info.toString().startsWith("collectible_")) {
+				collectibles.add(new CollectibleInfo(info, false, 0));
 			}
 		}
 	}
@@ -26,8 +26,8 @@ public class CollectableInventory {
 			ItemInfo newInfo = ItemInfo.values()[0];
 			
 			if (info == newInfo) {
-				CollectableInfo col = collectables.get(i);
-				collectables.set(i, col.setAmount(set).setHas(true));
+				CollectibleInfo col = collectibles.get(i);
+				collectibles.set(i, col.setAmount(set).setHas(true));
 			}
 		}
 	}
@@ -41,7 +41,7 @@ public class CollectableInventory {
 		return size.getY();
 	}
 	
-	public List<CollectableInfo> getCollectables() {
-		return collectables;
+	public List<CollectibleInfo> getCollectibles() {
+		return collectibles;
 	}
 }

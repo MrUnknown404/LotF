@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.entities.EntityPlayer;
+import main.java.lotf.entities.util.Entity;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumWorldType;
@@ -32,6 +33,10 @@ public class WorldHandler implements ITickable {
 			player.tick();
 			getPlayerWorld().tick();
 		}
+	}
+	
+	public void spawnEntity(Entity entity) {
+		getPlayerRoom().spawnEntity(entity);
 	}
 	
 	public World getPlayerWorld() {

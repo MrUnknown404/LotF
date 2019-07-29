@@ -1,27 +1,34 @@
 package main.java.lotf.client.renderer;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import main.java.lotf.Main;
 import main.java.lotf.client.renderer.util.ImageInfo;
 import main.java.lotf.client.renderer.util.TileImageInfo;
 import main.java.lotf.entities.EntityPlayer;
+import main.java.lotf.entities.util.Entity;
+import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 
 public class Renderer implements ITickable {
 	
+	private Map<EnumDirection, ImageInfo> players = new HashMap<EnumDirection, ImageInfo>();
 	private List<ImageInfo> textures = new ArrayList<ImageInfo>();
 	private List<TileImageInfo> tileTextures = new ArrayList<TileImageInfo>();
-	
-	private BufferedImage player;
 	
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
@@ -46,14 +53,22 @@ public class Renderer implements ITickable {
 		}
 		
 		//TODO temp
-		player = GetResource.getTexture(GetResource.ResourceType.entity, "player");
-		
-		if (player != null) {
-			Console.print(Console.WarningType.TextureDebug, "player was registered!");
-		} else {
-			Console.print(Console.WarningType.TextureDebug, "player was not registered!");
+		for (EnumDirection dir : EnumDirection.values()) {
+			BufferedImage[] imgs = new BufferedImage[EntityPlayer.getStaticInfo().getTextureCount()];
+			
+			for (int i = 0; i < EntityPlayer.getStaticInfo().getTextureCount(); i++) {
+				img = GetResource.getTexture(GetResource.ResourceType.entity, "player/player_" + dir + "_" + i);
+				
+				if (img != null) {
+					imgs[i] = img;
+					Console.print(Console.WarningType.TextureDebug, "player/player_" + dir + "_" + i + " was registered!");
+				} else {
+					Console.print(Console.WarningType.TextureDebug, "player/player_" + dir + "_" + i + " was not registered!");
+				}
+			}
+			
+			players.put(dir, new ImageInfo(imgs));
 		}
-		
 		Console.print(Console.WarningType.Info, "Finished texture registering!");
 	}
 	
@@ -78,6 +93,23 @@ public class Renderer implements ITickable {
 						}
 					}
 				}
+				
+				if (p.isWalking()) {
+					EntityInfo pi = p.getInfo();
+					if (pi.getAnimationTime() != 0) {
+						if (getPlayerImageInfo().currentFrameCounter == pi.getAnimationTime()) {
+							if (getPlayerImageInfo().currentImage == getPlayerImageInfo().imgs.length - 1) {
+								getPlayerImageInfo().currentImage = 0;
+							} else {
+								getPlayerImageInfo().currentImage++;
+							}
+							
+							getPlayerImageInfo().currentFrameCounter = 0;
+						} else {
+							getPlayerImageInfo().currentFrameCounter++;
+						}
+					}
+				}
 			}
 		}
 	}
@@ -87,6 +119,11 @@ public class Renderer implements ITickable {
 		
 		if (tileTextures.isEmpty()) {
 			Console.print(Console.WarningType.FatalError, "Tile textures were not set!");
+			return;
+		}
+		
+		if (players.isEmpty()) {
+			Console.print(Console.WarningType.FatalError, "Player textures were not set!");
 			return;
 		}
 		
@@ -134,9 +171,15 @@ public class Renderer implements ITickable {
 						
 						g.drawImage(getTileImageInfo(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
+					
+					for (Entity e : r.getEntities()) {
+						int rewrite_with_textures;
+						g.setColor(Color.red);
+						g.fillRect((int) e.getPosX(), (int) e.getPosY(), e.getWidth(), e.getHeight());
+					}
 				}
 				
-				g.drawImage(player, (int) p.getPosX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
+				g.drawImage(getPlayerImageInfo().getCurrentImage(), (int) p.getPosX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
 			}
 		}
 	}
@@ -175,6 +218,19 @@ public class Renderer implements ITickable {
 		for (TileImageInfo info : tileTextures) {
 			if (info.getTileInfo().equals(tInfo)) {
 				return info;
+			}
+		}
+		
+		return null;
+	}
+	
+	public ImageInfo getPlayerImageInfo() {
+		Iterator<Entry<EnumDirection, ImageInfo>> it = players.entrySet().iterator();
+		while (it.hasNext()) {
+			Entry<EnumDirection, ImageInfo> pair = it.next();
+			
+			if (pair.getKey() == Main.getMain().getWorldHandler().getPlayer().getFacing()) {
+				return pair.getValue();
 			}
 		}
 		

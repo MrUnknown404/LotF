@@ -48,14 +48,6 @@ public abstract class GameObject {
 		return pos.getY();
 	}
 	
-	public int getSizeX() {
-		return size.getX();
-	}
-	
-	public int getSizeY() {
-		return size.getY();
-	}
-	
 	public int getWidth() {
 		return size.getX();
 	}

@@ -9,7 +9,7 @@ public abstract class Ring extends ItemBase {
 	
 	public Ring(ItemInfo info) {
 		super(info);
-		this.ringType = (RingType) info.getData()[0];
+		this.ringType = (RingType) info.getData().get("ringType");
 	}
 	
 	public abstract void onUse(RingType type);

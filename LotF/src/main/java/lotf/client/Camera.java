@@ -16,22 +16,22 @@ public class Camera implements ITickable {
 		
 		if (p.getRoomToBe() == null) {
 			pos.setX(MathH.fClamp((p.getPosX() + p.getWidth() / 2) - Main.getHudWidth() / 2, p.getRoom().getPosX(),
-					p.getRoom().getPosX() + (p.getRoom().getSizeX() * Tile.TILE_SIZE) - Main.getHudWidth()));
+					p.getRoom().getPosX() + (p.getRoom().getWidth() * Tile.TILE_SIZE) - Main.getHudWidth()));
 			pos.setY(MathH.fClamp((p.getPosY() + p.getHeight() / 2) - Main.getHudHeight() / 2, p.getRoom().getPosY() - 16,
-					p.getRoom().getPosY() + (p.getRoom().getSizeY() * Tile.TILE_SIZE) - Main.getHudHeight()));
+					p.getRoom().getPosY() + (p.getRoom().getHeight() * Tile.TILE_SIZE) - Main.getHudHeight()));
 		} else {
 			switch (p.getRoomToBeDir()) {
 				case north:
-					pos.addY(-((p.getRoomToBe().getSizeY() * Tile.TILE_SIZE) / 30f));
+					pos.addY(-((p.getRoomToBe().getHeight() * Tile.TILE_SIZE) / 30f));
 					break;
 				case east:
-					pos.addX((p.getRoomToBe().getSizeX() * Tile.TILE_SIZE) / 30f);
+					pos.addX((p.getRoomToBe().getWidth() * Tile.TILE_SIZE) / 30f);
 					break;
 				case south:
-					pos.addY((p.getRoomToBe().getSizeY() * Tile.TILE_SIZE) / 30f);
+					pos.addY((p.getRoomToBe().getHeight() * Tile.TILE_SIZE) / 30f);
 					break;
 				case west:
-					pos.addX(-((p.getRoomToBe().getSizeX() * Tile.TILE_SIZE) / 30f));
+					pos.addX(-((p.getRoomToBe().getWidth() * Tile.TILE_SIZE) / 30f));
 					break;
 			}
 		}

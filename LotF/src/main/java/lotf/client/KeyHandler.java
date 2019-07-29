@@ -82,6 +82,23 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 					}
 					dualKey.setValue(isPressed);
 				}
+			} else {
+				if (dualKey.getKey() == KeyType.player_use_left && checkKey(dualKey.getKey(), key)) {
+					if (isPressed && !dualKey.getValue()) {
+						Main.getMain().getWorldHandler().getPlayer().useLeftItem();
+					}
+					dualKey.setValue(isPressed);
+				} else if (dualKey.getKey() == KeyType.player_use_right && checkKey(dualKey.getKey(), key)) {
+					if (isPressed && !dualKey.getValue()) {
+						Main.getMain().getWorldHandler().getPlayer().useRightItem();
+					}
+					dualKey.setValue(isPressed);
+				} else if (dualKey.getKey() == KeyType.player_use_sword && checkKey(dualKey.getKey(), key)) {
+					if (isPressed && !dualKey.getValue()) {
+						Main.getMain().getWorldHandler().getPlayer().useSword();
+					}
+					dualKey.setValue(isPressed);
+				}
 			}
 		}
 		
@@ -195,6 +212,11 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		player_walk_down             (true,  KeyEvent.VK_S),
 		player_walk_left             (true,  KeyEvent.VK_A),
 		player_walk_right            (true,  KeyEvent.VK_D),
+		
+		player_use_left              (true,  KeyEvent.VK_LEFT),
+		player_use_right             (true,  KeyEvent.VK_RIGHT),
+		player_use_sword             (true,  KeyEvent.VK_UP),
+		
 		player_inventory_toggle      (true,  KeyEvent.VK_DOWN),
 		player_inventory_switch      (true,  KeyEvent.VK_UP),
 		player_inventory_up          (false, KeyEvent.VK_W),

@@ -11,7 +11,7 @@ import main.java.lotf.commands.util.Command;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.items.util.ItemInfo;
 
-public class CommandAddCollectable extends Command {
+public class CommandAddCollectible extends Command {
 
 	private static final Map<Integer, List<ArgumentType>> ARGS = new HashMap<Integer, List<ArgumentType>>();
 	
@@ -20,25 +20,25 @@ public class CommandAddCollectable extends Command {
 		ARGS.put(1, Arrays.asList(ArgumentType.Integer));
 	}
 	
-	public CommandAddCollectable() {
-		super("addcollectable", ARGS, false);
+	public CommandAddCollectible() {
+		super("addcollectible", ARGS, false);
 	}
 	
 	@Override
 	protected String setUsage() {
-		return "Adds collectables";
+		return "Adds collectibles";
 	}
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
-		ItemInfo info = ItemInfo.find("collectable_" + argString.get(0));
+		ItemInfo info = ItemInfo.find("collectible_" + argString.get(0));
 		if (info == null) {
-			Main.getMain().getCommandConsole().addLine("Unknown collectable : " + argString.get(0), Color.RED);
+			Main.getMain().getCommandConsole().addLine("Unknown collectible : " + argString.get(0), Color.RED);
 			return;
 		}
 		
-		p.addCollectable(info, argInt.get(0));
+		p.addCollectible(info, argInt.get(0));
 	}
 }

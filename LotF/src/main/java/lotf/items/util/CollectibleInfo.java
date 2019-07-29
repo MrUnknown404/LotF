@@ -1,23 +1,23 @@
 package main.java.lotf.items.util;
 
-public class CollectableInfo {
+public class CollectibleInfo {
 
 	private final ItemInfo info;
 	private int amount;
 	private boolean has;
 	
-	public CollectableInfo(ItemInfo info, boolean has, int amount) {
+	public CollectibleInfo(ItemInfo info, boolean has, int amount) {
 		this.info = info;
 		this.has = has;
 		this.amount = amount;
 	}
 	
-	public CollectableInfo setAmount(int amount) {
+	public CollectibleInfo setAmount(int amount) {
 		this.amount = amount;
 		return this;
 	}
 	
-	public CollectableInfo setHas(boolean has) {
+	public CollectibleInfo setHas(boolean has) {
 		this.has = has;
 		return this;
 	}

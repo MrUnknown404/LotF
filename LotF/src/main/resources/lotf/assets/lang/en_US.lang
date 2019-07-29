@@ -1,0 +1,33 @@
+##Items
+item.bow.name=Bow
+item.cape.name=Cape
+item.starterSword.name=Wooden Sword
+
+item.bow.desc=Shoots arrows (write later)
+item.cape.desc=Lets you jump (write later)
+item.starterSword.desc=write later
+
+##Rings
+ring.basic.name=Basic Ring
+ring.archer1.name=Archer Ring 1
+
+ring.basic.desc=write later
+ring.archer1.desc=write later
+
+##Collectibles
+collectible.blueFly.name=Blue Fly
+collectible.redFly.name=Red Fly
+collectible.greenFly.name=Green Fly
+collectible.spikyBeetle.name=Spiky Beetle
+collectible.lavaBeetle.name=Lava Beetle
+collectible.butterfly.name=Butterfly
+
+collectible.blueFly.desc=write later
+collectible.redFly.desc=write later
+collectible.greenFly.desc=write later
+collectible.spikyBeetle.desc=write later
+collectible.lavaBeetle.desc=write later
+collectible.butterfly.desc=write later
+
+##
+gui.room144.desc=Test Description
