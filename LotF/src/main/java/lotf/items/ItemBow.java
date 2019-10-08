@@ -2,7 +2,7 @@ package main.java.lotf.items;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.entities.projectile.ProjectileArrow;
+import main.java.lotf.entities.projectiles.ProjectileArrow;
 import main.java.lotf.items.util.ItemInfo;
 import main.java.lotf.items.util.ItemUseable;
 import main.java.lotf.util.math.Vec2f;
@@ -10,7 +10,7 @@ import main.java.lotf.util.math.Vec2f;
 public class ItemBow extends ItemUseable {
 
 	public ItemBow() {
-		super(ItemInfo.item_bow);
+		super(ItemInfo.item_bow, 10, true);
 	}
 	
 	@Override
@@ -35,6 +35,6 @@ public class ItemBow extends ItemUseable {
 				break;
 		}
 		
-		Main.getMain().getWorldHandler().spawnEntity(new ProjectileArrow(pos, user, user.getFacing()));
+		Main.getMain().getWorldHandler().spawnEntity(new ProjectileArrow(pos, user, user.getFacing(), 5));
 	}
 }

@@ -2,33 +2,26 @@ package main.java.lotf.client;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.google.gson.reflect.TypeToken;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.DoubleValue;
+import main.java.lotf.util.IConfigurable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.MathH;
 
-public class KeyHandler extends KeyAdapter implements ITickable {
+public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 
 	public Map<KeyType, Boolean> dualKeys = new HashMap<KeyType, Boolean>();
-	
-	public KeyHandler registerKeys() {
-		for (KeyType type : KeyType.values()) {
-			type.registerKey(type.defaultKey, -1); //TODO load from config
-			
-			if (type.hasDualAction) {
-				dualKeys.put(type, false);
-			}
-		}
-		
-		return this;
-	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -197,6 +190,52 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 		return (type.key1 == keyCode || type.key2 == keyCode) ? true : false;
 	}
 	
+	@Override
+	public String getFileName() {
+		return "KeyConfig";
+	}
+	
+	@Override
+	public Object save() {
+		Map<KeyType, DoubleValue<Integer, Integer>> keys = new HashMap<KeyType, DoubleValue<Integer, Integer>>();
+		
+		for (KeyType type : KeyType.values()) {
+			keys.put(type, new DoubleValue<Integer, Integer>(type.key1, type.key2));
+		}
+		
+		return keys;
+	}
+	
+	@Override
+	public Object getDefaultSave() {
+		Map<KeyType, DoubleValue<Integer, Integer>> keys = new HashMap<KeyType, DoubleValue<Integer, Integer>>();
+		
+		for (KeyType type : KeyType.values()) {
+			keys.put(type, new DoubleValue<Integer, Integer>(type.defaultKey, -1));
+		}
+		
+		return keys;
+	}
+	
+	@Override
+	public void load(Object obj) {
+		@SuppressWarnings("unchecked")
+		Map<KeyType, DoubleValue<Integer, Integer>> keys = (Map<KeyType, DoubleValue<Integer, Integer>>) obj;
+		
+		for (Entry<KeyType, DoubleValue<Integer, Integer>> type : keys.entrySet()) {
+			type.getKey().registerKey(type.getValue().getL(), type.getValue().getR());
+			
+			if (type.getKey().hasDualAction) {
+				dualKeys.put(type.getKey(), false);
+			}
+		}
+	}
+	
+	@Override
+	public Type getType() {
+		return new TypeToken<Map<KeyType,DoubleValue<Integer, Integer>>>(){}.getType();
+	}
+	
 	public enum KeyType {
 		debug_fullscreen             (false, KeyEvent.VK_F11),
 		
@@ -240,6 +279,14 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 					":" + KeyEvent.getKeyText(key2) + " | " + key1 + ":" + key2 + ")");
 			this.key1 = key1;
 			this.key2 = key2;
+		}
+		
+		public int getDefaultKey() {
+			return defaultKey;
+		}
+		
+		public boolean hasDualAction() {
+			return hasDualAction;
 		}
 	}
 }

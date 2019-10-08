@@ -29,5 +29,25 @@ collectible.spikyBeetle.desc=write later
 collectible.lavaBeetle.desc=write later
 collectible.butterfly.desc=write later
 
-##
+##GUI
 gui.room144.desc=Test Description
+
+##Commands
+command.addcollectible.desc=Adds collectibles
+command.damage.desc=Damages the player
+command.debug.desc=Does nothing used for testing
+command.heal.desc=Heals the player
+command.help.desc=Prints all commands and their usage
+command.mana.desc=Sets the player's mana
+command.setarrows.desc=Sets the player's arrows
+command.setbombs.desc=Sets the player's bombs
+command.setmoney.desc=Sets the player's money
+
+command.nil.desc=Null! something broke!
+command.noSlash.desc=Commands must start with a /
+command.noCommand.desc=No command was written
+command.noArgs.desc=No arguments were written
+command.notEnoughArgs.desc=Not enough arguments were written
+command.tooManyArgs.desc=Too many arguments were written
+command.wrongArg.desc=At least one of the written arguments is not the correct type
+command.notACommand.desc=No valid command was written

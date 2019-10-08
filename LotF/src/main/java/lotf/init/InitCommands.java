@@ -10,6 +10,7 @@ import main.java.lotf.commands.CommandHeal;
 import main.java.lotf.commands.CommandHelp;
 import main.java.lotf.commands.CommandSetArrows;
 import main.java.lotf.commands.CommandSetBombs;
+import main.java.lotf.commands.CommandSetMana;
 import main.java.lotf.commands.CommandSetMoney;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.util.Console;
@@ -25,6 +26,7 @@ public class InitCommands {
 		registerCommand(new CommandDamage());
 		registerCommand(new CommandHeal());
 		registerCommand(new CommandAddCollectible());
+		registerCommand(new CommandSetMana());
 		
 		registerCommand(new CommandDebug());
 	}

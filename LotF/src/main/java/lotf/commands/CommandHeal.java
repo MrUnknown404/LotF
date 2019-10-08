@@ -21,11 +21,6 @@ public class CommandHeal extends Command {
 	}
 	
 	@Override
-	protected String setUsage() {
-		return "Heals the player";
-	}
-	
-	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		Main.getMain().getWorldHandler().getPlayer().heal(argInt.get(0));
 	}

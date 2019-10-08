@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import main.java.lotf.util.ThingInfo;
 import main.java.lotf.util.enums.EnumCollisionType;
 
-public class TileInfo {
+public class TileInfo extends ThingInfo {
 	
 	private static List<TileInfo> all = new ArrayList<TileInfo>();
 	
@@ -15,15 +16,11 @@ public class TileInfo {
 	public static final TileInfo GRASS = new TileInfo("grass", 2, 120, false, true, EnumCollisionType.none);
 	public static final TileInfo FLOWER_GRASS = new TileInfo("flower_grass", 2, 120, false, true, EnumCollisionType.none);
 	
-	private final String name;
-	private final int textureCount, animationTime;
 	private final boolean shouldRenderBehind, hasRandomFlip;
 	private final EnumCollisionType colType;
 	
 	private TileInfo(String name, int textureCount, int animationTime, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
-		this.name = name;
-		this.textureCount = textureCount;
-		this.animationTime = animationTime;
+		super(name, textureCount, animationTime);
 		this.shouldRenderBehind = shouldRenderBehind;
 		this.hasRandomFlip = hasRandomFlip;
 		this.colType = colType;
@@ -32,14 +29,7 @@ public class TileInfo {
 	}
 	
 	private TileInfo(String name, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
-		this.name = name;
-		this.textureCount = 1;
-		this.animationTime = 0;
-		this.shouldRenderBehind = shouldRenderBehind;
-		this.hasRandomFlip = hasRandomFlip;
-		this.colType = colType;
-		
-		all.add(this);
+		this(name, 1, 0, shouldRenderBehind, hasRandomFlip, colType);
 	}
 	
 	public static TileInfo getRandomGrass() {
@@ -52,18 +42,6 @@ public class TileInfo {
 		} else {
 			return FLOWER_GRASS;
 		}
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public int getTextureCount() {
-		return textureCount;
-	}
-	
-	public int getAnimationTime() {
-		return animationTime;
 	}
 	
 	public boolean shouldRenderBehind() {

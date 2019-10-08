@@ -5,12 +5,14 @@ import main.java.lotf.util.ITickable;
 
 public abstract class ItemUseable extends ItemBase implements ITickable {
 
-	private final int maxCooldown;
+	private final int maxCooldown, useStallCooldown;
 	private int cooldown;
-	private boolean canUse;
+	private boolean canUse, shouldStallPlayer;
 	
-	public ItemUseable(ItemInfo info) {
+	public ItemUseable(ItemInfo info, int useStallCooldown, boolean shouldStallPlayer) {
 		super(info);
+		this.shouldStallPlayer = shouldStallPlayer;
+		this.useStallCooldown = useStallCooldown;
 		
 		if (!getData().containsKey("noCooldown")) {
 			this.maxCooldown = (int) getData().get("maxCooldown");
@@ -36,6 +38,10 @@ public abstract class ItemUseable extends ItemBase implements ITickable {
 			canUse = false;
 			cooldown = maxCooldown;
 			onUse(user);
+			
+			if (shouldStallPlayer) {
+				user.setUsingItem(useStallCooldown, true);
+			}
 		}
 	}
 	

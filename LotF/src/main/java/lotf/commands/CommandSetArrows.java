@@ -22,11 +22,6 @@ public class CommandSetArrows extends Command {
 	}
 	
 	@Override
-	protected String setUsage() {
-		return "Sets the player's arrows";
-	}
-	
-	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		Main.getMain().getWorldHandler().getPlayer().setArrows(MathH.clamp(argInt.get(0), 0, Main.getMain().getWorldHandler().getPlayer().getMaxArrows()));
 	}

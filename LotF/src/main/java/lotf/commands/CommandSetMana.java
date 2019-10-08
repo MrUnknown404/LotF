@@ -7,8 +7,9 @@ import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
+import main.java.lotf.util.math.MathH;
 
-public class CommandDamage extends Command {
+public class CommandSetMana extends Command {
 
 	private static final Map<Integer, List<ArgumentType>> ARGS = new HashMap<Integer, List<ArgumentType>>();
 	
@@ -16,12 +17,12 @@ public class CommandDamage extends Command {
 		ARGS.put(0, Arrays.asList(ArgumentType.Integer));
 	}
 	
-	public CommandDamage() {
-		super("damage", ARGS, false);
+	public CommandSetMana() {
+		super("setmana", ARGS, false);
 	}
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		Main.getMain().getWorldHandler().getPlayer().damage(argInt.get(0));
+		Main.getMain().getWorldHandler().getPlayer().setMana(MathH.clamp(argInt.get(0), 0, Main.getMain().getWorldHandler().getPlayer().getMaxMana()));
 	}
 }

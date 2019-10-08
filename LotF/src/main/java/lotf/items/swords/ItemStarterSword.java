@@ -7,7 +7,7 @@ import main.java.lotf.items.util.ItemUseable;
 public class ItemStarterSword extends ItemUseable {
 
 	public ItemStarterSword() {
-		super(ItemInfo.sword_starterSword);
+		super(ItemInfo.sword_starterSword, 10, true);
 	}
 	
 	@Override

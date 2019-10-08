@@ -2,17 +2,17 @@ package main.java.lotf.client.renderer.util;
 
 import java.awt.image.BufferedImage;
 
-import main.java.lotf.tile.TileInfo;
+import main.java.lotf.util.ThingInfo;
 
-public class TileImageInfo extends ImageInfo {
-	protected TileInfo info;
+public class ThingImageInfo<T extends ThingInfo> extends ImageInfo {
+	protected T info;
 	
-	public TileImageInfo(TileInfo info, BufferedImage... imgs) {
+	public ThingImageInfo(T info, BufferedImage... imgs) {
 		super(imgs);
 		this.info = info;
 	}
 	
-	public TileInfo getTileInfo() {
+	public T getInfo() {
 		return info;
 	}
 	

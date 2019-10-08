@@ -21,6 +21,7 @@ import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.InitCommands;
 import main.java.lotf.init.InitItems;
+import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.math.MathH;
@@ -32,14 +33,14 @@ public final class Main extends Canvas implements Runnable {
 	private static final long serialVersionUID = -2518563563721413864L;
 	private static Main main;
 	
-	private static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
+	public static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
 	private int width = HUD_WIDTH, height = HUD_HEIGHT, w2, h2;
 	
-	private static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
-	private static final String ROOM_FOLDER_LOCATION =    "/main/resources/lotf/assets/rooms/";
-	private static final String TEXTURE_FOLDER_LOCATION = "/main/resources/lotf/assets/textures/";
-	private static final String FONT_FOLDER_LOCATION =    "/main/resources/lotf/assets/fonts/";
-	private static final String LANG_FOLDER_LOCATION =     "/main/resources/lotf/assets/lang/";
+	public static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
+	public static final String ROOM_FOLDER_LOCATION =    "/main/resources/lotf/assets/rooms/";
+	public static final String TEXTURE_FOLDER_LOCATION = "/main/resources/lotf/assets/textures/";
+	public static final String FONT_FOLDER_LOCATION =    "/main/resources/lotf/assets/fonts/";
+	public static final String LANG_FOLDER_LOCATION =    "/main/resources/lotf/assets/lang/";
 	
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
@@ -89,6 +90,9 @@ public final class Main extends Canvas implements Runnable {
 			Console.print(Console.WarningType.Info, "Created file path!");
 		}
 		
+		keyHandler = new KeyHandler();
+		
+		ConfigHandler.loadConfigs(keyHandler);
 		GetResource.getLangFile();
 		
 		InitItems.registerAll();
@@ -99,7 +103,7 @@ public final class Main extends Canvas implements Runnable {
 		hud.getFonts();
 		hud.getTextures();
 		
-		addKeyListener(keyHandler = new KeyHandler().registerKeys());
+		addKeyListener(keyHandler);
 		addComponentListener(new ComponentListener() {
 			@Override public void componentShown(ComponentEvent e) {}
 			@Override public void componentMoved(ComponentEvent e) {}
@@ -273,34 +277,6 @@ public final class Main extends Canvas implements Runnable {
 	
 	public int getGameHeight() {
 		return h2;
-	}
-	
-	public static int getHudWidth() {
-		return HUD_WIDTH;
-	}
-	
-	public static int getHudHeight() {
-		return HUD_HEIGHT;
-	}
-	
-	public static String getSaveLocation() {
-		return SAVE_LOCATION;
-	}
-	
-	public static String getRoomFolder() {
-		return ROOM_FOLDER_LOCATION;
-	}
-	
-	public static String getTextureFolder() {
-		return TEXTURE_FOLDER_LOCATION;
-	}
-	
-	public static String getFontFolder() {
-		return FONT_FOLDER_LOCATION;
-	}
-	
-	public static String getLangFolder() {
-		return LANG_FOLDER_LOCATION;
 	}
 	
 	public WorldHandler getWorldHandler() {

@@ -22,11 +22,6 @@ public class CommandSetMoney extends Command {
 	}
 	
 	@Override
-	protected String setUsage() {
-		return "Sets the player's money";
-	}
-	
-	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		Main.getMain().getWorldHandler().getPlayer().setMoney(MathH.clamp(argInt.get(0), 0, 999999));
 	}

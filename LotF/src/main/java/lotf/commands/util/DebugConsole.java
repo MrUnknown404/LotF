@@ -9,6 +9,10 @@ import java.util.Map;
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
 import main.java.lotf.init.InitCommands;
+import main.java.lotf.util.GetResource;
+import main.java.lotf.util.LangKey;
+import main.java.lotf.util.LangKey.LangKeyType;
+import main.java.lotf.util.LangKey.LangType;
 
 public class DebugConsole {
 	private static final int MAX_ARGS = Command.ArgumentType.values().length, MAX_LINES = 7;
@@ -245,15 +249,15 @@ public class DebugConsole {
 		return MAX_LINES;
 	}
 	
-	public enum CommandError {
-		nil          ("Null! something broke!"),
-		noSlash      ("Commands must start with a /"),
-		noCommand    ("No command was written"),
-		noArgs       ("No arguments were written"),
-		notEnoughArgs("Not enough arguments were written"),
-		tooManyArgs  ("Too many arguments were written"),
-		wrongArg     ("At least one of the written arguments is not the correct type"),
-		notACommand  ("No valid command was written");
+	private enum CommandError {
+		nil          (GetResource.getStringFromLangKey(new LangKey(LangType.command, "nil", LangKeyType.desc), LangKeyType.desc)),
+		noSlash      (GetResource.getStringFromLangKey(new LangKey(LangType.command, "noSlash", LangKeyType.desc), LangKeyType.desc)),
+		noCommand    (GetResource.getStringFromLangKey(new LangKey(LangType.command, "noCommand", LangKeyType.desc), LangKeyType.desc)),
+		noArgs       (GetResource.getStringFromLangKey(new LangKey(LangType.command, "noArgs", LangKeyType.desc), LangKeyType.desc)),
+		notEnoughArgs(GetResource.getStringFromLangKey(new LangKey(LangType.command, "notEnoughArgs", LangKeyType.desc), LangKeyType.desc)),
+		tooManyArgs  (GetResource.getStringFromLangKey(new LangKey(LangType.command, "tooManyArgs", LangKeyType.desc), LangKeyType.desc)),
+		wrongArg     (GetResource.getStringFromLangKey(new LangKey(LangType.command, "wrongArg", LangKeyType.desc), LangKeyType.desc)),
+		notACommand  (GetResource.getStringFromLangKey(new LangKey(LangType.command, "notACommand", LangKeyType.desc), LangKeyType.desc));
 		
 		private final String error;
 		

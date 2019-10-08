@@ -25,11 +25,6 @@ public class CommandAddCollectible extends Command {
 	}
 	
 	@Override
-	protected String setUsage() {
-		return "Adds collectibles";
-	}
-	
-	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		

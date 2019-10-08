@@ -12,7 +12,7 @@ import java.util.Map.Entry;
 
 import main.java.lotf.Main;
 import main.java.lotf.client.renderer.util.ImageInfo;
-import main.java.lotf.client.renderer.util.TileImageInfo;
+import main.java.lotf.client.renderer.util.ThingImageInfo;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
@@ -28,7 +28,7 @@ public class Renderer implements ITickable {
 	
 	private Map<EnumDirection, ImageInfo> players = new HashMap<EnumDirection, ImageInfo>();
 	private List<ImageInfo> textures = new ArrayList<ImageInfo>();
-	private List<TileImageInfo> tileTextures = new ArrayList<TileImageInfo>();
+	private List<ThingImageInfo<TileInfo>> tileTextures = new ArrayList<ThingImageInfo<TileInfo>>();
 	
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
@@ -52,11 +52,11 @@ public class Renderer implements ITickable {
 			}
 		}
 		
-		//TODO temp
+		//TODO temp, instead go thru all entities
 		for (EnumDirection dir : EnumDirection.values()) {
-			BufferedImage[] imgs = new BufferedImage[EntityPlayer.getStaticInfo().getTextureCount()];
+			BufferedImage[] imgs = new BufferedImage[EntityInfo.PLAYER.getTextureCount()];
 			
-			for (int i = 0; i < EntityPlayer.getStaticInfo().getTextureCount(); i++) {
+			for (int i = 0; i < EntityInfo.PLAYER.getTextureCount(); i++) {
 				img = GetResource.getTexture(GetResource.ResourceType.entity, "player/player_" + dir + "_" + i);
 				
 				if (img != null) {
@@ -173,7 +173,7 @@ public class Renderer implements ITickable {
 					}
 					
 					for (Entity e : r.getEntities()) {
-						int rewrite_with_textures;
+						//TODO rewrite_with_textures;
 						g.setColor(Color.red);
 						g.fillRect((int) e.getPosX(), (int) e.getPosY(), e.getWidth(), e.getHeight());
 					}
@@ -185,7 +185,7 @@ public class Renderer implements ITickable {
 	}
 	
 	private void registerTile(TileInfo tInfo, int count) {
-		TileImageInfo info = new TileImageInfo(tInfo);
+		ThingImageInfo<TileInfo> info = new ThingImageInfo<TileInfo>(tInfo);
 		BufferedImage[] imgs = new BufferedImage[count];
 		
 		for (int i = 0; i < count; i++) {
@@ -207,16 +207,16 @@ public class Renderer implements ITickable {
 		BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName());
 		
 		if (img != null) {
-			tileTextures.add(new TileImageInfo(tInfo, img));
+			tileTextures.add(new ThingImageInfo<TileInfo>(tInfo, img));
 			Console.print(Console.WarningType.TextureDebug, tInfo.getName() + " was registered!");
 		} else {
 			Console.print(Console.WarningType.TextureDebug, tInfo.getName() + " was not registered!");
 		}
 	}
 	
-	public TileImageInfo getTileImageInfo(TileInfo tInfo) {
-		for (TileImageInfo info : tileTextures) {
-			if (info.getTileInfo().equals(tInfo)) {
+	public ThingImageInfo<TileInfo> getTileImageInfo(TileInfo tInfo) {
+		for (ThingImageInfo<TileInfo> info : tileTextures) {
+			if (info.getInfo().equals(tInfo)) {
 				return info;
 			}
 		}

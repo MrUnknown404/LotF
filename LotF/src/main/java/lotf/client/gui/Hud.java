@@ -10,7 +10,6 @@ import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.init.InitItems;
 import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.util.CollectibleInfo;
@@ -27,8 +26,8 @@ public class Hud implements ITickable {
 
 	private static Font smallNumbers, lotfFont;
 	
-	private BufferedImage baseHud, barDecal, mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap, map, compass;
-	private BufferedImage invHud0, invHud1, invHud2;
+	private BufferedImage mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap, map, compass, manaBar;
+	private BufferedImage baseHud, invHud0, invHud1, invHud2;
 	private BufferedImage[] hearts = new BufferedImage[5];
 	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>(), rings = new HashMap<String, BufferedImage>(), collectibles = new HashMap<String, BufferedImage>();
 	private Map<EnumWorldType, BufferedImage> maps = new HashMap<EnumWorldType, BufferedImage>();
@@ -36,18 +35,18 @@ public class Hud implements ITickable {
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
 		
-		baseHud = registerGUITexture("baseHud");
+		baseHud = registerGUITexture("base_hud");
 		invHud0 = registerGUITexture("inv_background_0");
 		invHud1 = registerGUITexture("inv_background_1");
 		invHud2 = registerGUITexture("inv_background_2");
-		selectedSlotItem = registerGUITexture("selectedSlotItem");
-		selectedSlotRing = registerGUITexture("selectedSlotRing");
-		selectedMap = registerGUITexture("selectedMap");
-		barDecal = registerGUITexture("magicBarDecal");
-		mapBlock = registerGUITexture("mapBlock");
-		mapLocationMarker = registerGUITexture("mapLocationMarker");
+		selectedSlotItem = registerGUITexture("selected_slot_item");
+		selectedSlotRing = registerGUITexture("selected_slot_ring");
+		mapBlock = registerGUITexture("map_block");
+		selectedMap = registerGUITexture("map_selected_icon");
+		mapLocationMarker = registerGUITexture("map_location_icon");
 		map = registerGUITexture("map");
 		compass = registerGUITexture("compass");
+		manaBar = registerGUITexture("mana_bar");
 		
 		hearts[0] = registerGUITexture("hearts/heart_0");
 		hearts[1] = registerGUITexture("hearts/heart_1");
@@ -59,17 +58,13 @@ public class Hud implements ITickable {
 			maps.put(type, registerGUITexture("maps/" + type.toString().toLowerCase() + "_map"));
 		}
 		
-		for (int i = 0; i < InitItems.getItemsSize(); i++) {
-			items.put(InitItems.getItem(i).getKey(), registerItemTexture(InitItems.getItem(i)));
-		}
-		
-		for (int i = 0; i < InitItems.getRingsSize(); i++) {
-			rings.put(InitItems.getRing(i).getKey(), registerRingTexture(InitItems.getRing(i)));
-		}
-		
 		for (ItemInfo info : ItemInfo.values()) {
-			if (info.toString().startsWith("collectible_")) {
-				collectibles.put(info.toString(), registerCollectibleTexture(info));
+			if (info.toString().startsWith("item_")) {
+				items.put(info.getLangKey().getKey(), registerItemTexture(info));
+			} else if (info.toString().startsWith("ring_")) {
+				rings.put(info.getLangKey().getKey(), registerRingTexture(info));
+			} else if (info.toString().startsWith("collectible_")) {
+				collectibles.put(info.getLangKey().getKey(), registerCollectibleTexture(info));
 			}
 		}
 		
@@ -97,8 +92,10 @@ public class Hud implements ITickable {
 			g.drawString(setupNumberString(p.getBombs(), 2), 175, 8);
 			g.drawString("" + p.getKeys(), 196, 8);
 			
-			//TODO draw bar
-			g.drawImage(barDecal, 104, 11, 97, 3, null);
+			if (p.getMana() > 0) {
+				int wi = MathH.ceil(MathH.normalize(p.getMana(), 0, p.getMaxMana()) * 97);
+				g.drawImage(manaBar.getSubimage(0, 0, wi, 3), 104, 11, wi, 3, null);
+			}
 			
 			for (int i = 0; i < p.getHearts().size(); i++) {
 				if (i < 12) {
@@ -245,12 +242,12 @@ public class Hud implements ITickable {
 						g.drawString(setupNumberString(col.getAmount(), 3), 29 + i % p.getInventory().getCollectiblesInventory().getSizeX() * 39,
 								33 + MathH.floor(i / p.getInventory().getCollectiblesInventory().getSizeX()) * 18);
 						if (col.has()) {
-							g.drawImage(collectibles.get(col.getInfo().toString()), 9 + i % p.getInventory().getCollectiblesInventory().getSizeX() * 41,
+							g.drawImage(collectibles.get(col.getInfo().getLangKey().getKey()), 9 + i % p.getInventory().getCollectiblesInventory().getSizeX() * 41,
 									21 + MathH.floor(i / p.getInventory().getCollectiblesInventory().getSizeX()) * 18, 14, 14, null);
 						}
 					}
 				} else if (p.getInventory().getCurrentScreen() == 3) {
-					int draw_dungeon_item_screen;
+					//TODO draw_dungeon_item_screen;
 				}
 				
 				String desc = "";
@@ -267,12 +264,6 @@ public class Hud implements ITickable {
 					ItemBase itemForDesc = p.getInventory().getSelectedItem();
 					
 					if (itemForDesc != null) {
-						if (itemForDesc.getKey().equalsIgnoreCase(buffer)) {
-							desc = itemForDesc.getName() + " : " + itemForDesc.getDescription();
-						} else {
-							forceReset = true;
-						}
-						
 						if (itemForDesc.getKey().equalsIgnoreCase(buffer)) {
 							g.setFont(lotfFont);
 							drawStringMultiLine(g, (itemForDesc.getName() + " : " + itemForDesc.getDescription()).substring(0, descCharacter), 124, 2, 124);
@@ -368,16 +359,16 @@ public class Hud implements ITickable {
 		return registerTexture(GetResource.ResourceType.gui, name);
 	}
 	
-	private BufferedImage registerItemTexture(ItemBase item) {
-		return registerTexture(GetResource.ResourceType.item, item.getInfo().toString().replaceAll("item_", "").replaceAll("sword_", ""));
+	private BufferedImage registerItemTexture(ItemInfo item) {
+		return registerTexture(GetResource.ResourceType.item, item.toString().replaceAll("item_", "").replaceAll("sword_", ""));
 	}
 	
 	private BufferedImage registerCollectibleTexture(ItemInfo item) {
 		return registerTexture(GetResource.ResourceType.collectibles, item.toString().replaceAll("collectible_", ""));
 	}
 	
-	private BufferedImage registerRingTexture(Ring ring) {
-		return registerTexture(GetResource.ResourceType.ring, ring.getInfo().toString().replaceAll("ring_", ""));
+	private BufferedImage registerRingTexture(ItemInfo ring) {
+		return registerTexture(GetResource.ResourceType.ring, ring.toString().replaceAll("ring_", ""));
 	}
 	
 	private BufferedImage registerTexture(GetResource.ResourceType type, String name) {

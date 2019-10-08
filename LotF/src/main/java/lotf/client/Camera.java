@@ -15,10 +15,10 @@ public class Camera implements ITickable {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
 		if (p.getRoomToBe() == null) {
-			pos.setX(MathH.fClamp((p.getPosX() + p.getWidth() / 2) - Main.getHudWidth() / 2, p.getRoom().getPosX(),
-					p.getRoom().getPosX() + (p.getRoom().getWidth() * Tile.TILE_SIZE) - Main.getHudWidth()));
-			pos.setY(MathH.fClamp((p.getPosY() + p.getHeight() / 2) - Main.getHudHeight() / 2, p.getRoom().getPosY() - 16,
-					p.getRoom().getPosY() + (p.getRoom().getHeight() * Tile.TILE_SIZE) - Main.getHudHeight()));
+			pos.setX(MathH.fClamp((p.getPosX() + p.getWidth() / 2) - Main.HUD_WIDTH / 2, p.getRoom().getPosX(),
+					p.getRoom().getPosX() + (p.getRoom().getWidth() * Tile.TILE_SIZE) - Main.HUD_WIDTH));
+			pos.setY(MathH.fClamp((p.getPosY() + p.getHeight() / 2) - Main.HUD_HEIGHT / 2, p.getRoom().getPosY() - 16,
+					p.getRoom().getPosY() + (p.getRoom().getHeight() * Tile.TILE_SIZE) - Main.HUD_HEIGHT));
 		} else {
 			switch (p.getRoomToBeDir()) {
 				case north:

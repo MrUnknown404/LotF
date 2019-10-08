@@ -25,11 +25,6 @@ public class CommandHelp extends Command {
 	}
 	
 	@Override
-	public String setUsage() {
-		return "Prints all commands and their usage";
-	}
-	
-	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		DebugConsole console = Main.getMain().getCommandConsole();
 		

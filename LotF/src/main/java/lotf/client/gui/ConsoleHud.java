@@ -22,7 +22,7 @@ public class ConsoleHud {
 		
 		if (console.isConsoleOpen()) {
 			g.setColor(new Color(0.2f, 0.2f, 0.2f, 0.5f));
-			g.fillRect(0, 0, Main.getHudWidth(), ((DebugConsole.getMaxLines() + 2) * 9) - 10);
+			g.fillRect(0, 0, Main.HUD_WIDTH, ((DebugConsole.getMaxLines() + 2) * 9) - 10);
 			g.setColor(Color.GREEN);
 			
 			if (tb) {

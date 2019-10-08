@@ -2,12 +2,15 @@ package main.java.lotf.items.util;
 
 import java.util.Map;
 
+import main.java.lotf.util.Console;
+
 public abstract class ItemBase {
 	
 	protected final ItemInfo info;
 	
 	public ItemBase(ItemInfo info) {
 		this.info = info;
+		Console.print(Console.WarningType.RegisterDebug, getKey() + " was registered!");
 	}
 	
 	public String getName() {
@@ -23,7 +26,7 @@ public abstract class ItemBase {
 	}
 	
 	public String getKey() {
-		return info.langKey.getKey();
+		return info.getLangKey().getKey();
 	}
 	
 	public ItemInfo getInfo() {

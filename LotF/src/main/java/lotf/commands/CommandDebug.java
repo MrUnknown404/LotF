@@ -22,11 +22,6 @@ public class CommandDebug extends Command {
 	}
 	
 	@Override
-	public String setUsage() {
-		return "Does nothing used for testing";
-	}
-	
-	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		StringBuilder b = new StringBuilder();
 		if (!argInt.isEmpty()) {

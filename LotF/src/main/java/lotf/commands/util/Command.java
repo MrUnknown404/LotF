@@ -5,10 +5,17 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import main.java.lotf.util.GetResource;
+import main.java.lotf.util.LangKey;
+import main.java.lotf.util.LangKey.LangKeyType;
+import main.java.lotf.util.LangKey.LangType;
+
 public abstract class Command {
 
 	protected final boolean isArgsOptional;
 	protected final String name;
+	protected final LangKey key;
+	
 	protected final Map<Integer, List<ArgumentType>> typeOfArgs;
 	
 	/**
@@ -18,24 +25,13 @@ public abstract class Command {
 	 */
 	public Command(String name, @Nullable Map<Integer, List<ArgumentType>> typeOfArgs, boolean isArgsOptional) {
 		this.name = name;
+		this.key = new LangKey(LangType.command, name, LangKeyType.desc);
 		this.isArgsOptional = isArgsOptional;
 		this.typeOfArgs = typeOfArgs;
 	}
 	
-	protected abstract String setUsage();
-	
 	public String getUsage() {
-		//StringBuilder b = new StringBuilder();
-		//if (isArgsOptional) {
-		//	b.append("(optional) ");
-		//}
-		
-		//for (Command.ArgumentType type : typeOfArgs) {
-		//	b.append("<" + type.toString() + "> ");
-		//}
-		
-		//return "/" + name + " : usage -> /" + name + " " + b.toString() + ": " + setUsage() + "!";
-		return "/" + name + " : " + setUsage() + "!";
+		return "/" + name + " : " + GetResource.getStringFromLangKey(key, LangKeyType.desc) + "!";
 	}
 	
 	public abstract void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString);

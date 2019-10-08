@@ -35,16 +35,16 @@ public class MathH {
 		return (float) (Math.round(number * tempDecimal) / tempDecimal);
 	}
 	
-	public static float normalize(float number, float max) {
+	public static float normalize(float number, float min, float max) {
 		if (number > max) {
-			Console.print(Console.WarningType.Error, "the specified number is more then the specified max!");
+			Console.print(Console.WarningType.Error, "the specified number is more than the specified max!");
 			return max;
-		} else if (number < 0) {
-			Console.print(Console.WarningType.Error, "the specified number cannot be less than zero!");
+		} else if (number < min) {
+			Console.print(Console.WarningType.Error, "the specified number cannot be less than the specified min!");
 			return 0;
 		}
 		
-		return 1 - ((number - 0) / (max - 0));
+		return (number - min) / (max - min);
 	}
 	
 	public static float percentage(float number, float max) {

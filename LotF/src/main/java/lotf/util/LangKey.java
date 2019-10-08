@@ -35,7 +35,8 @@ public class LangKey {
 		ring,
 		collectible,
 		npc,
-		gui;
+		gui,
+		command;
 	}
 	
 	public enum LangKeyType {

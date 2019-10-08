@@ -20,7 +20,7 @@ import main.java.lotf.util.LangKey.LangKeyType;
 
 public class GetResource {
 	
-	private static final String FILE_TYPE = ".png";
+	private static final String IMAGE_TYPE = ".png";
 	private static List<String> langKeys = new ArrayList<String>();
 	
 	public static BufferedImage getTexture(ResourceType location, String textureName) {
@@ -34,10 +34,10 @@ public class GetResource {
 		}
 		newLoc += "/";
 		
-		if (GetResource.class.getResourceAsStream(Main.getTextureFolder() + newLoc + textureName + FILE_TYPE) == null) {
-			Console.print(Console.WarningType.Error, "Cannot find texture : " + Main.getTextureFolder() + newLoc + textureName + FILE_TYPE);
+		if (GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE) == null) {
+			Console.print(Console.WarningType.Error, "Cannot find texture : " + Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
 		} else {
-			f = GetResource.class.getResourceAsStream(Main.getTextureFolder() + newLoc + textureName + FILE_TYPE);
+			f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
 		}
 		BufferedImage i = null;
 		
@@ -61,10 +61,10 @@ public class GetResource {
 		InputStream i = null;
 		Font font = null;
 		
-		if (GetResource.class.getResourceAsStream(Main.getFontFolder() + fontName + ".ttf") == null) {
-			Console.print(Console.WarningType.Error, "Cannot find font : " + Main.getFontFolder() + fontName + ".ttf");
+		if (GetResource.class.getResourceAsStream(Main.FONT_FOLDER_LOCATION + fontName + ".ttf") == null) {
+			Console.print(Console.WarningType.Error, "Cannot find font : " + Main.FONT_FOLDER_LOCATION + fontName + ".ttf");
 		} else {
-			i = GetResource.class.getResourceAsStream(Main.getFontFolder() + fontName + ".ttf");
+			i = GetResource.class.getResourceAsStream(Main.FONT_FOLDER_LOCATION + fontName + ".ttf");
 		}
 		
 		try {
@@ -84,11 +84,11 @@ public class GetResource {
 		Locale l = Locale.getDefault();
 		InputStream is = null;
 		
-		if (GetResource.class.getResourceAsStream(Main.getLangFolder() + l + ".lang") == null) {
+		if (GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang") == null) {
 			Console.print(WarningType.FatalError, "Could not find the lang file \"" + l + "\"");
 			return;
 		} else {
-			is = GetResource.class.getResourceAsStream(Main.getLangFolder() + l + ".lang");
+			is = GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang");
 		}
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -106,7 +106,6 @@ public class GetResource {
 	}
 	
 	public static String getStringFromLangKey(LangKey langKey, LangKeyType keyType) {
-		
 		for (String s : langKeys) {
 			if (s.startsWith(langKey.getLangType().toString()) && s.charAt(langKey.getLangType().toString().length()) == '.') {
 				s = s.substring(langKey.getLangType().toString().length() + 1);

@@ -30,6 +30,14 @@ public class DoubleValue<L, R> {
 		return this;
 	}
 	
+	public L getL() {
+		return left;
+	}
+	
+	public R getR() {
+		return right;
+	}
+	
 	public L getLeft() {
 		return left;
 	}

@@ -15,7 +15,8 @@ public class PlayerInventory {
 	private CollectibleInventory collectiblesInventory;
 	
 	private ItemUseable leftItem, rightItem, selectedSword;
-	private ItemBase selectedRing;
+	@SuppressWarnings("unused")
+	private ItemBase selectedRing; //TODO write this
 	
 	private EnumSelectables selectedThing = EnumSelectables.NormalInventory;
 	private int currentInvScreen, selectedSlot = 0;
@@ -172,7 +173,7 @@ public class PlayerInventory {
 								selectedThing = EnumSelectables.CollectiblesInventory;
 								selectedSlot = collectiblesInventory.getSizeX() - 1;
 							} else if (currentInvScreen == 3) {
-								int do_when_i_create_fourth_screen;
+								//TODO do_when_i_create_fourth_screen;
 							}
 						} else {
 							selectedSlot--;
@@ -238,7 +239,7 @@ public class PlayerInventory {
 								selectedThing = EnumSelectables.CollectiblesInventory;
 								selectedSlot = 0;
 							} else if (currentInvScreen == 3) {
-								int do_when_i_create_fourth_screen;
+								//TODO do_when_i_create_fourth_screen;
 							}
 						} else {
 							selectedSlot++;
@@ -329,7 +330,7 @@ public class PlayerInventory {
 				
 				break;
 			case PotionInventory:
-				int usePotion;
+				//TODO usePotion;
 				break;
 			case RingInventory:
 				selectedRing = ringInventory.getSelectedRing(selectedSlot);
@@ -356,7 +357,7 @@ public class PlayerInventory {
 				
 				break;
 			case PotionInventory:
-				int usePotion;
+				//TODO usePotion;
 				break;
 			case RingInventory:
 				selectedRing = ringInventory.getSelectedRing(selectedSlot);

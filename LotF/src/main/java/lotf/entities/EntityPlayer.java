@@ -22,10 +22,15 @@ public class EntityPlayer extends EntityLiving {
 
 	private static final float MOVE_SPEED = 1.5f, CHANGE_ROOM_SPEED = 0.333f;
 	
+	private final int maxMana = 100;
+	
 	private EnumWorldType worldType;
 	private EnumDirection toBeRoomDirection;
-	private int roomID, toBeRoomID = -1, money, arrows, bombs;
+	private int roomID, toBeRoomID = -1, money, arrows, bombs, mana;
 	private float moveX, moveY;
+	private boolean isUsingItem = false;
+	
+	private int itemStallTick;
 	
 	private CountableUpgradeState arrowsUpgradeState = CountableUpgradeState.one, bombsUpgradeState = CountableUpgradeState.one;
 	
@@ -141,12 +146,23 @@ public class EntityPlayer extends EntityLiving {
 		}
 		
 		if (Main.getMain().shouldPlayerHaveControl()) {
-			if (moveX != 0) {
-				addPosX(moveX * MOVE_SPEED);
-			}
-			
-			if (moveY != 0) {
-				addPosY(moveY * MOVE_SPEED);
+			if (!isUsingItem) {
+				if (moveX != 0) {
+					addPosX(moveX * MOVE_SPEED);
+				}
+				
+				if (moveY != 0) {
+					addPosY(moveY * MOVE_SPEED);
+				}
+			} else {
+				if (itemStallTick == 0) {
+					isUsingItem = false;
+				} else {
+					itemStallTick--;
+				}
+				
+				moveX = 0;
+				moveY = 0;
 			}
 			
 			if (inv.getLeftItem() != null) {
@@ -292,6 +308,11 @@ public class EntityPlayer extends EntityLiving {
 		inv.getCollectiblesInventory().addCollectable(info, set);
 	}
 	
+	public void setUsingItem(int itemStallTick, boolean isUsingItem) {
+		this.itemStallTick = itemStallTick;
+		this.isUsingItem = isUsingItem;
+	}
+	
 	public void setMoveX(float moveX) {
 		this.moveX = moveX;
 	}
@@ -310,6 +331,10 @@ public class EntityPlayer extends EntityLiving {
 	
 	public void setBombs(int bombs) {
 		this.bombs = bombs;
+	}
+	
+	public void setMana(int mana) {
+		this.mana = mana;
 	}
 	
 	public int getKeys() {
@@ -334,6 +359,14 @@ public class EntityPlayer extends EntityLiving {
 	
 	public int getMaxBombs() {
 		return bombsUpgradeState.amount;
+	}
+	
+	public int getMana() {
+		return mana;
+	}
+	
+	public int getMaxMana() {
+		return maxMana;
 	}
 	
 	public PlayerInventory getInventory() {
@@ -370,10 +403,6 @@ public class EntityPlayer extends EntityLiving {
 	
 	public Map<EnumWorldType, Boolean> getMapMap() {
 		return map;
-	}
-	
-	public static EntityInfo getStaticInfo() {
-		return EntityInfo.PLAYER;
 	}
 	
 	public EnumDirection getRoomToBeDir() {
