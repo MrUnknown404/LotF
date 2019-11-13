@@ -7,7 +7,7 @@ import main.java.lotf.items.util.ItemUseable;
 public class ItemCape extends ItemUseable {
 
 	public ItemCape() {
-		super(ItemInfo.item_cape, 0, false);
+		super(ItemInfo.item_cape, 0, false, 0);
 	}
 	
 	@Override

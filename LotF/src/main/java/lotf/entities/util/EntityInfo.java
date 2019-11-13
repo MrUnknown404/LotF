@@ -11,6 +11,7 @@ public class EntityInfo extends ThingInfo {
 	
 	public static final EntityInfo PLAYER = new EntityInfo("player", true, 2, 6);
 	public static final EntityInfo ARROW = new EntityInfo("arrow", true, 1, 0);
+	public static final EntityInfo ENEMY_TEST = new EntityInfo("enemy_test", true, 1, 0);
 	
 	private final boolean usesDirections;
 	

@@ -9,8 +9,10 @@ import main.java.lotf.util.math.Vec2f;
 
 public class ItemBow extends ItemUseable {
 
+	protected int damage = 3;
+	
 	public ItemBow() {
-		super(ItemInfo.item_bow, 10, true);
+		super(ItemInfo.item_bow, 10, true, 20);
 	}
 	
 	@Override

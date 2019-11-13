@@ -2,12 +2,11 @@ package main.java.lotf.items.swords;
 
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.items.util.ItemInfo;
-import main.java.lotf.items.util.ItemUseable;
 
-public class ItemStarterSword extends ItemUseable {
+public class ItemStarterSword extends ItemSwordBase {
 
 	public ItemStarterSword() {
-		super(ItemInfo.sword_starterSword, 10, true);
+		super(ItemInfo.sword_starterSword, 10, true, 10, 2);
 	}
 	
 	@Override

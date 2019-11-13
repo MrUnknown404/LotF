@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.tile.Tile;
@@ -16,8 +17,10 @@ import main.java.lotf.util.GetResource;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.LangKey;
+import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.LangKey.LangKeyType;
 import main.java.lotf.util.enums.EnumDirection;
+import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
@@ -26,14 +29,16 @@ public class Room extends GameObject implements ITickable, IResetable {
 
 	private final int roomID;
 	private final String description;
+	private final EnumWorldType worldType;
 	
 	private List<Tile> tiles_layer0 = new ArrayList<Tile>();
 	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(int roomID, Vec2i roomPos, Vec2i size, @Nullable LangKey langKey) {
+	public Room(EnumWorldType worldType, int roomID, Vec2i roomPos, Vec2i size, @Nullable LangKey langKey) {
 		super(new Vec2f(roomPos), size);
 		this.roomID = roomID;
+		this.worldType = worldType;
 		
 		if (langKey != null) {
 			description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
@@ -97,15 +102,15 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	@Override
 	public void softReset() {
-		for (Entity e : entities) {
-			e.softReset();
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).softReset();
 		}
 	}
 	
 	@Override
 	public void hardReset() {
-		for (Entity e : entities) {
-			e.hardReset();
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).hardReset();
 		}
 	}
 	
@@ -137,6 +142,18 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	public void spawnEntity(Entity entity) {
 		entities.add(entity);
+	}
+	
+	public void killEntity(Entity entity) {
+		if (entities.contains(entity)) {
+			entities.remove(entity);
+		} else {
+			Console.print(WarningType.Warning, "Tried to kill entity that doesn't exist!");
+		}
+	}
+	
+	public World getWorld() {
+		return Main.getMain().getWorldHandler().getWorld(worldType);
 	}
 	
 	public int getRoomID() {

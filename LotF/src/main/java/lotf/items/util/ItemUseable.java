@@ -7,23 +7,19 @@ public abstract class ItemUseable extends ItemBase implements ITickable {
 
 	private final int maxCooldown, useStallCooldown;
 	private int cooldown;
-	private boolean canUse, shouldStallPlayer;
+	private final boolean shouldStallPlayer;
+	private boolean canUse;
 	
-	public ItemUseable(ItemInfo info, int useStallCooldown, boolean shouldStallPlayer) {
+	public ItemUseable(ItemInfo info, int useStallCooldown, boolean shouldStallPlayer, int maxCooldown) {
 		super(info);
 		this.shouldStallPlayer = shouldStallPlayer;
 		this.useStallCooldown = useStallCooldown;
-		
-		if (!getData().containsKey("noCooldown")) {
-			this.maxCooldown = (int) getData().get("maxCooldown");
-		} else {
-			this.maxCooldown = 0;
-		}
+		this.maxCooldown = maxCooldown;
 	}
 	
 	@Override
 	public void tick() {
-		if (!getData().containsKey("noCooldown") && !canUse) {
+		if (maxCooldown != 0 && !canUse) {
 			if (cooldown == 0) {
 				cooldown = maxCooldown;
 				canUse = true;

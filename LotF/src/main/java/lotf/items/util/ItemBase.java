@@ -1,7 +1,5 @@
 package main.java.lotf.items.util;
 
-import java.util.Map;
-
 import main.java.lotf.util.Console;
 
 public abstract class ItemBase {
@@ -19,10 +17,6 @@ public abstract class ItemBase {
 	
 	public String getDescription() {
 		return info.getDescription();
-	}
-	
-	public Map<String, Object> getData() {
-		return info.getData();
 	}
 	
 	public String getKey() {

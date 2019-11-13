@@ -26,7 +26,8 @@ public class EntityPlayer extends EntityLiving {
 	
 	private EnumWorldType worldType;
 	private EnumDirection toBeRoomDirection;
-	private int roomID, toBeRoomID = -1, money, arrows, bombs, mana;
+	private Room toBeRoom;
+	private int money, arrows, bombs, mana;
 	private float moveX, moveY;
 	private boolean isUsingItem = false;
 	
@@ -41,8 +42,7 @@ public class EntityPlayer extends EntityLiving {
 	private PlayerInventory inv;
 	
 	public EntityPlayer(EnumWorldType worldType, Vec2f pos, Room room) {
-		super(EntityInfo.PLAYER, new Vec2f(room.getPosX() + pos.getX(), room.getPosY() + pos.getY()), new Vec2i(14, 14), 24);
-		this.roomID = room.getRoomID();
+		super(EntityInfo.PLAYER, room, pos, new Vec2i(14, 14), 24);
 		this.worldType = worldType;
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
@@ -69,66 +69,38 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void tick() {
-		if (toBeRoomID != -1) {
+		if (toBeRoom != null) {
 			switch (toBeRoomDirection) {
 				case north:
 					setMoveX(0);
 					setMoveY(-CHANGE_ROOM_SPEED);
 					if (getRoom().getPosY() > pos.getY() + size.getY()) {
-						roomID = toBeRoomID;
-						toBeRoomID = -1;
-						toBeRoomDirection = null;
-						setMoveY(0);
-						
-						getRoom().onEnter(this);
+						resetToBeRoomValues(true);
 						setPosY(getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - size.getY());
-						
-						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				case east:
 					setMoveX(CHANGE_ROOM_SPEED);
 					setMoveY(0);
 					if (getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) < pos.getX()) {
-						roomID = toBeRoomID;
-						toBeRoomID = -1;
-						toBeRoomDirection = null;
-						setMoveX(0);
-						
-						getRoom().onEnter(this);
+						resetToBeRoomValues(false);
 						setPosX(getRoom().getPosX());
-						
-						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				case south:
 					setMoveX(0);
 					setMoveY(CHANGE_ROOM_SPEED);
 					if (getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) < pos.getY()) {
-						roomID = toBeRoomID;
-						toBeRoomID = -1;
-						toBeRoomDirection = null;
-						setMoveY(0);
-						
-						getRoom().onEnter(this);
+						resetToBeRoomValues(true);
 						setPosY(getRoom().getPosY());
-						
-						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				case west:
 					setMoveX(-CHANGE_ROOM_SPEED);
 					setMoveY(0);
 					if (getRoom().getPosX() > pos.getX() + size.getX()) {
-						roomID = toBeRoomID;
-						toBeRoomID = -1;
-						toBeRoomDirection = null;
-						setMoveX(0);
-						
-						getRoom().onEnter(this);
+						resetToBeRoomValues(false);
 						setPosX(getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - size.getX());
-						
-						Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 					}
 					break;
 				default:
@@ -190,9 +162,8 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	private void moveRoom(Room room, EnumDirection type) {
-		getRoom().onLeave(this);
 		toBeRoomDirection = type;
-		toBeRoomID = room.getRoomID();
+		toBeRoom = room;
 		
 		Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
 		
@@ -232,6 +203,22 @@ public class EntityPlayer extends EntityLiving {
 		}
 	}
 	
+	private void resetToBeRoomValues(boolean isY) {
+		getRoom().onLeave(this);
+		room = toBeRoom;
+		toBeRoom = null;
+		toBeRoomDirection = null;
+		
+		if (isY) {
+			setMoveY(0);
+		} else {
+			setMoveX(0);
+		}
+		
+		getRoom().onEnter(this);
+		Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
+	}
+	
 	@Override
 	public void addPosX(float x) {
 		if (x > 0) {
@@ -242,7 +229,7 @@ public class EntityPlayer extends EntityLiving {
 		
 		pos.addX(x);
 		
-		if (toBeRoomID == -1) {
+		if (toBeRoom == null) {
 			attemptMoveRoom();
 			pos.setX(MathH.clamp(pos.getX(), getRoom().getPosX(), getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - size.getX()));
 		}
@@ -258,7 +245,7 @@ public class EntityPlayer extends EntityLiving {
 		
 		pos.addY(y);
 		
-		if (toBeRoomID == -1) {
+		if (toBeRoom == null) {
 			attemptMoveRoom();
 			pos.setY(MathH.clamp(pos.getY(), getRoom().getPosY(), getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - size.getY()));
 		}
@@ -266,12 +253,12 @@ public class EntityPlayer extends EntityLiving {
 	
 	public void addHeartContainer() {
 		if (canAddHeartContainer()) {
-			HEARTS.add(4);
+			getHearts().add(4);
 		}
 	}
 	
 	public boolean canAddHeartContainer() {
-		if (HEARTS.size() < 24) {
+		if (getHearts().size() < 24) {
 			return true;
 		} else {
 			return false;
@@ -297,11 +284,11 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	public void exploreRoom() {
-		exploredMaps.get(worldType).put(roomID, true);
+		exploredMaps.get(worldType).put(room.getRoomID(), true);
 	}
 	
 	public void forceSetRoom(Room room) {
-		this.roomID = room.getRoomID();
+		this.room = room;
 	}
 	
 	public void addCollectible(ItemInfo info, int set) {
@@ -382,7 +369,7 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	public Room getRoom() {
-		return getWorld().getRoom(roomID);
+		return room;
 	}
 	
 	public World getWorld() {
@@ -390,11 +377,7 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	public Room getRoomToBe() {
-		if (toBeRoomID == -1) {
-			return null;
-		}
-		
-		return getWorld().getRoom(toBeRoomID);
+		return toBeRoom;
 	}
 	
 	public Map<EnumWorldType, Boolean> getCompassMap() {

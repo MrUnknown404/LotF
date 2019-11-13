@@ -2,12 +2,11 @@ package main.java.lotf.entities.projectiles;
 
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
-import main.java.lotf.entities.util.Projectile;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
-public class ProjectileArrow extends Projectile {
+public class ProjectileArrow extends EntityProjectile {
 
 	private final float speed;
 	private final EnumDirection dir;
@@ -34,16 +33,6 @@ public class ProjectileArrow extends Projectile {
 				addPosX(-speed);
 				break;
 		}
-	}
-	
-	@Override
-	public void softReset() {
-		
-	}
-	
-	@Override
-	public void hardReset() {
-		
 	}
 	
 	@Override

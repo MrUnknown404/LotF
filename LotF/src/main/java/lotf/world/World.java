@@ -26,10 +26,10 @@ public class World implements ITickable, IResetable {
 				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() &&
 						xi > worldType.getStartActiveBounds().getX() && xi < worldType.getEndActiveBounds().getX()) {
 					if (xi + yi * size.getX() == 144) {
-						rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), new LangKey(LangType.gui, "room" + (xi + yi * size.getX()),
+						rooms.add(new Room(worldType, xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), new LangKey(LangType.gui, "room" + (xi + yi * size.getX()),
 								LangKeyType.desc)));
 					} else {
-						rooms.add(new Room(xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), null));
+						rooms.add(new Room(worldType, xi + yi * size.getX(), new Vec2i(xi, yi), new Vec2i(16, 8), null));
 					}
 				} else {
 					rooms.add(null);
@@ -66,14 +66,6 @@ public class World implements ITickable, IResetable {
 		}
 		
 		return room;
-	}
-	
-	public void onEnter() {
-		
-	}
-	
-	public void onLeave() {
-		hardReset();
 	}
 	
 	@Override
