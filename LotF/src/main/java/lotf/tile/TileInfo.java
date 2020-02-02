@@ -9,7 +9,7 @@ import main.java.lotf.util.enums.EnumCollisionType;
 
 public class TileInfo extends ThingInfo {
 	
-	private static List<TileInfo> all = new ArrayList<TileInfo>();
+	private static final List<TileInfo> ALL = new ArrayList<TileInfo>();
 	
 	public static final TileInfo AIR = new TileInfo("air", true, false, EnumCollisionType.none);
 	public static final TileInfo EMPTY_GRASS = new TileInfo("empty_grass", false, false, EnumCollisionType.none);
@@ -25,7 +25,7 @@ public class TileInfo extends ThingInfo {
 		this.hasRandomFlip = hasRandomFlip;
 		this.colType = colType;
 		
-		all.add(this);
+		ALL.add(this);
 	}
 	
 	private TileInfo(String name, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
@@ -56,12 +56,8 @@ public class TileInfo extends ThingInfo {
 		return colType;
 	}
 	
-	public static TileInfo getTileInfo(int i) {
-		return all.get(i);
-	}
-	
-	public static int getAllTilesSize() {
-		return all.size();
+	public static List<TileInfo> getAll() {
+		return ALL;
 	}
 	
 	@Override

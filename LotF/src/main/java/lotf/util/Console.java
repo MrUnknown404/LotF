@@ -3,6 +3,8 @@ package main.java.lotf.util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.annotation.Nullable;
+
 public final class Console {
 	
 	private static final WarningType[] DISABLED_TYPES = {WarningType.RegisterDebug, WarningType.TextureDebug};
@@ -14,7 +16,12 @@ public final class Console {
 	}
 	
 	/** Prints date info plus the given string to the console Example: <p> [12:34:56:789] [Debug] [ExampleClass.exampleMethod.69] : Hello! */
-	public static void print(WarningType type, String string) {
+	public static void print(@Nullable WarningType type, String string) {
+		if (type == null) {
+			System.out.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [Debug] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
+			return;
+		}
+		
 		for (WarningType t : DISABLED_TYPES) {
 			if (t == type) {
 				return;
@@ -22,15 +29,15 @@ public final class Console {
 		}
 		
 		if (type == WarningType.Error || type == WarningType.FatalError) {
-			System.err.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() +  "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
+			System.err.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() + "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
 		} else {
-			System.out.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() +  "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
+			System.out.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() + "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
 		}
 	}
 	
 	/** Prints date info plus the given string to the console Example: <p> [12:34:56:789] [Debug] [ExampleClass.exampleMethod.69] : Hello! */
 	public static void print(String string) {
-		print(WarningType.Debug, string);
+		print(null, string);
 	}
 	
 	/** Gets what class is called */
@@ -42,11 +49,11 @@ public final class Console {
 				return (ste.getClassName().replaceAll(ste.getClassName().substring(0, ste.getClassName().lastIndexOf('.') + 1), "") + "." + ste.getMethodName() + "." + ste.getLineNumber()).replace("$", ".").replace("<", "").replace(">", "");
 			}
 		}
+		
 		return null;
 	}
 	
 	public enum WarningType {
-		Debug,
 		Info,
 		Warning,
 		Error,

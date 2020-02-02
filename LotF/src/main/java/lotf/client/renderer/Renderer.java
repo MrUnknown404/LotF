@@ -5,14 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import main.java.lotf.Main;
 import main.java.lotf.client.renderer.util.ImageInfo;
-import main.java.lotf.client.renderer.util.ThingImageInfo;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
@@ -26,50 +23,21 @@ import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 
 public class Renderer implements ITickable {
-	
-	private Map<EnumDirection, ImageInfo> players = new HashMap<EnumDirection, ImageInfo>();
-	private List<ImageInfo> textures = new ArrayList<ImageInfo>();
-	private List<ThingImageInfo<TileInfo>> tileTextures = new ArrayList<ThingImageInfo<TileInfo>>();
+	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> entityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();
+	private Map<TileInfo, ImageInfo> tileTextures = new HashMap<TileInfo, ImageInfo>();
 	
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
 		
-		BufferedImage img = GetResource.getTexture("nil");
-		
-		if (img != null) {
-			textures.add(new ImageInfo(img));
-			Console.print(Console.WarningType.TextureDebug, "nil was registered!");
-		} else {
-			Console.print(Console.WarningType.TextureDebug, "nil was not registered!");
-		}
-		
-		for (int i = 0; i < TileInfo.getAllTilesSize(); i++) {
-			if (i != 0) {
-				if (TileInfo.getTileInfo(i).getTextureCount() > 1) {
-					registerTile(TileInfo.getTileInfo(i), TileInfo.getTileInfo(i).getTextureCount());
-				} else {
-					registerTile(TileInfo.getTileInfo(i));
-				}
+		for (TileInfo t : TileInfo.getAll()) {
+			if (t != TileInfo.AIR) {
+				registerTile(t, t.getTextureCount());
 			}
 		}
-		
-		//TODO temp, instead go thru all entities
-		for (EnumDirection dir : EnumDirection.values()) {
-			BufferedImage[] imgs = new BufferedImage[EntityInfo.PLAYER.getTextureCount()];
-			
-			for (int i = 0; i < EntityInfo.PLAYER.getTextureCount(); i++) {
-				img = GetResource.getTexture(GetResource.ResourceType.entity, "player/player_" + dir + "_" + i);
-				
-				if (img != null) {
-					imgs[i] = img;
-					Console.print(Console.WarningType.TextureDebug, "player/player_" + dir + "_" + i + " was registered!");
-				} else {
-					Console.print(Console.WarningType.TextureDebug, "player/player_" + dir + "_" + i + " was not registered!");
-				}
-			}
-			
-			players.put(dir, new ImageInfo(imgs));
+		for (EntityInfo e : EntityInfo.getAll()) {
+			registerEntity(e, e.getTextureCount());
 		}
+		
 		Console.print(Console.WarningType.Info, "Finished texture registering!");
 	}
 	
@@ -81,16 +49,18 @@ public class Renderer implements ITickable {
 			if (p != null && p.getRoom() != null) {
 				for (TileInfo t : p.getRoom().getAllTileInfos()) {
 					if (t.getAnimationTime() != 0) {
-						if (getTileImageInfo(t).currentFrameCounter == t.getAnimationTime()) {
-							if (getTileImageInfo(t).currentImage == getTileImageInfo(t).imgs.length - 1) {
-								getTileImageInfo(t).currentImage = 0;
+						ImageInfo info = tileTextures.get(t);
+						
+						if (info.currentFrameCounter == t.getAnimationTime()) {
+							if (info.currentImage == info.imgs.length - 1) {
+								info.currentImage = 0;
 							} else {
-								getTileImageInfo(t).currentImage++;
+								info.currentImage++;
 							}
 							
-							getTileImageInfo(t).currentFrameCounter = 0;
+							info.currentFrameCounter = 0;
 						} else {
-							getTileImageInfo(t).currentFrameCounter++;
+							info.currentFrameCounter++;
 						}
 					}
 				}
@@ -123,8 +93,8 @@ public class Renderer implements ITickable {
 			return;
 		}
 		
-		if (players.isEmpty()) {
-			Console.print(Console.WarningType.FatalError, "Player textures were not set!");
+		if (entityTextures.isEmpty()) {
+			Console.print(Console.WarningType.FatalError, "Entity textures were not set!");
 			return;
 		}
 		
@@ -159,7 +129,7 @@ public class Renderer implements ITickable {
 							x += Tile.TILE_SIZE;
 						}
 						
-						g.drawImage(getTileImageInfo(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
+						g.drawImage(tileTextures.get(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
 					
 					for (Entity e : r.getEntities()) { //TODO rewrite_with_textures;
@@ -174,55 +144,67 @@ public class Renderer implements ITickable {
 	}
 	
 	private void registerTile(TileInfo tInfo, int count) {
-		ThingImageInfo<TileInfo> info = new ThingImageInfo<TileInfo>(tInfo);
-		BufferedImage[] imgs = new BufferedImage[count];
-		
-		for (int i = 0; i < count; i++) {
-			BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName() + "/" + tInfo.getName() + "_" + i);
+		if (count > 1) {
+			BufferedImage[] imgs = new BufferedImage[count];
+			for (int i = 0; i < count; i++) {
+				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName() + "/" + tInfo.getName() + "_" + i);
+				
+				if (img != null) {
+					imgs[i] = img;
+					Console.print(Console.WarningType.TextureDebug, tInfo.getName() + "_" + i + " was registered!");
+				} else {
+					Console.print(Console.WarningType.Warning, tInfo.getName() + "_" + i + " was not registered!");
+				}
+			}
+			
+			tileTextures.put(tInfo, new ImageInfo().setImages(imgs));
+		} else {
+			BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName());
 			
 			if (img != null) {
-				imgs[i] = img;
-				Console.print(Console.WarningType.TextureDebug, tInfo.getName() + "_" + i + " was registered!");
+				tileTextures.put(tInfo, new ImageInfo(img));
+				Console.print(Console.WarningType.TextureDebug, tInfo.getName() + " was registered!");
 			} else {
-				Console.print(Console.WarningType.Warning, tInfo.getName() + "_" + i + " was not registered!");
+				Console.print(Console.WarningType.TextureDebug, tInfo.getName() + " was not registered!");
 			}
-		}
-		
-		info.setImages(imgs);
-		tileTextures.add(info);
-	}
-	
-	private void registerTile(TileInfo tInfo) {
-		BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName());
-		
-		if (img != null) {
-			tileTextures.add(new ThingImageInfo<TileInfo>(tInfo, img));
-			Console.print(Console.WarningType.TextureDebug, tInfo.getName() + " was registered!");
-		} else {
-			Console.print(Console.WarningType.TextureDebug, tInfo.getName() + " was not registered!");
 		}
 	}
 	
-	public ThingImageInfo<TileInfo> getTileImageInfo(TileInfo tInfo) {
-		for (ThingImageInfo<TileInfo> info : tileTextures) {
-			if (info.info.equals(tInfo)) {
-				return info;
+	private void registerEntity(EntityInfo tInfo, int count) {
+		Map<EnumDirection, ImageInfo> m = new HashMap<EnumDirection, ImageInfo>();
+		
+		for (EnumDirection dir : EnumDirection.values()) {
+			BufferedImage[] imgs = new BufferedImage[count];
+			
+			if (count > 1) {
+				for (int i = 0; i < count; i++) {
+					BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName() + "/" + tInfo.getName() + "_" + dir + "_" + i);
+					
+					if (img != null) {
+						imgs[i] = img;
+						Console.print(Console.WarningType.TextureDebug, tInfo.getName() + "_" + dir + "_" + i + " was registered!");
+					} else {
+						Console.print(Console.WarningType.Warning, tInfo.getName() + "_" + dir + "_" + i + " was not registered!");
+					}
+				}
+				
+				m.put(dir, new ImageInfo().setImages(imgs));
+			} else {
+				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName());
+				
+				if (img != null) {
+					m.put(dir, new ImageInfo(img));
+					Console.print(Console.WarningType.TextureDebug, tInfo.getName() + "_" + dir + " was registered!");
+				} else {
+					Console.print(Console.WarningType.TextureDebug, tInfo.getName() + "_" + dir + " was not registered!");
+				}
 			}
 		}
 		
-		return null;
+		entityTextures.put(tInfo, m);
 	}
 	
 	public ImageInfo getPlayerImageInfo() {
-		Iterator<Entry<EnumDirection, ImageInfo>> it = players.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<EnumDirection, ImageInfo> pair = it.next();
-			
-			if (pair.getKey() == Main.getMain().getWorldHandler().getPlayer().getFacing()) {
-				return pair.getValue();
-			}
-		}
-		
-		return null;
+		return entityTextures.get(EntityInfo.PLAYER).get(Main.getMain().getWorldHandler().getPlayer().getFacing());
 	}
 }

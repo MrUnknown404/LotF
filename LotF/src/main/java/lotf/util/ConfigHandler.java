@@ -14,13 +14,13 @@ import main.java.lotf.Main;
 public class ConfigHandler {
 
 	public static void loadConfigs(IConfigurable... configs) {
-		Gson g = new GsonBuilder().setPrettyPrinting().create();
+		Gson g = new GsonBuilder().create();
 		
 		for (IConfigurable config : configs) {
 			File f = new File(Main.SAVE_LOCATION + config.getFileName() + ".json");
 			
 			if (!f.exists()) {
-				Console.print(Console.WarningType.Warning, "Could not find config named : " + config.getFileName() + "! (Creating now)");
+				Console.print(Console.WarningType.Warning, "Could not find config '" + config.getFileName() + "' (Creating now)");
 				
 				try {
 					FileWriter fr = new FileWriter(f);

@@ -10,8 +10,9 @@ public class ImageInfo {
 		this.imgs = imgs;
 	}
 	
-	public void setImages(BufferedImage... imgs) {
+	public ImageInfo setImages(BufferedImage... imgs) {
 		this.imgs = imgs;
+		return this;
 	}
 	
 	public BufferedImage getCurrentImage() {
