@@ -12,12 +12,13 @@ import main.java.lotf.entities.util.Entity;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.Grid;
 import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.LangKey;
-import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.LangKey.LangKeyType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.enums.EnumWorldType;
@@ -26,19 +27,22 @@ import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
 public class Room extends GameObject implements ITickable, IResetable {
-
+	
 	private final int roomID;
 	private final String description;
 	private final EnumWorldType worldType;
 	
-	private List<Tile> tiles_layer0 = new ArrayList<Tile>();
-	private List<Tile> tiles_layer1 = new ArrayList<Tile>();
+	private List<Grid<Tile>> tiles = new ArrayList<Grid<Tile>>();
 	private List<Entity> entities = new ArrayList<Entity>();
 	
 	public Room(EnumWorldType worldType, int roomID, Vec2i roomPos, Vec2i size, @Nullable LangKey langKey) {
 		super(new Vec2f(roomPos), size);
 		this.roomID = roomID;
 		this.worldType = worldType;
+		
+		for (int i = 0; i < 3; i++) {
+			tiles.add(new Grid<Tile>(size.getX(), size.getY()));
+		}
 		
 		if (langKey != null) {
 			description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
@@ -53,8 +57,10 @@ public class Room extends GameObject implements ITickable, IResetable {
 		
 		for (int yi = 0; yi < this.size.getY(); yi++) {
 			for (int xi = 0; xi < this.size.getX(); xi++) {
-				tiles_layer0.add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass(), roomPos));
-				tiles_layer1.add(new Tile(new Vec2i(xi, yi), TileInfo.AIR, roomPos));
+				tiles.get(0).add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass()), xi, yi);
+				for (int i = 1; i < 3; i++) {
+					tiles.get(i).add(new Tile(new Vec2i(xi, yi), TileInfo.AIR), xi, yi);
+				}
 			}
 		}
 		
@@ -69,26 +75,20 @@ public class Room extends GameObject implements ITickable, IResetable {
 			e.tick();
 		}
 		
-		for (Tile t : tiles_layer0) {
-			if (t instanceof ITickable) {
-				((ITickable) t).tick();
-			}
-		}
-		
-		for (Tile t : tiles_layer1) {
-			if (t instanceof ITickable) {
-				((ITickable) t).tick();
+		for (Grid<Tile> g : tiles) {
+			for (Tile t : g.get()) {
+				if (t instanceof ITickable) {
+					((ITickable) t).tick();
+				}
 			}
 		}
 	}
 	
 	public void onCreate() {
-		for (Tile t : tiles_layer0) {
-			t.updateTile(new Vec2i(pos));
-		}
-		
-		for (Tile t : tiles_layer1) {
-			t.updateTile(new Vec2i(pos));
+		for (Grid<Tile> g : tiles) {
+			for (Tile t : g.get()) {
+				t.updateTile(new Vec2i(pos));
+			}
 		}
 	}
 	
@@ -96,7 +96,7 @@ public class Room extends GameObject implements ITickable, IResetable {
 		p.exploreRoom();
 	}
 	
-	public void onLeave(EntityPlayer p) {
+	public void onLeave() {
 		softReset();
 	}
 	
@@ -117,22 +117,14 @@ public class Room extends GameObject implements ITickable, IResetable {
 	public List<TileInfo> getAllTileInfos() {
 		List<TileInfo> kinds = new ArrayList<TileInfo>();
 		
-		for (Tile t : tiles_layer0) {
-			if (t.getTileInfo() != TileInfo.AIR) {
-				if (kinds.isEmpty()) {
-					kinds.add(t.getTileInfo());
-				} else if (!kinds.contains(t.getTileInfo())) {
-					kinds.add(t.getTileInfo());
-				}
-			}
-		}
-		
-		for (Tile t : tiles_layer1) {
-			if (t.getTileInfo() != TileInfo.AIR) {
-				if (kinds.isEmpty()) {
-					kinds.add(t.getTileInfo());
-				} else if (!kinds.contains(t.getTileInfo())) {
-					kinds.add(t.getTileInfo());
+		for (Grid<Tile> g : tiles) {
+			for (Tile t : g.get()) {
+				if (t.getTileInfo() != TileInfo.AIR) {
+					if (kinds.isEmpty()) {
+						kinds.add(t.getTileInfo());
+					} else if (!kinds.contains(t.getTileInfo())) {
+						kinds.add(t.getTileInfo());
+					}
 				}
 			}
 		}
@@ -164,12 +156,8 @@ public class Room extends GameObject implements ITickable, IResetable {
 		return description;
 	}
 	
-	public List<Tile> getTilesLayer0() {
-		return tiles_layer0;
-	}
-	
-	public List<Tile> getTilesLayer1() {
-		return tiles_layer1;
+	public List<Grid<Tile>> getTileLayers() {
+		return tiles;
 	}
 	
 	public List<Entity> getEntities() {

@@ -23,7 +23,7 @@ public class RingInventory {
 		for (ItemInfo info : ItemInfo.values()) {
 			if (info.toString().startsWith("ring_")) {
 				try {
-					rings.put((Ring) info.getRingClazz().getDeclaredConstructor().newInstance(), false);
+					rings.put(info.getRingClazz().getDeclaredConstructor().newInstance(), false);
 				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException |
 						SecurityException e) {
 					e.printStackTrace();
@@ -54,10 +54,10 @@ public class RingInventory {
 		if (rings.get(ring)) {
 			Console.print(Console.WarningType.Warning, "Player already has that Ring!");
 			return false;
-		} else {
-			rings.put(ring, true);
-			return true;
 		}
+		
+		rings.put(ring, true);
+		return true;
 	}
 	
 	public int getSizeX() {

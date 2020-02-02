@@ -16,7 +16,7 @@ public class Vec2f {
 	}
 	
 	public Vec2f(Vec2i vec) {
-		this((float) vec.getX(), (float) vec.getY());
+		this(vec.getX(), vec.getY());
 	}
 	
 	public void add(Vec2f vec) {

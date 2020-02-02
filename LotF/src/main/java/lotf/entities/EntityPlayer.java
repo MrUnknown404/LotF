@@ -19,7 +19,7 @@ import main.java.lotf.world.Room;
 import main.java.lotf.world.World;
 
 public class EntityPlayer extends EntityLiving {
-
+	
 	private static final float MOVE_SPEED = 1.5f, CHANGE_ROOM_SPEED = 0.333f;
 	
 	private final int maxMana = 100;
@@ -204,7 +204,7 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	private void resetToBeRoomValues(boolean isY) {
-		getRoom().onLeave(this);
+		getRoom().onLeave();
 		room = toBeRoom;
 		toBeRoom = null;
 		toBeRoomDirection = null;
@@ -258,11 +258,7 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	public boolean canAddHeartContainer() {
-		if (getHearts().size() < 24) {
-			return true;
-		} else {
-			return false;
-		}
+		return getHearts().size() < 24 ? true : false;
 	}
 	
 	public void useLeftItem() {
@@ -368,10 +364,6 @@ public class EntityPlayer extends EntityLiving {
 		return moveX == 0 && moveY == 0 ? false : true;
 	}
 	
-	public Room getRoom() {
-		return room;
-	}
-	
 	public World getWorld() {
 		return Main.getMain().getWorldHandler().getPlayerWorld();
 	}
@@ -397,10 +389,7 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	private enum CountableUpgradeState {
-		one  (10),
-		two  (30),
-		three(50),
-		four (99);
+		one(10), two(30), three(50), four(99);
 		
 		private final int amount;
 		

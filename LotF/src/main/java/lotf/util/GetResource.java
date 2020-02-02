@@ -82,16 +82,12 @@ public class GetResource {
 	
 	public static void getLangFile() {
 		Locale l = Locale.getDefault();
-		InputStream is = null;
 		
 		if (GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang") == null) {
 			Console.print(WarningType.FatalError, "Could not find the lang file \"" + l + "\"");
 			return;
-		} else {
-			is = GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang");
 		}
-		
-		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		BufferedReader br = new BufferedReader(new InputStreamReader(GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang")));
 		
 		String st;
 		try {

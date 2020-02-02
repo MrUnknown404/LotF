@@ -2,7 +2,7 @@ package main.java.lotf.entities.ai.movement;
 
 import java.util.Random;
 
-import main.java.lotf.entities.ai.util.AIType;
+import main.java.lotf.entities.ai.AIType;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.util.enums.EnumDirection;
 

@@ -377,10 +377,10 @@ public class Hud implements ITickable {
 		if (img != null) {
 			Console.print(Console.WarningType.TextureDebug, name + " was registered!");
 			return img;
-		} else {
-			Console.print(Console.WarningType.TextureDebug, name + " was not registered!");
-			return null;
 		}
+		
+		Console.print(Console.WarningType.TextureDebug, name + " was not registered!");
+		return null;
 	}
 	
 	private String setupNumberString(int number, int max) {

@@ -1,6 +1,6 @@
 package main.java.lotf.entities.util;
 
-import main.java.lotf.entities.ai.util.AIType;
+import main.java.lotf.entities.ai.AIType;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
@@ -31,27 +31,15 @@ public abstract class EntityMonster extends EntityLiving {
 	}
 	
 	public boolean attemptMovement() {
-		if (movementAI != null) {
-			return movementAI.attemptAction();
-		} else {
-			return false;
-		}
+		return movementAI != null ? movementAI.attemptAction() : false;
 	}
 	
 	public boolean attemptSpot() {
-		if (spotAI != null) {
-			return spotAI.attemptAction();
-		} else {
-			return false;
-		}
+		return spotAI != null ? spotAI.attemptAction() : false;
 	}
 	
 	public boolean attemptAttack() {
-		if (attackAI != null) {
-			return attackAI.attemptAction();
-		} else {
-			return false;
-		}
+		return attackAI != null ? attackAI.attemptAction() : false;
 	}
 	
 	protected abstract AIType<? extends Entity> setMovementAI();

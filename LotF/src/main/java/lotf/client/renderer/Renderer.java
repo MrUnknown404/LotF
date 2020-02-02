@@ -20,6 +20,7 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.Grid;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
@@ -140,29 +141,18 @@ public class Renderer implements ITickable {
 				}
 				
 				for (Room r : roomsToRender) {
-					List<Tile> tiles = new ArrayList<>();
+					List<Tile> tiles = new ArrayList<Tile>();
 					
-					for (int i = 0; i < r.getTilesLayer0().size(); i++) {
-						Tile t1 = r.getTilesLayer0().get(i);
-						Tile t2 = r.getTilesLayer1().get(i);
-						
-						if (t1.getTileInfo() != TileInfo.AIR || t2.getTileInfo() != TileInfo.AIR) {
-							if (t2.getTileInfo() != TileInfo.AIR) {
-								if (t2.getTileInfo().shouldRenderBehind()) {
-									tiles.add(t1);
-									tiles.add(t2);
-								} else {
-									tiles.add(t2);
-								}
-							} else if (t1.getTileInfo() != TileInfo.AIR) {
-								tiles.add(t1);
+					for (Grid<Tile> grid : r.getTileLayers()) {
+						for (Tile t : grid.get()) {
+							if (t.getTileInfo() != TileInfo.AIR) {
+								tiles.add(t);
 							}
 						}
 					}
 					
 					for (Tile t : tiles) {
-						int wX = Tile.TILE_SIZE;
-						int x = (int) t.getPosX();
+						int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
 						
 						if (t.getFlipState() == 1) {
 							wX = -wX;
@@ -172,8 +162,7 @@ public class Renderer implements ITickable {
 						g.drawImage(getTileImageInfo(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
 					
-					for (Entity e : r.getEntities()) {
-						//TODO rewrite_with_textures;
+					for (Entity e : r.getEntities()) { //TODO rewrite_with_textures;
 						g.setColor(Color.red);
 						g.fillRect((int) e.getPosX(), (int) e.getPosY(), e.getWidth(), e.getHeight());
 					}
@@ -216,7 +205,7 @@ public class Renderer implements ITickable {
 	
 	public ThingImageInfo<TileInfo> getTileImageInfo(TileInfo tInfo) {
 		for (ThingImageInfo<TileInfo> info : tileTextures) {
-			if (info.getInfo().equals(tInfo)) {
+			if (info.info.equals(tInfo)) {
 				return info;
 			}
 		}

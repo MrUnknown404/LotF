@@ -1,6 +1,6 @@
 package main.java.lotf.entities.ai.spot;
 
-import main.java.lotf.entities.ai.util.AIType;
+import main.java.lotf.entities.ai.AIType;
 import main.java.lotf.entities.util.Entity;
 
 public class AiSpotIgnore<T extends Entity> implements AIType<T> {

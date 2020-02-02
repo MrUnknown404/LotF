@@ -23,6 +23,7 @@ import main.java.lotf.init.InitCommands;
 import main.java.lotf.init.InitItems;
 import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
@@ -67,7 +68,7 @@ public final class Main extends Canvas implements Runnable {
 	private synchronized void start() {
 		Console.getTimeExample();
 		Console.print("Window size: " + new Vec2i(width, height));
-		Console.print(Console.WarningType.Info, "Starting!");
+		Console.print(WarningType.Info, "Starting!");
 		
 		resize();
 		
@@ -78,16 +79,16 @@ public final class Main extends Canvas implements Runnable {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
-		Console.print(Console.WarningType.Info, "Started thread!");
+		Console.print(WarningType.Info, "Started thread!");
 	}
 	
 	private void preInit() {
-		Console.print(Console.WarningType.Info, "Pre-Initialization started...");
+		Console.print(WarningType.Info, "Pre-Initialization started...");
 		
 		File f = new File(SAVE_LOCATION);
 		if (!f.exists()) {
 			f.mkdirs();
-			Console.print(Console.WarningType.Info, "Created file path!");
+			Console.print(WarningType.Info, "Created file path!");
 		}
 		
 		keyHandler = new KeyHandler();
@@ -115,22 +116,22 @@ public final class Main extends Canvas implements Runnable {
 			}
 		});
 		
-		Console.print(Console.WarningType.Info, "Pre-Initialization finished!");
+		Console.print(WarningType.Info, "Pre-Initialization finished!");
 	}
 	
 	private void init() {
-		Console.print(Console.WarningType.Info, "Initialization started...");
+		Console.print(WarningType.Info, "Initialization started...");
 		
 		worldHandler = new WorldHandler();
 		camera = new Camera();
 		
-		Console.print(Console.WarningType.Info, "Initialization finished!");
+		Console.print(WarningType.Info, "Initialization finished!");
 	}
 	
 	private void postInit() {
-		Console.print(Console.WarningType.Info, "Post-Initialization started...");
+		Console.print(WarningType.Info, "Post-Initialization started...");
 		
-		Console.print(Console.WarningType.Info, "Post-Initialization finished!");
+		Console.print(WarningType.Info, "Post-Initialization finished!");
 	}
 	
 	private synchronized void stop() {
@@ -144,7 +145,7 @@ public final class Main extends Canvas implements Runnable {
 	
 	@Override
 	public void run() {
-		Console.print(Console.WarningType.Info, "Started run loop!");
+		Console.print(WarningType.Info, "Started run loop!");
 		requestFocus();
 		long lastTime = System.nanoTime(), timer = System.currentTimeMillis();
 		double amountOfTicks = 60.0, ns = 1000000000 / amountOfTicks, delta = 0;
@@ -200,7 +201,7 @@ public final class Main extends Canvas implements Runnable {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);
-			Console.print(Console.WarningType.Info, "Started render loop!");
+			Console.print(WarningType.Info, "Started render loop!");
 			return;
 		}
 		

@@ -11,6 +11,7 @@ public class Camera implements ITickable {
 
 	private Vec2f pos = new Vec2f();
 	
+	@Override
 	public void tick() {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		

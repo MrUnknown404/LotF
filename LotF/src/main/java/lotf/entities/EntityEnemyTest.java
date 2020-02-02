@@ -1,7 +1,7 @@
 package main.java.lotf.entities;
 
+import main.java.lotf.entities.ai.AIType;
 import main.java.lotf.entities.ai.movement.AiMovementRandom;
-import main.java.lotf.entities.ai.util.AIType;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityMonster;

@@ -80,7 +80,7 @@ public class PlayerInventory {
 			case north:
 				switch (selectedThing) {
 					case Map:
-						if (selectedSlot < w.getFirstActiveRoom().getRoomID() + startBounds.getX() - 1) {
+						if (selectedSlot < w.getFirstActiveRoom().getRoomID() + startBounds.getX()) {
 							selectedSlot += ((endBounds.getY() - startBounds.getY() - 2) * 17);
 						} else {
 							selectedSlot -= 17;
@@ -180,7 +180,7 @@ public class PlayerInventory {
 						}
 						break;
 					case NormalInventory:
-						if ((double) selectedSlot / normalInventory.getSizeX() == (int) selectedSlot / normalInventory.getSizeX()) { 
+						if ((double) selectedSlot / normalInventory.getSizeX() == selectedSlot / normalInventory.getSizeX()) { 
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
 						} else {
@@ -216,7 +216,7 @@ public class PlayerInventory {
 						selectedSlot = selectedSlot * normalInventory.getSizeX() + normalInventory.getSizeX() - 1;
 						break;
 					case CollectiblesInventory:
-						if ((double) selectedSlot / collectiblesInventory.getSizeX() == (int) selectedSlot / collectiblesInventory.getSizeX()) { 
+						if ((double) selectedSlot / collectiblesInventory.getSizeX() == selectedSlot / collectiblesInventory.getSizeX()) { 
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
 						} else {
@@ -247,7 +247,7 @@ public class PlayerInventory {
 						
 						break;
 					case NormalInventory:
-						if ((double) (selectedSlot + 1) / normalInventory.getSizeX() == (int) (selectedSlot + 1) / normalInventory.getSizeX()) {
+						if ((double) (selectedSlot + 1) / normalInventory.getSizeX() == (selectedSlot + 1) / normalInventory.getSizeX()) {
 							selectedThing = EnumSelectables.SwordInventory;
 							selectedSlot /= normalInventory.getSizeX();
 						} else {
@@ -283,7 +283,7 @@ public class PlayerInventory {
 						selectedSlot = w.getFirstActiveRoom().getRoomID();
 						break;
 					case CollectiblesInventory:
-						if ((double) (selectedSlot + 1) / collectiblesInventory.getSizeX() == (int) (selectedSlot + 1) / collectiblesInventory.getSizeX()) {
+						if ((double) (selectedSlot + 1) / collectiblesInventory.getSizeX() == (selectedSlot + 1) / collectiblesInventory.getSizeX()) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
 						} else {

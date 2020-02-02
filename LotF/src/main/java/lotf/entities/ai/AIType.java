@@ -1,4 +1,4 @@
-package main.java.lotf.entities.ai.util;
+package main.java.lotf.entities.ai;
 
 import main.java.lotf.entities.util.Entity;
 
