@@ -17,7 +17,7 @@ public class ItemBow extends ItemUseable {
 	
 	@Override
 	public void onUse(EntityPlayer user) {
-		Vec2f pos = new Vec2f(user.getPosX(), user.getPosY());
+		Vec2f pos = new Vec2f(user.getPosX() - user.getRoom().getPosX(), user.getPosY() - user.getRoom().getPosY());
 		switch (user.getFacing()) {
 			case east:
 				pos.addX(user.getWidth());

@@ -71,8 +71,8 @@ public class Room extends GameObject implements ITickable, IResetable {
 	
 	@Override
 	public void tick() {
-		for (Entity e : entities) {
-			e.tick();
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).tick();
 		}
 		
 		for (Grid<Tile> g : tiles) {

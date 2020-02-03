@@ -19,6 +19,7 @@ public class ProjectileArrow extends EntityProjectile {
 	
 	@Override
 	public void tick() {
+		super.tick();
 		switch (dir) {
 			case east:
 				addPosX(speed);
