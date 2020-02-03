@@ -35,7 +35,8 @@ public class GetResource {
 		newLoc += "/";
 		
 		if (GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE) == null) {
-			Console.print(Console.WarningType.Error, "Cannot find texture : " + Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
+			Console.print(Console.WarningType.Error, "Cannot find texture : '" + Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE + "'");
+			f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + "nil" + IMAGE_TYPE);
 		} else {
 			f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
 		}
@@ -62,7 +63,7 @@ public class GetResource {
 		Font font = null;
 		
 		if (GetResource.class.getResourceAsStream(Main.FONT_FOLDER_LOCATION + fontName + ".ttf") == null) {
-			Console.print(Console.WarningType.Error, "Cannot find font : " + Main.FONT_FOLDER_LOCATION + fontName + ".ttf");
+			Console.print(Console.WarningType.Error, "Cannot find font : '" + Main.FONT_FOLDER_LOCATION + fontName + ".ttf'");
 		} else {
 			i = GetResource.class.getResourceAsStream(Main.FONT_FOLDER_LOCATION + fontName + ".ttf");
 		}
@@ -84,7 +85,7 @@ public class GetResource {
 		Locale l = Locale.getDefault();
 		
 		if (GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang") == null) {
-			Console.print(WarningType.FatalError, "Could not find the lang file \"" + l + "\"");
+			Console.print(WarningType.FatalError, "Could not find the lang file '" + l + "'");
 			return;
 		}
 		BufferedReader br = new BufferedReader(new InputStreamReader(GetResource.class.getResourceAsStream(Main.LANG_FOLDER_LOCATION + l + ".lang")));
@@ -121,8 +122,8 @@ public class GetResource {
 			}
 		}
 		
-		Console.print(WarningType.FatalError, "Could not find the lang key \"" + langKey.getLangType() + "." + langKey.getKey() + "." + keyType +
-				"\" in \"" + Locale.getDefault() + "\"");
+		Console.print(WarningType.FatalError, "Could not find the lang key '" + langKey.getLangType() + "." + langKey.getKey() + "." + keyType +
+				"\" in \"" + Locale.getDefault() + "'");
 		return "nil";
 	}
 	

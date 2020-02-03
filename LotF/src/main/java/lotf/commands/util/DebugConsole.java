@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
 import main.java.lotf.init.InitCommands;
+import main.java.lotf.util.DoubleValue;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
@@ -19,11 +19,11 @@ public class DebugConsole {
 	private boolean isConsoleOpen;
 	private int curLine;
 	private String input = "";
-	private List<Map<String, Color>> lines = new ArrayList<Map<String, Color>>();
+	private List<DoubleValue<String, Color>> lines = new ArrayList<DoubleValue<String, Color>>();
 	private List<String> writtenLines = new ArrayList<String>();
 	
 	public DebugConsole() {
-		lines.add(Map.of("", Color.WHITE));
+		lines.add(new DoubleValue<String, Color>("", Color.WHITE));
 		writtenLines.add("");
 	}
 	
@@ -40,7 +40,7 @@ public class DebugConsole {
 			lines.remove(lines.size() - 1);
 		}
 		
-		lines.add(1, Map.of(line, color));
+		lines.add(1, new DoubleValue<String, Color>(line, color));
 	}
 	
 	public void clearInput() {
@@ -49,10 +49,11 @@ public class DebugConsole {
 	
 	public Command findCommand(String name) {
 		for (int i = 0; i < InitCommands.getAmountOfCommands(); i++) {
-			if (InitCommands.getCommand(i).getName().equals(name)) {
+			if (InitCommands.getCommand(i).getName().equalsIgnoreCase(name)) {
 				return InitCommands.getCommand(i);
 			}
 		}
+		
 		return null;
 	}
 	
@@ -95,13 +96,7 @@ public class DebugConsole {
 			cmdName = cmd.substring(1, cmd.length());
 		}
 		
-		Command command = null;
-		for (int i = 0; i < InitCommands.getAmountOfCommands(); i++) {
-			if (InitCommands.getCommand(i).getName().equals(cmdName)) {
-				command = InitCommands.getCommand(i);
-				break;
-			}
-		}
+		Command command = findCommand(cmdName);
 		if (command == null) {
 			CommandError.notACommand.printError();
 			return;
@@ -241,7 +236,7 @@ public class DebugConsole {
 		return writtenLines;
 	}
 	
-	public List<Map<String, Color>> getLines() {
+	public List<DoubleValue<String, Color>> getLines() {
 		return lines;
 	}
 	

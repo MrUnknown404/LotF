@@ -7,7 +7,7 @@ import main.java.lotf.Main;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
 import main.java.lotf.inventory.PlayerInventory;
-import main.java.lotf.items.util.ItemInfo;
+import main.java.lotf.items.util.Collectible;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.enums.EnumDirection;
@@ -62,7 +62,7 @@ public class EntityPlayer extends EntityLiving {
 			exploredMaps.put(type, exploredRooms);
 		}
 		
-		inv = new PlayerInventory();
+		inv = new PlayerInventory(this);
 		
 		exploreRoom();
 	}
@@ -145,8 +145,8 @@ public class EntityPlayer extends EntityLiving {
 				inv.getRightItem().tick();
 			}
 			
-			if (inv.getSelectedSword() != null) {
-				inv.getSelectedSword().tick();
+			if (inv.getEquipedSword() != null) {
+				inv.getEquipedSword().tick();
 			}
 		}
 	}
@@ -274,8 +274,8 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	public void useSword() {
-		if (inv.getSelectedSword() != null) {
-			inv.getSelectedSword().use(this);
+		if (inv.getEquipedSword() != null) {
+			inv.getEquipedSword().use(this);
 		}
 	}
 	
@@ -287,8 +287,8 @@ public class EntityPlayer extends EntityLiving {
 		this.room = room;
 	}
 	
-	public void addCollectible(ItemInfo info, int set) {
-		inv.getCollectiblesInventory().addCollectable(info, set);
+	public void addCollectible(Collectible col, int set) {
+		inv.getCollectiblesInventory().addCollectable(col, set);
 	}
 	
 	public void setUsingItem(int itemStallTick, boolean isUsingItem) {

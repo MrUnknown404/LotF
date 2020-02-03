@@ -1,14 +1,14 @@
 package main.java.lotf.inventory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import main.java.lotf.init.InitItems;
 import main.java.lotf.items.rings.Ring;
-import main.java.lotf.items.util.ItemInfo;
+import main.java.lotf.items.util.Item;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.Vec2i;
 
@@ -20,14 +20,9 @@ public class RingInventory {
 	private final Vec2i size = new Vec2i(6, 1);
 	
 	public RingInventory() {
-		for (ItemInfo info : ItemInfo.values()) {
-			if (info.toString().startsWith("ring_")) {
-				try {
-					rings.put(info.getRingClazz().getDeclaredConstructor().newInstance(), false);
-				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException |
-						SecurityException e) {
-					e.printStackTrace();
-				}
+		for (Item item : InitItems.ITEMS) {
+			if (item instanceof Ring) {
+				rings.put((Ring) item, false);
 			}
 		}
 		

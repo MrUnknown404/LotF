@@ -1,14 +1,14 @@
 package main.java.lotf.items.rings;
 
-import main.java.lotf.items.util.ItemBase;
-import main.java.lotf.items.util.ItemInfo;
+import main.java.lotf.items.util.Item;
+import main.java.lotf.util.LangKey.LangType;
 
-public abstract class Ring extends ItemBase {
+public abstract class Ring extends Item {
 	
 	protected final RingType ringType;
 	
-	public Ring(ItemInfo info, RingType ringType) {
-		super(info);
+	public Ring(String key, RingType ringType) {
+		super(LangType.ring, key);
 		this.ringType = ringType;
 	}
 	

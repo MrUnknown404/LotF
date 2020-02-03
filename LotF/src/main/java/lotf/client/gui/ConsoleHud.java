@@ -3,10 +3,10 @@ package main.java.lotf.client.gui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
+import main.java.lotf.util.DoubleValue;
 
 public class ConsoleHud {
 
@@ -33,10 +33,10 @@ public class ConsoleHud {
 			
 			if (!console.getLines().isEmpty()) {
 				for (int i = 1; i < console.getLines().size(); i++) {
-					Map<String, Color> line = console.getLines().get(i);
+					DoubleValue<String, Color> line = console.getLines().get(i);
 					
-					g.setColor((Color) line.values().toArray()[0]);
-					g.drawString("<: " + line.keySet().toArray(new String[0])[0], 2, (DebugConsole.getMaxLines() + 1) * 9 - i * 9 - 1);
+					g.setColor(line.getR());
+					g.drawString("<: " + line.getL(), 2, (DebugConsole.getMaxLines() + 1) * 9 - i * 9 - 1);
 				}
 			}
 		}

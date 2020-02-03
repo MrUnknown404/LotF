@@ -1,11 +1,14 @@
 ##Items
 item.bow.name=Bow
 item.cape.name=Cape
-item.starterSword.name=Wooden Sword
 
 item.bow.desc=Shoots arrows (write later)
 item.cape.desc=Lets you jump (write later)
-item.starterSword.desc=write later
+
+##Swords
+sword.starterSword.name=Wooden Sword
+
+sword.starterSword.desc=write later
 
 ##Rings
 ring.basic.name=Basic Ring
@@ -13,6 +16,10 @@ ring.archer1.name=Archer Ring 1
 
 ring.basic.desc=write later
 ring.archer1.desc=write later
+
+##Potions
+potion.red.name=Red
+potion.red.desc=Write later!
 
 ##Collectibles
 collectible.blueFly.name=Blue Fly

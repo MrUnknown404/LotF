@@ -3,13 +3,13 @@ package main.java.lotf.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.items.util.ItemBase;
+import main.java.lotf.items.util.Item;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.Vec2i;
 
-public class Inventory {
+public class Inventory<I extends Item> {
 
-	private List<ItemBase> items = new ArrayList<ItemBase>();
+	private List<I> items = new ArrayList<I>();
 	private Vec2i size;
 	
 	public Inventory(Vec2i size) {
@@ -20,7 +20,7 @@ public class Inventory {
 		}
 	}
 	
-	public boolean addItem(ItemBase item) {
+	public boolean addItem(I item) {
 		if (items.contains(item)) {
 			Console.print(Console.WarningType.Warning, "Player already has that Item!");
 			return false;
@@ -34,7 +34,7 @@ public class Inventory {
 		return false;
 	}
 	
-	public void setItem(int where, ItemBase item) {
+	public void setItem(int where, I item) {
 		items.set(where, item);
 	}
 	
@@ -50,7 +50,7 @@ public class Inventory {
 		return items.size();
 	}
 	
-	public ItemBase getItem(int i) {
+	public I getItem(int i) {
 		return items.get(i);
 	}
 }

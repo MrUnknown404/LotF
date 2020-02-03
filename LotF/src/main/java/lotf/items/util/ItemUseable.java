@@ -2,16 +2,17 @@ package main.java.lotf.items.util;
 
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.LangKey.LangType;
 
-public abstract class ItemUseable extends ItemBase implements ITickable {
+public abstract class ItemUseable extends Item implements ITickable {
 
 	private final int maxCooldown, useStallCooldown;
 	private int cooldown;
 	private final boolean shouldStallPlayer;
 	private boolean canUse;
 	
-	public ItemUseable(ItemInfo info, int useStallCooldown, boolean shouldStallPlayer, int maxCooldown) {
-		super(info);
+	public ItemUseable(LangType keyType, String key, int useStallCooldown, boolean shouldStallPlayer, int maxCooldown) {
+		super(keyType, key);
 		this.shouldStallPlayer = shouldStallPlayer;
 		this.useStallCooldown = useStallCooldown;
 		this.maxCooldown = maxCooldown;

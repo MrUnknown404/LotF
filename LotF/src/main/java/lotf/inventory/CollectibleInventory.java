@@ -3,35 +3,31 @@ package main.java.lotf.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.items.util.CollectibleInfo;
-import main.java.lotf.items.util.ItemInfo;
+import main.java.lotf.init.InitCollectibles;
+import main.java.lotf.items.util.Collectible;
 import main.java.lotf.util.math.Vec2i;
 
 public class CollectibleInventory {
 
 	private final Vec2i size = new Vec2i(3, 5);
 	
-	private List<CollectibleInfo> collectibles = new ArrayList<CollectibleInfo>();
+	private List<Collectible> collectibles = new ArrayList<Collectible>();
 	
 	public CollectibleInventory() {
-		for (ItemInfo info : ItemInfo.values()) {
-			if (info.toString().startsWith("collectible_")) {
-				collectibles.add(new CollectibleInfo(info, false, 0));
-			}
+		for (Collectible info : InitCollectibles.COLLECTIBLES) {
+			collectibles.add(info);
 		}
 	}
 	
-	public void addCollectable(ItemInfo info, int set) {
-		for (int i = 0; i < ItemInfo.values().length; i++) {
-			ItemInfo newInfo = ItemInfo.values()[0];
+	public void addCollectable(Collectible col, int set) {
+		for (int i = 0; i < InitCollectibles.COLLECTIBLES.size(); i++) {
+			Collectible col2 = InitCollectibles.COLLECTIBLES.get(i);
 			
-			if (info == newInfo) {
-				CollectibleInfo col = collectibles.get(i);
-				collectibles.set(i, col.setAmount(set).setHas(true));
+			if (col == col2) {
+				collectibles.set(i, collectibles.get(i).setAmount(set).setHas(true));
 			}
 		}
 	}
-	
 	
 	public int getSizeX() {
 		return size.getX();
@@ -41,7 +37,7 @@ public class CollectibleInventory {
 		return size.getY();
 	}
 	
-	public List<CollectibleInfo> getCollectibles() {
+	public List<Collectible> getCollectibles() {
 		return collectibles;
 	}
 }

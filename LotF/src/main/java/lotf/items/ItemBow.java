@@ -3,8 +3,8 @@ package main.java.lotf.items;
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.projectiles.ProjectileArrow;
-import main.java.lotf.items.util.ItemInfo;
 import main.java.lotf.items.util.ItemUseable;
+import main.java.lotf.util.LangKey.LangType;
 import main.java.lotf.util.math.Vec2f;
 
 public class ItemBow extends ItemUseable {
@@ -12,7 +12,7 @@ public class ItemBow extends ItemUseable {
 	protected int damage = 3;
 	
 	public ItemBow() {
-		super(ItemInfo.item_bow, 10, true, 20);
+		super(LangType.item, "bow", 10, true, 20);
 	}
 	
 	@Override

@@ -2,11 +2,8 @@ package main.java.lotf.commands;
 
 import java.awt.Color;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.InitCommands;
@@ -14,11 +11,7 @@ import main.java.lotf.util.math.MathH;
 
 public class CommandHelp extends Command {
 	
-	private static final Map<Integer, List<ArgumentType>> ARGS = new HashMap<Integer, List<ArgumentType>>();
-	
-	static {
-		ARGS.put(0, Arrays.asList(ArgumentType.Integer, ArgumentType.String));
-	}
+	private static final List<List<ArgumentType>> ARGS = Arrays.asList(Arrays.asList(ArgumentType.Integer, ArgumentType.String));
 	
 	public CommandHelp() {
 		super("help", ARGS, true);
@@ -26,8 +19,6 @@ public class CommandHelp extends Command {
 	
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
-		DebugConsole console = Main.getMain().getCommandConsole();
-		
 		if (argString.isEmpty()) {
 			int ti = 0, tii = 1;
 			if (!argInt.isEmpty()) {

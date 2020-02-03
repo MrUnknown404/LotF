@@ -1,8 +1,12 @@
 package main.java.lotf.inventory;
 
 import main.java.lotf.Main;
+import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.InitItems;
-import main.java.lotf.items.util.ItemBase;
+import main.java.lotf.items.potions.Potion;
+import main.java.lotf.items.rings.Ring;
+import main.java.lotf.items.swords.Sword;
+import main.java.lotf.items.util.Item;
 import main.java.lotf.items.util.ItemUseable;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2i;
@@ -10,36 +14,43 @@ import main.java.lotf.world.World;
 
 public class PlayerInventory {
 
-	private Inventory normalInventory, swordInventory, potionInventory, specialItems;
+	private Inventory<Item> normalInventory, specialItems;
+	private Inventory<Sword> swordInventory;
+	private Inventory<Potion> potionInventory;
 	private RingInventory ringInventory;
 	private CollectibleInventory collectiblesInventory;
 	
-	private ItemUseable leftItem, rightItem, selectedSword;
-	@SuppressWarnings("unused")
-	private ItemBase selectedRing; //TODO write this
+	private ItemUseable leftItem, rightItem;
+	private Sword equipedSword;
+	private Ring equipedRing;
 	
 	private EnumSelectables selectedThing = EnumSelectables.NormalInventory;
 	private int currentInvScreen, selectedSlot = 0;
 	private boolean isOpen;
 	
-	public PlayerInventory() {
-		normalInventory = new Inventory(new Vec2i(5, 5));
-		swordInventory = new Inventory(new Vec2i(1, 5));
-		potionInventory = new Inventory(new Vec2i(6, 1));
+	private EntityPlayer player;
+	
+	public PlayerInventory(EntityPlayer player) {
+		this.player = player;
+		
+		normalInventory = new Inventory<Item>(new Vec2i(5, 5));
+		swordInventory = new Inventory<Sword>(new Vec2i(1, 5));
+		potionInventory = new Inventory<Potion>(new Vec2i(6, 1));
 		collectiblesInventory = new CollectibleInventory();
 		
 		ringInventory = new RingInventory();
 		
-		specialItems = new Inventory(new Vec2i(6, 1));
+		specialItems = new Inventory<Item>(new Vec2i(6, 1));
 		
 		normalInventory.addItem(InitItems.CAPE);
 		normalInventory.addItem(InitItems.BOW);
 		swordInventory.addItem(InitItems.SWORD);
 		ringInventory.addSelectedRing(InitItems.BASIC);
+		potionInventory.addItem(InitItems.RED_POTION);
 	}
 	
 	public void toggleInventory() {
-		if (Main.getMain().getWorldHandler().getPlayer().getRoomToBe() == null) {
+		if (player.getRoomToBe() == null) {
 			if (isOpen) {
 				Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
 			} else {
@@ -67,12 +78,12 @@ public class PlayerInventory {
 			selectedThing = EnumSelectables.CollectiblesInventory;
 		} else if (currentInvScreen == 3) {
 			selectedThing = EnumSelectables.Map;
-			selectedSlot = Main.getMain().getWorldHandler().getPlayerWorld().getFirstActiveRoom().getRoomID();
+			selectedSlot = player.getWorld().getFirstActiveRoom().getRoomID();
 		}
 	}
 	
 	public void moveSelectedInvSlot(EnumDirection dir) {
-		World w = Main.getMain().getWorldHandler().getPlayerWorld();
+		World w = player.getWorld();
 		Vec2i startBounds = w.getWorldType().getStartActiveBounds();
 		Vec2i endBounds = w.getWorldType().getEndActiveBounds();
 		
@@ -295,7 +306,7 @@ public class PlayerInventory {
 		}
 	}
 	
-	public ItemBase getSelectedItem() {
+	public Item getSelectedItem() {
 		if (!isOpen) {
 			return null;
 		}
@@ -330,13 +341,25 @@ public class PlayerInventory {
 				
 				break;
 			case PotionInventory:
-				//TODO usePotion;
+				if (potionInventory.getItem(selectedSlot) != null) {
+					potionInventory.getItem(selectedSlot).drink();
+				}
 				break;
 			case RingInventory:
-				selectedRing = ringInventory.getSelectedRing(selectedSlot);
+				if (equipedRing == ringInventory.getSelectedRing(selectedSlot)) {
+					equipedRing = null;
+					break;
+				}
+				
+				equipedRing = ringInventory.getSelectedRing(selectedSlot);
 				break;
 			case SwordInventory:
-				selectedSword = (ItemUseable) swordInventory.getItem(selectedSlot);
+				if (equipedSword == swordInventory.getItem(selectedSlot)) {
+					equipedSword = null;
+					break;
+				}
+				
+				equipedSword = swordInventory.getItem(selectedSlot);
 				break;
 			default:
 				break;
@@ -357,13 +380,25 @@ public class PlayerInventory {
 				
 				break;
 			case PotionInventory:
-				//TODO usePotion;
+				if (potionInventory.getItem(selectedSlot) != null) {
+					potionInventory.getItem(selectedSlot).drink();
+				}
 				break;
 			case RingInventory:
-				selectedRing = ringInventory.getSelectedRing(selectedSlot);
+				if (equipedRing == ringInventory.getSelectedRing(selectedSlot)) {
+					equipedRing = null;
+					break;
+				}
+				
+				equipedRing = ringInventory.getSelectedRing(selectedSlot);
 				break;
 			case SwordInventory:
-				selectedSword = (ItemUseable) swordInventory.getItem(selectedSlot);
+				if (equipedSword == swordInventory.getItem(selectedSlot)) {
+					equipedSword = null;
+					break;
+				}
+				
+				equipedSword = swordInventory.getItem(selectedSlot);
 				break;
 			default:
 				break;
@@ -382,8 +417,12 @@ public class PlayerInventory {
 		return rightItem;
 	}
 	
-	public ItemUseable getSelectedSword() {
-		return selectedSword;
+	public ItemUseable getEquipedSword() {
+		return equipedSword;
+	}
+	
+	public Ring getEquipedRing() {
+		return equipedRing;
 	}
 	
 	public int getSelectedSlot() {
@@ -394,15 +433,15 @@ public class PlayerInventory {
 		return currentInvScreen;
 	}
 	
-	public Inventory getNormalInventory() {
+	public Inventory<Item> getNormalInventory() {
 		return normalInventory;
 	}
 	
-	public Inventory getSwordInventory() {
+	public Inventory<Sword> getSwordInventory() {
 		return swordInventory;
 	}
 	
-	public Inventory getPotionInventory() {
+	public Inventory<Potion> getPotionInventory() {
 		return potionInventory;
 	}
 	
@@ -418,7 +457,7 @@ public class PlayerInventory {
 		return selectedThing;
 	}
 	
-	public static enum EnumSelectables {
+	public enum EnumSelectables {
 		Map,
 		NormalInventory,
 		SwordInventory,
