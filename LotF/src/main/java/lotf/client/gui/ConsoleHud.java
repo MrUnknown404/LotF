@@ -7,9 +7,10 @@ import java.awt.Graphics2D;
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.util.DoubleValue;
+import main.java.lotf.util.ITickable;
 
-public class ConsoleHud {
-
+public class ConsoleHud implements ITickable {
+	
 	private static final Font FONT = new Font("Font", Font.PLAIN, 9);
 	
 	private boolean tb = false;
@@ -42,6 +43,7 @@ public class ConsoleHud {
 		}
 	}
 	
+	@Override
 	public void tick() {
 		if (ti == 0) {
 			ti = 50;

@@ -27,7 +27,7 @@ public class Renderer implements ITickable {
 	private Map<TileInfo, ImageInfo> tileTextures = new HashMap<TileInfo, ImageInfo>();
 	
 	public void getTextures() {
-		Console.print(Console.WarningType.Info, "Starting texture registering...");
+		Console.print(Console.WarningType.Info, "Starting texture registering for " + getClass().getSimpleName() + "...");
 		
 		for (TileInfo t : TileInfo.getAll()) {
 			registerTile(t, t.getTextureCount());
@@ -36,7 +36,7 @@ public class Renderer implements ITickable {
 			registerEntity(e, e.getTextureCount());
 		}
 		
-		Console.print(Console.WarningType.Info, "Finished texture registering!");
+		Console.print(Console.WarningType.Info, "Finished texture registering for " + getClass().getSimpleName() + "!");
 	}
 	
 	@Override

@@ -16,7 +16,8 @@ import main.java.lotf.client.KeyHandler;
 import main.java.lotf.client.Window;
 import main.java.lotf.client.gui.ConsoleHud;
 import main.java.lotf.client.gui.DebugHud;
-import main.java.lotf.client.gui.Hud;
+import main.java.lotf.client.gui.InventoryHud;
+import main.java.lotf.client.gui.MainHud;
 import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.InitCommands;
@@ -39,17 +40,18 @@ public final class Main {
 	private static int fps;
 	
 	public static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
-	public static final String ROOM_FOLDER_LOCATION =    "/main/resources/lotf/assets/rooms/";
+	public static final String ROOM_FOLDER_LOCATION = "/main/resources/lotf/assets/rooms/";
 	public static final String TEXTURE_FOLDER_LOCATION = "/main/resources/lotf/assets/textures/";
-	public static final String FONT_FOLDER_LOCATION =    "/main/resources/lotf/assets/fonts/";
-	public static final String LANG_FOLDER_LOCATION =    "/main/resources/lotf/assets/lang/";
+	public static final String FONT_FOLDER_LOCATION = "/main/resources/lotf/assets/fonts/";
+	public static final String LANG_FOLDER_LOCATION = "/main/resources/lotf/assets/lang/";
 	
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
 	private final DebugConsole console = new DebugConsole();
 	private final ConsoleHud consoleHud = new ConsoleHud();
 	private final DebugHud debugHud = new DebugHud();
-	private final Hud hud = new Hud();
+	private final MainHud mainHud = new MainHud();
+	private final InventoryHud invHud = new InventoryHud();
 	
 	private Renderer renderer;
 	private Camera camera;
@@ -94,8 +96,11 @@ public final class Main {
 		
 		renderer = new Renderer();
 		renderer.getTextures();
-		hud.getFonts();
-		hud.getTextures();
+		
+		mainHud.setupFonts();
+		invHud.setupFonts();
+		mainHud.setupTextures();
+		invHud.setupTextures();
 		
 		gameLoop.setupComponents();
 		
@@ -118,20 +123,19 @@ public final class Main {
 	}
 	
 	private void tick() {
-		consoleHud.tick();
 		keyHandler.tick();
-		hud.tick();
 		
 		if (getGamestate() == Gamestate.run) {
 			worldHandler.tick();
 			renderer.tick();
+			camera.tick();
 		} else if (getGamestate() == Gamestate.softPause) {
+			invHud.tick();
 			worldHandler.getPlayer().tick();
+			camera.tick();
 		} else if (getGamestate() == Gamestate.hardPause) {
-			
+			consoleHud.tick();
 		}
-		
-		camera.tick();
 	}
 	
 	private void render(Graphics2D g) {
@@ -157,8 +161,9 @@ public final class Main {
 		g.fillRect(0, (int) (h / scale), width, h2);
 		g.fillRect(0, -h2, width, h2);
 		
-		hud.render(g);
-		debugHud.render(g, "" + fps);
+		mainHud.draw(g);
+		invHud.draw(g);
+		debugHud.draw(g, "" + fps);
 		consoleHud.draw(g);
 		
 		g.dispose();

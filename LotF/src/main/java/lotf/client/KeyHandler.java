@@ -155,12 +155,12 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 				}
 			} else if (checkKey(KeyType.console_finish, key)) {
 				console.finishCommand();
-				Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
+				Main.getMain().setGamestate(console.getClass(), Main.Gamestate.run);
 			} else if (checkKey(KeyType.console_cancel, key)) {
 				console.clearInput();
 				console.setConsoleOpen(false);
 				console.setCurLine(0);
-				Main.getMain().setGamestate(getClass(), Main.Gamestate.run);
+				Main.getMain().setGamestate(console.getClass(), Main.Gamestate.run);
 			} else if (checkKey(KeyType.console_delete, key)) {
 				if (!console.getInput().isEmpty()) {
 					console.removeKey();
@@ -173,11 +173,11 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 		} else {
 			if (checkKey(KeyType.console_open, key)) {
 				console.setConsoleOpen(true);
-				Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
+				Main.getMain().setGamestate(console.getClass(), Main.Gamestate.hardPause);
 			} else if (checkKey(KeyType.console_open_slash, key)) {
 				console.setConsoleOpen(true);
 				console.addKey(chr);
-				Main.getMain().setGamestate(getClass(), Main.Gamestate.softPause);
+				Main.getMain().setGamestate(console.getClass(), Main.Gamestate.hardPause);
 			}
 		}
 	}

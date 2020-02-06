@@ -12,7 +12,7 @@ public class DebugHud {
 
 	private static final Font FONT = new Font("Font", Font.PLAIN, 9);
 	
-	public void render(Graphics2D g, String fps) {
+	public void draw(Graphics2D g, String fps) {
 		WorldHandler worldHandler = Main.getMain().getWorldHandler();
 		if (worldHandler.getPlayer() != null && worldHandler.getPlayer().getInventory().isOpen()) {
 			return;
