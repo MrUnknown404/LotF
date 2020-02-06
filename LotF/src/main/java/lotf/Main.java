@@ -21,6 +21,7 @@ import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.InitCommands;
 import main.java.lotf.init.InitItems;
+import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.Console.WarningType;
@@ -29,13 +30,13 @@ import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.WorldHandler;
 
-public final class Main extends Canvas implements Runnable {
-
-	private static final long serialVersionUID = -2518563563721413864L;
+public final class Main {
 	private static Main main;
+	private static GameLoop gameLoop;
 	
 	public static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
 	private int width = HUD_WIDTH, height = HUD_HEIGHT, w2, h2;
+	private static int fps;
 	
 	public static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
 	public static final String ROOM_FOLDER_LOCATION =    "/main/resources/lotf/assets/rooms/";
@@ -44,10 +45,6 @@ public final class Main extends Canvas implements Runnable {
 	public static final String LANG_FOLDER_LOCATION =    "/main/resources/lotf/assets/lang/";
 	
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
-	
-	private int fps;
-	private boolean running = false;
-	private Thread thread;
 	
 	private final DebugConsole console = new DebugConsole();
 	private final ConsoleHud consoleHud = new ConsoleHud();
@@ -61,25 +58,20 @@ public final class Main extends Canvas implements Runnable {
 	
 	public static void main(String args[]) {
 		main = new Main();
-		new Window("LotF!", main);
 		main.start();
 	}
 	
 	private synchronized void start() {
+		new Window("LotF!", gameLoop = new GameLoop());
 		Console.getTimeExample();
 		Console.print(WarningType.Info, "Window size: " + new Vec2i(width, height));
 		Console.print(WarningType.Info, "Starting!");
-		
-		resize();
 		
 		preInit();
 		init();
 		postInit();
 		
-		thread = new Thread(this);
-		thread.start();
-		running = true;
-		Console.print(WarningType.Info, "Started thread!");
+		gameLoop.start();
 	}
 	
 	private void preInit() {
@@ -88,7 +80,7 @@ public final class Main extends Canvas implements Runnable {
 		File f = new File(SAVE_LOCATION);
 		if (!f.exists()) {
 			f.mkdirs();
-			Console.print(WarningType.Info, "Created file path!");
+			Console.print(WarningType.Info, "File path does not exist! Created file path now!");
 		}
 		
 		keyHandler = new KeyHandler();
@@ -96,25 +88,16 @@ public final class Main extends Canvas implements Runnable {
 		ConfigHandler.loadConfigs(keyHandler);
 		GetResource.getLangFile();
 		
-		InitItems.registerAll();
 		InitCommands.registerAll();
+		InitItems.registerAll();
+		TileInfo.registerAll();
 		
 		renderer = new Renderer();
 		renderer.getTextures();
 		hud.getFonts();
 		hud.getTextures();
 		
-		addKeyListener(keyHandler);
-		addComponentListener(new ComponentListener() {
-			@Override public void componentShown(ComponentEvent e) {}
-			@Override public void componentMoved(ComponentEvent e) {}
-			@Override public void componentHidden(ComponentEvent e) {}
-			
-			@Override
-			public void componentResized(ComponentEvent e) {
-				resize();
-			}
-		});
+		gameLoop.setupComponents();
 		
 		Console.print(WarningType.Info, "Pre-Initialization finished!");
 	}
@@ -134,48 +117,6 @@ public final class Main extends Canvas implements Runnable {
 		Console.print(WarningType.Info, "Post-Initialization finished!");
 	}
 	
-	private synchronized void stop() {
-		try {
-			thread.join();
-			running = false;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Override
-	public void run() {
-		Console.print(WarningType.Info, "Started run loop!");
-		requestFocus();
-		long lastTime = System.nanoTime(), timer = System.currentTimeMillis();
-		double amountOfTicks = 60.0, ns = 1000000000 / amountOfTicks, delta = 0;
-		int frames = 0;
-		
-		while (running) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			
-			while (delta >= 1) {
-				tick();
-				delta--;
-			}
-			
-			if (running) {
-				render();
-				frames++;
-				
-				if (System.currentTimeMillis() - timer > 1000) {
-					timer += 1000;
-					fps = frames;
-					frames = 0;
-				}
-			} else {
-				stop();
-			}
-		}
-	}
-	
 	private void tick() {
 		consoleHud.tick();
 		keyHandler.tick();
@@ -193,20 +134,7 @@ public final class Main extends Canvas implements Runnable {
 		camera.tick();
 	}
 	
-	private void render() {
-		if (!Window.canRender) {
-			return;
-		}
-		
-		BufferStrategy bs = getBufferStrategy();
-		if (bs == null) {
-			createBufferStrategy(3);
-			Console.print(WarningType.Info, "Started render loop!");
-			return;
-		}
-		
-		Graphics2D g = (Graphics2D) bs.getDrawGraphics();
-		
+	private void render(Graphics2D g) {
 		double scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
 		int w = (int) Math.ceil((HUD_WIDTH * scale));
 		w2 = (int) Math.ceil((width - w) / scale);
@@ -234,16 +162,10 @@ public final class Main extends Canvas implements Runnable {
 		consoleHud.draw(g);
 		
 		g.dispose();
-		bs.show();
 	}
 	
 	public void setGamestate(Class<?> clazz, Gamestate state) {
 		gamestate.put(clazz.getSimpleName(), state);
-	}
-	
-	private void resize() {
-		width = MathH.clamp(getWidth(), 0, Integer.MAX_VALUE);
-		height = MathH.clamp(getHeight(), 0, Integer.MAX_VALUE);
 	}
 	
 	public boolean shouldPlayerHaveControl() {
@@ -300,5 +222,103 @@ public final class Main extends Canvas implements Runnable {
 		run,
 		softPause,
 		hardPause;
+	}
+	
+	public void requestFocus() {
+		gameLoop.requestFocus();
+	}
+	
+	public class GameLoop extends Canvas implements Runnable {
+		private static final long serialVersionUID = -2518563563721413864L;
+		
+		private boolean running = false;
+		private Thread thread;
+		
+		public void start() {
+			thread = new Thread(this);
+			thread.start();
+			running = true;
+			
+			Console.print(WarningType.Info, "Started thread!");
+			resize();
+		}
+		
+		@Override
+		public void run() {
+			Console.print(WarningType.Info, "Started run loop!");
+			requestFocus();
+			long lastTime = System.nanoTime(), timer = System.currentTimeMillis();
+			double amountOfTicks = 60.0, ns = 1000000000 / amountOfTicks, delta = 0;
+			int frames = 0;
+			
+			while (running) {
+				long now = System.nanoTime();
+				delta += (now - lastTime) / ns;
+				lastTime = now;
+				
+				while (delta >= 1) {
+					tick();
+					delta--;
+				}
+				
+				if (running) {
+					render();
+					frames++;
+					
+					if (System.currentTimeMillis() - timer > 1000) {
+						timer += 1000;
+						fps = frames;
+						frames = 0;
+					}
+				} else {
+					stop();
+				}
+			}
+		}
+		
+		private void render() {
+			if (!Window.canRender) {
+				return;
+			}
+			
+			BufferStrategy bs = getBufferStrategy();
+			if (bs == null) {
+				createBufferStrategy(3);
+				Console.print(WarningType.Info, "Started render loop!");
+				return;
+			}
+			
+			Main.this.render((Graphics2D) bs.getDrawGraphics());
+			
+			bs.show();
+		}
+		
+		private synchronized void stop() {
+			try {
+				thread.join();
+				running = false;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		public void setupComponents() {
+			addKeyListener(keyHandler);
+			addComponentListener(new ComponentListener() {
+				@Override public void componentShown(ComponentEvent e) {}
+				@Override public void componentMoved(ComponentEvent e) {}
+				@Override public void componentHidden(ComponentEvent e) {}
+				
+				@Override
+				public void componentResized(ComponentEvent e) {
+					resize();
+				}
+			});
+		}
+		
+		private void resize() {
+			width = MathH.clamp(getWidth(), 0, Integer.MAX_VALUE);
+			height = MathH.clamp(getHeight(), 0, Integer.MAX_VALUE);
+		}
 	}
 }

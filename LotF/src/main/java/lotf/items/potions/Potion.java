@@ -1,5 +1,8 @@
 package main.java.lotf.items.potions;
 
+import main.java.lotf.Main;
+import main.java.lotf.init.InitItems;
+import main.java.lotf.inventory.Inventory;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.LangKey.LangType;
 
@@ -10,7 +13,17 @@ public abstract class Potion extends Item {
 	}
 	
 	public void drink() {
-		//TODO set this to empty
+		if (this != InitItems.EMPTY_POTION) {
+			Inventory<Potion> pi = Main.getMain().getWorldHandler().getPlayer().getInventory().getPotionInventory();
+			for (int i = 0; i < pi.getItemSize(); i++) {
+				Potion p = pi.getItem(i);
+				if (p == this) {
+					pi.setItem(i, InitItems.EMPTY_POTION);
+					break;
+				}
+			}
+		}
+		
 		onDrink();
 	}
 	

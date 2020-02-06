@@ -138,30 +138,32 @@ public class DebugConsole {
 				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Integer)) {
 					try {
 						intArgs.add(Integer.parseInt(formatedArgs.get(i)));
+						continue;
 					} catch (NumberFormatException e) {}
 				}
 				
 				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Float)) {
 					try {
 						floatArgs.add(Float.parseFloat(formatedArgs.get(i)));
+						continue;
 					} catch (NumberFormatException e) {}
 				}
 				
 				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Double)) {
 					try {
 						doubleArgs.add(Double.parseDouble(formatedArgs.get(i)));
+						continue;
 					} catch (NumberFormatException e) {}
 				}
 				
 				if (command.getArgumentType().get(i).contains(Command.ArgumentType.Boolean)) {
-					if (formatedArgs.get(i).equals("true")) {
-						boolArgs.add(true);
-					} else if (formatedArgs.get(i).equals("false")) {
-						boolArgs.add(false);
-					} else {
-						CommandError.wrongArg.printError();
-						return;
+					if (formatedArgs.get(i).equals("true") || formatedArgs.get(i).equals("false")) {
+						boolArgs.add(Boolean.parseBoolean(formatedArgs.get(i)));
+						continue;
 					}
+					
+					CommandError.wrongArg.printError();
+					return;
 				}
 				
 				if (command.getArgumentType().get(i).contains(Command.ArgumentType.String)) {
@@ -180,12 +182,8 @@ public class DebugConsole {
 								CommandError.wrongArg.printError();
 								return;
 							} catch (NumberFormatException e3) {
-								if (!formatedArgs.get(i).equals("true") && !formatedArgs.get(i).equals("false")) {
-									stringArgs.add(formatedArgs.get(i));
-								} else {
-									CommandError.wrongArg.printError();
-									return;
-								}
+								stringArgs.add(formatedArgs.get(i));
+								continue;
 							}
 						}
 					}

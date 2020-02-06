@@ -30,9 +30,7 @@ public class Renderer implements ITickable {
 		Console.print(Console.WarningType.Info, "Starting texture registering...");
 		
 		for (TileInfo t : TileInfo.getAll()) {
-			if (t != TileInfo.AIR) {
-				registerTile(t, t.getTextureCount());
-			}
+			registerTile(t, t.getTextureCount());
 		}
 		for (EntityInfo e : EntityInfo.getAll()) {
 			registerEntity(e, e.getTextureCount());
@@ -115,7 +113,7 @@ public class Renderer implements ITickable {
 					
 					for (Grid<Tile> grid : r.getTileLayers()) {
 						for (Tile t : grid.get()) {
-							if (t.getTileInfo() != TileInfo.AIR) {
+							if (t != null) {
 								tiles.add(t);
 							}
 						}

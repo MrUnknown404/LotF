@@ -24,6 +24,7 @@ public class InitItems {
 	public static final Ring BASIC = new RingBasic();
 	public static final Ring ARCHER1 = new RingArcher1();
 	
+	public static final Potion EMPTY_POTION = new Potion("empty") { @Override protected void onDrink() { } };
 	public static final Potion RED_POTION = new PotionRed();
 	
 	/**

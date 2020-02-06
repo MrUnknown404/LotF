@@ -20,16 +20,22 @@ public class CommandHelp extends Command {
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		if (argString.isEmpty()) {
-			int ti = 0, tii = 1;
-			if (!argInt.isEmpty()) {
-				ti = MathH.clamp(DebugConsole.getMaxLines() * argInt.get(0), 0, Integer.MAX_VALUE);
-				tii = MathH.clamp(argInt.get(0) + 1, 1, Integer.MAX_VALUE);
+			if (argInt.get(0) > MathH.floor(InitCommands.getAmountOfCommands() / DebugConsole.getMaxLines())) {
+				console.addLine("* Could not find page '" + argInt.get(0) + "'", Color.GREEN);
+				return;
 			}
 			
+			int ti = 0, tii = 1;
+			if (!argInt.isEmpty()) {
+				ti = Math.max((DebugConsole.getMaxLines() - 1) * argInt.get(0), 0);
+				tii = Math.max(argInt.get(0) + 1, 1);
+			}
+			
+			console.addLine("---", Color.GREEN);
 			for (int i = ti; i < InitCommands.getAmountOfCommands(); i++) {
 				Command cmd = InitCommands.getCommand(i);
 				
-				if (i == DebugConsole.getMaxLines() * tii) {
+				if (i == (DebugConsole.getMaxLines() - 1) * tii) {
 					break;
 				}
 				
@@ -46,7 +52,7 @@ public class CommandHelp extends Command {
 			}
 			
 			if (!tb) {
-				console.addLine("* Could not find command called " + argString.get(0) + "!", Color.GREEN);
+				console.addLine("* Could not find command called '" + argString.get(0) + "'!", Color.GREEN);
 			}
 		}
 	}

@@ -59,7 +59,7 @@ public class Room extends GameObject implements ITickable, IResetable {
 			for (int xi = 0; xi < this.size.getX(); xi++) {
 				tiles.get(0).add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass()), xi, yi);
 				for (int i = 1; i < 3; i++) {
-					tiles.get(i).add(new Tile(new Vec2i(xi, yi), TileInfo.AIR), xi, yi);
+					tiles.get(i).add(null, xi, yi);
 				}
 			}
 		}
@@ -87,7 +87,9 @@ public class Room extends GameObject implements ITickable, IResetable {
 	public void onCreate() {
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
-				t.updateTile(new Vec2i(pos));
+				if (t != null) {
+					t.updateTile(new Vec2i(pos));
+				}
 			}
 		}
 	}
@@ -119,7 +121,7 @@ public class Room extends GameObject implements ITickable, IResetable {
 		
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
-				if (t.getTileInfo() != TileInfo.AIR) {
+				if (t != null) {
 					if (kinds.isEmpty()) {
 						kinds.add(t.getTileInfo());
 					} else if (!kinds.contains(t.getTileInfo())) {

@@ -16,7 +16,7 @@ public class Window {
 	private static JFrame frame;
 	private static GraphicsDevice gd;
 	
-	public Window(String title, Main main) {
+	public Window(String title, Main.GameLoop main) {
 		frame = new JFrame(title);
 		gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 		

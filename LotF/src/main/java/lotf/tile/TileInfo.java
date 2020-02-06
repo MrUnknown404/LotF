@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import main.java.lotf.util.Console;
 import main.java.lotf.util.ThingInfo;
 import main.java.lotf.util.enums.EnumCollisionType;
 
@@ -11,7 +12,6 @@ public class TileInfo extends ThingInfo {
 	
 	private static final List<TileInfo> ALL = new ArrayList<TileInfo>();
 	
-	public static final TileInfo AIR = new TileInfo("air", true, false, EnumCollisionType.none);
 	public static final TileInfo EMPTY_GRASS = new TileInfo("empty_grass", false, false, EnumCollisionType.none);
 	public static final TileInfo GRASS = new TileInfo("grass", 2, 120, false, true, EnumCollisionType.none);
 	public static final TileInfo FLOWER_GRASS = new TileInfo("flower_grass", 2, 120, false, true, EnumCollisionType.none);
@@ -24,6 +24,8 @@ public class TileInfo extends ThingInfo {
 		this.shouldRenderBehind = shouldRenderBehind;
 		this.hasRandomFlip = hasRandomFlip;
 		this.colType = colType;
+		
+		Console.print(Console.WarningType.RegisterDebug, name + " was registered!");
 		
 		ALL.add(this);
 	}
@@ -79,4 +81,9 @@ public class TileInfo extends ThingInfo {
 		return "(name:" + name + ", textureCount:" + textureCount + ", animationTime:" + animationTime + ", shouldRenderBehind:" + shouldRenderBehind
 				+ ", hasRandomFlip:" + hasRandomFlip + ", colType:" + colType + ")";
 	}
+	
+	/**
+	 * This just forces the variables to be setup early. It isn't needed, but I like it
+	 */
+	public static void registerAll() { /* haha this doesn't do anything */ }
 }

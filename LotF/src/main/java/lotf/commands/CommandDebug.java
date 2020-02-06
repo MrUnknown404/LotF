@@ -8,7 +8,7 @@ import main.java.lotf.util.Console;
 
 public class CommandDebug extends Command {
 
-	private static final List<List<ArgumentType>> ARGS = Arrays.asList(Arrays.asList(ArgumentType.Float), Arrays.asList(ArgumentType.String));
+	private static final List<List<ArgumentType>> ARGS = Arrays.asList(Arrays.asList(ArgumentType.Boolean), Arrays.asList(ArgumentType.String));
 	
 	public CommandDebug() {
 		super("debug", ARGS, false);
