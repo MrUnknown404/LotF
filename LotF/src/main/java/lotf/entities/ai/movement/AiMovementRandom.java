@@ -11,7 +11,7 @@ public class AiMovementRandom<T extends Entity> implements AIType<T> {
 	protected final T parent;
 	protected final float moveSpeed;
 	private boolean isMoving;
-	private int chanceToMoveTimer = 120, moveTimer;
+	private int chanceToMoveTimer = 120 + new Random().nextInt(120), moveTimer;
 	private EnumDirection dir;
 	
 	public AiMovementRandom(T parent, float moveSpeed) {
@@ -30,8 +30,8 @@ public class AiMovementRandom<T extends Entity> implements AIType<T> {
 		} else {
 			if (chanceToMoveTimer == 0) {
 				chanceToMoveTimer = 120 + new Random().nextInt(120);
-				isMoving = true;
 				moveTimer = 40 + new Random().nextInt(30);
+				isMoving = true;
 				
 				dir = EnumDirection.values()[new Random().nextInt(4)];
 				//TODO don't move towards direction if its a wall
@@ -62,12 +62,8 @@ public class AiMovementRandom<T extends Entity> implements AIType<T> {
 	}
 	
 	@Override
-	public T getParent() {
-		return parent;
-	}
-	
-	@Override
-	public AiType getAIType() {
-		return AiType.movement;
+	public void reset() {
+		isMoving = false;
+		chanceToMoveTimer = 120 + new Random().nextInt(120);
 	}
 }

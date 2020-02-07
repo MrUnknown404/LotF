@@ -16,7 +16,7 @@ public class Collectible {
 	
 	public Collectible(String key) {
 		langKey = new LangKey(LangType.collectible, key, LangKeyType.name, LangKeyType.desc);
-		Console.print(Console.WarningType.RegisterDebug, langKey.getKey() + " was registered!");
+		Console.print(Console.WarningType.RegisterDebug, "'" + langKey.getKey() + "' was registered!");
 		
 		name = GetResource.getStringFromLangKey(langKey, LangKeyType.name);
 		description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);

@@ -33,7 +33,7 @@ public class InitCommands {
 	
 	public static void registerCommand(Command cmd) {
 		commands.add(cmd);
-		Console.print(Console.WarningType.RegisterDebug, cmd.getName() + " was registered!");
+		Console.print(Console.WarningType.RegisterDebug, "'" + cmd.getName() + "' was registered!");
 	}
 	
 	public static Command getCommand(int id) {

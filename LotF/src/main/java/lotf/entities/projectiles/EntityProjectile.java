@@ -27,33 +27,15 @@ public abstract class EntityProjectile extends Entity {
 	}
 	
 	@Override
-	public void softReset() {
-		kill();
-	}
-	
-	@Override
-	public void hardReset() {
-		kill();
-	}
-	
-	@Override
 	public void addPosX(float x) {
-		if (x > 0) {
-			facing = EnumDirection.east;
-		} else {
-			facing = EnumDirection.west;
-		}
+		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
 		
 		pos.addX(x);
 	}
 	
 	@Override
 	public void addPosY(float y) {
-		if (y > 0) {
-			facing = EnumDirection.south;
-		} else {
-			facing = EnumDirection.north;
-		}
+		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
 		
 		pos.addY(y);
 	}

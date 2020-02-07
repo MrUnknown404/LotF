@@ -15,7 +15,7 @@ public class Tile extends GameObject {
 	private int flipState = -1;
 	
 	public Tile(Vec2i tilePos, TileInfo tileInfo) {
-		super(new Vec2f(tilePos), new Vec2i(16, 16));
+		super(new Vec2f(tilePos), new Vec2i(TILE_SIZE, TILE_SIZE));
 		this.tileInfo = tileInfo;
 	}
 	

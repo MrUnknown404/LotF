@@ -41,16 +41,16 @@ public class InventoryHud extends Hud implements ITickable {
 			g.drawImage(maps.get(p.getWorldType()), 132, 20, 120, 120, null);
 			
 			int iLocation = 0;
-			for (int i = 0; i < World.WORLD_SIZE.getBothMulti(); i++) {
+			for (int i = 0; i < World.WORLD_SIZE * World.WORLD_SIZE; i++) {
 				if (p.getWorld().getRoom(i) != null) {
 					if (!p.didExploredRoom(i)) {
-						g.drawImage(mapBlock, 132 + i % World.WORLD_SIZE.getX() * 7, 20 + MathH.floor(i / World.WORLD_SIZE.getX()) * 7, 8, 8, null);
+						g.drawImage(mapBlock, 132 + i % World.WORLD_SIZE * 7, 20 + MathH.floor(i / World.WORLD_SIZE) * 7, 8, 8, null);
 					} else if (p.getRoom().getRoomID() == i) {
 						iLocation = i;
 					}
 				}
 			}
-			g.drawImage(mapLocationMarker, 132 + iLocation % World.WORLD_SIZE.getX() * 7, 20 + MathH.floor(iLocation / World.WORLD_SIZE.getX()) * 7, 8, 8, null);
+			g.drawImage(mapLocationMarker, 132 + iLocation % World.WORLD_SIZE * 7, 20 + MathH.floor(iLocation / World.WORLD_SIZE) * 7, 8, 8, null);
 			
 			if (p.getInventory().getCurrentScreen() == 0) {
 				g.drawImage(invHud0, 0, 16, 256, 128, null);
@@ -182,8 +182,8 @@ public class InventoryHud extends Hud implements ITickable {
 			String desc = "";
 			
 			if (p.getInventory().getSelectedThing() == EnumSelectables.Map) {
-				g.drawImage(selectedMap, 132 + p.getInventory().getSelectedSlot() % World.WORLD_SIZE.getX() * 7,
-						20 + MathH.floor(p.getInventory().getSelectedSlot() / World.WORLD_SIZE.getX()) * 7, 8, 8, null);
+				g.drawImage(selectedMap, 132 + p.getInventory().getSelectedSlot() % World.WORLD_SIZE * 7,
+						20 + MathH.floor(p.getInventory().getSelectedSlot() / World.WORLD_SIZE) * 7, 8, 8, null);
 				
 				if (p.getWorld().getRoom(p.getInventory().getSelectedSlot()) != null &&
 						p.getWorld().getRoom(p.getInventory().getSelectedSlot()).getDescription() != null &&

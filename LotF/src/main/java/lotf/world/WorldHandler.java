@@ -6,12 +6,10 @@ import java.util.List;
 import main.java.lotf.entities.EntityEnemyTest;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
-import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
 
 public class WorldHandler implements ITickable {
 	private List<World> worlds = new ArrayList<World>();
@@ -22,20 +20,20 @@ public class WorldHandler implements ITickable {
 		Console.print(Console.WarningType.Info, "World creation started...");
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
-			worlds.add(new World(World.WORLD_SIZE, type));
+			worlds.add(new World(type));
 		}
 		
 		Console.print(Console.WarningType.Info, "World creation finished!");
 		
-		player = new EntityPlayer(worlds.get(0).getWorldType(), new Vec2f(10, 10), worlds.get(0).getRooms().get(144));
-		spawnEntity(new EntityEnemyTest(EntityInfo.ENEMY_TEST, getPlayerRoom(), new Vec2f(200, 30), new Vec2i(14, 14), 3));
+		player = new EntityPlayer(worlds.get(0).getWorldType(), new Vec2f(10, 10), worlds.get(0).getRooms().get(8, 8));
+		spawnEntity(new EntityEnemyTest(getPlayerRoom(), new Vec2f(200, 30)));
 	}
 	
 	@Override
 	public void tick() {
 		if (player != null) {
 			player.tick();
-			getPlayerWorld().tick();
+			getPlayerRoom().tick();
 		}
 	}
 	

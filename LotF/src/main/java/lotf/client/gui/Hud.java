@@ -30,13 +30,13 @@ public abstract class Hud {
 	protected BufferedImage registerTexture(GetResource.ResourceType type, String name) {
 		BufferedImage img = GetResource.getTexture(type, name);
 		
-		if (img != null) {
-			Console.print(Console.WarningType.TextureDebug, name + " was registered!");
-			return img;
+		if (img != GetResource.nil) {
+			Console.print(Console.WarningType.TextureDebug, "'" + name + "' was registered!");
+		} else {
+			Console.print(Console.WarningType.TextureDebug, "'" + name + "' was not registered!");
 		}
 		
-		Console.print(Console.WarningType.TextureDebug, name + " was not registered!");
-		return null;
+		return img;
 	}
 	
 	protected String setupNumberString(int number, int max) {

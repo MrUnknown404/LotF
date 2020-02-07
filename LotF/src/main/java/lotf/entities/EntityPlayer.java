@@ -55,7 +55,7 @@ public class EntityPlayer extends EntityLiving {
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
 			Map<Integer, Boolean> exploredRooms = new HashMap<Integer, Boolean>();
-			for (int i = 0; i < World.WORLD_SIZE.getBothMulti(); i++) {
+			for (int i = 0; i < World.WORLD_SIZE * World.WORLD_SIZE; i++) {
 				exploredRooms.put(i, false);
 			}
 			
@@ -151,16 +151,6 @@ public class EntityPlayer extends EntityLiving {
 		}
 	}
 	
-	@Override
-	public void softReset() {
-		
-	}
-	
-	@Override
-	public void hardReset() {
-		
-	}
-	
 	private void moveRoom(Room room, EnumDirection type) {
 		toBeRoomDirection = type;
 		toBeRoom = room;
@@ -193,7 +183,7 @@ public class EntityPlayer extends EntityLiving {
 	private void attemptMoveRoom() {
 		for (EnumDirection type : EnumDirection.values()) {
 			if (getRoom().getRoomBounds(type).intersects(getBounds())) {
-				for (Room r : getWorld().getRooms()) {
+				for (Room r : getWorld().getRooms().get()) {
 					if (r != null && r != getRoom() && getRoom().getRoomBounds(type).intersects(r.getBounds())) {
 						moveRoom(r, type);
 						return;
@@ -221,11 +211,7 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void addPosX(float x) {
-		if (x > 0) {
-			facing = EnumDirection.east;
-		} else {
-			facing = EnumDirection.west;
-		}
+		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
 		
 		pos.addX(x);
 		
@@ -237,11 +223,7 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void addPosY(float y) {
-		if (y > 0) {
-			facing = EnumDirection.south;
-		} else {
-			facing = EnumDirection.north;
-		}
+		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
 		
 		pos.addY(y);
 		

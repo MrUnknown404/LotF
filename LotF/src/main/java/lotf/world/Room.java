@@ -2,9 +2,8 @@ package main.java.lotf.world;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-
-import javax.annotation.Nullable;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
@@ -16,44 +15,40 @@ import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.Grid;
-import main.java.lotf.util.IResetable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
+import main.java.lotf.util.LangKey.LangType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
-public class Room extends GameObject implements ITickable, IResetable {
+public class Room extends GameObject implements ITickable {
 	
-	private final int roomID;
+	public static final Vec2i ROOM_SIZE = new Vec2i(16, 8);
+	
 	private final String description;
 	private final EnumWorldType worldType;
 	
-	private List<Grid<Tile>> tiles = new ArrayList<Grid<Tile>>();
+	@SuppressWarnings("unchecked")
+	private List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
 	private List<Entity> entities = new ArrayList<Entity>();
 	
-	public Room(EnumWorldType worldType, int roomID, Vec2i roomPos, Vec2i size, @Nullable LangKey langKey) {
-		super(new Vec2f(roomPos), size);
-		this.roomID = roomID;
+	private final Vec2i roomPos;
+	
+	public Room(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {
+		super(new Vec2f(roomPos), ROOM_SIZE);
 		this.worldType = worldType;
+		this.roomPos = roomPos;
 		
 		for (int i = 0; i < 3; i++) {
-			tiles.add(new Grid<Tile>(size.getX(), size.getY()));
+			tiles.set(i, new Grid<Tile>(size.getX(), size.getY()));
 		}
 		
-		if (langKey != null) {
-			description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
-		} else {
-			description = null;
-		}
-		
-		if (size.getX() < 16 || size.getY() < 8) {
-			Console.print(Console.WarningType.FatalError, "Rooms cannot be under 16x8!");
-			return;
-		}
+		description = hasLangKey ? GetResource.getStringFromLangKey(
+				new LangKey(LangType.gui, "room" + (roomPos.getX() + roomPos.getY() * World.WORLD_SIZE), LangKeyType.desc), LangKeyType.desc) : null;
 		
 		for (int yi = 0; yi < this.size.getY(); yi++) {
 			for (int xi = 0; xi < this.size.getX(); xi++) {
@@ -99,20 +94,8 @@ public class Room extends GameObject implements ITickable, IResetable {
 	}
 	
 	public void onLeave() {
-		softReset();
-	}
-	
-	@Override
-	public void softReset() {
-		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).softReset();
-		}
-	}
-	
-	@Override
-	public void hardReset() {
-		for (int i = 0; i < entities.size(); i++) {
-			entities.get(i).hardReset();
+		for (Entity e : entities) {
+			e.reset();
 		}
 	}
 	
@@ -151,7 +134,7 @@ public class Room extends GameObject implements ITickable, IResetable {
 	}
 	
 	public int getRoomID() {
-		return roomID;
+		return roomPos.getX() + roomPos.getY() * World.WORLD_SIZE;
 	}
 	
 	public String getDescription() {

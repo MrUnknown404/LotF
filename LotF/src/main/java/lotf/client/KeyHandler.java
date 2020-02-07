@@ -229,7 +229,7 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 	
 	@Override
 	public Type getType() {
-		return new TypeToken<Map<KeyType,DoubleValue<Integer, Integer>>>(){}.getType();
+		return new TypeToken<Map<KeyType, DoubleValue<Integer, Integer>>>(){}.getType();
 	}
 	
 	public enum KeyType {
@@ -270,7 +270,7 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 			this.defaultKey = defaultKey;
 		}
 		
-		void registerKey(int key1, int key2) {
+		private void registerKey(int key1, int key2) {
 			Console.print(Console.WarningType.RegisterDebug, "'" + toString() + "' has been registered to -> (" + KeyEvent.getKeyText(key1) +
 					":" + KeyEvent.getKeyText(key2) + " | " + key1 + ":" + key2 + ")");
 			this.key1 = key1;

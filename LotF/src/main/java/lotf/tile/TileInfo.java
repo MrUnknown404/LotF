@@ -25,7 +25,7 @@ public class TileInfo extends ThingInfo {
 		this.hasRandomFlip = hasRandomFlip;
 		this.colType = colType;
 		
-		Console.print(Console.WarningType.RegisterDebug, name + " was registered!");
+		Console.print(Console.WarningType.RegisterDebug, "'" + name + "' was registered!");
 		
 		ALL.add(this);
 	}

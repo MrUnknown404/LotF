@@ -19,6 +19,7 @@ import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.LangKey.LangKeyType;
 
 public class GetResource {
+	public static final BufferedImage nil = getTexture("nil");
 	
 	private static final String IMAGE_TYPE = ".png";
 	private static List<String> langKeys = new ArrayList<String>();
@@ -36,10 +37,10 @@ public class GetResource {
 		
 		if (GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE) == null) {
 			Console.print(Console.WarningType.Error, "Cannot find texture : '" + Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE + "'");
-			f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + "nil" + IMAGE_TYPE);
-		} else {
-			f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
+			return nil;
 		}
+		
+		f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
 		BufferedImage i = null;
 		
 		if (f == null) {

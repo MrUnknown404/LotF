@@ -9,8 +9,9 @@ public abstract class EntityMonster extends EntityLiving {
 	
 	protected AIType<? extends Entity> movementAI, attackAI, spotAI;
 	
-	public EntityMonster(EntityInfo info, Room room, Vec2f pos, Vec2i size, int totalHearts) {
+	protected EntityMonster(EntityInfo info, Room room, Vec2f pos, Vec2i size, int totalHearts) {
 		super(info, room, pos, size, totalHearts);
+		spotAI = setSpotAI();
 		movementAI = setMovementAI();
 		attackAI = setAttackAI();
 	}
@@ -30,15 +31,29 @@ public abstract class EntityMonster extends EntityLiving {
 		}
 	}
 	
-	public boolean attemptMovement() {
+	@Override
+	public void reset() {
+		super.reset();
+		if (movementAI != null) {
+			movementAI.reset();
+		}
+		if (spotAI != null) {
+			spotAI.reset();
+		}
+		if (attackAI != null) {
+			attackAI.reset();
+		}
+	}
+	
+	public final boolean attemptMovement() {
 		return movementAI != null ? movementAI.attemptAction() : false;
 	}
 	
-	public boolean attemptSpot() {
+	public final boolean attemptSpot() {
 		return spotAI != null ? spotAI.attemptAction() : false;
 	}
 	
-	public boolean attemptAttack() {
+	public final boolean attemptAttack() {
 		return attackAI != null ? attackAI.attemptAction() : false;
 	}
 	
