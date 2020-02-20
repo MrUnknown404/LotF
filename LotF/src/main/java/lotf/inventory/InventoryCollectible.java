@@ -7,12 +7,12 @@ import main.java.lotf.init.Collectibles;
 import main.java.lotf.items.util.Collectible;
 import main.java.lotf.util.math.Vec2i;
 
-public class CollectibleInventory {
+public class InventoryCollectible {
 
 	private List<Collectible> collectibles = new ArrayList<Collectible>();
 	private final Vec2i size = new Vec2i(3, 5);
 	
-	public CollectibleInventory() {
+	public InventoryCollectible() {
 		for (Collectible info : Collectibles.COLLECTIBLES) {
 			collectibles.add(info);
 		}

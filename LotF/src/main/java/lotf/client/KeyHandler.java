@@ -10,6 +10,7 @@ import java.util.Map.Entry;
 import com.google.gson.reflect.TypeToken;
 
 import main.java.lotf.Main;
+import main.java.lotf.client.KeyHandler.KeyType;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.Console;
@@ -19,7 +20,7 @@ import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.MathH;
 
-public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
+public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<Map<KeyType, DoubleValue<Integer, Integer>>> {
 
 	public Map<KeyType, Boolean> dualKeys = new HashMap<KeyType, Boolean>();
 	
@@ -195,7 +196,7 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 	}
 	
 	@Override
-	public Object save() {
+	public Map<KeyType, DoubleValue<Integer, Integer>> save() {
 		Map<KeyType, DoubleValue<Integer, Integer>> keys = new HashMap<KeyType, DoubleValue<Integer, Integer>>();
 		
 		for (KeyType type : KeyType.values()) {
@@ -206,7 +207,7 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 	}
 	
 	@Override
-	public Object getDefaultSave() {
+	public Map<KeyType, DoubleValue<Integer, Integer>> getDefaultSave() {
 		Map<KeyType, DoubleValue<Integer, Integer>> keys = new HashMap<KeyType, DoubleValue<Integer, Integer>>();
 		
 		for (KeyType type : KeyType.values()) {

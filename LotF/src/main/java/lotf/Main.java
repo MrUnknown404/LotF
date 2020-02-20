@@ -14,10 +14,10 @@ import java.util.Map.Entry;
 import main.java.lotf.client.Camera;
 import main.java.lotf.client.KeyHandler;
 import main.java.lotf.client.Window;
-import main.java.lotf.client.gui.ConsoleHud;
-import main.java.lotf.client.gui.DebugHud;
-import main.java.lotf.client.gui.InventoryHud;
-import main.java.lotf.client.gui.MainHud;
+import main.java.lotf.client.gui.HudConsole;
+import main.java.lotf.client.gui.HudDebug;
+import main.java.lotf.client.gui.HudInventory;
+import main.java.lotf.client.gui.HudMain;
 import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.Commands;
@@ -48,10 +48,10 @@ public final class Main {
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
 	private final DebugConsole console = new DebugConsole();
-	private final ConsoleHud consoleHud = new ConsoleHud();
-	private final DebugHud debugHud = new DebugHud();
-	private final MainHud mainHud = new MainHud();
-	private final InventoryHud invHud = new InventoryHud();
+	private final HudConsole consoleHud = new HudConsole();
+	private final HudDebug debugHud = new HudDebug();
+	private final HudMain mainHud = new HudMain();
+	private final HudInventory invHud = new HudInventory();
 	
 	private Renderer renderer;
 	private Camera camera;
@@ -175,7 +175,7 @@ public final class Main {
 		invHud.draw(g);
 		
 		if (isDebug) {
-			debugHud.draw(g, "" + fps);
+			debugHud.draw(g);
 			consoleHud.draw(g);
 		}
 		
@@ -218,6 +218,10 @@ public final class Main {
 	
 	public int getGameHeight() {
 		return h2;
+	}
+	
+	public int getFPS() {
+		return fps;
 	}
 	
 	public WorldHandler getWorldHandler() {

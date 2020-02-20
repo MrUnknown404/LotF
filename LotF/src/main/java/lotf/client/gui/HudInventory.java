@@ -11,7 +11,7 @@ import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Items;
-import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
+import main.java.lotf.inventory.InventoryPlayer.EnumSelectables;
 import main.java.lotf.items.potions.Potion;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.util.Collectible;
@@ -22,7 +22,7 @@ import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.world.World;
 
-public class InventoryHud extends Hud implements ITickable {
+public class HudInventory extends Hud implements ITickable {
 	
 	private static Font lotfFont;
 	

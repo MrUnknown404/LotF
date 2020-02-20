@@ -13,10 +13,10 @@ import main.java.lotf.Main;
 
 public class ConfigHandler {
 
-	public static void loadConfigs(IConfigurable... configs) {
+	public static void loadConfigs(IConfigurable<?>... configs) {
 		Gson g = new GsonBuilder().create();
 		
-		for (IConfigurable config : configs) {
+		for (IConfigurable<?> config : configs) {
 			File f = new File(Main.SAVE_LOCATION + config.getFileName() + ".json");
 			
 			if (!f.exists()) {
@@ -54,7 +54,7 @@ public class ConfigHandler {
 		}
 	}
 	
-	private static Object loadDefault(File f, Gson g, IConfigurable config) {
+	private static Object loadDefault(File f, Gson g, IConfigurable<?> config) {
 		Console.print(Console.WarningType.Warning, "Invalid config named : " + config.getFileName() + "!");
 		
 		try {

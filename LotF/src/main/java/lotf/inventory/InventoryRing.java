@@ -12,11 +12,11 @@ import main.java.lotf.items.util.Item;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.Vec2i;
 
-public class RingInventory extends Inventory<Ring> {
+public class InventoryRing extends Inventory<Ring> {
 	
 	private Map<Ring, Boolean> rings = new HashMap<Ring, Boolean>();
 	
-	public RingInventory() {
+	public InventoryRing() {
 		super(new Vec2i(6, 1));
 		
 		for (Item item : Items.ITEMS) {

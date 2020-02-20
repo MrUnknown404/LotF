@@ -1,6 +1,8 @@
 package main.java.lotf.init;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import main.java.lotf.commands.CommandAddCollectible;
@@ -12,11 +14,12 @@ import main.java.lotf.commands.CommandSetArrows;
 import main.java.lotf.commands.CommandSetBombs;
 import main.java.lotf.commands.CommandSetMana;
 import main.java.lotf.commands.CommandSetMoney;
+import main.java.lotf.commands.CommandToggleDebug;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.util.Console;
 
 public class Commands {
-	private static List<Command> commands = new ArrayList<Command>();
+	private static final List<Command> COMMANDS = new ArrayList<Command>();
 	
 	public static void registerAll() {
 		registerCommand(new CommandHelp());
@@ -27,20 +30,28 @@ public class Commands {
 		registerCommand(new CommandHeal());
 		registerCommand(new CommandAddCollectible());
 		registerCommand(new CommandSetMana());
+		registerCommand(new CommandToggleDebug());
 		
 		registerCommand(new CommandDebug());
+		
+		Collections.sort(COMMANDS, new Comparator<Command>() {
+			@Override
+			public int compare(Command c1, Command c2) {
+				return c1.getName().compareTo(c2.getName());
+			}
+		});
 	}
 	
 	public static void registerCommand(Command cmd) {
-		commands.add(cmd);
+		COMMANDS.add(cmd);
 		Console.print(Console.WarningType.RegisterDebug, "'" + cmd.getName() + "' was registered!");
 	}
 	
 	public static Command getCommand(int id) {
-		return commands.get(id);
+		return COMMANDS.get(id);
 	}
 	
 	public static int getAmountOfCommands() {
-		return commands.size();
+		return COMMANDS.size();
 	}
 }

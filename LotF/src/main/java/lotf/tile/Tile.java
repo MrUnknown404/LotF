@@ -11,8 +11,7 @@ public class Tile extends GameObject {
 	public static final int TILE_SIZE = 16;
 	
 	private final TileInfo tileInfo;
-	
-	private int flipState = -1;
+	private boolean isFlipped;
 	
 	public Tile(Vec2i tilePos, TileInfo tileInfo) {
 		super(new Vec2f(tilePos), new Vec2i(TILE_SIZE, TILE_SIZE));
@@ -20,15 +19,15 @@ public class Tile extends GameObject {
 	}
 	
 	public void updateTile(Vec2i roomPos) {
-		if (flipState == -1) {
-			flipState = new Random().nextBoolean() ? 1 : 0;
+		if (tileInfo.hasRandomFlip()) {
+			isFlipped = new Random().nextBoolean();
 		}
 		
 		setPos(new Vec2f(roomPos.getX() + pos.getX() * TILE_SIZE, roomPos.getY() + pos.getY() * TILE_SIZE));
 	}
 	
-	public int getFlipState() {
-		return flipState;
+	public boolean isFlipped() {
+		return isFlipped;
 	}
 	
 	public TileInfo getTileInfo() {

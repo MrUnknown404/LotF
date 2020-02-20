@@ -9,13 +9,14 @@ import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.util.DoubleValue;
 import main.java.lotf.util.ITickable;
 
-public class ConsoleHud implements ITickable {
+public class HudConsole extends Hud implements ITickable {
 	
 	private static final Font FONT = new Font("Font", Font.PLAIN, 9);
 	
 	private boolean tb = false;
 	private int ti = 0;
 	
+	@Override
 	public void draw(Graphics2D g) {
 		g.setFont(FONT);
 		

@@ -9,8 +9,8 @@ import main.java.lotf.util.GetResource;
 
 public abstract class Hud {
 	public abstract void draw(Graphics2D g);
-	public abstract void setupFonts();
-	protected abstract void onSetupTextures();
+	public void setupFonts() {}
+	protected void onSetupTextures() {}
 	
 	public final void setupTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering for " + getClass().getSimpleName() + "...");

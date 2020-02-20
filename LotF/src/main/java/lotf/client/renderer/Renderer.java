@@ -20,6 +20,7 @@ import main.java.lotf.util.GetResource;
 import main.java.lotf.util.Grid;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
+import main.java.lotf.util.math.MathH;
 import main.java.lotf.world.Room;
 
 public class Renderer implements ITickable {
@@ -122,7 +123,7 @@ public class Renderer implements ITickable {
 					for (Tile t : tiles) {
 						int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
 						
-						if (t.getFlipState() == 1) {
+						if (t.isFlipped()) {
 							wX = -wX;
 							x += Tile.TILE_SIZE;
 						}
@@ -132,12 +133,12 @@ public class Renderer implements ITickable {
 					
 					for (Entity e : r.getEntities()) {
 						g.setColor(Color.red);
-						g.drawImage(entityTextures.get(e.getInfo()).get(e.getFacing()).getCurrentImage(), (int) e.getPosX(), (int) e.getPosY(), e.getWidth(),
-								e.getHeight(), null);
+						g.drawImage(entityTextures.get(e.getInfo()).get(e.getFacing()).getCurrentImage(), MathH.ceil(e.getPosX()), MathH.ceil(e.getPosY()),
+								e.getWidth(), e.getHeight(), null);
 					}
 				}
 				
-				g.drawImage(getPlayerImageInfo().getCurrentImage(), (int) p.getPosX(), (int) p.getPosY(), p.getWidth(), p.getHeight(), null);
+				g.drawImage(getPlayerImageInfo().getCurrentImage(), MathH.ceil(p.getPosX()), MathH.ceil(p.getPosY()), p.getWidth(), p.getHeight(), null);
 			}
 		}
 	}

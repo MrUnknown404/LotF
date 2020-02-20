@@ -12,13 +12,13 @@ import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.World;
 
-public class PlayerInventory {
+public class InventoryPlayer {
 
 	private Inventory<Item> normalInventory, specialItems;
 	private Inventory<Sword> swordInventory;
 	private Inventory<Potion> potionInventory;
-	private RingInventory ringInventory;
-	private CollectibleInventory collectiblesInventory;
+	private InventoryRing ringInventory;
+	private InventoryCollectible collectiblesInventory;
 	
 	private ItemUseable leftItem, rightItem;
 	private Sword equipedSword;
@@ -30,15 +30,15 @@ public class PlayerInventory {
 	
 	private EntityPlayer player;
 	
-	public PlayerInventory(EntityPlayer player) {
+	public InventoryPlayer(EntityPlayer player) {
 		this.player = player;
 		
 		normalInventory = new Inventory<Item>(new Vec2i(5, 5));
 		swordInventory = new Inventory<Sword>(new Vec2i(1, 5));
 		potionInventory = new Inventory<Potion>(new Vec2i(6, 1));
-		collectiblesInventory = new CollectibleInventory();
+		collectiblesInventory = new InventoryCollectible();
 		
-		ringInventory = new RingInventory();
+		ringInventory = new InventoryRing();
 		
 		specialItems = new Inventory<Item>(new Vec2i(6, 1));
 		
@@ -445,11 +445,11 @@ public class PlayerInventory {
 		return potionInventory;
 	}
 	
-	public CollectibleInventory getCollectiblesInventory() {
+	public InventoryCollectible getCollectiblesInventory() {
 		return collectiblesInventory;
 	}
 	
-	public RingInventory getRingInventory() {
+	public InventoryRing getRingInventory() {
 		return ringInventory;
 	}
 	

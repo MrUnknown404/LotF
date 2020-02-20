@@ -50,7 +50,7 @@ public class WorldHandler implements ITickable {
 	}
 	
 	public EnumWorldType getPlayerWorldType() {
-		return  player.getWorldType();
+		return player.getWorldType();
 	}
 	
 	public Room getPlayerRoom() {

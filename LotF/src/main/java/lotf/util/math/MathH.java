@@ -10,7 +10,7 @@ public class MathH {
 	}
 	
 	public static int ceil(float value) {
-		int i = (int)value;
+		int i = (int) value;
 		return value > i ? i + 1 : i;
 	}
 	

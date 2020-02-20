@@ -17,7 +17,7 @@ import main.java.lotf.items.util.Item;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.math.MathH;
 
-public class MainHud extends Hud {
+public class HudMain extends Hud {
 	
 	private static Font smallNumbers;
 	

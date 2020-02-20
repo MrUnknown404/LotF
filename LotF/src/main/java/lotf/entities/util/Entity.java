@@ -59,11 +59,12 @@ public abstract class Entity extends GameObject implements ITickable {
 			}
 			
 			Rectangle b = getBounds();
-			if (t.getBounds().intersects(b.x + (x > 0 ? MathH.floor(x) : MathH.ceil(x)), b.y, b.width, b.height)) {
+			if (t.getBounds().intersects(b.x + (x > 0 ? MathH.ceil(x) : MathH.floor(x)), b.y, b.width, b.height)) {
 				if (x > 0) {
-					return pos.getX() + getWidth() - t.getPosX() - (x - MathH.floor(x));
+					return -(pos.getX() - t.getPosX() + getWidth());
 				}
-				return pos.getX() - t.getPosX() - Tile.TILE_SIZE - (x - MathH.floor(x));
+				
+				return -(pos.getX() - t.getPosX() - Tile.TILE_SIZE);
 			}
 		}
 		
@@ -77,11 +78,12 @@ public abstract class Entity extends GameObject implements ITickable {
 			}
 			
 			Rectangle b = getBounds();
-			if (t.getBounds().intersects(b.x, b.y + (y > 0 ? MathH.floor(y) : MathH.ceil(y)), b.width, b.height)) {
+			if (t.getBounds().intersects(b.x, b.y + (y > 0 ? MathH.ceil(y) : MathH.floor(y)), b.width, b.height)) {
 				if (y > 0) {
-					return pos.getY() + getHeight() - t.getPosY();
+					return -(pos.getY() - t.getPosY() + getHeight());
 				}
-				return pos.getY() - t.getPosY() - Tile.TILE_SIZE;
+				
+				return -(pos.getY() - t.getPosY() - Tile.TILE_SIZE);
 			}
 		}
 		
