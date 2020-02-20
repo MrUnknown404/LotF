@@ -30,7 +30,10 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable {
 			Window.toggleFullscreen();
 		}
 		
-		handleConsole(key, e.getKeyChar());
+		if (Main.isDebug) {
+			handleConsole(key, e.getKeyChar());
+		}
+		
 		if (Main.getMain().getWorldHandler() != null && Main.getMain().getWorldHandler().getPlayer() != null) {
 			if (!Main.getMain().getCommandConsole().isConsoleOpen()) {
 				handlePlayer(key, true);

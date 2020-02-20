@@ -28,9 +28,7 @@ public class GetResource {
 		InputStream f = null;
 		String newLoc = location.toString().toLowerCase();
 		
-		if (location == ResourceType.collectibles) {
-			newLoc = ResourceType.item.toString() + "/" + location.toString();
-		} else if (location == ResourceType.none) {
+		if (location == ResourceType.none) {
 			newLoc = "";
 		}
 		newLoc += "/";
@@ -135,6 +133,6 @@ public class GetResource {
 		gui,
 		item,
 		ring,
-		collectibles;
+		collectible;
 	}
 }

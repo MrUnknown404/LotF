@@ -130,9 +130,10 @@ public class Renderer implements ITickable {
 						g.drawImage(tileTextures.get(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
 					
-					for (Entity e : r.getEntities()) { //TODO rewrite_with_textures;
+					for (Entity e : r.getEntities()) {
 						g.setColor(Color.red);
-						g.fillRect((int) e.getPosX(), (int) e.getPosY(), e.getWidth(), e.getHeight());
+						g.drawImage(entityTextures.get(e.getInfo()).get(e.getFacing()).getCurrentImage(), (int) e.getPosX(), (int) e.getPosY(), e.getWidth(),
+								e.getHeight(), null);
 					}
 				}
 				
@@ -147,8 +148,8 @@ public class Renderer implements ITickable {
 			for (int i = 0; i < count; i++) {
 				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName() + "/" + tInfo.getName() + "_" + i);
 				
+				imgs[i] = img;
 				if (img != GetResource.nil) {
-					imgs[i] = img;
 					Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + i + "' was registered!");
 				} else {
 					Console.print(Console.WarningType.Warning, "'" + tInfo.getName() + "_" + i + "' was not registered!");
@@ -159,8 +160,8 @@ public class Renderer implements ITickable {
 		} else {
 			BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName());
 			
+			tileTextures.put(tInfo, new ImageInfo(img));
 			if (img != GetResource.nil) {
-				tileTextures.put(tInfo, new ImageInfo(img));
 				Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "' was registered!");
 			} else {
 				Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "' was not registered!");
@@ -178,8 +179,8 @@ public class Renderer implements ITickable {
 				for (int i = 0; i < count; i++) {
 					BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName() + "/" + tInfo.getName() + "_" + dir + "_" + i);
 					
+					imgs[i] = img;
 					if (img != GetResource.nil) {
-						imgs[i] = img;
 						Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + dir + "_" + i + "' was registered!");
 					} else {
 						Console.print(Console.WarningType.Warning, "'" + tInfo.getName() + "_" + dir + "_" + i + "' was not registered!");
@@ -188,10 +189,10 @@ public class Renderer implements ITickable {
 				
 				m.put(dir, new ImageInfo().setImages(imgs));
 			} else {
-				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName());
+				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName() + "_" + dir);
 				
+				m.put(dir, new ImageInfo(img));
 				if (img != GetResource.nil) {
-					m.put(dir, new ImageInfo(img));
 					Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + dir + "' was registered!");
 				} else {
 					Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + dir + "' was not registered!");

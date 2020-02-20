@@ -3,25 +3,24 @@ package main.java.lotf.inventory;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.init.InitCollectibles;
+import main.java.lotf.init.Collectibles;
 import main.java.lotf.items.util.Collectible;
 import main.java.lotf.util.math.Vec2i;
 
 public class CollectibleInventory {
 
+	private List<Collectible> collectibles = new ArrayList<Collectible>();
 	private final Vec2i size = new Vec2i(3, 5);
 	
-	private List<Collectible> collectibles = new ArrayList<Collectible>();
-	
 	public CollectibleInventory() {
-		for (Collectible info : InitCollectibles.COLLECTIBLES) {
+		for (Collectible info : Collectibles.COLLECTIBLES) {
 			collectibles.add(info);
 		}
 	}
 	
 	public void addCollectable(Collectible col, int set) {
-		for (int i = 0; i < InitCollectibles.COLLECTIBLES.size(); i++) {
-			Collectible col2 = InitCollectibles.COLLECTIBLES.get(i);
+		for (int i = 0; i < Collectibles.COLLECTIBLES.size(); i++) {
+			Collectible col2 = Collectibles.COLLECTIBLES.get(i);
 			
 			if (col == col2) {
 				collectibles.set(i, collectibles.get(i).setAmount(set).setHas(true));

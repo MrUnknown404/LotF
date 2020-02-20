@@ -9,8 +9,8 @@ import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.init.InitCollectibles;
-import main.java.lotf.init.InitItems;
+import main.java.lotf.init.Collectibles;
+import main.java.lotf.init.Items;
 import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
 import main.java.lotf.items.potions.Potion;
 import main.java.lotf.items.rings.Ring;
@@ -94,16 +94,16 @@ public class InventoryHud extends Hud implements ITickable {
 				}
 				
 				if (p.getInventory().getEquipedRing() != null) {
-					for (int i = 0; i < p.getInventory().getRingInventory().getSelectedRingSize(); i++) {
-						if (p.getInventory().getEquipedRing() == p.getInventory().getRingInventory().getSelectedRing(i)) {
+					for (int i = 0; i < p.getInventory().getRingInventory().getSize().getBothMulti(); i++) {
+						if (p.getInventory().getEquipedRing() == p.getInventory().getRingInventory().getItem(i)) {
 							g.drawRect(3 + i * 20, 19, 20, 20); //TODO change to texture
 							break;
 						}
 					}
 				}
 				
-				for (int i = 0; i < p.getInventory().getRingInventory().getSelectedRingSize(); i++) {
-					Ring ring = p.getInventory().getRingInventory().getSelectedRing(i);
+				for (int i = 0; i < p.getInventory().getRingInventory().getSize().getBothMulti(); i++) {
+					Ring ring = p.getInventory().getRingInventory().getItem(i);
 					
 					if (ring != null) {
 						g.drawImage(rings.get(ring.getKey()), 5 + i * 20, 21, 16, 16, null);
@@ -282,7 +282,7 @@ public class InventoryHud extends Hud implements ITickable {
 			maps.put(type, registerGUITexture("maps/" + type.toString().toLowerCase() + "_map"));
 		}
 		
-		for (Item item : InitItems.ITEMS) {
+		for (Item item : Items.ITEMS) {
 			if (item instanceof Ring) {
 				rings.put(item.getKey(), registerItemTexture(item));
 			} else {
@@ -290,7 +290,7 @@ public class InventoryHud extends Hud implements ITickable {
 			}
 		}
 		
-		for (Collectible col : InitCollectibles.COLLECTIBLES) {
+		for (Collectible col : Collectibles.COLLECTIBLES) {
 			collectibles.put(col.getKey(), registerCollectibleTexture(col));
 		}
 	}
@@ -324,6 +324,6 @@ public class InventoryHud extends Hud implements ITickable {
 	}
 	
 	private BufferedImage registerCollectibleTexture(Collectible col) {
-		return registerTexture(GetResource.ResourceType.collectibles, col.getKey());
+		return registerTexture(GetResource.ResourceType.collectible, col.getKey());
 	}
 }

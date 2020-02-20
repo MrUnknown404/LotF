@@ -6,46 +6,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import main.java.lotf.init.InitItems;
+import main.java.lotf.init.Items;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.math.Vec2i;
 
-public class RingInventory {
+public class RingInventory extends Inventory<Ring> {
 	
 	private Map<Ring, Boolean> rings = new HashMap<Ring, Boolean>();
-	private List<Ring> selectedRings = new ArrayList<>(5);
-	
-	private final Vec2i size = new Vec2i(6, 1);
 	
 	public RingInventory() {
-		for (Item item : InitItems.ITEMS) {
+		super(new Vec2i(6, 1));
+		
+		for (Item item : Items.ITEMS) {
 			if (item instanceof Ring) {
 				rings.put((Ring) item, false);
 			}
 		}
-		
-		for (int i = 0; i < size.getBothMulti(); i++) {
-			selectedRings.add(null);
-		}
 	}
 	
-	public boolean addSelectedRing(Ring ring) {
-		if (selectedRings.contains(ring)) {
-			Console.print(Console.WarningType.Warning, "Player already has that Ring!");
-			return false;
-		}
-		
-		if (selectedRings.indexOf(null) != -1) {
-			selectedRings.set(selectedRings.indexOf(null), ring);
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public boolean addRing(Ring ring) {
+	public boolean addGlobalRing(Ring ring) {
 		if (rings.get(ring)) {
 			Console.print(Console.WarningType.Warning, "Player already has that Ring!");
 			return false;
@@ -54,28 +35,11 @@ public class RingInventory {
 		rings.put(ring, true);
 		return true;
 	}
-	
-	public int getSizeX() {
-		return size.getX();
-	}
-	
-	public int getSizeY() {
-		return size.getY();
-	}
-	
 	public int getAllRingSize() {
 		return rings.size();
 	}
 	
-	public int getSelectedRingSize() {
-		return selectedRings.size();
-	}
-	
-	public Ring getSelectedRing(int i) {
-		return selectedRings.get(i);
-	}
-	
-	public List<Ring> getAllRing() {
+	public List<Ring> getAllRings() {
 		List<Ring> rings = new ArrayList<Ring>();
 		
 		for (Entry<Ring, Boolean> e : this.rings.entrySet()) {

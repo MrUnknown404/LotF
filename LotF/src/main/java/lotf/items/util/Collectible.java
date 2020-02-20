@@ -1,6 +1,6 @@
 package main.java.lotf.items.util;
 
-import main.java.lotf.init.InitCollectibles;
+import main.java.lotf.init.Collectibles;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.LangKey;
@@ -21,7 +21,7 @@ public class Collectible {
 		name = GetResource.getStringFromLangKey(langKey, LangKeyType.name);
 		description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
 		
-		InitCollectibles.COLLECTIBLES.add(this);
+		Collectibles.COLLECTIBLES.add(this);
 	}
 	
 	public Collectible setAmount(int amount) {

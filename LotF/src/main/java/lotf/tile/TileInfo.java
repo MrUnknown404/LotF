@@ -15,6 +15,7 @@ public class TileInfo extends ThingInfo {
 	public static final TileInfo EMPTY_GRASS = new TileInfo("empty_grass", false, false, EnumCollisionType.none);
 	public static final TileInfo GRASS = new TileInfo("grass", 2, 120, false, true, EnumCollisionType.none);
 	public static final TileInfo FLOWER_GRASS = new TileInfo("flower_grass", 2, 120, false, true, EnumCollisionType.none);
+	public static final TileInfo WALL = new TileInfo("wall", false, false, EnumCollisionType.whole);
 	
 	private final boolean shouldRenderBehind, hasRandomFlip;
 	private final EnumCollisionType colType;

@@ -15,7 +15,7 @@ import main.java.lotf.commands.CommandSetMoney;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.util.Console;
 
-public class InitCommands {
+public class Commands {
 	private static List<Command> commands = new ArrayList<Command>();
 	
 	public static void registerAll() {

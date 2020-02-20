@@ -9,7 +9,7 @@ import java.util.Map;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.init.InitItems;
+import main.java.lotf.init.Items;
 import main.java.lotf.items.potions.Potion;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.swords.Sword;
@@ -37,7 +37,7 @@ public class MainHud extends Hud {
 		hearts[3] = registerGUITexture("hearts/heart_3");
 		hearts[4] = registerGUITexture("hearts/heart_4");
 		
-		for (Item item : InitItems.ITEMS) {
+		for (Item item : Items.ITEMS) {
 			if (!(item instanceof Ring) && !(item instanceof Sword) && !(item instanceof Potion)) {
 				items.put(item.getKey(), registerItemTexture(item));
 			}

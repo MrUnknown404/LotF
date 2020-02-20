@@ -6,7 +6,7 @@ import java.util.List;
 
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.init.InitCommands;
+import main.java.lotf.init.Commands;
 import main.java.lotf.util.math.MathH;
 
 public class CommandHelp extends Command {
@@ -20,7 +20,7 @@ public class CommandHelp extends Command {
 	@Override
 	public void doCommand(List<Integer> argInt, List<Float> argFloat, List<Double> argDouble, List<Boolean> argBool, List<String> argString) {
 		if (argString.isEmpty()) {
-			if (argInt.get(0) > MathH.floor(InitCommands.getAmountOfCommands() / DebugConsole.getMaxLines())) {
+			if (!argInt.isEmpty() && argInt.get(0) > MathH.floor(Commands.getAmountOfCommands() / DebugConsole.getMaxLines())) {
 				console.addLine("* Could not find page '" + argInt.get(0) + "'", Color.GREEN);
 				return;
 			}
@@ -32,8 +32,8 @@ public class CommandHelp extends Command {
 			}
 			
 			console.addLine("---", Color.GREEN);
-			for (int i = ti; i < InitCommands.getAmountOfCommands(); i++) {
-				Command cmd = InitCommands.getCommand(i);
+			for (int i = ti; i < Commands.getAmountOfCommands(); i++) {
+				Command cmd = Commands.getCommand(i);
 				
 				if (i == (DebugConsole.getMaxLines() - 1) * tii) {
 					break;
@@ -43,8 +43,8 @@ public class CommandHelp extends Command {
 			}
 		} else {
 			boolean tb = false;
-			for (int i = 0; i < InitCommands.getAmountOfCommands(); i++) {
-				Command cmd = InitCommands.getCommand(i);
+			for (int i = 0; i < Commands.getAmountOfCommands(); i++) {
+				Command cmd = Commands.getCommand(i);
 				if (cmd.getName().equals(argString.get(0))) {
 					console.addLine(cmd.getUsage(), Color.GREEN);
 					tb = true;

@@ -50,11 +50,12 @@ public class Room extends GameObject implements ITickable {
 		description = hasLangKey ? GetResource.getStringFromLangKey(
 				new LangKey(LangType.gui, "room" + (roomPos.getX() + roomPos.getY() * World.WORLD_SIZE), LangKeyType.desc), LangKeyType.desc) : null;
 		
-		for (int yi = 0; yi < this.size.getY(); yi++) {
-			for (int xi = 0; xi < this.size.getX(); xi++) {
+		for (int yi = 0; yi < size.getY(); yi++) {
+			for (int xi = 0; xi < size.getX(); xi++) {
 				tiles.get(0).add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass()), xi, yi);
+				
 				for (int i = 1; i < 3; i++) {
-					tiles.get(i).add(null, xi, yi);
+					tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), TileInfo.WALL) : null, xi, yi);
 				}
 			}
 		}

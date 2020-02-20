@@ -2,7 +2,7 @@ package main.java.lotf.inventory;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.init.InitItems;
+import main.java.lotf.init.Items;
 import main.java.lotf.items.potions.Potion;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.swords.Sword;
@@ -42,11 +42,11 @@ public class PlayerInventory {
 		
 		specialItems = new Inventory<Item>(new Vec2i(6, 1));
 		
-		normalInventory.addItem(InitItems.CAPE);
-		normalInventory.addItem(InitItems.BOW);
-		swordInventory.addItem(InitItems.SWORD);
-		ringInventory.addSelectedRing(InitItems.BASIC);
-		potionInventory.addItem(InitItems.RED_POTION);
+		normalInventory.addItem(Items.CAPE);
+		normalInventory.addItem(Items.BOW);
+		swordInventory.addItem(Items.SWORD);
+		ringInventory.addItem(Items.BASIC);
+		potionInventory.addItem(Items.RED_POTION);
 	}
 	
 	public void toggleInventory() {
@@ -317,7 +317,7 @@ public class PlayerInventory {
 			case PotionInventory:
 				return potionInventory.getItem(selectedSlot);
 			case RingInventory:
-				return ringInventory.getSelectedRing(selectedSlot);
+				return ringInventory.getItem(selectedSlot);
 			case SpecialInventory:
 				return specialItems.getItem(selectedSlot);
 			case SwordInventory:
@@ -346,12 +346,12 @@ public class PlayerInventory {
 				}
 				break;
 			case RingInventory:
-				if (equipedRing == ringInventory.getSelectedRing(selectedSlot)) {
+				if (equipedRing == ringInventory.getItem(selectedSlot)) {
 					equipedRing = null;
 					break;
 				}
 				
-				equipedRing = ringInventory.getSelectedRing(selectedSlot);
+				equipedRing = ringInventory.getItem(selectedSlot);
 				break;
 			case SwordInventory:
 				if (equipedSword == swordInventory.getItem(selectedSlot)) {
@@ -385,12 +385,12 @@ public class PlayerInventory {
 				}
 				break;
 			case RingInventory:
-				if (equipedRing == ringInventory.getSelectedRing(selectedSlot)) {
+				if (equipedRing == ringInventory.getItem(selectedSlot)) {
 					equipedRing = null;
 					break;
 				}
 				
-				equipedRing = ringInventory.getSelectedRing(selectedSlot);
+				equipedRing = ringInventory.getItem(selectedSlot);
 				break;
 			case SwordInventory:
 				if (equipedSword == swordInventory.getItem(selectedSlot)) {

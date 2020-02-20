@@ -20,8 +20,8 @@ import main.java.lotf.client.gui.InventoryHud;
 import main.java.lotf.client.gui.MainHud;
 import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.init.InitCommands;
-import main.java.lotf.init.InitItems;
+import main.java.lotf.init.Commands;
+import main.java.lotf.init.Items;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.Console;
@@ -58,7 +58,15 @@ public final class Main {
 	private KeyHandler keyHandler;
 	private WorldHandler worldHandler;
 	
+	public static boolean isDebug;
+	
 	public static void main(String args[]) {
+		for (String s : args) {
+			if (s.equalsIgnoreCase("-debug")) {
+				isDebug = true;
+			}
+		}
+		
 		main = new Main();
 		main.start();
 	}
@@ -90,8 +98,8 @@ public final class Main {
 		ConfigHandler.loadConfigs(keyHandler);
 		GetResource.getLangFile();
 		
-		InitCommands.registerAll();
-		InitItems.registerAll();
+		Commands.registerAll();
+		Items.registerAll();
 		TileInfo.registerAll();
 		
 		renderer = new Renderer();
@@ -134,7 +142,9 @@ public final class Main {
 			worldHandler.getPlayer().tick();
 			camera.tick();
 		} else if (getGamestate() == Gamestate.hardPause) {
-			consoleHud.tick();
+			if (isDebug) {
+				consoleHud.tick();
+			}
 		}
 	}
 	
@@ -163,8 +173,11 @@ public final class Main {
 		
 		mainHud.draw(g);
 		invHud.draw(g);
-		debugHud.draw(g, "" + fps);
-		consoleHud.draw(g);
+		
+		if (isDebug) {
+			debugHud.draw(g, "" + fps);
+			consoleHud.draw(g);
+		}
 		
 		g.dispose();
 	}
@@ -174,7 +187,7 @@ public final class Main {
 	}
 	
 	public boolean shouldPlayerHaveControl() {
-		if (console.isConsoleOpen() || getGamestate() != Gamestate.run) {
+		if ((isDebug && console.isConsoleOpen()) || getGamestate() != Gamestate.run) {
 			return false;
 		}
 		

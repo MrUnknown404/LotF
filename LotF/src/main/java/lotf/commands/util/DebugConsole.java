@@ -7,7 +7,7 @@ import java.util.List;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
-import main.java.lotf.init.InitCommands;
+import main.java.lotf.init.Commands;
 import main.java.lotf.util.DoubleValue;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.LangKey;
@@ -48,9 +48,9 @@ public class DebugConsole {
 	}
 	
 	public Command findCommand(String name) {
-		for (int i = 0; i < InitCommands.getAmountOfCommands(); i++) {
-			if (InitCommands.getCommand(i).getName().equalsIgnoreCase(name)) {
-				return InitCommands.getCommand(i);
+		for (int i = 0; i < Commands.getAmountOfCommands(); i++) {
+			if (Commands.getCommand(i).getName().equalsIgnoreCase(name)) {
+				return Commands.getCommand(i);
 			}
 		}
 		

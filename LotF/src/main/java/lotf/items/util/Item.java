@@ -1,6 +1,6 @@
 package main.java.lotf.items.util;
 
-import main.java.lotf.init.InitItems;
+import main.java.lotf.init.Items;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.LangKey;
@@ -19,7 +19,7 @@ public abstract class Item {
 		name = GetResource.getStringFromLangKey(langKey, LangKeyType.name);
 		description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
 		
-		InitItems.ITEMS.add(this);
+		Items.ITEMS.add(this);
 	}
 	
 	public String getName() {

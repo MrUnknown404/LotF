@@ -3,7 +3,6 @@ package main.java.lotf.entities.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
@@ -71,9 +70,5 @@ public abstract class EntityLiving extends Entity {
 	
 	public List<Integer> getHearts() {
 		return hearts;
-	}
-	
-	public EnumDirection getFacing() {
-		return facing;
 	}
 }

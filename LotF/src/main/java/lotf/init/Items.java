@@ -10,16 +10,17 @@ import main.java.lotf.items.potions.PotionRed;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.rings.RingArcher1;
 import main.java.lotf.items.rings.RingBasic;
+import main.java.lotf.items.swords.Sword;
 import main.java.lotf.items.swords.SwordStarter;
 import main.java.lotf.items.util.Item;
 
-public class InitItems {
+public class Items {
 	public static final List<Item> ITEMS = new ArrayList<Item>();
 	
 	public static final Item BOW = new ItemBow();
 	public static final Item CAPE = new ItemCape();
 	
-	public static final SwordStarter SWORD = new SwordStarter();
+	public static final Sword SWORD = new SwordStarter();
 	
 	public static final Ring BASIC = new RingBasic();
 	public static final Ring ARCHER1 = new RingArcher1();

@@ -9,8 +9,8 @@ import main.java.lotf.util.math.Vec2i;
 
 public class Inventory<I extends Item> {
 
-	private List<I> items = new ArrayList<I>();
-	private Vec2i size;
+	protected List<I> items = new ArrayList<I>();
+	protected Vec2i size;
 	
 	public Inventory(Vec2i size) {
 		this.size = size;
@@ -36,6 +36,10 @@ public class Inventory<I extends Item> {
 	
 	public void setItem(int where, I item) {
 		items.set(where, item);
+	}
+	
+	public Vec2i getSize() {
+		return size;
 	}
 	
 	public int getSizeX() {

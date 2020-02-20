@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.lotf.items.util.Collectible;
 
-public class InitCollectibles {
+public class Collectibles {
 	public static final List<Collectible> COLLECTIBLES = new ArrayList<Collectible>();
 	
 	public static final Collectible RED_FLY = new Collectible("redFly");

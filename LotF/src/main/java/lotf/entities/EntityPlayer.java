@@ -212,6 +212,7 @@ public class EntityPlayer extends EntityLiving {
 	@Override
 	public void addPosX(float x) {
 		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
+		x = prepareX(x);
 		
 		pos.addX(x);
 		
@@ -224,6 +225,7 @@ public class EntityPlayer extends EntityLiving {
 	@Override
 	public void addPosY(float y) {
 		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
+		y = prepareY(y);
 		
 		pos.addY(y);
 		
