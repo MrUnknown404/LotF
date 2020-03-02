@@ -3,40 +3,96 @@ package main.java.lotf.entities.projectiles;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
+import main.java.lotf.tile.Tile;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
 public abstract class EntityProjectile extends Entity {
-
-	protected EntityLiving shooter;
-	private int life = 5 * 60;
 	
-	public EntityProjectile(EntityInfo info, Vec2f pos, Vec2i size, EntityLiving shooter) {
+	protected final EntityLiving shooter;
+	private final int damage;
+	private final float speed;
+	
+	public EntityProjectile(EntityInfo info, Vec2f pos, Vec2i size, EntityLiving shooter, float speed, int damage) {
 		super(info, shooter.getRoom(), pos, size);
 		this.shooter = shooter;
-	}
-	
-	@Override
-	public void tick() {
-		if (life <= 0) {
-			kill();
-		} else {
-			life--;
-		}
+		this.speed = speed;
+		this.damage = damage;
 	}
 	
 	@Override
 	public void addPosX(float x) {
-		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
+		if (checkForDeath()) {
+			return;
+		} else if (checkForTileCollision()) {
+			kill();
+			return;
+		} else if (checkForEntityCollision()) {
+			kill();
+			return;
+		}
 		
-		pos.addX(x);
+		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
+		setPosX(getPosX() + x);
 	}
 	
 	@Override
 	public void addPosY(float y) {
-		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
+		if (checkForDeath()) {
+			return;
+		} else if (checkForTileCollision()) {
+			kill();
+			return;
+		} else if (checkForEntityCollision()) {
+			kill();
+			return;
+		}
 		
-		pos.addY(y);
+		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
+		setPosY(getPosY() + y);
+	}
+	
+	/** Does not kill! */
+	protected boolean checkForTileCollision() {
+		for (Tile t : room.getTilesWithCollision()) {
+			if (t.getBounds().intersects(getBounds())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/** Does not kill! but does hit entity */
+	protected boolean checkForEntityCollision() {
+		for (Entity e : room.getEntities()) {
+			if (e != this && e.getBounds().intersects(getBounds())) {
+				if (e instanceof EntityLiving) {
+					((EntityLiving) e).hit(damage);
+				}
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/** Also kills! */
+	protected boolean checkForDeath() {
+		if (!getBounds().intersects(room.getBounds())) {
+			kill();
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public float getSpeed() {
+		return speed;
+	}
+	
+	public int getDamage() {
+		return damage;
 	}
 }

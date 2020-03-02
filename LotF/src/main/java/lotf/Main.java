@@ -243,7 +243,7 @@ public final class Main {
 	public enum Gamestate {
 		run,
 		softPause,
-		hardPause;
+		hardPause
 	}
 	
 	public void requestFocus() {

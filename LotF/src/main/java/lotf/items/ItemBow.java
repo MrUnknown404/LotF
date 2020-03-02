@@ -37,6 +37,6 @@ public class ItemBow extends ItemUseable {
 				break;
 		}
 		
-		Main.getMain().getWorldHandler().spawnEntity(new ProjectileArrow(pos, user, user.getFacing(), 5));
+		Main.getMain().getWorldHandler().spawnEntity(new ProjectileArrow(pos, user, user.getFacing(), 5, damage));
 	}
 }

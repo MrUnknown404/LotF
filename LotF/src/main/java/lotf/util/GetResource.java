@@ -133,6 +133,7 @@ public class GetResource {
 		gui,
 		item,
 		ring,
+		potion,
 		collectible;
 	}
 }

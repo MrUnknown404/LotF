@@ -52,6 +52,8 @@ command.mana.desc=Sets the player's mana
 command.setarrows.desc=Sets the player's arrows
 command.setbombs.desc=Sets the player's bombs
 command.setmoney.desc=Sets the player's money
+command.setmana.desc=Sets the player's mana
+command.toggledebug.desc=Toggles debug mode
 
 command.nil.desc=Null! something broke!
 command.noSlash.desc=Commands must start with a /

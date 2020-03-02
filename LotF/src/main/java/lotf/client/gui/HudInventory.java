@@ -26,7 +26,7 @@ public class HudInventory extends Hud implements ITickable {
 	
 	private static Font lotfFont;
 	
-	private BufferedImage mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap, map, compass;
+	private BufferedImage mapBlock, mapLocationMarker, selectedSlotItem, selectedSlotRing, selectedMap, map, compass, equippedSlotRing;
 	private BufferedImage invHud0, invHud1, invHud2;
 	
 	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>(), rings = new HashMap<String, BufferedImage>(),
@@ -96,7 +96,7 @@ public class HudInventory extends Hud implements ITickable {
 				if (p.getInventory().getEquipedRing() != null) {
 					for (int i = 0; i < p.getInventory().getRingInventory().getSize().getBothMulti(); i++) {
 						if (p.getInventory().getEquipedRing() == p.getInventory().getRingInventory().getItem(i)) {
-							g.drawRect(3 + i * 20, 19, 20, 20); //TODO change to texture
+							g.drawImage(equippedSlotRing, 2 + i * 22, 18, 22, 22, null);
 							break;
 						}
 					}
@@ -277,6 +277,7 @@ public class HudInventory extends Hud implements ITickable {
 		mapLocationMarker = registerGUITexture("map_location_icon");
 		map = registerGUITexture("map");
 		compass = registerGUITexture("compass");
+		equippedSlotRing = registerGUITexture("equipped_slot_ring");
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
 			maps.put(type, registerGUITexture("maps/" + type.toString().toLowerCase() + "_map"));
@@ -320,7 +321,8 @@ public class HudInventory extends Hud implements ITickable {
 	}
 	
 	private BufferedImage registerItemTexture(Item item) {
-		return registerTexture(item instanceof Ring ? GetResource.ResourceType.ring : GetResource.ResourceType.item, item.getKey());
+		return registerTexture(item instanceof Ring ? GetResource.ResourceType.ring : item instanceof Potion ? GetResource.ResourceType.potion :
+			GetResource.ResourceType.item, item.getKey());
 	}
 	
 	private BufferedImage registerCollectibleTexture(Collectible col) {

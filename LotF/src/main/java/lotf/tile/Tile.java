@@ -23,7 +23,7 @@ public class Tile extends GameObject {
 			isFlipped = new Random().nextBoolean();
 		}
 		
-		setPos(new Vec2f(roomPos.getX() + pos.getX() * TILE_SIZE, roomPos.getY() + pos.getY() * TILE_SIZE));
+		setPos(new Vec2f(roomPos.getX() + getPosX() * TILE_SIZE, roomPos.getY() + getPosY() * TILE_SIZE));
 	}
 	
 	public boolean isFlipped() {

@@ -8,8 +8,8 @@ import main.java.lotf.util.math.Vec2i;
 
 public abstract class GameObject {
 	
-	protected Vec2f pos;
-	protected Vec2i size;
+	private Vec2f pos;
+	private Vec2i size;
 	
 	public GameObject(Vec2f pos, Vec2i size) {
 		this.pos = pos;
@@ -57,6 +57,6 @@ public abstract class GameObject {
 	}
 	
 	public Rectangle getBounds() {
-		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), size.getX(), size.getY());
+		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), getWidth(), getHeight());
 	}
 }

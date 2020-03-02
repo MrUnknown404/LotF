@@ -7,31 +7,28 @@ import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
 public class ProjectileArrow extends EntityProjectile {
-
-	private final float speed;
+	
 	private final EnumDirection dir;
 	
-	public ProjectileArrow(Vec2f pos, EntityLiving shooter, EnumDirection dir, float speed) {
-		super(EntityInfo.ARROW, pos, Vec2i.ZERO, shooter);
+	public ProjectileArrow(Vec2f pos, EntityLiving shooter, EnumDirection dir, float speed, int damage) {
+		super(EntityInfo.ARROW, pos, Vec2i.ZERO, shooter, speed, damage);
 		this.dir = dir;
-		this.speed = speed;
 	}
 	
 	@Override
 	public void tick() {
-		super.tick();
 		switch (dir) {
 			case east:
-				addPosX(speed);
+				addPosX(getSpeed());
 				break;
 			case north:
-				addPosY(-speed);
+				addPosY(-getSpeed());
 				break;
 			case south:
-				addPosY(speed);
+				addPosY(getSpeed());
 				break;
 			case west:
-				addPosX(-speed);
+				addPosX(-getSpeed());
 				break;
 		}
 	}

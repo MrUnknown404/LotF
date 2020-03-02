@@ -9,7 +9,7 @@ import main.java.lotf.world.Room;
 
 public abstract class EntityLiving extends Entity {
 	
-	protected List<Integer> hearts = new ArrayList<Integer>();
+	private final List<Integer> hearts = new ArrayList<Integer>();
 	private final List<Integer> startHearts;
 	
 	protected EntityLiving(EntityInfo info, Room room, Vec2f pos, Vec2i size, int totalHearts) {
@@ -23,7 +23,8 @@ public abstract class EntityLiving extends Entity {
 	@Override
 	public void reset() {
 		super.reset();
-		hearts = startHearts;
+		hearts.clear();
+		hearts.addAll(startHearts);
 	}
 	
 	public void heal(int amount) {
@@ -66,6 +67,14 @@ public abstract class EntityLiving extends Entity {
 			
 			amount -= damaged;
 		}
+		
+		if (hearts.get(0) == 0) {
+			kill();
+		}
+	}
+	
+	public void hit(int damage) {
+		damage(damage);
 	}
 	
 	public List<Integer> getHearts() {

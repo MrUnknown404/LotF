@@ -13,12 +13,7 @@ import main.java.lotf.world.Room;
 public class EntityEnemyTest extends EntityMonster {
 
 	public EntityEnemyTest(Room room, Vec2f pos) {
-		super(EntityInfo.ENEMY_TEST, room, pos, new Vec2i(14, 14), 3);
-	}
-	
-	@Override
-	public void tick() {
-		super.tick();
+		super(EntityInfo.ENEMY_TEST, room, pos, new Vec2i(14, 14), 1);
 	}
 	
 	@Override

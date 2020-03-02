@@ -39,8 +39,8 @@ public abstract class Entity extends GameObject implements ITickable {
 		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
 		x = prepareX(x);
 		
-		pos.addX(x);
-		pos.setX(MathH.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getWidth() * Tile.TILE_SIZE) - size.getX()));
+		setPosX(getPosX() + x);
+		setPosX(MathH.clamp(getPosX(), room.getPosX(), room.getPosX() + (room.getWidth() * Tile.TILE_SIZE) - getWidth()));
 	}
 	
 	@Override
@@ -48,8 +48,8 @@ public abstract class Entity extends GameObject implements ITickable {
 		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
 		y = prepareY(y);
 		
-		pos.addY(y);
-		pos.setY(MathH.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getHeight() * Tile.TILE_SIZE) - size.getY()));
+		setPosY(getPosY() + y);
+		setPosY(MathH.clamp(getPosY(), room.getPosY(), room.getPosY() + (room.getHeight() * Tile.TILE_SIZE) - getHeight()));
 	}
 	
 	protected float prepareX(float x) {
@@ -61,10 +61,10 @@ public abstract class Entity extends GameObject implements ITickable {
 			Rectangle b = getBounds();
 			if (t.getBounds().intersects(b.x + (x > 0 ? MathH.ceil(x) : MathH.floor(x)), b.y, b.width, b.height)) {
 				if (x > 0) {
-					return -(pos.getX() - t.getPosX() + getWidth());
+					return -(getPosX() - t.getPosX() + getWidth());
 				}
 				
-				return -(pos.getX() - t.getPosX() - Tile.TILE_SIZE);
+				return -(getPosX() - t.getPosX() - Tile.TILE_SIZE);
 			}
 		}
 		
@@ -80,10 +80,10 @@ public abstract class Entity extends GameObject implements ITickable {
 			Rectangle b = getBounds();
 			if (t.getBounds().intersects(b.x, b.y + (y > 0 ? MathH.ceil(y) : MathH.floor(y)), b.width, b.height)) {
 				if (y > 0) {
-					return -(pos.getY() - t.getPosY() + getHeight());
+					return -(getPosY() - t.getPosY() + getHeight());
 				}
 				
-				return -(pos.getY() - t.getPosY() - Tile.TILE_SIZE);
+				return -(getPosY() - t.getPosY() - Tile.TILE_SIZE);
 			}
 		}
 		

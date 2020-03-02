@@ -19,6 +19,7 @@ import main.java.lotf.util.ITickable;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
 import main.java.lotf.util.LangKey.LangType;
+import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
@@ -44,14 +45,14 @@ public class Room extends GameObject implements ITickable {
 		this.roomPos = roomPos;
 		
 		for (int i = 0; i < 3; i++) {
-			tiles.set(i, new Grid<Tile>(size.getX(), size.getY()));
+			tiles.set(i, new Grid<Tile>(getWidth(), getHeight()));
 		}
 		
 		description = hasLangKey ? GetResource.getStringFromLangKey(
 				new LangKey(LangType.gui, "room" + (roomPos.getX() + roomPos.getY() * World.WORLD_SIZE), LangKeyType.desc), LangKeyType.desc) : null;
 		
-		for (int yi = 0; yi < size.getY(); yi++) {
-			for (int xi = 0; xi < size.getX(); xi++) {
+		for (int yi = 0; yi < getHeight(); yi++) {
+			for (int xi = 0; xi < getWidth(); xi++) {
 				tiles.get(0).add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass()), xi, yi);
 				
 				for (int i = 1; i < 3; i++) {
@@ -60,7 +61,7 @@ public class Room extends GameObject implements ITickable {
 			}
 		}
 		
-		setPos(MathH.floor(getPosX() * this.size.getX() * Tile.TILE_SIZE), MathH.floor(getPosY() * this.size.getY() * Tile.TILE_SIZE));
+		setPos(MathH.floor(getPosX() * this.getWidth() * Tile.TILE_SIZE), MathH.floor(getPosY() * this.getHeight() * Tile.TILE_SIZE));
 		
 		onCreate();
 	}
@@ -84,7 +85,7 @@ public class Room extends GameObject implements ITickable {
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
 				if (t != null) {
-					t.updateTile(new Vec2i(pos));
+					t.updateTile(new Vec2i(MathH.floor(getPosX()), MathH.floor(getPosY())));
 				}
 			}
 		}
@@ -146,6 +147,20 @@ public class Room extends GameObject implements ITickable {
 		return tiles;
 	}
 	
+	public List<Tile> getTilesWithCollision() {
+		List<Tile> ts = new ArrayList<Tile>();
+		
+		for (Grid<Tile> g : tiles) {
+			for (Tile t : g.get()) {
+				if (t != null && t.getTileInfo().getCollisionType() != EnumCollisionType.none) {
+					ts.add(t);
+				}
+			}
+		}
+		
+		return ts;
+	}
+	
 	public List<Entity> getEntities() {
 		return entities;
 	}
@@ -155,13 +170,13 @@ public class Room extends GameObject implements ITickable {
 		
 		switch (dir) {
 			case north:
-				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) - boundsSize, size.getX() * Tile.TILE_SIZE, boundsSize);
+				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) - boundsSize, getWidth() * Tile.TILE_SIZE, boundsSize);
 			case east:
-				return new Rectangle(MathH.floor(getPosX() + (size.getX() * Tile.TILE_SIZE)), MathH.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
+				return new Rectangle(MathH.floor(getPosX() + (getWidth() * Tile.TILE_SIZE)), MathH.floor(getPosY()), boundsSize, getHeight() * Tile.TILE_SIZE);
 			case south:
-				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY() + (size.getY() * Tile.TILE_SIZE)), size.getX() * Tile.TILE_SIZE, boundsSize);
+				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY() + (getHeight() * Tile.TILE_SIZE)), getWidth() * Tile.TILE_SIZE, boundsSize);
 			case west:
-				return new Rectangle(MathH.floor(getPosX()) - boundsSize, MathH.floor(getPosY()), boundsSize, size.getY() * Tile.TILE_SIZE);
+				return new Rectangle(MathH.floor(getPosX()) - boundsSize, MathH.floor(getPosY()), boundsSize, getHeight() * Tile.TILE_SIZE);
 			default:
 				return getBounds();
 		}
@@ -169,6 +184,6 @@ public class Room extends GameObject implements ITickable {
 	
 	@Override
 	public Rectangle getBounds() {
-		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), size.getX() * Tile.TILE_SIZE, size.getY() * Tile.TILE_SIZE);
+		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), getWidth() * Tile.TILE_SIZE, getHeight() * Tile.TILE_SIZE);
 	}
 }

@@ -74,15 +74,15 @@ public class EntityPlayer extends EntityLiving {
 				case north:
 					setMoveX(0);
 					setMoveY(-CHANGE_ROOM_SPEED);
-					if (getRoom().getPosY() > pos.getY() + size.getY()) {
+					if (getRoom().getPosY() > getPosY() + getHeight()) {
 						resetToBeRoomValues(true);
-						setPosY(getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - size.getY());
+						setPosY(getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - getHeight());
 					}
 					break;
 				case east:
 					setMoveX(CHANGE_ROOM_SPEED);
 					setMoveY(0);
-					if (getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) < pos.getX()) {
+					if (getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) < getPosX()) {
 						resetToBeRoomValues(false);
 						setPosX(getRoom().getPosX());
 					}
@@ -90,7 +90,7 @@ public class EntityPlayer extends EntityLiving {
 				case south:
 					setMoveX(0);
 					setMoveY(CHANGE_ROOM_SPEED);
-					if (getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) < pos.getY()) {
+					if (getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) < getPosY()) {
 						resetToBeRoomValues(true);
 						setPosY(getRoom().getPosY());
 					}
@@ -98,9 +98,9 @@ public class EntityPlayer extends EntityLiving {
 				case west:
 					setMoveX(-CHANGE_ROOM_SPEED);
 					setMoveY(0);
-					if (getRoom().getPosX() > pos.getX() + size.getX()) {
+					if (getRoom().getPosX() > getPosX() + getWidth()) {
 						resetToBeRoomValues(false);
-						setPosX(getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - size.getX());
+						setPosX(getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - getWidth());
 					}
 					break;
 				default:
@@ -159,20 +159,20 @@ public class EntityPlayer extends EntityLiving {
 		
 		switch (type) {
 			case north:
-				setPosX(MathH.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getWidth() * Tile.TILE_SIZE)));
+				setPosX(MathH.clamp(getPosX(), room.getPosX(), room.getPosX() + (room.getWidth() * Tile.TILE_SIZE)));
 				setPosY(getRoom().getPosY());
 				break;
 			case east:
-				setPosX(getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - size.getX());
-				setPosY(MathH.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getHeight() * Tile.TILE_SIZE)));
+				setPosX(getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - getWidth());
+				setPosY(MathH.clamp(getPosY(), room.getPosY(), room.getPosY() + (room.getHeight() * Tile.TILE_SIZE)));
 				break;
 			case south:
-				setPosX(MathH.clamp(pos.getX(), room.getPosX(), room.getPosX() + (room.getWidth() * Tile.TILE_SIZE)));
-				setPosY(getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - size.getY());
+				setPosX(MathH.clamp(getPosX(), room.getPosX(), room.getPosX() + (room.getWidth() * Tile.TILE_SIZE)));
+				setPosY(getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - getHeight());
 				break;
 			case west:
 				setPosX(getRoom().getPosX());
-				setPosY(MathH.clamp(pos.getY(), room.getPosY(), room.getPosY() + (room.getHeight() * Tile.TILE_SIZE)));
+				setPosY(MathH.clamp(getPosY(), room.getPosY(), room.getPosY() + (room.getHeight() * Tile.TILE_SIZE)));
 				break;
 			default:
 				Console.print(Console.WarningType.FatalError, "Invalid EnumDirection : " + type + "!");
@@ -214,11 +214,11 @@ public class EntityPlayer extends EntityLiving {
 		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
 		x = prepareX(x);
 		
-		pos.addX(x);
+		setPosX(getPosX() + x);
 		
 		if (toBeRoom == null) {
 			attemptMoveRoom();
-			pos.setX(MathH.clamp(pos.getX(), getRoom().getPosX(), getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - size.getX()));
+			setPosX(MathH.clamp(getPosX(), getRoom().getPosX(), getRoom().getPosX() + (getRoom().getWidth() * Tile.TILE_SIZE) - getWidth()));
 		}
 	}
 	
@@ -227,11 +227,11 @@ public class EntityPlayer extends EntityLiving {
 		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
 		y = prepareY(y);
 		
-		pos.addY(y);
+		setPosY(getPosY() + y);
 		
 		if (toBeRoom == null) {
 			attemptMoveRoom();
-			pos.setY(MathH.clamp(pos.getY(), getRoom().getPosY(), getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - size.getY()));
+			setPosY(MathH.clamp(getPosY(), getRoom().getPosY(), getRoom().getPosY() + (getRoom().getHeight() * Tile.TILE_SIZE) - getHeight()));
 		}
 	}
 	
