@@ -2,16 +2,19 @@ package main.java.lotf.util;
 
 import java.awt.Rectangle;
 
+import main.java.lotf.util.annotation.UseGetter;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2f;
 import main.java.lotf.util.math.Vec2i;
 
 public abstract class GameObject {
 	
-	private Vec2f pos;
+	@Deprecated @UseGetter({"getPosX", "getPosY"})
+	protected Vec2f pos;
+	@Deprecated @UseGetter({"getWidth", "getHeight"})
 	private Vec2i size;
 	
-	public GameObject(Vec2f pos, Vec2i size) {
+	protected GameObject(Vec2f pos, Vec2i size) {
 		this.pos = pos;
 		this.size = size;
 	}
@@ -21,7 +24,7 @@ public abstract class GameObject {
 	}
 	
 	public void setPos(float x, float y) {
-		this.pos.set(x, y);
+		pos.set(x, y);
 	}
 	
 	public void setPosX(float x) {

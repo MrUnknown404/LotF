@@ -20,6 +20,7 @@ import main.java.lotf.client.gui.HudInventory;
 import main.java.lotf.client.gui.HudMain;
 import main.java.lotf.client.renderer.Renderer;
 import main.java.lotf.commands.util.DebugConsole;
+import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Commands;
 import main.java.lotf.init.Items;
 import main.java.lotf.tile.TileInfo;
@@ -31,6 +32,9 @@ import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.WorldHandler;
 
+/**
+ * @author -Unknown-
+ */
 public final class Main {
 	private static Main main;
 	private static GameLoop gameLoop;
@@ -99,6 +103,7 @@ public final class Main {
 		GetResource.getLangFile();
 		
 		Commands.registerAll();
+		Collectibles.registerAll();
 		Items.registerAll();
 		TileInfo.registerAll();
 		

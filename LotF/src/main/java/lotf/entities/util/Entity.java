@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.annotation.UseGetter;
 import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.math.MathH;
@@ -15,9 +16,11 @@ import main.java.lotf.world.Room;
 public abstract class Entity extends GameObject implements ITickable {
 	
 	protected final EntityInfo info;
-	protected EnumDirection facing = EnumDirection.north;
+	private final Vec2f startPos;
+	
+	@Deprecated @UseGetter({"getFacing"})
+	private EnumDirection facing = EnumDirection.north;
 	protected Room room;
-	private Vec2f startPos;
 	
 	protected Entity(EntityInfo info, Room room, Vec2f pos, Vec2i size) {
 		super(new Vec2f(room.getPosX() + pos.getX(), room.getPosY() + pos.getY()), size);
@@ -36,7 +39,7 @@ public abstract class Entity extends GameObject implements ITickable {
 	
 	@Override
 	public void addPosX(float x) {
-		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
+		setFacing(x > 0 ? EnumDirection.east : EnumDirection.west);
 		x = prepareX(x);
 		
 		setPosX(getPosX() + x);
@@ -45,7 +48,7 @@ public abstract class Entity extends GameObject implements ITickable {
 	
 	@Override
 	public void addPosY(float y) {
-		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
+		setFacing(y > 0 ? EnumDirection.south : EnumDirection.north);
 		y = prepareY(y);
 		
 		setPosY(getPosY() + y);
@@ -88,6 +91,10 @@ public abstract class Entity extends GameObject implements ITickable {
 		}
 		
 		return y;
+	}
+	
+	protected void setFacing(EnumDirection facing) {
+		this.facing = facing;
 	}
 	
 	public EnumDirection getFacing() {

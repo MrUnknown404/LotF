@@ -33,7 +33,7 @@ public abstract class EntityProjectile extends Entity {
 			return;
 		}
 		
-		facing = x > 0 ? EnumDirection.east : EnumDirection.west;
+		setFacing(x > 0 ? EnumDirection.east : EnumDirection.west);
 		setPosX(getPosX() + x);
 	}
 	
@@ -49,7 +49,7 @@ public abstract class EntityProjectile extends Entity {
 			return;
 		}
 		
-		facing = y > 0 ? EnumDirection.south : EnumDirection.north;
+		setFacing(y > 0 ? EnumDirection.south : EnumDirection.north);
 		setPosY(getPosY() + y);
 	}
 	

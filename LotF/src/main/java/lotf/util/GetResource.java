@@ -30,8 +30,9 @@ public class GetResource {
 		
 		if (location == ResourceType.none) {
 			newLoc = "";
+		} else {
+			newLoc += "/";
 		}
-		newLoc += "/";
 		
 		if (GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE) == null) {
 			Console.print(Console.WarningType.Error, "Cannot find texture : '" + Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE + "'");
