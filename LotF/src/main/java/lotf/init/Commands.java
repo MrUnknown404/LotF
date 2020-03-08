@@ -17,11 +17,14 @@ import main.java.lotf.commands.CommandSetMoney;
 import main.java.lotf.commands.CommandToggleDebug;
 import main.java.lotf.commands.util.Command;
 import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
 
 public class Commands {
 	private static final List<Command> COMMANDS = new ArrayList<Command>();
 	
 	public static void registerAll() {
+		Console.print(WarningType.Info, "Started registering " + Commands.class.getSimpleName() + "!");
+		
 		registerCommand(new CommandHelp());
 		registerCommand(new CommandSetMoney());
 		registerCommand(new CommandSetArrows());

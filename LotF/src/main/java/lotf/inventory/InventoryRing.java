@@ -19,7 +19,7 @@ public class InventoryRing extends Inventory<Ring> {
 	public InventoryRing() {
 		super(new Vec2i(6, 1));
 		
-		for (Item item : Items.ITEMS) {
+		for (Item item : Items.getAll()) {
 			if (item instanceof Ring) {
 				rings.put((Ring) item, false);
 			}

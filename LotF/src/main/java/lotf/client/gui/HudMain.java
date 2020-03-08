@@ -37,7 +37,7 @@ public class HudMain extends Hud {
 		hearts[3] = registerGUITexture("hearts/heart_3");
 		hearts[4] = registerGUITexture("hearts/heart_4");
 		
-		for (Item item : Items.ITEMS) {
+		for (Item item : Items.getAll()) {
 			if (!(item instanceof Ring) && !(item instanceof Sword) && !(item instanceof Potion)) {
 				items.put(item.getKey(), registerItemTexture(item));
 			}

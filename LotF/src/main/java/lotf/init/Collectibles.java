@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.items.util.Collectible;
+import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
 
 public class Collectibles {
-	public static final List<Collectible> COLLECTIBLES = new ArrayList<Collectible>();
+	public static final List<Collectible> ALL = new ArrayList<Collectible>();
 	
 	public static final Collectible RED_FLY = new Collectible("redFly");
 	public static final Collectible GREEN_FLY = new Collectible("greenFly");
@@ -16,7 +18,7 @@ public class Collectibles {
 	public static final Collectible BUTTERFLY = new Collectible("butterfly");
 	
 	public static Collectible find(String name) {
-		for (Collectible col : COLLECTIBLES) {
+		for (Collectible col : ALL) {
 			if (col.getKey().equalsIgnoreCase(name)) {
 				return col;
 			}
@@ -25,8 +27,15 @@ public class Collectibles {
 		return null;
 	}
 	
-	/**
-	 * This just forces the variables to be setup early. It isn't needed, but I like it
-	 */
-	public static void registerAll() { /* haha this doesn't do anything */ }
+	/** Forces an early load */
+	public static void registerAll() { }
+
+	public static void add(Collectible i) {
+		if (Collectibles.ALL.isEmpty()) {
+			Console.print(WarningType.Info, "Started registering " + Collectibles.class.getSimpleName() + "!");
+		}
+		
+		ALL.add(i);
+		Console.print(Console.WarningType.RegisterDebug, "'" + i.getKey() + "' was registered!");
+	}
 }

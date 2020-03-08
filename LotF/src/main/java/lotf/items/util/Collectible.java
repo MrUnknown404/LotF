@@ -1,7 +1,6 @@
 package main.java.lotf.items.util;
 
 import main.java.lotf.init.Collectibles;
-import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
@@ -16,12 +15,11 @@ public class Collectible {
 	
 	public Collectible(String key) {
 		langKey = new LangKey(LangType.collectible, key, LangKeyType.name, LangKeyType.desc);
-		Console.print(Console.WarningType.RegisterDebug, "'" + langKey.getKey() + "' was registered!");
 		
 		name = GetResource.getStringFromLangKey(langKey, LangKeyType.name);
 		description = GetResource.getStringFromLangKey(langKey, LangKeyType.desc);
 		
-		Collectibles.COLLECTIBLES.add(this);
+		Collectibles.add(this);
 	}
 	
 	public Collectible setAmount(int amount) {

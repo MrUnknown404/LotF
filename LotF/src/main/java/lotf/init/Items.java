@@ -13,9 +13,11 @@ import main.java.lotf.items.rings.RingBasic;
 import main.java.lotf.items.swords.Sword;
 import main.java.lotf.items.swords.SwordStarter;
 import main.java.lotf.items.util.Item;
+import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
 
 public class Items {
-	public static final List<Item> ITEMS = new ArrayList<Item>();
+	private static final List<Item> ALL = new ArrayList<Item>();
 	
 	public static final Item BOW = new ItemBow();
 	public static final Item CAPE = new ItemCape();
@@ -28,8 +30,19 @@ public class Items {
 	public static final Potion EMPTY_POTION = new Potion("empty") { @Override protected void onDrink() { } };
 	public static final Potion RED_POTION = new PotionRed();
 	
-	/**
-	 * This just forces the variables to be setup early. It isn't needed, but I like it
-	 */
-	public static void registerAll() { /* haha this doesn't do anything */ }
+	public static List<Item> getAll() {
+		return ALL;
+	}
+
+	public static void add(Item i) {
+		if (ALL.isEmpty()) {
+			Console.print(WarningType.Info, "Started registering " + Items.class.getSimpleName() + "!");
+		}
+		
+		ALL.add(i);
+		Console.print(Console.WarningType.RegisterDebug, "'" + i.getKey() + "' was registered!");
+	}
+	
+	/** Forces an early load */
+	public static void registerAll() { }
 }

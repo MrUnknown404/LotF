@@ -13,14 +13,14 @@ public class InventoryCollectible {
 	private final Vec2i size = new Vec2i(3, 5);
 	
 	public InventoryCollectible() {
-		for (Collectible info : Collectibles.COLLECTIBLES) {
+		for (Collectible info : Collectibles.ALL) {
 			collectibles.add(info);
 		}
 	}
 	
 	public void addCollectable(Collectible col, int set) {
-		for (int i = 0; i < Collectibles.COLLECTIBLES.size(); i++) {
-			Collectible col2 = Collectibles.COLLECTIBLES.get(i);
+		for (int i = 0; i < Collectibles.ALL.size(); i++) {
+			Collectible col2 = Collectibles.ALL.get(i);
 			
 			if (col == col2) {
 				collectibles.set(i, collectibles.get(i).setAmount(set).setHas(true));

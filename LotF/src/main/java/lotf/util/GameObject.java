@@ -10,7 +10,7 @@ import main.java.lotf.util.math.Vec2i;
 public abstract class GameObject {
 	
 	@Deprecated @UseGetter({"getPosX", "getPosY"})
-	protected Vec2f pos;
+	private Vec2f pos;
 	@Deprecated @UseGetter({"getWidth", "getHeight"})
 	private Vec2i size;
 	

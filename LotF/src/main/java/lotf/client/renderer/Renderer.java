@@ -13,6 +13,7 @@ import main.java.lotf.client.renderer.util.ImageInfo;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
+import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
@@ -30,7 +31,7 @@ public class Renderer implements ITickable {
 	public void getTextures() {
 		Console.print(Console.WarningType.Info, "Starting texture registering for " + getClass().getSimpleName() + "...");
 		
-		for (TileInfo t : TileInfo.getAll()) {
+		for (TileInfo t :Tiles.getAll()) {
 			registerTile(t, t.getTextureCount());
 		}
 		for (EntityInfo e : EntityInfo.getAll()) {

@@ -1,50 +1,25 @@
 package main.java.lotf.tile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
-import main.java.lotf.util.Console;
+import main.java.lotf.init.Tiles;
 import main.java.lotf.util.ThingInfo;
 import main.java.lotf.util.enums.EnumCollisionType;
 
 public class TileInfo extends ThingInfo {
 	
-	private static final List<TileInfo> ALL = new ArrayList<TileInfo>();
-	
-	public static final TileInfo EMPTY_GRASS = new TileInfo("empty_grass", false, false, EnumCollisionType.none);
-	public static final TileInfo GRASS = new TileInfo("grass", 2, 120, false, true, EnumCollisionType.none);
-	public static final TileInfo FLOWER_GRASS = new TileInfo("flower_grass", 2, 120, false, true, EnumCollisionType.none);
-	public static final TileInfo WALL = new TileInfo("wall", false, false, EnumCollisionType.whole);
-	
 	private final boolean shouldRenderBehind, hasRandomFlip;
 	private final EnumCollisionType colType;
 	
-	private TileInfo(String name, int textureCount, int animationTime, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
+	public TileInfo(String name, int textureCount, int animationTime, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
 		super(name, textureCount, animationTime);
 		this.shouldRenderBehind = shouldRenderBehind;
 		this.hasRandomFlip = hasRandomFlip;
 		this.colType = colType;
 		
-		Console.print(Console.WarningType.RegisterDebug, "'" + name + "' was registered!");
-		
-		ALL.add(this);
+		Tiles.add(this);
 	}
 	
-	private TileInfo(String name, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
+	public TileInfo(String name, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
 		this(name, 1, 0, shouldRenderBehind, hasRandomFlip, colType);
-	}
-	
-	public static TileInfo getRandomGrass() {
-		int r = new Random().nextInt(3);
-		
-		if (r == 0) {
-			return EMPTY_GRASS;
-		} else if (r == 1) {
-			return GRASS;
-		} else {
-			return FLOWER_GRASS;
-		}
 	}
 	
 	public boolean shouldRenderBehind() {
@@ -57,10 +32,6 @@ public class TileInfo extends ThingInfo {
 	
 	public EnumCollisionType getCollisionType() {
 		return colType;
-	}
-	
-	public static List<TileInfo> getAll() {
-		return ALL;
 	}
 	
 	@Override
@@ -82,9 +53,4 @@ public class TileInfo extends ThingInfo {
 		return "(name:" + name + ", textureCount:" + textureCount + ", animationTime:" + animationTime + ", shouldRenderBehind:" + shouldRenderBehind
 				+ ", hasRandomFlip:" + hasRandomFlip + ", colType:" + colType + ")";
 	}
-	
-	/**
-	 * This just forces the variables to be setup early. It isn't needed, but I like it
-	 */
-	public static void registerAll() { /* haha this doesn't do anything */ }
 }

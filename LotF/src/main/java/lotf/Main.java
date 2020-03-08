@@ -23,7 +23,7 @@ import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Commands;
 import main.java.lotf.init.Items;
-import main.java.lotf.tile.TileInfo;
+import main.java.lotf.init.Tiles;
 import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.Console.WarningType;
@@ -105,7 +105,7 @@ public final class Main {
 		Commands.registerAll();
 		Collectibles.registerAll();
 		Items.registerAll();
-		TileInfo.registerAll();
+		Tiles.registerAll();
 		
 		renderer = new Renderer();
 		renderer.getTextures();

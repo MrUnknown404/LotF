@@ -194,7 +194,7 @@ public class HudInventory extends Hud implements ITickable {
 				Item itemForDesc = p.getInventory().getSelectedItem();
 				
 				if (itemForDesc != null) {
-					if (itemForDesc.getKey().equalsIgnoreCase(buffer)) { //TODO redo
+					if (itemForDesc.getKey().equalsIgnoreCase(buffer)) {
 						g.setFont(lotfFont);
 						drawStringMultiLine(g, (itemForDesc.getName() + " : " + itemForDesc.getDescription()).substring(0, descCharacter), 124, 2, 124);
 					} else {
@@ -283,7 +283,7 @@ public class HudInventory extends Hud implements ITickable {
 			maps.put(type, registerGUITexture("maps/" + type.toString().toLowerCase() + "_map"));
 		}
 		
-		for (Item item : Items.ITEMS) {
+		for (Item item : Items.getAll()) {
 			if (item instanceof Ring) {
 				rings.put(item.getKey(), registerItemTexture(item));
 			} else {
@@ -291,7 +291,7 @@ public class HudInventory extends Hud implements ITickable {
 			}
 		}
 		
-		for (Collectible col : Collectibles.COLLECTIBLES) {
+		for (Collectible col : Collectibles.ALL) {
 			collectibles.put(col.getKey(), registerCollectibleTexture(col));
 		}
 	}

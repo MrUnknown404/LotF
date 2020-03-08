@@ -5,10 +5,11 @@ import java.util.Date;
 
 import javax.annotation.Nullable;
 
+import main.java.lotf.Main;
+
 public final class Console {
 	
 	private static final WarningType[] DISABLED_TYPES = {WarningType.RegisterDebug, WarningType.TextureDebug};
-	//private static final WarningType[] DISABLED_TYPES = {};
 	
 	/** Prints date info to the console Example: <p> [12:34:56:789] [Info] [ExampleClass.exampleMethod.69] [Hour/Minute/Second/Millisecond] */
 	public static void getTimeExample() {
@@ -22,9 +23,11 @@ public final class Console {
 			return;
 		}
 		
-		for (WarningType t : DISABLED_TYPES) {
-			if (t == type) {
-				return;
+		if (!Main.isDebug) {
+			for (WarningType t : DISABLED_TYPES) {
+				if (t == type) {
+					return;
+				}
 			}
 		}
 		

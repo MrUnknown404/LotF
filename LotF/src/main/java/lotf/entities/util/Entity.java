@@ -63,11 +63,13 @@ public abstract class Entity extends GameObject implements ITickable {
 			
 			Rectangle b = getBounds();
 			if (t.getBounds().intersects(b.x + (x > 0 ? MathH.ceil(x) : MathH.floor(x)), b.y, b.width, b.height)) {
+				int ii = t.getTileInfo().getCollisionType().getXmod();
+				
 				if (x > 0) {
-					return -(getPosX() - t.getPosX() + getWidth());
+					return -(getPosX() - t.getPosX() + getWidth()) - ii;
 				}
 				
-				return -(getPosX() - t.getPosX() - Tile.TILE_SIZE);
+				return -(getPosX() - t.getPosX() - t.getWidth() + ii);
 			}
 		}
 		
@@ -82,11 +84,13 @@ public abstract class Entity extends GameObject implements ITickable {
 			
 			Rectangle b = getBounds();
 			if (t.getBounds().intersects(b.x, b.y + (y > 0 ? MathH.ceil(y) : MathH.floor(y)), b.width, b.height)) {
+				int ii = t.getTileInfo().getCollisionType().getYmod();
+				
 				if (y > 0) {
-					return -(getPosY() - t.getPosY() + getHeight());
+					return -(getPosY() - t.getPosY() + getHeight()) - ii;
 				}
 				
-				return -(getPosY() - t.getPosY() - Tile.TILE_SIZE);
+				return -(getPosY() - t.getPosY() - t.getHeight() + ii);
 			}
 		}
 		

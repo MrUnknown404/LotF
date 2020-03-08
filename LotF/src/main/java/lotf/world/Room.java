@@ -8,6 +8,7 @@ import java.util.List;
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
+import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Console;
@@ -53,10 +54,10 @@ public class Room extends GameObject implements ITickable {
 		
 		for (int yi = 0; yi < getHeight(); yi++) {
 			for (int xi = 0; xi < getWidth(); xi++) {
-				tiles.get(0).add(new Tile(new Vec2i(xi, yi), TileInfo.getRandomGrass()), xi, yi);
+				tiles.get(0).add(new Tile(new Vec2i(xi, yi), Tiles.getRandomGrass()), xi, yi);
 				
 				for (int i = 1; i < 3; i++) {
-					tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), TileInfo.WALL) : null, xi, yi);
+					tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) : null, xi, yi);
 				}
 			}
 		}
