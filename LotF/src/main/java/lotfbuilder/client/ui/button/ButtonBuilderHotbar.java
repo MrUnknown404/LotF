@@ -15,15 +15,19 @@ public class ButtonBuilderHotbar extends ButtonBuilderInventory {
 	}
 	
 	@Override
-	public void onClick(ClickType clickType, ClickModifier clickMod) {
+	public boolean onClick(ClickType clickType, ClickModifier clickMod) {
 		if (MainBuilder.main.builder.isInvOpen()) {
 			if (clickType == ClickType.left) {
 				MainBuilder.main.builder.setHotbarSlotToMouse(hotbarID);
+				return true;
 			} else if (clickType == ClickType.right) {
 				MainBuilder.main.builder.clearHotbarSlot(hotbarID);
+				return true;
 			}
-		} else {
-			//TODO
+			
+			return false;
 		}
+		
+		return false; //TODO
 	}
 }

@@ -12,7 +12,7 @@ import main.java.lotfbuilder.client.ui.UIHandler.ClickModifier;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickType;
 
 public class MouseHandler extends MouseAdapter {
-	public static final Vec2i MOUSE_POS = new Vec2i();
+	public static final Vec2i HUD_MOUSE_POS = new Vec2i(), WORLD_MOUSE_POS = new Vec2i();
 	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -31,16 +31,14 @@ public class MouseHandler extends MouseAdapter {
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		int button = e.getButton(); //1 = left, 3 = right
 		updateMousePos(e);
-		
-		UIHandler.checkClick(MOUSE_POS, button == 1 ? ClickType.left : button == 2 ? ClickType.middle : button == 3 ? ClickType.right : null,
-				e.isAltDown() ? ClickModifier.alt : e.isShiftDown() ? ClickModifier.shift : e.isControlDown() ? ClickModifier.ctrl : ClickModifier.none);
+		check(e);
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		updateMousePos(e);
+		check(e);
 	}
 	
 	@Override
@@ -48,8 +46,24 @@ public class MouseHandler extends MouseAdapter {
 		updateMousePos(e);
 	}
 	
+	private void check(MouseEvent e) {
+		int button = e.getButton();
+		
+		if (!UIHandler.checkClick(HUD_MOUSE_POS, button == 1 ? ClickType.left : button == 2 ? ClickType.middle : button == 3 ? ClickType.right : null,
+				e.isAltDown() ? ClickModifier.alt : e.isShiftDown() ? ClickModifier.shift : e.isControlDown() ? ClickModifier.ctrl : ClickModifier.none)) {
+			if (!MainBuilder.main.builder.isInvOpen()) {
+				MainBuilder.main.builder.placeMouseTileAt(WORLD_MOUSE_POS);
+			}
+		}
+	}
+	
 	private void updateMousePos(MouseEvent e) {
-		MOUSE_POS.set(MathH.floor(e.getX() / MainBuilder.main.scale) - (MainBuilder.main.getExtraWidth() / 2),
+		HUD_MOUSE_POS.set(MathH.floor(e.getX() / MainBuilder.main.scale) - (MainBuilder.main.getExtraWidth() / 2),
 				MathH.floor(e.getY() / MainBuilder.main.scale) - (MainBuilder.main.getExtraHeight() / 2));
+		
+		if (MainBuilder.main.camera != null) {
+			WORLD_MOUSE_POS.set(HUD_MOUSE_POS);
+			WORLD_MOUSE_POS.add(MathH.floor(MainBuilder.main.camera.getPosX()), MathH.floor(MainBuilder.main.camera.getPosY()));
+		}
 	}
 }

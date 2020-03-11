@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.init.Tiles;
+import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Grid;
 import main.java.lotf.util.enums.EnumWorldType;
@@ -13,7 +14,7 @@ import main.java.lotf.world.Room;
 
 public class RoomBuilder {
 	
-	private Room room;
+	private RoomBuildable room;
 	private int tileLayer, selectedSlot;
 	private boolean isInvOpen;
 	
@@ -22,7 +23,7 @@ public class RoomBuilder {
 	private TileInfo mouseTile;
 	
 	public RoomBuilder() {
-		room = new Room(EnumWorldType.debugworld, Vec2i.ZERO, false);
+		room = new RoomBuildable(EnumWorldType.debugworld, Vec2i.ZERO, false);
 		inv = new Grid<TileInfo>(11, MathH.ceil(Tiles.getAll().size() / 11f));
 		
 		for (TileInfo info : Tiles.getAll()) {
@@ -31,6 +32,12 @@ public class RoomBuilder {
 		for (int i = 0; i < 11; i++) {
 			hotbar.add(null);
 		}
+	}
+	
+	public void placeMouseTileAt(Vec2i mouseWorldPos) {
+		Vec2i tilePos = new Vec2i(MathH.floor(mouseWorldPos.getX() / Tile.TILE_SIZE), MathH.floor(mouseWorldPos.getY() / Tile.TILE_SIZE));
+		
+		room.placeTileAt(hotbar.get(selectedSlot), tileLayer, tilePos);
 	}
 	
 	public void increaseSlot() {

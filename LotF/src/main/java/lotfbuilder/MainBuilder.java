@@ -123,7 +123,7 @@ public class MainBuilder {
 		g.drawString("FPS: " + fps, 0, 143);
 		hud.draw(g);
 		
-		g.setColor(Color.RED);
+		g.setColor(Color.BLACK);
 		g.fillRect((int) (w / scale), 0, w2, height);
 		g.fillRect(-w2, 0, w2, height);
 		g.fillRect(0, (int) (h / scale), width, h2);

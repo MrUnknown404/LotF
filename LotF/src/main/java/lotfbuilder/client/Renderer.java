@@ -37,12 +37,8 @@ public class Renderer {
 	}
 	
 	public void render(Graphics2D g) {
-		g.setColor(Color.RED);
-		g.fillRect(20, 20, 20, 20);
-		g.setColor(Color.MAGENTA);
-		
 		Room r = MainBuilder.main.builder.getRoom();
-		
+		g.setColor(Color.MAGENTA);
 		g.drawRect((int) r.getPosX(), (int) r.getPosY(), r.getWidth() * Tile.TILE_SIZE, r.getHeight() * Tile.TILE_SIZE);
 		
 		List<Tile> tiles = new ArrayList<Tile>();

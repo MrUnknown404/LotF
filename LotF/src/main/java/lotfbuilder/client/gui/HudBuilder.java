@@ -60,7 +60,7 @@ public class HudBuilder extends Hud {
 		
 		TileInfo tm = MainBuilder.main.builder.getMouseTile();
 		if (tm != null) {
-			g.drawImage(tiles.get(tm), MouseHandler.MOUSE_POS.getX(), MouseHandler.MOUSE_POS.getY(), 16, 16, null);
+			g.drawImage(tiles.get(tm), MouseHandler.HUD_MOUSE_POS.getX(), MouseHandler.HUD_MOUSE_POS.getY(), 16, 16, null);
 		}
 	}
 }

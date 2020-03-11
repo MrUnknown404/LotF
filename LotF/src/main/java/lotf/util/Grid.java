@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.util.Console.WarningType;
+import main.java.lotf.util.math.Vec2i;
 
 public class Grid<T> {
 	private final List<T> grid = new ArrayList<T>();
@@ -28,6 +29,10 @@ public class Grid<T> {
 	
 	public T get(int x, int y) {
 		return checkValid(x, y) ? grid.get(x + (y * width)) : null;
+	}
+	
+	public Grid<T> add(T t, Vec2i vec) {
+		return add(t, vec.getX(), vec.getY());
 	}
 	
 	public Grid<T> add(T t, int x, int y) {

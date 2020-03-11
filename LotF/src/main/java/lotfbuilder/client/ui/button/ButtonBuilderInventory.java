@@ -17,15 +17,19 @@ public class ButtonBuilderInventory extends Button {
 	}
 	
 	@Override
-	public void onClick(ClickType clickType, ClickModifier clickMod) { //TODO check
+	public boolean onClick(ClickType clickType, ClickModifier clickMod) { //TODO check
 		if (!MainBuilder.main.builder.isInvOpen()) {
-			return;
+			return false;
 		}
 		
 		if (clickType == ClickType.left) {
 			MainBuilder.main.builder.setMouseTile(info);
+			return true;
 		} else if (clickType == ClickType.right) {
 			MainBuilder.main.builder.setMouseTile(null);
+			return true;
 		}
+		
+		return false;
 	}
 }

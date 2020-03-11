@@ -23,13 +23,14 @@ public class UIHandler {
 		}
 	}
 	
-	public static void checkClick(Vec2i click, ClickType clickType, ClickModifier clickMod) {
+	public static boolean checkClick(Vec2i click, ClickType clickType, ClickModifier clickMod) {
 		for (Button b : BUTTONS) {
 			if (b.getBounds().intersects(click.getX(), click.getY(), 1, 1)) {
-				b.onClick(clickType, clickMod);
-				return;
+				return b.onClick(clickType, clickMod);
 			}
 		}
+		
+		return false;
 	}
 	
 	public static List<Button> getAllButtions() {

@@ -12,5 +12,5 @@ public abstract class Button extends GameObject {
 		super(new Vec2f(pos), size);
 	}
 	
-	public abstract void onClick(ClickType clickType, ClickModifier clickMod);
+	public abstract boolean onClick(ClickType clickType, ClickModifier clickMod);
 }

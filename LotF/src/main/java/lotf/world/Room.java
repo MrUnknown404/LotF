@@ -89,7 +89,7 @@ public class Room extends GameObject implements ITickable {
 		}
 	}
 	
-	public void onCreate() {
+	private void onCreate() {
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
 				if (t != null) {
