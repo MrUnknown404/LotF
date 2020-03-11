@@ -17,50 +17,49 @@ import javax.imageio.ImageIO;
 import main.java.lotf.Main;
 import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.LangKey.LangKeyType;
+import main.java.lotfbuilder.MainBuilder;
 
 public class GetResource {
-	public static final BufferedImage nil = getTexture("nil");
+	public static final BufferedImage nil = getTexture(false, ResourceType.none, "nil");
 	
 	private static final String IMAGE_TYPE = ".png";
 	private static List<String> langKeys = new ArrayList<String>();
 	
-	public static BufferedImage getTexture(ResourceType location, String textureName) {
-		InputStream f = null;
-		String newLoc = location.toString().toLowerCase();
+	public static BufferedImage getTexture(boolean isBuilder, ResourceType location, String textureName) {
+		String newLoc = location == ResourceType.none ? "" : location.toString().toLowerCase() + "/";
+		String loc = isBuilder ? MainBuilder.TEXTURE_FOLDER_LOCATION : Main.TEXTURE_FOLDER_LOCATION;
 		
-		if (location == ResourceType.none) {
-			newLoc = "";
-		} else {
-			newLoc += "/";
-		}
-		
-		if (GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE) == null) {
-			Console.print(Console.WarningType.Error, "Cannot find texture : '" + Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE + "'");
+		if (GetResource.class.getResourceAsStream(loc + newLoc + textureName + IMAGE_TYPE) == null) {
+			Console.print(Console.WarningType.Error, "Cannot find texture : '" + loc + newLoc + textureName + IMAGE_TYPE + "'");
 			return nil;
 		}
 		
-		f = GetResource.class.getResourceAsStream(Main.TEXTURE_FOLDER_LOCATION + newLoc + textureName + IMAGE_TYPE);
-		BufferedImage i = null;
+		InputStream f = GetResource.class.getResourceAsStream(loc + newLoc + textureName + IMAGE_TYPE);
 		
 		if (f == null) {
 			return null;
 		}
 		
+		BufferedImage i = null;
 		try {
 			i = ImageIO.read(f);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		return i;
 	}
 	
+	public static BufferedImage getTexture(ResourceType type, String textureName) {
+		return getTexture(Main.isBuilder, type, textureName);
+	}
+	
 	public static BufferedImage getTexture(String textureName) {
-		return getTexture(ResourceType.none, textureName);
+		return getTexture(Main.isBuilder, ResourceType.none, textureName);
 	}
 	
 	public static Font getFont(String fontName, float size) {
 		InputStream i = null;
-		Font font = null;
 		
 		if (GetResource.class.getResourceAsStream(Main.FONT_FOLDER_LOCATION + fontName + ".ttf") == null) {
 			Console.print(Console.WarningType.Error, "Cannot find font : '" + Main.FONT_FOLDER_LOCATION + fontName + ".ttf'");
@@ -68,6 +67,7 @@ public class GetResource {
 			i = GetResource.class.getResourceAsStream(Main.FONT_FOLDER_LOCATION + fontName + ".ttf");
 		}
 		
+		Font font = null;
 		try {
 			font = Font.createFont(Font.TRUETYPE_FONT, i).deriveFont(size);
 			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -122,19 +122,12 @@ public class GetResource {
 			}
 		}
 		
-		Console.print(WarningType.FatalError, "Could not find the lang key '" + langKey.getLangType() + "." + langKey.getKey() + "." + keyType +
-				"\" in \"" + Locale.getDefault() + "'");
+		Console.print(WarningType.FatalError,
+				"Could not find the lang key '" + langKey.getLangType() + "." + langKey.getKey() + "." + keyType + "\" in \"" + Locale.getDefault() + "'");
 		return "nil";
 	}
 	
 	public enum ResourceType {
-		none,
-		tile,
-		entity,
-		gui,
-		item,
-		ring,
-		potion,
-		collectible;
+		none, tile, entity, gui, item, ring, potion, collectible;
 	}
 }

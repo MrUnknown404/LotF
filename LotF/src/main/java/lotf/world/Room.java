@@ -52,19 +52,26 @@ public class Room extends GameObject implements ITickable {
 		description = hasLangKey ? GetResource.getStringFromLangKey(
 				new LangKey(LangType.gui, "room" + (roomPos.getX() + roomPos.getY() * World.WORLD_SIZE), LangKeyType.desc), LangKeyType.desc) : null;
 		
-		for (int yi = 0; yi < getHeight(); yi++) {
-			for (int xi = 0; xi < getWidth(); xi++) {
-				tiles.get(0).add(new Tile(new Vec2i(xi, yi), Tiles.getRandomGrass()), xi, yi);
+		setPos(MathH.floor(getPosX() * this.getWidth() * Tile.TILE_SIZE), MathH.floor(getPosY() * this.getHeight() * Tile.TILE_SIZE));
+		
+		onCreate();
+	}
+	
+	public static Room createEmptyGrass(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {
+		Room r = new Room(worldType, roomPos, hasLangKey);
+		
+		for (int yi = 0; yi < r.getHeight(); yi++) {
+			for (int xi = 0; xi < r.getWidth(); xi++) {
+				r.tiles.get(0).add(new Tile(new Vec2i(xi, yi), Tiles.getRandomGrass()), xi, yi);
 				
 				for (int i = 1; i < 3; i++) {
-					tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) : null, xi, yi);
+					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) : null, xi, yi);
 				}
 			}
 		}
 		
-		setPos(MathH.floor(getPosX() * this.getWidth() * Tile.TILE_SIZE), MathH.floor(getPosY() * this.getHeight() * Tile.TILE_SIZE));
-		
-		onCreate();
+		r.onCreate();
+		return r;
 	}
 	
 	@Override

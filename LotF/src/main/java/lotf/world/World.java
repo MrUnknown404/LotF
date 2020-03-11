@@ -19,7 +19,7 @@ public class World {
 			for (int xi = 0; xi < WORLD_SIZE; xi++) {
 				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() && xi > worldType.getStartActiveBounds().getX() &&
 						xi < worldType.getEndActiveBounds().getX()) {
-					rooms.add(new Room(worldType, new Vec2i(xi, yi), xi + yi * WORLD_SIZE == 144 ? true : false), xi, yi);
+					rooms.add(Room.createEmptyGrass(worldType, new Vec2i(xi, yi), xi + yi * WORLD_SIZE == 144 ? true : false), xi, yi);
 				} else {
 					rooms.add(null, xi, yi);
 				}

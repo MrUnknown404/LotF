@@ -31,6 +31,7 @@ import main.java.lotf.util.GetResource;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.WorldHandler;
+import main.java.lotfbuilder.MainBuilder;
 
 /**
  * @author -Unknown-
@@ -62,17 +63,24 @@ public final class Main {
 	private KeyHandler keyHandler;
 	private WorldHandler worldHandler;
 	
-	public static boolean isDebug;
+	public static boolean isDebug, isBuilder;
 	
 	public static void main(String args[]) {
 		for (String s : args) {
 			if (s.equalsIgnoreCase("-debug")) {
 				isDebug = true;
+			} else if (s.equalsIgnoreCase("-builder")) {
+				isBuilder = true;
 			}
 		}
 		
-		main = new Main();
-		main.start();
+		if (!isBuilder) {
+			main = new Main();
+			main.start();
+		} else {
+			MainBuilder.main = new MainBuilder();
+			MainBuilder.main.start();
+		}
 	}
 	
 	private synchronized void start() {
@@ -170,12 +178,6 @@ public final class Main {
 		renderer.render(g);
 		g.translate(camera.getPosX(), camera.getPosY());
 		
-		g.setColor(Color.BLACK);
-		g.fillRect((int) (w / scale), 0, w2, height);
-		g.fillRect(-w2, 0, w2, height);
-		g.fillRect(0, (int) (h / scale), width, h2);
-		g.fillRect(0, -h2, width, h2);
-		
 		mainHud.draw(g);
 		invHud.draw(g);
 		
@@ -184,6 +186,11 @@ public final class Main {
 			consoleHud.draw(g);
 		}
 		
+		g.setColor(Color.BLACK);
+		g.fillRect((int) (w / scale), 0, w2, height);
+		g.fillRect(-w2, 0, w2, height);
+		g.fillRect(0, (int) (h / scale), width, h2);
+		g.fillRect(0, -h2, width, h2);
 		g.dispose();
 	}
 	
@@ -217,11 +224,11 @@ public final class Main {
 		return height;
 	}
 	
-	public int getGameWidth() {
+	public int getExtraWidth() {
 		return w2;
 	}
 	
-	public int getGameHeight() {
+	public int getExtraHeight() {
 		return h2;
 	}
 	

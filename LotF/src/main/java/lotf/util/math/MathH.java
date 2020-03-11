@@ -9,6 +9,10 @@ public class MathH {
 		return value < i ? i - 1 : i;
 	}
 	
+	public static int floor(double value) {
+		return floor((float) value);
+	}
+	
 	public static int ceil(float value) {
 		int i = (int) value;
 		return value > i ? i + 1 : i;

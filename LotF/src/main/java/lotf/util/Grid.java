@@ -38,6 +38,19 @@ public class Grid<T> {
 		return this;
 	}
 	
+	public Grid<T> addFirstEmpty(T t) {
+		if (grid.indexOf(null) != -1) {
+			grid.set(grid.indexOf(null), t);
+			return this;
+		} else if (grid.indexOf("") != -1) {
+			grid.set(grid.indexOf(""), t);
+			return this;
+		}
+		
+		Console.print(WarningType.Warning, "Could not find any null or empty values!");
+		return this;
+	}
+	
 	private boolean checkValid(int x, int y) {
 		if (x < 0) {
 			Console.print(WarningType.Error, "'X' Cannot be lower than 0!");
