@@ -31,14 +31,13 @@ public class Room extends GameObject implements ITickable {
 	
 	public static final Vec2i ROOM_SIZE = new Vec2i(16, 8);
 	
-	private final String description;
-	private final EnumWorldType worldType;
+	protected final String description;
+	protected final EnumWorldType worldType;
+	protected final Vec2i roomPos;
 	
 	@SuppressWarnings("unchecked")
-	private List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
+	protected List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
 	private List<Entity> entities = new ArrayList<Entity>();
-	
-	private final Vec2i roomPos;
 	
 	public Room(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {
 		super(new Vec2f(roomPos), ROOM_SIZE);
@@ -65,7 +64,8 @@ public class Room extends GameObject implements ITickable {
 				r.tiles.get(0).add(new Tile(new Vec2i(xi, yi), Tiles.getRandomGrass()), xi, yi);
 				
 				for (int i = 1; i < 3; i++) {
-					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) : null, xi, yi);
+					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) : (i == 1 && yi == 2 && xi == 6) ?
+							new Tile(new Vec2i(xi, yi), Tiles.WALL2) : null, xi, yi);
 				}
 			}
 		}
@@ -89,7 +89,7 @@ public class Room extends GameObject implements ITickable {
 		}
 	}
 	
-	private void onCreate() {
+	protected void onCreate() {
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
 				if (t != null) {
@@ -125,6 +125,31 @@ public class Room extends GameObject implements ITickable {
 		}
 		
 		return kinds;
+	}
+	
+	public List<Grid<Tile>> getVisibleTiles() {
+		List<Grid<Tile>> newTiles = new ArrayList<Grid<Tile>>();
+		for (int i = 0; i < 3; i++) {
+			newTiles.add(new Grid<Tile>(getWidth(), getHeight()));
+		}
+		
+		for (int i = getTileLayers().size() - 1; i >= 0; i--) {
+			Grid<Tile> grid = getTileLayers().get(i);
+			Grid<Tile> nextGrid = i != getTileLayers().size() - 1 ? getTileLayers().get(i + 1) : null;
+			
+			for (Tile t : grid.get()) {
+				if (t != null) {
+					if (t.getTileInfo().shouldRenderBehind()) {
+						newTiles.get(i).add(t, t.getTilePos());
+					} else if (nextGrid != null && (nextGrid.get(t.getTilePos().getX(), t.getTilePos().getY()) == null ||
+							nextGrid.get(t.getTilePos().getX(), t.getTilePos().getY()).getTileInfo().shouldRenderBehind())) {
+						newTiles.get(i).add(t, t.getTilePos());
+					}
+				}
+			}
+		}
+		
+		return newTiles;
 	}
 	
 	public void spawnEntity(Entity entity) {

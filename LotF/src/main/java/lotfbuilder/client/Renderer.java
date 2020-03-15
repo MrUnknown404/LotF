@@ -3,9 +3,7 @@ package main.java.lotfbuilder.client;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import main.java.lotf.init.Tiles;
@@ -41,25 +39,21 @@ public class Renderer {
 		g.setColor(Color.MAGENTA);
 		g.drawRect((int) r.getPosX(), (int) r.getPosY(), r.getWidth() * Tile.TILE_SIZE, r.getHeight() * Tile.TILE_SIZE);
 		
-		List<Tile> tiles = new ArrayList<Tile>();
-		
-		for (Grid<Tile> grid : r.getTileLayers()) {
+		for (Grid<Tile> grid : r.getVisibleTiles()) {
 			for (Tile t : grid.get()) {
-				if (t != null) {
-					tiles.add(t);
+				if (t == null) {
+					continue;
 				}
+				
+				int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
+				
+				if (t.isFlipped()) {
+					wX = -wX;
+					x += Tile.TILE_SIZE;
+				}
+				
+				g.drawImage(this.tiles.get(t.getTileInfo()), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 			}
-		}
-		
-		for (Tile t : tiles) {
-			int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
-			
-			if (t.isFlipped()) {
-				wX = -wX;
-				x += Tile.TILE_SIZE;
-			}
-			
-			g.drawImage(this.tiles.get(t.getTileInfo()), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 		}
 	}
 }

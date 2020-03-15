@@ -14,6 +14,8 @@ import main.java.lotfbuilder.client.ui.UIHandler.ClickType;
 public class MouseHandler extends MouseAdapter {
 	public static final Vec2i HUD_MOUSE_POS = new Vec2i(), WORLD_MOUSE_POS = new Vec2i();
 	
+	private int mouseState;
+	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int scroll = e.getWheelRotation();
@@ -30,7 +32,13 @@ public class MouseHandler extends MouseAdapter {
 	}
 	
 	@Override
+	public void mouseClicked(MouseEvent e) {
+		mouseState = e.getButton();
+	}
+	
+	@Override
 	public void mouseReleased(MouseEvent e) {
+		mouseState = e.getButton();
 		updateMousePos(e);
 		check(e);
 	}
@@ -47,12 +55,14 @@ public class MouseHandler extends MouseAdapter {
 	}
 	
 	private void check(MouseEvent e) {
-		int button = e.getButton();
-		
-		if (!UIHandler.checkClick(HUD_MOUSE_POS, button == 1 ? ClickType.left : button == 2 ? ClickType.middle : button == 3 ? ClickType.right : null,
+		if (!UIHandler.checkClick(HUD_MOUSE_POS, mouseState == 1 ? ClickType.left : mouseState == 2 ? ClickType.middle : mouseState == 3 ? ClickType.right : null,
 				e.isAltDown() ? ClickModifier.alt : e.isShiftDown() ? ClickModifier.shift : e.isControlDown() ? ClickModifier.ctrl : ClickModifier.none)) {
 			if (!MainBuilder.main.builder.isInvOpen()) {
-				MainBuilder.main.builder.placeMouseTileAt(WORLD_MOUSE_POS);
+				if (mouseState == 1) {
+					MainBuilder.main.builder.placeMouseTileAt(WORLD_MOUSE_POS);
+				} else if (mouseState == 3) {
+					MainBuilder.main.builder.clearTileAt(WORLD_MOUSE_POS);
+				}
 			}
 		}
 	}

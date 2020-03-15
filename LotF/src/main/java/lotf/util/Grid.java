@@ -28,7 +28,12 @@ public class Grid<T> {
 	}
 	
 	public T get(int x, int y) {
-		return checkValid(x, y) ? grid.get(x + (y * width)) : null;
+		try {
+			return checkValid(x, y) ? grid.get(x + (y * width)) : null;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Grid<T> add(T t, Vec2i vec) {
@@ -36,8 +41,24 @@ public class Grid<T> {
 	}
 	
 	public Grid<T> add(T t, int x, int y) {
-		if (checkValid(x, y)) {
-			grid.set(y * width + x, t);
+		try {
+			if (checkValid(x, y)) {
+				grid.set(y * width + x, t);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return this;
+	}
+	
+	public Grid<T> remove(int x, int y) {
+		try {
+			if (checkValid(x, y)) {
+				grid.set(y * width + x, null);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return this;
@@ -56,19 +77,19 @@ public class Grid<T> {
 		return this;
 	}
 	
-	private boolean checkValid(int x, int y) {
+	private boolean checkValid(int x, int y) throws Exception {
 		if (x < 0) {
 			Console.print(WarningType.Error, "'X' Cannot be lower than 0!");
-			return false;
+			throw new Exception("'X' Cannot be lower than 0!");
 		} else if (x >= width) {
 			Console.print(WarningType.Error, "'X' Cannot be above " + width + "!");
-			return false;
+			throw new Exception("'X' Cannot be above " + width + "!");
 		} else if (y < 0) {
 			Console.print(WarningType.Error, "'Y' Cannot be lower than 0!");
-			return false;
+			throw new Exception("'Y' Cannot be lower than 0!");
 		} else if (y >= height) {
 			Console.print(WarningType.Error, "'Y' Cannot be above " + height + "!");
-			return false;
+			throw new Exception("'Y' Cannot be above " + height + "!");
 		}
 		
 		return true;

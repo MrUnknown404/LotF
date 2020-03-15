@@ -35,6 +35,8 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 			MainBuilder.main.builder.decreaseLayer();
 		} else if (key == KeyEvent.VK_EQUALS) {
 			MainBuilder.main.builder.increaseLayer();
+		} else if (key == KeyEvent.VK_F1) {
+			MainBuilder.main.builder.saveRoom();
 		}
 		
 		if (key == KeyEvent.VK_E) {

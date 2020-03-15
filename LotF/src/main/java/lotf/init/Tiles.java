@@ -16,7 +16,7 @@ public class Tiles {
 	public static final TileInfo GRASS = new TileInfo("grass", 2, 120, false, true, EnumCollisionType.none);
 	public static final TileInfo FLOWER_GRASS = new TileInfo("flower_grass", 2, 120, false, true, EnumCollisionType.none);
 	public static final TileInfo WALL = new TileInfo("wall", false, false, EnumCollisionType.whole);
-	public static final TileInfo WALL2 = new TileInfo("wall2", false, false, EnumCollisionType.bottom);
+	public static final TileInfo WALL2 = new TileInfo("wall2", true, false, EnumCollisionType.bottom);
 	
 	public static TileInfo getRandomGrass() {
 		int r = new Random().nextInt(3);

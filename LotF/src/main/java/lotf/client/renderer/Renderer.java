@@ -111,25 +111,21 @@ public class Renderer implements ITickable {
 				}
 				
 				for (Room r : roomsToRender) {
-					List<Tile> tiles = new ArrayList<Tile>();
-					
-					for (Grid<Tile> grid : r.getTileLayers()) {
+					for (Grid<Tile> grid : r.getVisibleTiles()) {
 						for (Tile t : grid.get()) {
-							if (t != null) {
-								tiles.add(t);
+							if (t == null) {
+								continue;
 							}
+							
+							int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
+							
+							if (t.isFlipped()) {
+								wX = -wX;
+								x += Tile.TILE_SIZE;
+							}
+							
+							g.drawImage(tileTextures.get(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 						}
-					}
-					
-					for (Tile t : tiles) {
-						int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
-						
-						if (t.isFlipped()) {
-							wX = -wX;
-							x += Tile.TILE_SIZE;
-						}
-						
-						g.drawImage(tileTextures.get(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 					}
 					
 					for (Entity e : r.getEntities()) {

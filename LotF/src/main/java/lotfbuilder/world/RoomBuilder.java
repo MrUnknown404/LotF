@@ -1,11 +1,16 @@
 package main.java.lotfbuilder.world;
 
+import java.awt.FileDialog;
+import java.awt.Frame;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
+import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.Grid;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
@@ -34,10 +39,39 @@ public class RoomBuilder {
 		}
 	}
 	
+	public void saveRoom() {
+		Console.print(WarningType.Info, "Opening file dialog!");
+		
+		FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
+		dialog.setMode(FileDialog.SAVE);
+		dialog.setFile("room.lotfroom");
+		dialog.setVisible(true);
+		if (dialog.getFile() == null) {
+			Console.print(WarningType.Error, "Could not find file!");
+			return;
+		} else if (!dialog.getFile().endsWith(".lotfroom")) {
+			Console.print(WarningType.Error, "Wrong file type!");
+			return;
+		}
+		
+		Console.print(WarningType.Info, "Started saving room!");
+		File file = new File(dialog.getDirectory() + dialog.getFile());
+		
+		System.out.println(room.getVisibleTiles());
+		room.setNewTiles(room.getVisibleTiles());
+		//TODO save
+		
+		Console.print(WarningType.Info, "Finished saving room!");
+	}
+	
 	public void placeMouseTileAt(Vec2i mouseWorldPos) {
 		Vec2i tilePos = new Vec2i(MathH.floor(mouseWorldPos.getX() / Tile.TILE_SIZE), MathH.floor(mouseWorldPos.getY() / Tile.TILE_SIZE));
-		
 		room.placeTileAt(hotbar.get(selectedSlot), tileLayer, tilePos);
+	}
+	
+	public void clearTileAt(Vec2i mouseWorldPos) {
+		Vec2i tilePos = new Vec2i(MathH.floor(mouseWorldPos.getX() / Tile.TILE_SIZE), MathH.floor(mouseWorldPos.getY() / Tile.TILE_SIZE));
+		room.placeTileAt(null, tileLayer, tilePos);
 	}
 	
 	public void increaseSlot() {

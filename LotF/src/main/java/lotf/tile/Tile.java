@@ -14,10 +14,12 @@ public class Tile extends GameObject {
 	public static final int TILE_SIZE = 16;
 	
 	private final TileInfo tileInfo;
+	private final Vec2i tilePos;
 	private boolean isFlipped;
 	
 	public Tile(Vec2i tilePos, TileInfo tileInfo) {
 		super(new Vec2f(tilePos), new Vec2i(TILE_SIZE, TILE_SIZE));
+		this.tilePos = tilePos;
 		this.tileInfo = tileInfo;
 	}
 	
@@ -26,7 +28,7 @@ public class Tile extends GameObject {
 			isFlipped = new Random().nextBoolean();
 		}
 		
-		setPos(new Vec2f(roomPos.getX() + getPosX() * TILE_SIZE, roomPos.getY() + getPosY() * TILE_SIZE));
+		setPos(new Vec2f(roomPos.getX() + tilePos.getX() * TILE_SIZE, roomPos.getY() + tilePos.getY() * TILE_SIZE));
 	}
 	
 	public boolean isFlipped() {
@@ -35,6 +37,10 @@ public class Tile extends GameObject {
 	
 	public TileInfo getTileInfo() {
 		return tileInfo;
+	}
+	
+	public Vec2i getTilePos() {
+		return tilePos;
 	}
 	
 	@Override
