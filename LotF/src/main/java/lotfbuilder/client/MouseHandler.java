@@ -40,13 +40,13 @@ public class MouseHandler extends MouseAdapter {
 	public void mouseReleased(MouseEvent e) {
 		mouseState = e.getButton();
 		updateMousePos(e);
-		check(e);
+		checkWithUI(e);
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		updateMousePos(e);
-		check(e);
+		checkPlace();
 	}
 	
 	@Override
@@ -54,16 +54,20 @@ public class MouseHandler extends MouseAdapter {
 		updateMousePos(e);
 	}
 	
-	private void check(MouseEvent e) {
+	private void checkPlace() {
+		if (!MainBuilder.main.builder.isInvOpen()) {
+			if (mouseState == 1) {
+				MainBuilder.main.builder.placeMouseTileAt(WORLD_MOUSE_POS);
+			} else if (mouseState == 3) {
+				MainBuilder.main.builder.placeTileAt(null, WORLD_MOUSE_POS);
+			}
+		}
+	}
+	
+	private void checkWithUI(MouseEvent e) {
 		if (!UIHandler.checkClick(HUD_MOUSE_POS, mouseState == 1 ? ClickType.left : mouseState == 2 ? ClickType.middle : mouseState == 3 ? ClickType.right : null,
 				e.isAltDown() ? ClickModifier.alt : e.isShiftDown() ? ClickModifier.shift : e.isControlDown() ? ClickModifier.ctrl : ClickModifier.none)) {
-			if (!MainBuilder.main.builder.isInvOpen()) {
-				if (mouseState == 1) {
-					MainBuilder.main.builder.placeMouseTileAt(WORLD_MOUSE_POS);
-				} else if (mouseState == 3) {
-					MainBuilder.main.builder.clearTileAt(WORLD_MOUSE_POS);
-				}
-			}
+			checkPlace();
 		}
 	}
 	

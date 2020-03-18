@@ -31,7 +31,7 @@ public class Room extends GameObject implements ITickable {
 	
 	public static final Vec2i ROOM_SIZE = new Vec2i(16, 8);
 	
-	protected final String description;
+	protected transient final String description;
 	protected final EnumWorldType worldType;
 	protected final Vec2i roomPos;
 	
@@ -50,8 +50,6 @@ public class Room extends GameObject implements ITickable {
 		
 		description = hasLangKey ? GetResource.getStringFromLangKey(
 				new LangKey(LangType.gui, "room" + (roomPos.getX() + roomPos.getY() * World.WORLD_SIZE), LangKeyType.desc), LangKeyType.desc) : null;
-		
-		setPos(MathH.floor(getPosX() * this.getWidth() * Tile.TILE_SIZE), MathH.floor(getPosY() * this.getHeight() * Tile.TILE_SIZE));
 		
 		onCreate();
 	}
@@ -89,7 +87,9 @@ public class Room extends GameObject implements ITickable {
 		}
 	}
 	
-	protected void onCreate() {
+	public void onCreate() {
+		setPos(roomPos.getX() * getWidth() * Tile.TILE_SIZE, roomPos.getY() * getHeight() * Tile.TILE_SIZE);
+		
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
 				if (t != null) {

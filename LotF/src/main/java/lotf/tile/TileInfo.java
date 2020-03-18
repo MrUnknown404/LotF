@@ -35,20 +35,6 @@ public class TileInfo extends ThingInfo {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof TileInfo) {
-			TileInfo info = (TileInfo) obj;
-			
-			if (info.name == name && info.textureCount == textureCount && info.animationTime == animationTime && info.shouldRenderBehind == shouldRenderBehind &&
-					info.colType == colType) {
-				return true;
-			}
-		}
-		
-		return false;
-	}
-	
-	@Override
 	public String toString() {
 		return "(name:" + name + ", textureCount:" + textureCount + ", animationTime:" + animationTime + ", shouldRenderBehind:" + shouldRenderBehind
 				+ ", hasRandomFlip:" + hasRandomFlip + ", colType:" + colType + ")";

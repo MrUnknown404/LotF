@@ -79,17 +79,17 @@ public class Grid<T> {
 	
 	private boolean checkValid(int x, int y) throws Exception {
 		if (x < 0) {
-			Console.print(WarningType.Error, "'X' Cannot be lower than 0!");
-			throw new Exception("'X' Cannot be lower than 0!");
+			Console.print(WarningType.Error, "'X' Cannot be lower than 0! (was " + x + ")", true);
+			return false;
 		} else if (x >= width) {
-			Console.print(WarningType.Error, "'X' Cannot be above " + width + "!");
-			throw new Exception("'X' Cannot be above " + width + "!");
+			Console.print(WarningType.Error, "'X' Cannot be " + width + " or above! (was " + x + ")", true);
+			return false;
 		} else if (y < 0) {
-			Console.print(WarningType.Error, "'Y' Cannot be lower than 0!");
-			throw new Exception("'Y' Cannot be lower than 0!");
+			Console.print(WarningType.Error, "'Y' Cannot be lower than 0! (was " + y + ")", true);
+			return false;
 		} else if (y >= height) {
-			Console.print(WarningType.Error, "'Y' Cannot be above " + height + "!");
-			throw new Exception("'Y' Cannot be above " + height + "!");
+			Console.print(WarningType.Error, "'Y' Cannot be " + height + " or above! (was " + y + ")");
+			return false;
 		}
 		
 		return true;

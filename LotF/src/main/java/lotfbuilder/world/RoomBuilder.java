@@ -3,8 +3,14 @@ package main.java.lotfbuilder.world;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
 
 import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
@@ -16,16 +22,17 @@ import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
+import main.java.lotfbuilder.MainBuilder;
 
 public class RoomBuilder {
 	
 	private RoomBuildable room;
+	private TileInfo mouseTile;
 	private int tileLayer, selectedSlot;
 	private boolean isInvOpen;
 	
-	private List<TileInfo> hotbar = new ArrayList<TileInfo>();
-	private Grid<TileInfo> inv;
-	private TileInfo mouseTile;
+	private final List<TileInfo> hotbar = new ArrayList<TileInfo>();
+	private final Grid<TileInfo> inv;
 	
 	public RoomBuilder() {
 		room = new RoomBuildable(EnumWorldType.debugworld, Vec2i.ZERO, false);
@@ -42,7 +49,7 @@ public class RoomBuilder {
 	public void saveRoom() {
 		Console.print(WarningType.Info, "Opening file dialog!");
 		
-		FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
+		FileDialog dialog = new FileDialog((Frame) null, "Select File to Save");
 		dialog.setMode(FileDialog.SAVE);
 		dialog.setFile("room.lotfroom");
 		dialog.setVisible(true);
@@ -57,21 +64,61 @@ public class RoomBuilder {
 		Console.print(WarningType.Info, "Started saving room!");
 		File file = new File(dialog.getDirectory() + dialog.getFile());
 		
-		System.out.println(room.getVisibleTiles());
 		room.setNewTiles(room.getVisibleTiles());
-		//TODO save
+		
+		Gson g = MainBuilder.main.getGson();
+		FileWriter fw = null;
+		
+		try {
+			g.toJson(room, fw = new FileWriter(file));
+			fw.close();
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
 		
 		Console.print(WarningType.Info, "Finished saving room!");
 	}
 	
-	public void placeMouseTileAt(Vec2i mouseWorldPos) {
-		Vec2i tilePos = new Vec2i(MathH.floor(mouseWorldPos.getX() / Tile.TILE_SIZE), MathH.floor(mouseWorldPos.getY() / Tile.TILE_SIZE));
-		room.placeTileAt(hotbar.get(selectedSlot), tileLayer, tilePos);
+	public void loadRoom() {
+		Console.print(WarningType.Info, "Opening file dialog!");
+		
+		FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
+		dialog.setMode(FileDialog.LOAD);
+		dialog.setFile("room.lotfroom");
+		dialog.setVisible(true);
+		if (dialog.getFile() == null) {
+			Console.print(WarningType.Error, "Could not find file!");
+			return;
+		} else if (!dialog.getFile().endsWith(".lotfroom")) {
+			Console.print(WarningType.Error, "Wrong file type!");
+			return;
+		}
+		
+		Console.print(WarningType.Info, "Started loading room!");
+		File file = new File(dialog.getDirectory() + dialog.getFile());
+		
+		Gson g = MainBuilder.main.getGson();
+		FileReader fr = null;
+		
+		try {
+			room = g.fromJson(fr = new FileReader(file), RoomBuildable.class);
+			room.onCreate();
+			fr.close();
+		} catch (JsonIOException | IOException e) {
+			e.printStackTrace();
+		}
+		
+		Console.print(WarningType.Info, "Finished loading room!");
 	}
 	
-	public void clearTileAt(Vec2i mouseWorldPos) {
+	public void placeTileAt(TileInfo t, Vec2i mouseWorldPos) {
 		Vec2i tilePos = new Vec2i(MathH.floor(mouseWorldPos.getX() / Tile.TILE_SIZE), MathH.floor(mouseWorldPos.getY() / Tile.TILE_SIZE));
-		room.placeTileAt(null, tileLayer, tilePos);
+		room.placeTileAt(t, tileLayer, tilePos);
+	}
+	
+	/** Places hotbar tile */
+	public void placeMouseTileAt(Vec2i mouseWorldPos) {
+		placeTileAt(hotbar.get(selectedSlot), mouseWorldPos);
 	}
 	
 	public void increaseSlot() {

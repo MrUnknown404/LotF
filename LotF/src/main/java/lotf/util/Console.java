@@ -17,7 +17,7 @@ public final class Console {
 	}
 	
 	/** Prints date info plus the given string to the console Example: <p> [12:34:56:789] [Debug] [ExampleClass.exampleMethod.69] : Hello! */
-	public static void print(@Nullable WarningType type, String string) {
+	public static void print(@Nullable WarningType type, String string, boolean shouldThrow) {
 		if (type == null) {
 			System.out.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [Debug] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
 			return;
@@ -36,6 +36,19 @@ public final class Console {
 		} else {
 			System.out.println("[" + new SimpleDateFormat("hh:mm:ss:SSS").format(new Date()) + "] [" + type.toString() + "] [" + getCallerInfo(Console.class.getName()) + "] : " + string);
 		}
+		
+		if (shouldThrow) {
+			try {
+				throw new Exception(string);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/** Prints date info plus the given string to the console Example: <p> [12:34:56:789] [Debug] [ExampleClass.exampleMethod.69] : Hello! */
+	public static void print(WarningType type, String string) {
+		print(type, string, false);
 	}
 	
 	/** Prints date info plus the given string to the console Example: <p> [12:34:56:789] [Debug] [ExampleClass.exampleMethod.69] : Hello! */

@@ -52,7 +52,7 @@ public class Renderer {
 					x += Tile.TILE_SIZE;
 				}
 				
-				g.drawImage(this.tiles.get(t.getTileInfo()), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
+				g.drawImage(tiles.get(t.getTileInfo()), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
 			}
 		}
 	}

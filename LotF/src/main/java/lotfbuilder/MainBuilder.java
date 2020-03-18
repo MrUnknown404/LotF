@@ -7,9 +7,14 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import main.java.lotf.init.Tiles;
+import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.Console.WarningType;
+import main.java.lotf.util.RuntimeTypeAdapterFactory;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotfbuilder.client.Camera;
@@ -40,6 +45,8 @@ public class MainBuilder {
 	private MouseHandler mouseHandler;
 	private Renderer renderer;
 	private HudBuilder hud;
+	
+	private Gson gson;
 	
 	public synchronized void start() {
 		new Window("LotF Builder!", builderLoop = new BuilderLoop());
@@ -80,6 +87,11 @@ public class MainBuilder {
 		Console.print(WarningType.Info, "Initialization started...");
 		
 		camera = new Camera();
+		
+		RuntimeTypeAdapterFactory<Tile> factory = RuntimeTypeAdapterFactory.of(Tile.class, "class")
+				.registerSubtype(Tile.class, Tile.class.getCanonicalName());
+		GsonBuilder gson = new GsonBuilder().serializeNulls().registerTypeAdapterFactory(factory);
+		this.gson = gson.create();
 		
 		Console.print(WarningType.Info, "Initialization finished!");
 	}
@@ -149,6 +161,10 @@ public class MainBuilder {
 	
 	public int getExtraHeight() {
 		return h2;
+	}
+	
+	public Gson getGson() {
+		return gson;
 	}
 	
 	public class BuilderLoop extends Canvas implements Runnable {
@@ -233,9 +249,17 @@ public class MainBuilder {
 			addMouseMotionListener(mouseHandler);
 			addMouseWheelListener(mouseHandler);
 			addComponentListener(new ComponentListener() {
-				@Override public void componentShown(ComponentEvent e) {}
-				@Override public void componentMoved(ComponentEvent e) {}
-				@Override public void componentHidden(ComponentEvent e) {}
+				@Override
+				public void componentShown(ComponentEvent e) {
+				}
+				
+				@Override
+				public void componentMoved(ComponentEvent e) {
+				}
+				
+				@Override
+				public void componentHidden(ComponentEvent e) {
+				}
 				
 				@Override
 				public void componentResized(ComponentEvent e) {

@@ -15,6 +15,11 @@ public class Vec2f {
 		this.y = y;
 	}
 	
+	public Vec2f(float xy) {
+		this.x = xy;
+		this.y = xy;
+	}
+	
 	public Vec2f(Vec2i vec) {
 		this(vec.getX(), vec.getY());
 	}
