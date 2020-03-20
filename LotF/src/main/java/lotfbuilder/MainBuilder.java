@@ -71,10 +71,9 @@ public class MainBuilder {
 		
 		renderer = new Renderer();
 		renderer.setupTextures();
-		
-		builder = new RoomBuilder();
 		hud = new HudBuilder();
 		hud.setupTextures();
+		builder = new RoomBuilder();
 		
 		UIHandler.registerUI();
 		

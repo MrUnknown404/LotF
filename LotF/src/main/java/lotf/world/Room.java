@@ -39,6 +39,10 @@ public class Room extends GameObject implements ITickable {
 	protected List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
 	private List<Entity> entities = new ArrayList<Entity>();
 	
+	private List<TileInfo> cached_allInfos = new ArrayList<TileInfo>();
+	private List<Grid<Tile>> cached_visibleTiles = new ArrayList<Grid<Tile>>();
+	private List<Tile> cached_tilesWithCollision = new ArrayList<Tile>();
+	
 	public Room(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {
 		super(new Vec2f(roomPos), ROOM_SIZE);
 		this.worldType = worldType;
@@ -62,8 +66,8 @@ public class Room extends GameObject implements ITickable {
 				r.tiles.get(0).add(new Tile(new Vec2i(xi, yi), Tiles.getRandomGrass()), xi, yi);
 				
 				for (int i = 1; i < 3; i++) {
-					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) : (i == 1 && yi == 2 && xi == 6) ?
-							new Tile(new Vec2i(xi, yi), Tiles.WALL2) : null, xi, yi);
+					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) :
+							(i == 1 && yi == 2 && xi == 6) ? new Tile(new Vec2i(xi, yi), Tiles.WALL2) : null, xi, yi);
 				}
 			}
 		}
@@ -110,46 +114,47 @@ public class Room extends GameObject implements ITickable {
 	}
 	
 	public List<TileInfo> getAllTileInfos() {
-		List<TileInfo> kinds = new ArrayList<TileInfo>();
-		
-		for (Grid<Tile> g : tiles) {
-			for (Tile t : g.get()) {
-				if (t != null) {
-					if (kinds.isEmpty()) {
-						kinds.add(t.getTileInfo());
-					} else if (!kinds.contains(t.getTileInfo())) {
-						kinds.add(t.getTileInfo());
+		if (cached_allInfos.isEmpty()) {
+			for (Grid<Tile> g : tiles) {
+				for (Tile t : g.get()) {
+					if (t != null) {
+						if (cached_allInfos.isEmpty()) {
+							cached_allInfos.add(t.getTileInfo());
+						} else if (!cached_allInfos.contains(t.getTileInfo())) {
+							cached_allInfos.add(t.getTileInfo());
+						}
 					}
 				}
 			}
 		}
 		
-		return kinds;
+		return cached_allInfos;
 	}
 	
 	public List<Grid<Tile>> getVisibleTiles() {
-		List<Grid<Tile>> newTiles = new ArrayList<Grid<Tile>>();
-		for (int i = 0; i < 3; i++) {
-			newTiles.add(new Grid<Tile>(getWidth(), getHeight()));
-		}
-		
-		for (int i = getTileLayers().size() - 1; i >= 0; i--) {
-			Grid<Tile> grid = getTileLayers().get(i);
-			Grid<Tile> nextGrid = i != getTileLayers().size() - 1 ? getTileLayers().get(i + 1) : null;
+		if (cached_visibleTiles.isEmpty()) {
+			for (int i = 0; i < 3; i++) {
+				cached_visibleTiles.add(new Grid<Tile>(getWidth(), getHeight()));
+			}
 			
-			for (Tile t : grid.get()) {
-				if (t != null) {
-					if (t.getTileInfo().shouldRenderBehind()) {
-						newTiles.get(i).add(t, t.getTilePos());
-					} else if (nextGrid != null && (nextGrid.get(t.getTilePos().getX(), t.getTilePos().getY()) == null ||
-							nextGrid.get(t.getTilePos().getX(), t.getTilePos().getY()).getTileInfo().shouldRenderBehind())) {
-						newTiles.get(i).add(t, t.getTilePos());
+			for (int i = getTileLayers().size() - 1; i >= 0; i--) {
+				Grid<Tile> grid = getTileLayers().get(i);
+				Grid<Tile> nextGrid = i != getTileLayers().size() - 1 ? getTileLayers().get(i + 1) : null;
+				
+				for (Tile t : grid.get()) {
+					if (t != null) {
+						if (t.getTileInfo().shouldRenderBehind()) {
+							cached_visibleTiles.get(i).add(t, t.getTilePos());
+						} else if (nextGrid != null && (nextGrid.get(t.getTilePos().getX(), t.getTilePos().getY()) == null ||
+								nextGrid.get(t.getTilePos().getX(), t.getTilePos().getY()).getTileInfo().shouldRenderBehind())) {
+							cached_visibleTiles.get(i).add(t, t.getTilePos());
+						}
 					}
 				}
 			}
 		}
 		
-		return newTiles;
+		return cached_visibleTiles;
 	}
 	
 	public void spawnEntity(Entity entity) {
@@ -181,17 +186,17 @@ public class Room extends GameObject implements ITickable {
 	}
 	
 	public List<Tile> getTilesWithCollision() {
-		List<Tile> ts = new ArrayList<Tile>();
-		
-		for (Grid<Tile> g : tiles) {
-			for (Tile t : g.get()) {
-				if (t != null && t.getTileInfo().getCollisionType() != EnumCollisionType.none) {
-					ts.add(t);
+		if (cached_tilesWithCollision.isEmpty()) {
+			for (Grid<Tile> g : tiles) {
+				for (Tile t : g.get()) {
+					if (t != null && t.getTileInfo().getCollisionType() != EnumCollisionType.none) {
+						cached_tilesWithCollision.add(t);
+					}
 				}
 			}
 		}
 		
-		return ts;
+		return cached_tilesWithCollision;
 	}
 	
 	public List<Entity> getEntities() {
@@ -199,17 +204,15 @@ public class Room extends GameObject implements ITickable {
 	}
 	
 	public Rectangle getRoomBounds(EnumDirection dir) {
-		final int boundsSize = 8;
-		
 		switch (dir) {
 			case north:
-				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) - boundsSize, getWidth() * Tile.TILE_SIZE, boundsSize);
+				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) - 8, getWidth() * Tile.TILE_SIZE, 8);
 			case east:
-				return new Rectangle(MathH.floor(getPosX() + (getWidth() * Tile.TILE_SIZE)), MathH.floor(getPosY()), boundsSize, getHeight() * Tile.TILE_SIZE);
+				return new Rectangle(MathH.floor(getPosX() + (getWidth() * Tile.TILE_SIZE)), MathH.floor(getPosY()), 8, getHeight() * Tile.TILE_SIZE);
 			case south:
-				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY() + (getHeight() * Tile.TILE_SIZE)), getWidth() * Tile.TILE_SIZE, boundsSize);
+				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY() + (getHeight() * Tile.TILE_SIZE)), getWidth() * Tile.TILE_SIZE, 8);
 			case west:
-				return new Rectangle(MathH.floor(getPosX()) - boundsSize, MathH.floor(getPosY()), boundsSize, getHeight() * Tile.TILE_SIZE);
+				return new Rectangle(MathH.floor(getPosX()) - 8, MathH.floor(getPosY()), 8, getHeight() * Tile.TILE_SIZE);
 			default:
 				return getBounds();
 		}

@@ -100,7 +100,7 @@ public class Renderer implements ITickable {
 		
 		if (Main.getMain().getWorldHandler() != null) {
 			if (p != null) {
-				List<Room> roomsToRender = new ArrayList<>();
+				List<Room> roomsToRender = new ArrayList<Room>();
 				
 				if (p.getRoom() != null) {
 					roomsToRender.add(p.getRoom());
