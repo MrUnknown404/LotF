@@ -26,6 +26,7 @@ public class RoomBuildable extends Room {
 		
 		Tile t = null;
 		getTileLayers().get(layer).add(tile == null ? null : (t = new Tile(tilePos, tile)), tilePos);
+		cached_visibleTiles.clear();
 		
 		if (t != null) {
 			t.updateTile(roomPos);
@@ -33,7 +34,8 @@ public class RoomBuildable extends Room {
 	}
 	
 	public void setNewTiles(List<Grid<Tile>> tiles) {
-		this.tiles = tiles;
+		tiles.clear();
+		tiles.addAll(tiles);
 		onCreate();
 	}
 }

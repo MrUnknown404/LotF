@@ -27,7 +27,7 @@ public class MouseHandler extends MouseAdapter {
 				MainBuilder.main.builder.decreaseSlot();
 			}
 		} else {
-			//TODO setup builder inventory scrolling
+			//TODO setup builder inventory scrolling once i have enough tiles
 		}
 	}
 	

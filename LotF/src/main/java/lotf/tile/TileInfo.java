@@ -6,8 +6,8 @@ import main.java.lotf.util.enums.EnumCollisionType;
 
 public class TileInfo extends ThingInfo {
 	
-	private final boolean shouldRenderBehind, hasRandomFlip;
-	private final EnumCollisionType colType;
+	protected final boolean shouldRenderBehind, hasRandomFlip;
+	protected final EnumCollisionType colType;
 	
 	public TileInfo(String name, int textureCount, int animationTime, boolean shouldRenderBehind, boolean hasRandomFlip, EnumCollisionType colType) {
 		super(name, textureCount, animationTime);
@@ -36,7 +36,6 @@ public class TileInfo extends ThingInfo {
 	
 	@Override
 	public String toString() {
-		return "(name:" + name + ", textureCount:" + textureCount + ", animationTime:" + animationTime + ", shouldRenderBehind:" + shouldRenderBehind
-				+ ", hasRandomFlip:" + hasRandomFlip + ", colType:" + colType + ")";
+		return name;
 	}
 }

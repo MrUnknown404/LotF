@@ -17,7 +17,7 @@ public class ButtonBuilderInventory extends Button {
 	}
 	
 	@Override
-	public boolean onClick(ClickType clickType, ClickModifier clickMod) { //TODO check
+	public boolean onClick(ClickType clickType, ClickModifier clickMod) {
 		if (!MainBuilder.main.builder.isInvOpen()) {
 			return false;
 		}

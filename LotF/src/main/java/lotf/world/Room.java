@@ -36,12 +36,12 @@ public class Room extends GameObject implements ITickable {
 	protected final Vec2i roomPos;
 	
 	@SuppressWarnings("unchecked")
-	protected List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
-	private List<Entity> entities = new ArrayList<Entity>();
+	protected final List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
+	protected final List<Entity> entities = new ArrayList<Entity>();
 	
-	private List<TileInfo> cached_allInfos = new ArrayList<TileInfo>();
-	private List<Grid<Tile>> cached_visibleTiles = new ArrayList<Grid<Tile>>();
-	private List<Tile> cached_tilesWithCollision = new ArrayList<Tile>();
+	protected transient final List<TileInfo> cached_allInfos = new ArrayList<TileInfo>();
+	protected transient final List<Grid<Tile>> cached_visibleTiles = new ArrayList<Grid<Tile>>();
+	protected transient final List<Tile> cached_tilesWithCollision = new ArrayList<Tile>();
 	
 	public Room(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {
 		super(new Vec2f(roomPos), ROOM_SIZE);
@@ -67,7 +67,8 @@ public class Room extends GameObject implements ITickable {
 				
 				for (int i = 1; i < 3; i++) {
 					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) :
-							(i == 1 && yi == 2 && xi == 6) ? new Tile(new Vec2i(xi, yi), Tiles.WALL2) : null, xi, yi);
+							(i == 1 && yi == 2 && xi == 6) ? new Tile(new Vec2i(xi, yi), Tiles.WALL2) :
+							(i == 1 && yi == 2 && xi == 9) ? new Tile(new Vec2i(xi, yi), Tiles.TICK_TEST) : null, xi, yi);
 				}
 			}
 		}
@@ -84,8 +85,8 @@ public class Room extends GameObject implements ITickable {
 		
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
-				if (t instanceof ITickable) {
-					((ITickable) t).tick();
+				if (t != null && t.getTileInfo() instanceof ITickable) {
+					((ITickable) t.getTileInfo()).tick();
 				}
 			}
 		}

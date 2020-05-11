@@ -28,6 +28,6 @@ public class ButtonBuilderHotbar extends ButtonBuilderInventory {
 			return false;
 		}
 		
-		return false; //TODO
+		return false;
 	}
 }

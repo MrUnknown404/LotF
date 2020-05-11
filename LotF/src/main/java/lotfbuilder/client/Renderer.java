@@ -3,6 +3,7 @@ package main.java.lotfbuilder.client;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class Renderer {
 		g.setColor(Color.MAGENTA);
 		g.drawRect((int) r.getPosX(), (int) r.getPosY(), r.getWidth() * Tile.TILE_SIZE, r.getHeight() * Tile.TILE_SIZE);
 		
-		for (Grid<Tile> grid : r.getVisibleTiles()) {
+		for (Grid<Tile> grid : new ArrayList<Grid<Tile>>(r.getVisibleTiles())) {
 			for (Tile t : grid.get()) {
 				if (t == null) {
 					continue;

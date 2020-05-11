@@ -11,10 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import main.java.lotf.init.Tiles;
-import main.java.lotf.tile.Tile;
 import main.java.lotf.util.Console;
 import main.java.lotf.util.Console.WarningType;
-import main.java.lotf.util.RuntimeTypeAdapterFactory;
 import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotfbuilder.client.Camera;
@@ -87,9 +85,7 @@ public class MainBuilder {
 		
 		camera = new Camera();
 		
-		RuntimeTypeAdapterFactory<Tile> factory = RuntimeTypeAdapterFactory.of(Tile.class, "class")
-				.registerSubtype(Tile.class, Tile.class.getCanonicalName());
-		GsonBuilder gson = new GsonBuilder().serializeNulls().registerTypeAdapterFactory(factory);
+		GsonBuilder gson = new GsonBuilder().serializeNulls();
 		this.gson = gson.create();
 		
 		Console.print(WarningType.Info, "Initialization finished!");
