@@ -67,8 +67,7 @@ public class Room extends GameObject implements ITickable {
 				
 				for (int i = 1; i < 3; i++) {
 					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) :
-							(i == 1 && yi == 2 && xi == 6) ? new Tile(new Vec2i(xi, yi), Tiles.WALL2) :
-							(i == 1 && yi == 2 && xi == 9) ? new Tile(new Vec2i(xi, yi), Tiles.TICK_TEST) : null, xi, yi);
+							(i == 1 && yi == 2 && xi == 6) ? new Tile(new Vec2i(xi, yi), Tiles.WALL2)) : null, xi, yi);
 				}
 			}
 		}
