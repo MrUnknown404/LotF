@@ -3,10 +3,12 @@ package main.java.lotfbuilder.world;
 import java.awt.FileDialog;
 import java.awt.Frame;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -67,11 +69,11 @@ public class RoomBuilder {
 		room.setNewTiles(room.getVisibleTiles());
 		
 		Gson g = MainBuilder.main.getGson();
-		FileWriter fw = null;
 		
 		try {
-			g.toJson(room, fw = new FileWriter(file));
-			fw.close();
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(Base64.getEncoder().encodeToString(g.toJson(room).getBytes(StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8));
+			fos.close();
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
@@ -98,12 +100,12 @@ public class RoomBuilder {
 		File file = new File(dialog.getDirectory() + dialog.getFile());
 		
 		Gson g = MainBuilder.main.getGson();
-		FileReader fr = null;
 		
 		try {
-			room = g.fromJson(fr = new FileReader(file), RoomBuildable.class);
+			FileInputStream fis = new FileInputStream(file);
+			room = g.fromJson(new String(Base64.getDecoder().decode(fis.readAllBytes())), RoomBuildable.class);
 			room.onCreate();
-			fr.close();
+			fis.close();
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
 		}
