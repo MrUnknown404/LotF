@@ -39,9 +39,9 @@ public class Room extends GameObject implements ITickable {
 	protected final List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
 	protected final List<Entity> entities = new ArrayList<Entity>();
 	
-	protected transient final List<TileInfo> cached_allInfos = new ArrayList<TileInfo>();
-	protected transient final List<Grid<Tile>> cached_visibleTiles = new ArrayList<Grid<Tile>>();
-	protected transient final List<Tile> cached_tilesWithCollision = new ArrayList<Tile>();
+	protected transient List<TileInfo> cached_allInfos = new ArrayList<TileInfo>();
+	protected transient List<Grid<Tile>> cached_visibleTiles = new ArrayList<Grid<Tile>>();
+	protected transient List<Tile> cached_tilesWithCollision = new ArrayList<Tile>();
 	
 	public Room(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {
 		super(new Vec2f(roomPos), ROOM_SIZE);
@@ -66,8 +66,7 @@ public class Room extends GameObject implements ITickable {
 				r.tiles.get(0).add(new Tile(new Vec2i(xi, yi), Tiles.getRandomGrass()), xi, yi);
 				
 				for (int i = 1; i < 3; i++) {
-					r.tiles.get(i).add((i == 1 && yi == 2 && xi == 2) ? new Tile(new Vec2i(xi, yi), Tiles.WALL) :
-							(i == 1 && yi == 2 && xi == 6) ? new Tile(new Vec2i(xi, yi), Tiles.WALL2) : null, xi, yi);
+					r.tiles.get(i).add(null, xi, yi);
 				}
 			}
 		}
@@ -100,6 +99,16 @@ public class Room extends GameObject implements ITickable {
 					t.updateTile(new Vec2i(MathH.floor(getPosX()), MathH.floor(getPosY())));
 				}
 			}
+		}
+		
+		if (cached_allInfos == null) {
+			cached_allInfos = new ArrayList<TileInfo>();
+		}
+		if (cached_visibleTiles == null) {
+			cached_visibleTiles = new ArrayList<Grid<Tile>>();
+		}
+		if (cached_tilesWithCollision == null) {
+			cached_tilesWithCollision = new ArrayList<Tile>();
 		}
 	}
 	
@@ -177,6 +186,10 @@ public class Room extends GameObject implements ITickable {
 		return roomPos.getX() + roomPos.getY() * World.WORLD_SIZE;
 	}
 	
+	public Vec2i getRoomPos() {
+		return roomPos;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -201,6 +214,16 @@ public class Room extends GameObject implements ITickable {
 	
 	public List<Entity> getEntities() {
 		return entities;
+	}
+	
+	@Override
+	public int getWidth() {
+		return ROOM_SIZE.getX();
+	}
+	
+	@Override
+	public int getHeight() {
+		return ROOM_SIZE.getY();
 	}
 	
 	public Rectangle getRoomBounds(EnumDirection dir) {

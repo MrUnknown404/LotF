@@ -20,7 +20,7 @@ public class MouseHandler extends MouseAdapter {
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		int scroll = e.getWheelRotation();
 		
-		if (!MainBuilder.main.builder.isInvOpen()) {
+		if (!MainBuilder.main.builder.isInvOpen()) { //TODO setup zoom in/out
 			if (scroll == 1) {
 				MainBuilder.main.builder.increaseSlot();
 			} else {
@@ -32,7 +32,7 @@ public class MouseHandler extends MouseAdapter {
 	}
 	
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mousePressed(MouseEvent e) {
 		mouseState = e.getButton();
 	}
 	

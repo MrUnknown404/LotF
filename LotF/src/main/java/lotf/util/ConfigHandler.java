@@ -6,7 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import main.java.lotf.Main;
@@ -14,7 +13,7 @@ import main.java.lotf.Main;
 public class ConfigHandler {
 
 	public static void loadConfigs(IConfigurable<?>... configs) {
-		Gson g = new GsonBuilder().create();
+		Gson g = Main.getMain().getGson();
 		
 		for (IConfigurable<?> config : configs) {
 			File f = new File(Main.SAVE_LOCATION + config.getFileName() + ".json");

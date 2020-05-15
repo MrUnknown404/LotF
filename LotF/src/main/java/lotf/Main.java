@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import main.java.lotf.client.Camera;
 import main.java.lotf.client.KeyHandler;
 import main.java.lotf.client.Window;
@@ -45,10 +48,8 @@ public final class Main {
 	private static int fps;
 	
 	public static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
-	public static final String ROOM_FOLDER_LOCATION = "/main/resources/lotf/assets/rooms/";
-	public static final String TEXTURE_FOLDER_LOCATION = "/main/resources/lotf/assets/textures/";
-	public static final String FONT_FOLDER_LOCATION = "/main/resources/lotf/assets/fonts/";
-	public static final String LANG_FOLDER_LOCATION = "/main/resources/lotf/assets/lang/";
+	
+	public static final String ASSETS_LOCATION = "/main/resources/lotf/assets/";
 	
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
@@ -62,6 +63,7 @@ public final class Main {
 	private Camera camera;
 	private KeyHandler keyHandler;
 	private WorldHandler worldHandler;
+	private Gson gson;
 	
 	public static boolean isDebug, isBuilder;
 	
@@ -104,6 +106,9 @@ public final class Main {
 			f.mkdirs();
 			Console.print(WarningType.Info, "File path does not exist! Created file path now!");
 		}
+		
+		GsonBuilder gson = new GsonBuilder().serializeNulls();
+		this.gson = gson.create();
 		
 		keyHandler = new KeyHandler();
 		
@@ -246,6 +251,10 @@ public final class Main {
 	
 	public Camera getCamera() {
 		return camera;
+	}
+	
+	public Gson getGson() {
+		return gson;
 	}
 	
 	public static Main getMain() {

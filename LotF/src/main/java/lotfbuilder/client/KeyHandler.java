@@ -39,6 +39,14 @@ public class KeyHandler extends KeyAdapter implements ITickable {
 			MainBuilder.main.builder.saveRoom();
 		} else if (key == KeyEvent.VK_F2) {
 			MainBuilder.main.builder.loadRoom();
+		} else if (key == KeyEvent.VK_OPEN_BRACKET) {
+			MainBuilder.main.builder.decreaseX();
+		} else if (key == KeyEvent.VK_CLOSE_BRACKET) {
+			MainBuilder.main.builder.increaseX();
+		} else if (key == KeyEvent.VK_SEMICOLON) {
+			MainBuilder.main.builder.decreaseY();
+		} else if (key == KeyEvent.VK_QUOTE) {
+			MainBuilder.main.builder.increaseY();
 		}
 		
 		if (key == KeyEvent.VK_E) {

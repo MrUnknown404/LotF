@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -25,6 +24,7 @@ import main.java.lotf.util.math.MathH;
 import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
+import main.java.ucrypt.UCrypt;
 
 public class RoomBuilder {
 	
@@ -32,6 +32,7 @@ public class RoomBuilder {
 	private TileInfo mouseTile;
 	private int tileLayer, selectedSlot;
 	private boolean isInvOpen;
+	public Vec2i roomPos = new Vec2i();
 	
 	private final List<TileInfo> hotbar = new ArrayList<TileInfo>();
 	private final Grid<TileInfo> inv;
@@ -53,12 +54,12 @@ public class RoomBuilder {
 		
 		FileDialog dialog = new FileDialog((Frame) null, "Select File to Save");
 		dialog.setMode(FileDialog.SAVE);
-		dialog.setFile("room.lotfroom");
+		dialog.setFile("room.lotfr");
 		dialog.setVisible(true);
 		if (dialog.getFile() == null) {
 			Console.print(WarningType.Error, "Could not find file!");
 			return;
-		} else if (!dialog.getFile().endsWith(".lotfroom")) {
+		} else if (!dialog.getFile().endsWith(".lotfr")) {
 			Console.print(WarningType.Error, "Wrong file type!");
 			return;
 		}
@@ -67,12 +68,11 @@ public class RoomBuilder {
 		File file = new File(dialog.getDirectory() + dialog.getFile());
 		
 		room.setNewTiles(room.getVisibleTiles());
-		
-		Gson g = MainBuilder.main.getGson();
+		room.setRoomPos(roomPos);
 		
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
-			fos.write(Base64.getEncoder().encodeToString(g.toJson(room).getBytes(StandardCharsets.UTF_8)).getBytes(StandardCharsets.UTF_8));
+			fos.write(UCrypt.encode(dialog.getFile(), MainBuilder.main.getGson().toJson(room)).getBytes(StandardCharsets.UTF_8));
 			fos.close();
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
@@ -86,12 +86,12 @@ public class RoomBuilder {
 		
 		FileDialog dialog = new FileDialog((Frame) null, "Select File to Open");
 		dialog.setMode(FileDialog.LOAD);
-		dialog.setFile("room.lotfroom");
+		dialog.setFile("room.lotfr");
 		dialog.setVisible(true);
 		if (dialog.getFile() == null) {
 			Console.print(WarningType.Error, "Could not find file!");
 			return;
-		} else if (!dialog.getFile().endsWith(".lotfroom")) {
+		} else if (!dialog.getFile().endsWith(".lotfr")) {
 			Console.print(WarningType.Error, "Wrong file type!");
 			return;
 		}
@@ -103,8 +103,12 @@ public class RoomBuilder {
 		
 		try {
 			FileInputStream fis = new FileInputStream(file);
-			room = g.fromJson(new String(Base64.getDecoder().decode(fis.readAllBytes())), RoomBuildable.class);
+			room = g.fromJson(UCrypt.decode(dialog.getFile(), new String(fis.readAllBytes())), RoomBuildable.class);
+			roomPos = new Vec2i(room.getRoomPos());
+			
+			room.setRoomPos(Vec2i.ZERO);
 			room.onCreate();
+			
 			fis.close();
 		} catch (JsonIOException | IOException e) {
 			e.printStackTrace();
@@ -152,6 +156,38 @@ public class RoomBuilder {
 			tileLayer = 2;
 		} else {
 			tileLayer--;
+		}
+	}
+	
+	public void increaseX() {
+		if (roomPos.getX() == 16) {
+			roomPos.setX(0);
+		} else {
+			roomPos.addX(1);
+		}
+	}
+	
+	public void increaseY() {
+		if (roomPos.getY() == 16) {
+			roomPos.setY(0);
+		} else {
+			roomPos.addY(1);
+		}
+	}
+	
+	public void decreaseX() {
+		if (roomPos.getX() == 0) {
+			roomPos.setX(16);
+		} else {
+			roomPos.addX(-1);
+		}
+	}
+	
+	public void decreaseY() {
+		if (roomPos.getY() == 0) {
+			roomPos.setY(16);
+		} else {
+			roomPos.addY(-1);
 		}
 	}
 	

@@ -1,5 +1,8 @@
 package main.java.lotf.world;
 
+import main.java.lotf.util.Console;
+import main.java.lotf.util.Console.WarningType;
+import main.java.lotf.util.GetResource;
 import main.java.lotf.util.Grid;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.util.math.MathH;
@@ -19,12 +22,25 @@ public class World {
 			for (int xi = 0; xi < WORLD_SIZE; xi++) {
 				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() && xi > worldType.getStartActiveBounds().getX() &&
 						xi < worldType.getEndActiveBounds().getX()) {
-					rooms.add(Room.createEmptyGrass(worldType, new Vec2i(xi, yi), xi + yi * WORLD_SIZE == 144 ? true : false), xi, yi);
+					rooms.add(loadRoomFromFile(xi, yi), xi, yi);
 				} else {
 					rooms.add(null, xi, yi);
 				}
 			}
 		}
+	}
+	
+	private Room loadRoomFromFile(int xi, int yi) {
+		Room r = GetResource.getRoom(worldType, xi + yi * WORLD_SIZE);
+		if (r == null) {
+			Console.print(WarningType.RegisterDebug, "Could not register room for world type : '" + worldType + "' and room id '" + (xi + yi * WORLD_SIZE) + "'!");
+			r = Room.createEmptyGrass(worldType, new Vec2i(xi, yi), false);
+		} else {
+			Console.print(WarningType.RegisterDebug, "Successfully registered room for world type : '" + worldType + "' and room id '" + (xi + yi * WORLD_SIZE) + "'!");
+			r.onCreate();
+		}
+		
+		return r;
 	}
 	
 	public Room getFirstActiveRoom() {

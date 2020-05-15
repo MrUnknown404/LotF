@@ -24,6 +24,10 @@ public class Vec2f {
 		this(vec.getX(), vec.getY());
 	}
 	
+	public Vec2f(Vec2f vec) {
+		this(vec.getX(), vec.getY());
+	}
+	
 	public void add(Vec2f vec) {
 		this.x += vec.x;
 		this.y += vec.y;

@@ -41,6 +41,9 @@ public class HudBuilder extends Hud {
 		
 		g.setColor(Color.BLACK);
 		g.drawString("" + MainBuilder.main.builder.getTileLayer(), 1, 12);
+		g.setColor(Color.RED);
+		g.drawString("x." + MainBuilder.main.builder.roomPos.getX(), 2, 26);
+		g.drawString("y." + MainBuilder.main.builder.roomPos.getY(), 2, 36);
 		
 		if (MainBuilder.main.builder.isInvOpen()) {
 			for (int i = 0; i < MathH.ceil(Tiles.getAll().size() / 11f); i++) {

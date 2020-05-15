@@ -2,6 +2,8 @@ package main.java.lotfbuilder.world;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.Grid;
@@ -19,8 +21,11 @@ public class RoomBuildable extends Room {
 		super(worldType, roomPos, hasLangKey);
 	}
 	
-	public void placeTileAt(TileInfo tile, int layer, Vec2i tilePos) {
+	public void placeTileAt(@Nullable TileInfo tile, int layer, Vec2i tilePos) {
 		if (tilePos.getX() >= getWidth() || tilePos.getY() >= getHeight() || tilePos.getX() < 0 || tilePos.getY() < 0) {
+			return;
+		} else if (tile != null && getTileLayers().get(layer).get(tilePos.getX(), tilePos.getY()) != null &&
+				getTileLayers().get(layer).get(tilePos.getX(), tilePos.getY()).getTileInfo() == tile) {
 			return;
 		}
 		
@@ -37,5 +42,9 @@ public class RoomBuildable extends Room {
 		tiles.clear();
 		tiles.addAll(tiles);
 		onCreate();
+	}
+	
+	public void setRoomPos(Vec2i roomPos) {
+		this.roomPos.set(roomPos);
 	}
 }
