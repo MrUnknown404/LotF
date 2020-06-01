@@ -24,4 +24,9 @@ public class AiSpotIgnore<T extends Entity> implements AIType<T> {
 	public void reset() {
 		
 	}
+	
+	@Override
+	public T getParent() {
+		return parent;
+	}
 }

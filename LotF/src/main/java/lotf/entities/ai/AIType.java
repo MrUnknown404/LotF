@@ -6,4 +6,5 @@ public interface AIType<T extends Entity> {
 	public boolean attemptAction();
 	public void action();
 	public void reset();
+	public T getParent();
 }
