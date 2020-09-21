@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.lotf.Main;
+import main.java.lotf.client.renderer.util.IRenderer;
 import main.java.lotf.client.renderer.util.ImageInfo;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;

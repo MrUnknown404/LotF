@@ -3,7 +3,7 @@ package main.java.lotf.client.gui;
 import java.awt.Font;
 import java.awt.image.BufferedImage;
 
-import main.java.lotf.client.renderer.IRenderer;
+import main.java.lotf.client.renderer.util.IRenderer;
 import main.java.lotf.util.GetResource;
 import main.java.ulibs.utils.Console;
 

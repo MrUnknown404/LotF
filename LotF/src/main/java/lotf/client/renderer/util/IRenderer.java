@@ -1,4 +1,4 @@
-package main.java.lotf.client.renderer;
+package main.java.lotf.client.renderer.util;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
