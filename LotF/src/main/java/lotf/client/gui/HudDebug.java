@@ -14,7 +14,11 @@ public class HudDebug extends Hud {
 	public static boolean shouldRender;
 	
 	@Override
-	public void draw(Graphics2D g) {
+	public void render(Graphics2D g) {
+		if (!Main.isDebug) {
+			return;
+		}
+		
 		EntityPlayer pl = Main.getMain().getWorldHandler().getPlayer();
 		if ((pl != null && pl.getInventory().isOpen()) || !shouldRender) {
 			return;
@@ -37,5 +41,10 @@ public class HudDebug extends Hud {
 			g.drawString("World : " + pl.getWorldType(), 1, y += 9);
 			g.drawString("RoomID : " + pl.getRoom().getRoomID(), 1, y += 9);
 		}
+	}
+	
+	@Override
+	public void setup() {
+		
 	}
 }

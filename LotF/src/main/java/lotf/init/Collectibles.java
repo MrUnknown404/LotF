@@ -27,11 +27,13 @@ public class Collectibles {
 		return null;
 	}
 	
-	public static void registerAll() {
-		Console.print(WarningType.Info, "Started registering " + Collectibles.class.getSimpleName() + "!");
-	}
+	public static void registerAll() { }
 
 	public static void add(Collectible i) {
+		if (ALL.isEmpty()) {
+			Console.print(WarningType.Info, "Started registering " + Collectibles.class.getSimpleName() + "!");
+		}
+		
 		ALL.add(i);
 		Console.print(Console.WarningType.RegisterDebug, "'" + i.getKey() + "' was registered!");
 	}

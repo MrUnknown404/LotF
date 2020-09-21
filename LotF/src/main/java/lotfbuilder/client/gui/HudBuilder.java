@@ -21,7 +21,7 @@ public class HudBuilder extends Hud {
 	private Map<TileInfo, BufferedImage> tiles = new HashMap<TileInfo, BufferedImage>();
 	
 	@Override
-	protected void onSetupTextures() {
+	public void setup() {
 		hud = registerGUITexture("hud");
 		hudSelect = registerGUITexture("hud_select");
 		
@@ -35,7 +35,7 @@ public class HudBuilder extends Hud {
 	}
 	
 	@Override
-	public void draw(Graphics2D g) {
+	public void render(Graphics2D g) {
 		g.drawImage(hud, 0, 0, 256, 16, null);
 		g.drawImage(hudSelect, 26 + MainBuilder.main.builder.getSelectedSlot() * 21, 0, 18, 16, null);
 		

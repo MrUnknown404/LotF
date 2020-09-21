@@ -5,11 +5,12 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import main.java.lotf.Main;
+import main.java.lotf.Main.Gamestate;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.util.ITickable;
+import main.java.lotf.util.IStateTickable;
 import main.java.ulibs.utils.Pair;
 
-public class HudConsole extends Hud implements ITickable {
+public class HudConsole extends Hud implements IStateTickable {
 	
 	private static final Font FONT = new Font("Font", Font.PLAIN, 9);
 	
@@ -17,7 +18,11 @@ public class HudConsole extends Hud implements ITickable {
 	private int ti = 0;
 	
 	@Override
-	public void draw(Graphics2D g) {
+	public void render(Graphics2D g) {
+		if (!Main.isDebug) {
+			return;
+		}
+		
 		g.setFont(FONT);
 		
 		DebugConsole console = Main.getMain().getCommandConsole();
@@ -52,5 +57,15 @@ public class HudConsole extends Hud implements ITickable {
 		} else {
 			ti--;
 		}
+	}
+	
+	@Override
+	public void setup() {
+		
+	}
+
+	@Override
+	public Gamestate whenToTick() {
+		return Gamestate.hardPause;
 	}
 }

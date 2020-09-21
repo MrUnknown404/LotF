@@ -70,7 +70,7 @@ public class MainBuilder {
 		renderer = new Renderer();
 		renderer.setupTextures();
 		hud = new HudBuilder();
-		hud.setupTextures();
+		hud.setup();
 		builder = new RoomBuilder();
 		
 		UIHandler.registerUI();
@@ -128,7 +128,7 @@ public class MainBuilder {
 		
 		g.setColor(Color.RED);
 		g.drawString("FPS: " + fps, 0, 143);
-		hud.draw(g);
+		hud.render(g);
 		
 		g.setColor(Color.BLACK);
 		g.fillRect((int) (w / scale), 0, w2, height);

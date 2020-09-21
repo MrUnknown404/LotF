@@ -8,21 +8,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import main.java.lotf.Main;
+import main.java.lotf.Main.Gamestate;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Items;
-import main.java.lotf.inventory.InventoryPlayer.EnumSelectables;
+import main.java.lotf.inventory.PlayerInventory.EnumSelectables;
 import main.java.lotf.items.potions.Potion;
 import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.util.Collectible;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.ITickable;
+import main.java.lotf.util.IStateTickable;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.world.World;
 import main.java.ulibs.utils.math.MathH;
 
-public class HudInventory extends Hud implements ITickable {
+public class HudInventory extends Hud implements IStateTickable {
 	
 	private static Font lotfFont;
 	
@@ -34,7 +35,7 @@ public class HudInventory extends Hud implements ITickable {
 	private Map<EnumWorldType, BufferedImage> maps = new HashMap<EnumWorldType, BufferedImage>();
 	
 	@Override
-	public void draw(Graphics2D g) {
+	public void render(Graphics2D g) {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
 		if (p != null && p.getInventory().isOpen()) {
@@ -261,12 +262,9 @@ public class HudInventory extends Hud implements ITickable {
 	}
 	
 	@Override
-	public void setupFonts() {
+	public void setup() {
 		lotfFont = getFont("lotf", 8);
-	}
-	
-	@Override
-	public void onSetupTextures() {
+		
 		invHud0 = registerGUITexture("inv_background_0");
 		invHud1 = registerGUITexture("inv_background_1");
 		invHud2 = registerGUITexture("inv_background_2");
@@ -327,5 +325,10 @@ public class HudInventory extends Hud implements ITickable {
 	
 	private BufferedImage registerCollectibleTexture(Collectible col) {
 		return registerTexture(GetResource.ResourceType.collectible, col.getKey());
+	}
+	
+	@Override
+	public Gamestate whenToTick() {
+		return Gamestate.softPause;
 	}
 }

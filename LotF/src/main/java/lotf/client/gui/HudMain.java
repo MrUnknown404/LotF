@@ -12,7 +12,6 @@ import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.Items;
 import main.java.lotf.items.potions.Potion;
 import main.java.lotf.items.rings.Ring;
-import main.java.lotf.items.swords.Sword;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.GetResource;
 import main.java.ulibs.utils.math.MathH;
@@ -27,7 +26,9 @@ public class HudMain extends Hud {
 	private Map<String, BufferedImage> items = new HashMap<String, BufferedImage>();
 	
 	@Override
-	public void onSetupTextures() {
+	public void setup() {
+		smallNumbers = getFont("small_numbers", 5);
+		
 		baseHud = registerGUITexture("base_hud");
 		manaBar = registerGUITexture("mana_bar");
 		
@@ -38,19 +39,14 @@ public class HudMain extends Hud {
 		hearts[4] = registerGUITexture("hearts/heart_4");
 		
 		for (Item item : Items.getAll()) {
-			if (!(item instanceof Ring) && !(item instanceof Sword) && !(item instanceof Potion)) {
+			if (!(item instanceof Ring) && !(item instanceof Potion)) {
 				items.put(item.getKey(), registerItemTexture(item));
 			}
 		}
 	}
 	
 	@Override
-	public void setupFonts() {
-		smallNumbers = getFont("small_numbers", 5);
-	}
-	
-	@Override
-	public void draw(Graphics2D g) {
+	public void render(Graphics2D g) {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
 		if (p != null) {

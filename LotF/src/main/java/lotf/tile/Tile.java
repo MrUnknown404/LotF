@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.google.gson.annotations.SerializedName;
 
+import main.java.lotf.Main;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.annotation.UseGetter;
@@ -45,11 +46,15 @@ public class Tile extends GameObject {
 	
 	public TileInfo getTileInfo() {
 		if (tileInfo == null) {
-			for (TileInfo t : Tiles.getAll()) {
-				if (t.getName().equals(tileInfoName)) {
-					tileInfo = t;
-					break;
+			if (Main.isBuilder || !tileInfoName.equalsIgnoreCase(Tiles.RANDOM_GRASS.getName())) {
+				for (TileInfo t : Tiles.getAll()) {
+					if (t.getName().equals(tileInfoName)) {
+						tileInfo = t;
+						break;
+					}
 				}
+			} else {
+				return (tileInfo = Tiles.getRandomGrass());
 			}
 		}
 		

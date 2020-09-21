@@ -6,7 +6,7 @@ import java.util.Map;
 import main.java.lotf.Main;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
-import main.java.lotf.inventory.InventoryPlayer;
+import main.java.lotf.inventory.PlayerInventory;
 import main.java.lotf.items.util.Collectible;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.enums.EnumDirection;
@@ -39,7 +39,7 @@ public class EntityPlayer extends EntityLiving {
 	private Map<EnumWorldType, Map<Integer, Boolean>> exploredMaps = new HashMap<EnumWorldType, Map<Integer, Boolean>>();
 	private Map<EnumWorldType, Boolean> compass = new HashMap<EnumWorldType, Boolean>(), map = new HashMap<EnumWorldType, Boolean>();
 	
-	private InventoryPlayer inv;
+	private PlayerInventory inv;
 	
 	public EntityPlayer(EnumWorldType worldType, Vec2f pos, Room room) {
 		super(EntityInfo.PLAYER, room, pos, new Vec2i(14, 14), 24);
@@ -62,7 +62,7 @@ public class EntityPlayer extends EntityLiving {
 			exploredMaps.put(type, exploredRooms);
 		}
 		
-		inv = new InventoryPlayer(this);
+		inv = new PlayerInventory(this);
 		
 		exploreRoom();
 	}
@@ -336,7 +336,7 @@ public class EntityPlayer extends EntityLiving {
 		return maxMana;
 	}
 	
-	public InventoryPlayer getInventory() {
+	public PlayerInventory getInventory() {
 		return inv;
 	}
 	

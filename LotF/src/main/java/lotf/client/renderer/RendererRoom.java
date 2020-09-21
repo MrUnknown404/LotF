@@ -24,21 +24,18 @@ import main.java.ulibs.utils.Console;
 import main.java.ulibs.utils.Grid;
 import main.java.ulibs.utils.math.MathH;
 
-public class Renderer implements ITickable {
+public class RendererRoom implements IRenderer, ITickable {
 	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> entityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();
 	private Map<TileInfo, ImageInfo> tileTextures = new HashMap<TileInfo, ImageInfo>();
 	
-	public void getTextures() {
-		Console.print(Console.WarningType.Info, "Starting texture registering for " + getClass().getSimpleName() + "...");
-		
+	@Override
+	public void setup() {
 		for (TileInfo t :Tiles.getAll()) {
 			registerTile(t, t.getTextureCount());
 		}
 		for (EntityInfo e : EntityInfo.getAll()) {
 			registerEntity(e, e.getTextureCount());
 		}
-		
-		Console.print(Console.WarningType.Info, "Finished texture registering for " + getClass().getSimpleName() + "!");
 	}
 	
 	@Override
@@ -85,6 +82,7 @@ public class Renderer implements ITickable {
 		}
 	}
 	
+	@Override
 	public void render(Graphics2D g) {
 		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 		
@@ -203,5 +201,10 @@ public class Renderer implements ITickable {
 	
 	public ImageInfo getPlayerImageInfo() {
 		return entityTextures.get(EntityInfo.PLAYER).get(Main.getMain().getWorldHandler().getPlayer().getFacing());
+	}
+	
+	@Override
+	public boolean isHud() {
+		return false;
 	}
 }

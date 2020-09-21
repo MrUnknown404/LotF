@@ -1,23 +1,13 @@
 package main.java.lotf.client.gui;
 
 import java.awt.Font;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import main.java.lotf.client.renderer.IRenderer;
 import main.java.lotf.util.GetResource;
 import main.java.ulibs.utils.Console;
 
-public abstract class Hud {
-	public abstract void draw(Graphics2D g);
-	public void setupFonts() {}
-	protected void onSetupTextures() {}
-	
-	public final void setupTextures() {
-		Console.print(Console.WarningType.Info, "Starting texture registering for " + getClass().getSimpleName() + "...");
-		onSetupTextures();
-		Console.print(Console.WarningType.Info, "Finished texture registering for " + getClass().getSimpleName() + "!");
-	}
-	
+public abstract class Hud implements IRenderer {
 	protected Font getFont(String fontName, int size) {
 		Console.print(Console.WarningType.RegisterDebug, "Registered font for " + getClass().getSimpleName() + " : " + "fonts/" + fontName + ".ttf!");
 		return GetResource.getFont(fontName, size);
@@ -48,5 +38,10 @@ public abstract class Hud {
 		}
 		
 		return b.toString() + number;
+	}
+	
+	@Override
+	public boolean isHud() {
+		return true;
 	}
 }

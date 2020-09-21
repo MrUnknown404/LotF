@@ -7,7 +7,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -21,7 +23,8 @@ import main.java.lotf.client.gui.HudConsole;
 import main.java.lotf.client.gui.HudDebug;
 import main.java.lotf.client.gui.HudInventory;
 import main.java.lotf.client.gui.HudMain;
-import main.java.lotf.client.renderer.Renderer;
+import main.java.lotf.client.renderer.IRenderer;
+import main.java.lotf.client.renderer.RendererRoom;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Commands;
@@ -29,6 +32,8 @@ import main.java.lotf.init.Items;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.IStateTickable;
+import main.java.lotf.util.ITickable;
 import main.java.lotf.world.WorldHandler;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.ulibs.utils.Console;
@@ -40,7 +45,7 @@ import main.java.ulibs.utils.math.Vec2i;
  * @author -Unknown-
  */
 public final class Main {
-	private static Main main;
+	private static Main lotf;
 	private static GameLoop gameLoop;
 	
 	public static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
@@ -54,12 +59,9 @@ public final class Main {
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
 	
 	private final DebugConsole console = new DebugConsole();
-	private final HudConsole consoleHud = new HudConsole();
-	private final HudDebug debugHud = new HudDebug();
-	private final HudMain mainHud = new HudMain();
-	private final HudInventory invHud = new HudInventory();
 	
-	private Renderer renderer;
+	private static List<IRenderer> renderers = new ArrayList<IRenderer>();
+	
 	private Camera camera;
 	private KeyHandler keyHandler;
 	private WorldHandler worldHandler;
@@ -71,14 +73,16 @@ public final class Main {
 		for (String s : args) {
 			if (s.equalsIgnoreCase("-debug")) {
 				isDebug = true;
+				HudDebug.shouldRender = true;
+				main.java.ulibs.Main.isDebug = true;
 			} else if (s.equalsIgnoreCase("-builder")) {
 				isBuilder = true;
 			}
 		}
 		
 		if (!isBuilder) {
-			main = new Main();
-			main.start();
+			lotf = new Main();
+			lotf.start();
 		} else {
 			MainBuilder.main = new MainBuilder();
 			MainBuilder.main.start();
@@ -120,13 +124,18 @@ public final class Main {
 		Items.registerAll();
 		Tiles.registerAll();
 		
-		renderer = new Renderer();
-		renderer.getTextures();
+		addRenderer(new RendererRoom());
 		
-		mainHud.setupFonts();
-		invHud.setupFonts();
-		mainHud.setupTextures();
-		invHud.setupTextures();
+		addRenderer(new HudMain());
+		addRenderer(new HudInventory());
+		addRenderer(new HudDebug());
+		addRenderer(new HudConsole());
+		
+		for (IRenderer r : renderers) {
+			Console.print(Console.WarningType.Info, "Starting setting up IRenderer " + r.getClass().getSimpleName() + "...");
+			r.setup();
+			Console.print(Console.WarningType.Info, "Finished setting up IRenderer " + r.getClass().getSimpleName() + "!");
+		}
 		
 		gameLoop.setupComponents();
 		
@@ -151,18 +160,20 @@ public final class Main {
 	private void tick() {
 		keyHandler.tick();
 		
+		for (IRenderer r : renderers) {
+			if (r instanceof IStateTickable && ((IStateTickable) r).whenToTick() == getGamestate()) {
+				((ITickable) r).tick();
+			}
+		}
+		
 		if (getGamestate() == Gamestate.run) {
 			worldHandler.tick();
-			renderer.tick();
 			camera.tick();
 		} else if (getGamestate() == Gamestate.softPause) {
-			invHud.tick();
 			worldHandler.getPlayer().tick();
 			camera.tick();
 		} else if (getGamestate() == Gamestate.hardPause) {
-			if (isDebug) {
-				consoleHud.tick();
-			}
+			
 		}
 	}
 	
@@ -180,15 +191,17 @@ public final class Main {
 		
 		g.translate(w2 / 2, h2 / 2);
 		g.translate(-camera.getPosX(), -camera.getPosY());
-		renderer.render(g);
+		for (IRenderer r : renderers) {
+			if (!r.isHud()) {
+				r.render(g);
+			}
+		}
 		g.translate(camera.getPosX(), camera.getPosY());
 		
-		mainHud.draw(g);
-		invHud.draw(g);
-		
-		if (isDebug) {
-			debugHud.draw(g);
-			consoleHud.draw(g);
+		for (IRenderer r : renderers) {
+			if (r.isHud()) {
+				r.render(g);
+			}
 		}
 		
 		g.setColor(Color.BLACK);
@@ -219,6 +232,11 @@ public final class Main {
 		}
 		
 		return Gamestate.run;
+	}
+	
+	private void addRenderer(IRenderer r) {
+		renderers.add(r);
+		Console.print(WarningType.RegisterDebug, "Registered '" + r.getClass().getSimpleName() + "' as a renderer!");
 	}
 	
 	public int getWindowWidth() {
@@ -258,7 +276,7 @@ public final class Main {
 	}
 	
 	public static Main getMain() {
-		return main;
+		return lotf;
 	}
 	
 	public enum Gamestate {

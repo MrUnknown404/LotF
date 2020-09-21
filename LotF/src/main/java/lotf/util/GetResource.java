@@ -141,6 +141,13 @@ public class GetResource {
 	}
 	
 	public enum ResourceType {
-		none, tile, entity, gui, item, ring, potion, collectible;
+		none,
+		tile,
+		entity,
+		gui,
+		item,
+		ring,
+		potion,
+		collectible;
 	}
 }
