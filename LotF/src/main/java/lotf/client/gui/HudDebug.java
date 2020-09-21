@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.util.math.MathH;
+import main.java.ulibs.utils.math.MathH;
 
 public class HudDebug extends Hud {
 

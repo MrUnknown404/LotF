@@ -11,11 +11,8 @@ import main.java.lotf.entities.util.Entity;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.Grid;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
@@ -23,9 +20,12 @@ import main.java.lotf.util.LangKey.LangType;
 import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.util.enums.EnumWorldType;
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
+import main.java.ulibs.utils.Grid;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class Room extends GameObject implements ITickable {
 	

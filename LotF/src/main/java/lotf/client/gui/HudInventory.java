@@ -19,8 +19,8 @@ import main.java.lotf.items.util.Item;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumWorldType;
-import main.java.lotf.util.math.MathH;
 import main.java.lotf.world.World;
+import main.java.ulibs.utils.math.MathH;
 
 public class HudInventory extends Hud implements ITickable {
 	

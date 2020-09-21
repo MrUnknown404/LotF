@@ -5,8 +5,8 @@ import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public abstract class EntityProjectile extends Entity {
 	

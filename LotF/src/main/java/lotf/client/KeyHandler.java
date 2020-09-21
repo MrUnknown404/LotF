@@ -13,14 +13,14 @@ import main.java.lotf.Main;
 import main.java.lotf.client.KeyHandler.KeyType;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entities.EntityPlayer;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.DoubleValue;
 import main.java.lotf.util.IConfigurable;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.MathH;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Pair;
+import main.java.ulibs.utils.math.MathH;
 
-public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<Map<KeyType, DoubleValue<Integer, Integer>>> {
+public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<Map<KeyType, Pair<Integer, Integer>>> {
 
 	public Map<KeyType, Boolean> dualKeys = new HashMap<KeyType, Boolean>();
 	
@@ -196,22 +196,22 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<M
 	}
 	
 	@Override
-	public Map<KeyType, DoubleValue<Integer, Integer>> save() {
-		Map<KeyType, DoubleValue<Integer, Integer>> keys = new HashMap<KeyType, DoubleValue<Integer, Integer>>();
+	public Map<KeyType, Pair<Integer, Integer>> save() {
+		Map<KeyType, Pair<Integer, Integer>> keys = new HashMap<KeyType, Pair<Integer, Integer>>();
 		
 		for (KeyType type : KeyType.values()) {
-			keys.put(type, new DoubleValue<Integer, Integer>(type.key1, type.key2));
+			keys.put(type, new Pair<Integer, Integer>(type.key1, type.key2));
 		}
 		
 		return keys;
 	}
 	
 	@Override
-	public Map<KeyType, DoubleValue<Integer, Integer>> getDefaultSave() {
-		Map<KeyType, DoubleValue<Integer, Integer>> keys = new HashMap<KeyType, DoubleValue<Integer, Integer>>();
+	public Map<KeyType, Pair<Integer, Integer>> getDefaultSave() {
+		Map<KeyType, Pair<Integer, Integer>> keys = new HashMap<KeyType, Pair<Integer, Integer>>();
 		
 		for (KeyType type : KeyType.values()) {
-			keys.put(type, new DoubleValue<Integer, Integer>(type.defaultKey, -1));
+			keys.put(type, new Pair<Integer, Integer>(type.defaultKey, -1));
 		}
 		
 		return keys;
@@ -220,9 +220,9 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<M
 	@Override
 	public void load(Object obj) {
 		@SuppressWarnings("unchecked")
-		Map<KeyType, DoubleValue<Integer, Integer>> keys = (Map<KeyType, DoubleValue<Integer, Integer>>) obj;
+		Map<KeyType, Pair<Integer, Integer>> keys = (Map<KeyType, Pair<Integer, Integer>>) obj;
 		
-		for (Entry<KeyType, DoubleValue<Integer, Integer>> type : keys.entrySet()) {
+		for (Entry<KeyType, Pair<Integer, Integer>> type : keys.entrySet()) {
 			type.getKey().registerKey(type.getValue().getL(), type.getValue().getR());
 			
 			if (type.getKey().hasDualAction) {
@@ -233,7 +233,7 @@ public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<M
 	
 	@Override
 	public Type getType() {
-		return new TypeToken<Map<KeyType, DoubleValue<Integer, Integer>>>(){}.getType();
+		return new TypeToken<Map<KeyType, Pair<Integer, Integer>>>(){}.getType();
 	}
 	
 	public enum KeyType {

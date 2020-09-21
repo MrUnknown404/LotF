@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.items.util.Collectible;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class InventoryCollectible {
 

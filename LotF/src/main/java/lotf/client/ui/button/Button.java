@@ -1,10 +1,10 @@
 package main.java.lotf.client.ui.button;
 
 import main.java.lotf.util.GameObject;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickModifier;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickType;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public abstract class Button extends GameObject {
 	

@@ -16,12 +16,13 @@ import javax.imageio.ImageIO;
 import com.google.gson.JsonIOException;
 
 import main.java.lotf.Main;
-import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.LangKey.LangKeyType;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.ucrypt.UCrypt;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
 
 public class GetResource {
 	public static final BufferedImage nil = getTexture(false, ResourceType.none, "nil");

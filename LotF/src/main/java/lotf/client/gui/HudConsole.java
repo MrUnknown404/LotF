@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.DebugConsole;
-import main.java.lotf.util.DoubleValue;
 import main.java.lotf.util.ITickable;
+import main.java.ulibs.utils.Pair;
 
 public class HudConsole extends Hud implements ITickable {
 	
@@ -35,7 +35,7 @@ public class HudConsole extends Hud implements ITickable {
 			
 			if (!console.getLines().isEmpty()) {
 				for (int i = 1; i < console.getLines().size(); i++) {
-					DoubleValue<String, Color> line = console.getLines().get(i);
+					Pair<String, Color> line = console.getLines().get(i);
 					
 					g.setColor(line.getR());
 					g.drawString("<: " + line.getL(), 2, (DebugConsole.getMaxLines() + 1) * 9 - i * 9 - 1);

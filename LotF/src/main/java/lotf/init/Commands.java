@@ -16,8 +16,8 @@ import main.java.lotf.commands.CommandSetMana;
 import main.java.lotf.commands.CommandSetMoney;
 import main.java.lotf.commands.CommandToggleDebug;
 import main.java.lotf.commands.util.Command;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
 
 public class Commands {
 	private static final List<Command> COMMANDS = new ArrayList<Command>();

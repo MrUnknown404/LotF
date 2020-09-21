@@ -2,8 +2,8 @@ package main.java.lotfbuilder.client;
 
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.ITickable;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class Camera extends GameObject implements ITickable {
 	

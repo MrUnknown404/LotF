@@ -5,7 +5,7 @@ import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.projectiles.ProjectileArrow;
 import main.java.lotf.items.util.ItemUseable;
 import main.java.lotf.util.LangKey.LangType;
-import main.java.lotf.util.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2f;
 
 public class ItemBow extends ItemUseable {
 

@@ -3,9 +3,9 @@ package main.java.lotf.entities.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public abstract class EntityLiving extends Entity {
 	

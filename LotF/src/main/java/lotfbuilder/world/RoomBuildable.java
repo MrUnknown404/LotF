@@ -6,10 +6,10 @@ import javax.annotation.Nullable;
 
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
-import main.java.lotf.util.Grid;
 import main.java.lotf.util.enums.EnumWorldType;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
+import main.java.ulibs.utils.Grid;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class RoomBuildable extends Room {
 	

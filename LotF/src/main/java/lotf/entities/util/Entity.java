@@ -8,10 +8,10 @@ import main.java.lotf.util.ITickable;
 import main.java.lotf.util.annotation.UseGetter;
 import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public abstract class Entity extends GameObject implements ITickable {
 	

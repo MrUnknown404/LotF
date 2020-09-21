@@ -13,8 +13,8 @@ import main.java.lotf.items.rings.RingBasic;
 import main.java.lotf.items.swords.Sword;
 import main.java.lotf.items.swords.SwordStarter;
 import main.java.lotf.items.util.Item;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
 
 public class Items {
 	private static final List<Item> ALL = new ArrayList<Item>();

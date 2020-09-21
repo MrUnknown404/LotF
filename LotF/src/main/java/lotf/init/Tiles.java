@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Random;
 
 import main.java.lotf.tile.TileInfo;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.enums.EnumCollisionType;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
 
 public class Tiles {
 	private static final List<TileInfo> ALL = new ArrayList<TileInfo>();

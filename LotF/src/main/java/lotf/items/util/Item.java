@@ -43,4 +43,11 @@ public abstract class Item {
 		
 		return false;
 	}
+	
+	@Override
+	public int hashCode() {
+		int result = 1;
+		result = 31 * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
 }

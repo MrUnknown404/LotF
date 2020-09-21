@@ -2,10 +2,10 @@ package main.java.lotfbuilder.client.ui.button;
 
 import main.java.lotf.client.ui.button.Button;
 import main.java.lotf.tile.TileInfo;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickModifier;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickType;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class ButtonBuilderInventory extends Button {
 	

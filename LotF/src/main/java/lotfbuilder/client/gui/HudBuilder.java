@@ -11,9 +11,9 @@ import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.GetResource.ResourceType;
-import main.java.lotf.util.math.MathH;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.client.MouseHandler;
+import main.java.ulibs.utils.math.MathH;
 
 public class HudBuilder extends Hud {
 	

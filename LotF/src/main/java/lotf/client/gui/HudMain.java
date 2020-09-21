@@ -15,7 +15,7 @@ import main.java.lotf.items.rings.Ring;
 import main.java.lotf.items.swords.Sword;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.math.MathH;
+import main.java.ulibs.utils.math.MathH;
 
 public class HudMain extends Hud {
 	

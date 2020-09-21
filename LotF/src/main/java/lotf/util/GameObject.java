@@ -3,9 +3,9 @@ package main.java.lotf.util;
 import java.awt.Rectangle;
 
 import main.java.lotf.util.annotation.UseGetter;
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public abstract class GameObject {
 	@Deprecated @UseGetter({"getPosX", "getPosY"})

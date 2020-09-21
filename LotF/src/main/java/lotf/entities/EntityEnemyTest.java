@@ -6,9 +6,9 @@ import main.java.lotf.entities.ai.spot.AiSpotIgnore;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityMonster;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.Room;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class EntityEnemyTest extends EntityMonster {
 

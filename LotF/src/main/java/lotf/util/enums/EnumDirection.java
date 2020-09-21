@@ -1,6 +1,6 @@
 package main.java.lotf.util.enums;
 
-import main.java.lotf.util.Console;
+import main.java.ulibs.utils.Console;
 
 public enum EnumDirection {
 	north,

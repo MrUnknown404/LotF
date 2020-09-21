@@ -10,12 +10,12 @@ import java.util.Map;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
-import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.GetResource.ResourceType;
-import main.java.lotf.util.Grid;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Grid;
 
 public class Renderer {
 	

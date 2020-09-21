@@ -3,8 +3,8 @@ package main.java.lotf.entities.projectiles;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.Vec2f;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.math.Vec2f;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class ProjectileArrow extends EntityProjectile {
 	

@@ -6,10 +6,10 @@ import java.util.List;
 import main.java.lotf.entities.EntityEnemyTest;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
-import main.java.lotf.util.Console;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumWorldType;
-import main.java.lotf.util.math.Vec2f;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.math.Vec2f;
 
 public class WorldHandler implements ITickable {
 	private List<World> worlds = new ArrayList<World>();

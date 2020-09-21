@@ -11,10 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import main.java.lotf.init.Tiles;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotfbuilder.client.Camera;
 import main.java.lotfbuilder.client.KeyHandler;
 import main.java.lotfbuilder.client.MouseHandler;
@@ -23,6 +19,10 @@ import main.java.lotfbuilder.client.Window;
 import main.java.lotfbuilder.client.gui.HudBuilder;
 import main.java.lotfbuilder.client.ui.UIHandler;
 import main.java.lotfbuilder.world.RoomBuilder;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2i;
 
 /**
  * @author -Unknown-

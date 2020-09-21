@@ -5,7 +5,7 @@ import java.util.List;
 
 import main.java.lotf.Main;
 import main.java.lotf.commands.util.Command;
-import main.java.lotf.util.math.MathH;
+import main.java.ulibs.utils.math.MathH;
 
 public class CommandSetArrows extends Command {
 

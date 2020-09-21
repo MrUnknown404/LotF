@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.items.util.Item;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class Inventory<I extends Item> {
 

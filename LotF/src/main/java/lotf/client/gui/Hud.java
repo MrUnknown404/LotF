@@ -4,8 +4,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
+import main.java.ulibs.utils.Console;
 
 public abstract class Hud {
 	public abstract void draw(Graphics2D g);

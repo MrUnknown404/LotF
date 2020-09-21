@@ -16,13 +16,13 @@ import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
-import main.java.lotf.util.Console;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.Grid;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.MathH;
 import main.java.lotf.world.Room;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Grid;
+import main.java.ulibs.utils.math.MathH;
 
 public class Renderer implements ITickable {
 	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> entityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();

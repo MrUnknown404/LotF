@@ -9,8 +9,8 @@ import main.java.lotf.items.swords.Sword;
 import main.java.lotf.items.util.Item;
 import main.java.lotf.items.util.ItemUseable;
 import main.java.lotf.util.enums.EnumDirection;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotf.world.World;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class InventoryPlayer {
 

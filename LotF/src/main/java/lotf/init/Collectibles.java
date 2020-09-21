@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.items.util.Collectible;
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
 
 public class Collectibles {
 	public static final List<Collectible> ALL = new ArrayList<Collectible>();
@@ -27,14 +27,11 @@ public class Collectibles {
 		return null;
 	}
 	
-	/** Forces an early load */
-	public static void registerAll() { }
+	public static void registerAll() {
+		Console.print(WarningType.Info, "Started registering " + Collectibles.class.getSimpleName() + "!");
+	}
 
 	public static void add(Collectible i) {
-		if (Collectibles.ALL.isEmpty()) {
-			Console.print(WarningType.Info, "Started registering " + Collectibles.class.getSimpleName() + "!");
-		}
-		
 		ALL.add(i);
 		Console.print(Console.WarningType.RegisterDebug, "'" + i.getKey() + "' was registered!");
 	}

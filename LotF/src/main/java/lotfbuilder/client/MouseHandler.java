@@ -4,12 +4,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2i;
 import main.java.lotfbuilder.MainBuilder;
 import main.java.lotfbuilder.client.ui.UIHandler;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickModifier;
 import main.java.lotfbuilder.client.ui.UIHandler.ClickType;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class MouseHandler extends MouseAdapter {
 	public static final Vec2i HUD_MOUSE_POS = new Vec2i(), WORLD_MOUSE_POS = new Vec2i();

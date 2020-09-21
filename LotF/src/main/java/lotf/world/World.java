@@ -1,12 +1,12 @@
 package main.java.lotf.world;
 
-import main.java.lotf.util.Console;
-import main.java.lotf.util.Console.WarningType;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.Grid;
 import main.java.lotf.util.enums.EnumWorldType;
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.Console;
+import main.java.ulibs.utils.Console.WarningType;
+import main.java.ulibs.utils.Grid;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class World {
 	

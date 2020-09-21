@@ -1,6 +1,6 @@
 package main.java.lotf.util.enums;
 
-import main.java.lotf.util.math.Vec2i;
+import main.java.ulibs.utils.math.Vec2i;
 
 public enum EnumWorldType {
 	debugworld   (new Vec2i(5, 5), new Vec2i(11, 11)),

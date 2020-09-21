@@ -8,22 +8,22 @@ import java.util.List;
 import main.java.lotf.Main;
 import main.java.lotf.commands.CommandHelp;
 import main.java.lotf.init.Commands;
-import main.java.lotf.util.DoubleValue;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
 import main.java.lotf.util.LangKey.LangType;
+import main.java.ulibs.utils.Pair;
 
 public class DebugConsole {
 	private static final int MAX_ARGS = Command.ArgumentType.values().length, MAX_LINES = 7;
 	private boolean isConsoleOpen;
 	private int curLine;
 	private String input = "";
-	private List<DoubleValue<String, Color>> lines = new ArrayList<DoubleValue<String, Color>>();
+	private List<Pair<String, Color>> lines = new ArrayList<Pair<String, Color>>();
 	private List<String> writtenLines = new ArrayList<String>();
 	
 	public DebugConsole() {
-		lines.add(new DoubleValue<String, Color>("", Color.WHITE));
+		lines.add(new Pair<String, Color>("", Color.WHITE));
 		writtenLines.add("");
 	}
 	
@@ -40,7 +40,7 @@ public class DebugConsole {
 			lines.remove(lines.size() - 1);
 		}
 		
-		lines.add(1, new DoubleValue<String, Color>(line, color));
+		lines.add(1, new Pair<String, Color>(line, color));
 	}
 	
 	public void clearInput() {
@@ -234,7 +234,7 @@ public class DebugConsole {
 		return writtenLines;
 	}
 	
-	public List<DoubleValue<String, Color>> getLines() {
+	public List<Pair<String, Color>> getLines() {
 		return lines;
 	}
 	

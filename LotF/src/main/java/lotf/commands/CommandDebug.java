@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.java.lotf.commands.util.Command;
-import main.java.lotf.util.Console;
+import main.java.ulibs.utils.Console;
 
 public class CommandDebug extends Command {
 

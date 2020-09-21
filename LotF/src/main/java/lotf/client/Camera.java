@@ -4,8 +4,8 @@ import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.util.ITickable;
-import main.java.lotf.util.math.MathH;
-import main.java.lotf.util.math.Vec2f;
+import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2f;
 
 public class Camera implements ITickable {
 
