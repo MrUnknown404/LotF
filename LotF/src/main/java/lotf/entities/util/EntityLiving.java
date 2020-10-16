@@ -17,7 +17,7 @@ public abstract class EntityLiving extends Entity {
 		for (int i = 0; i < totalHearts; i++) {
 			hearts.add(4);
 		}
-		startHearts = hearts;
+		startHearts = new ArrayList<Integer>(hearts);
 	}
 	
 	@Override
