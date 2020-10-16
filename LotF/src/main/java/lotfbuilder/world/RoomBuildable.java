@@ -14,7 +14,7 @@ import main.java.ulibs.utils.math.Vec2i;
 public class RoomBuildable extends Room {
 	
 	public RoomBuildable() {
-		super(EnumWorldType.debugworld, Vec2i.ZERO, false);
+		super(EnumWorldType.debugworld, new Vec2i(), false);
 	}
 	
 	public RoomBuildable(EnumWorldType worldType, Vec2i roomPos, boolean hasLangKey) {

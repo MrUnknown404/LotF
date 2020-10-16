@@ -344,6 +344,7 @@ public class EntityPlayer extends EntityLiving {
 		return exploredMaps.get(worldType).get(roomID);
 	}
 	
+	@Override
 	public boolean isWalking() {
 		return moveX == 0 && moveY == 0 ? false : true;
 	}

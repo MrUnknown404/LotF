@@ -3,9 +3,9 @@ package main.java.lotf.entities.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.lotf.util.ThingInfo;
+import main.java.lotf.util.GameObjectInfo;
 
-public class EntityInfo extends ThingInfo {
+public class EntityInfo extends GameObjectInfo {
 	
 	private static final List<EntityInfo> ALL = new ArrayList<EntityInfo>();
 	

@@ -9,31 +9,23 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.lotf.Main;
-import main.java.lotf.client.renderer.util.IRenderer;
-import main.java.lotf.client.renderer.util.ImageInfo;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
-import main.java.lotf.init.Tiles;
-import main.java.lotf.tile.Tile;
-import main.java.lotf.tile.TileInfo;
+import main.java.lotf.entities.util.EntityLiving;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.ITickable;
+import main.java.lotf.util.ImageInfo;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 import main.java.ulibs.utils.Console;
-import main.java.ulibs.utils.Grid;
 import main.java.ulibs.utils.math.MathH;
 
-public class RendererRoom implements IRenderer, ITickable {
+public class RendererEntity implements IRenderer, ITickable {
 	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> entityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();
-	private Map<TileInfo, ImageInfo> tileTextures = new HashMap<TileInfo, ImageInfo>();
 	
 	@Override
 	public void setup() {
-		for (TileInfo t :Tiles.getAll()) {
-			registerTile(t, t.getTextureCount());
-		}
 		for (EntityInfo e : EntityInfo.getAll()) {
 			registerEntity(e, e.getTextureCount());
 		}
@@ -45,20 +37,21 @@ public class RendererRoom implements IRenderer, ITickable {
 			EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 			
 			if (p != null && p.getRoom() != null) {
-				for (TileInfo t : p.getRoom().getAllTileInfos()) {
-					if (t.getAnimationTime() != 0) {
-						ImageInfo info = tileTextures.get(t);
-						
-						if (info.currentFrameCounter == t.getAnimationTime()) {
-							if (info.currentImage == info.imgs.length - 1) {
-								info.currentImage = 0;
+				for (Entity e : p.getRoom().getEntities()) {
+					if (e instanceof EntityLiving && ((EntityLiving) e).isWalking()) {
+						EntityInfo pi = p.getInfo();
+						if (pi.getAnimationTime() != 0) {
+							if (entityTextures.get(pi).get(e.getFacing()).currentFrameCounter == pi.getAnimationTime()) {
+								if (entityTextures.get(pi).get(e.getFacing()).currentImage == entityTextures.get(pi).get(e.getFacing()).imgs.length - 1) {
+									entityTextures.get(pi).get(e.getFacing()).currentImage = 0;
+								} else {
+									entityTextures.get(pi).get(e.getFacing()).currentImage++;
+								}
+								
+								entityTextures.get(pi).get(e.getFacing()).currentFrameCounter = 0;
 							} else {
-								info.currentImage++;
+								entityTextures.get(pi).get(e.getFacing()).currentFrameCounter++;
 							}
-							
-							info.currentFrameCounter = 0;
-						} else {
-							info.currentFrameCounter++;
 						}
 					}
 				}
@@ -85,19 +78,13 @@ public class RendererRoom implements IRenderer, ITickable {
 	
 	@Override
 	public void render(Graphics2D g) {
-		EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
-		
-		if (tileTextures.isEmpty()) {
-			Console.print(Console.WarningType.FatalError, "Tile textures were not set!");
-			return;
-		}
-		
 		if (entityTextures.isEmpty()) {
 			Console.print(Console.WarningType.FatalError, "Entity textures were not set!");
 			return;
 		}
 		
 		if (Main.getMain().getWorldHandler() != null) {
+			EntityPlayer p = Main.getMain().getWorldHandler().getPlayer();
 			if (p != null) {
 				List<Room> roomsToRender = new ArrayList<Room>();
 				
@@ -110,23 +97,6 @@ public class RendererRoom implements IRenderer, ITickable {
 				}
 				
 				for (Room r : roomsToRender) {
-					for (Grid<Tile> grid : r.getVisibleTiles()) {
-						for (Tile t : grid.get()) {
-							if (t == null) {
-								continue;
-							}
-							
-							int wX = Tile.TILE_SIZE, x = (int) t.getPosX();
-							
-							if (t.isFlipped()) {
-								wX = -wX;
-								x += Tile.TILE_SIZE;
-							}
-							
-							g.drawImage(tileTextures.get(t.getTileInfo()).getCurrentImage(), x, (int) t.getPosY(), wX, Tile.TILE_SIZE, null);
-						}
-					}
-					
 					for (Entity e : r.getEntities()) {
 						g.setColor(Color.red);
 						g.drawImage(entityTextures.get(e.getInfo()).get(e.getFacing()).getCurrentImage(), MathH.ceil(e.getPosX()), MathH.ceil(e.getPosY()),
@@ -135,33 +105,6 @@ public class RendererRoom implements IRenderer, ITickable {
 				}
 				
 				g.drawImage(getPlayerImageInfo().getCurrentImage(), MathH.ceil(p.getPosX()), MathH.ceil(p.getPosY()), p.getWidth(), p.getHeight(), null);
-			}
-		}
-	}
-	
-	private void registerTile(TileInfo tInfo, int count) {
-		if (count > 1) {
-			BufferedImage[] imgs = new BufferedImage[count];
-			for (int i = 0; i < count; i++) {
-				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName() + "/" + tInfo.getName() + "_" + i);
-				
-				imgs[i] = img;
-				if (img != GetResource.nil) {
-					Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + i + "' was registered!");
-				} else {
-					Console.print(Console.WarningType.Warning, "'" + tInfo.getName() + "_" + i + "' was not registered!");
-				}
-			}
-			
-			tileTextures.put(tInfo, new ImageInfo().setImages(imgs));
-		} else {
-			BufferedImage img = GetResource.getTexture(GetResource.ResourceType.tile, tInfo.getName());
-			
-			tileTextures.put(tInfo, new ImageInfo(img));
-			if (img != GetResource.nil) {
-				Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "' was registered!");
-			} else {
-				Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "' was not registered!");
 			}
 		}
 	}

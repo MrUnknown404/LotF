@@ -1,10 +1,10 @@
 package main.java.lotf.util;
 
-public abstract class ThingInfo {
+public abstract class GameObjectInfo {
 	protected final String name;
 	protected final int textureCount, animationTime;
 	
-	public ThingInfo(String name, int textureCount, int animationTime) {
+	public GameObjectInfo(String name, int textureCount, int animationTime) {
 		this.name = name;
 		this.textureCount = textureCount;
 		this.animationTime = animationTime;
@@ -21,7 +21,7 @@ public abstract class ThingInfo {
 	public int getAnimationTime() {
 		return animationTime;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -29,19 +29,17 @@ public abstract class ThingInfo {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null) {
+		if (obj == null || !(obj instanceof GameObjectInfo)) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		ThingInfo other = (ThingInfo) obj;
+		
+		GameObjectInfo other = (GameObjectInfo) obj;
 		if (name == null) {
 			if (other.name != null) {
 				return false;

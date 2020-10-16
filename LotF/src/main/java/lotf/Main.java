@@ -23,12 +23,15 @@ import main.java.lotf.client.gui.HudConsole;
 import main.java.lotf.client.gui.HudDebug;
 import main.java.lotf.client.gui.HudInventory;
 import main.java.lotf.client.gui.HudMain;
-import main.java.lotf.client.renderer.RendererRoom;
-import main.java.lotf.client.renderer.util.IRenderer;
+import main.java.lotf.client.renderer.IRenderer;
+import main.java.lotf.client.renderer.RendererEntity;
+import main.java.lotf.client.renderer.RendererParticle;
+import main.java.lotf.client.renderer.RendererTile;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Commands;
 import main.java.lotf.init.Items;
+import main.java.lotf.init.Particles;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.util.ConfigHandler;
 import main.java.lotf.util.GetResource;
@@ -123,8 +126,11 @@ public final class Main {
 		Collectibles.registerAll();
 		Items.registerAll();
 		Tiles.registerAll();
+		Particles.registerAll();
 		
-		addRenderer(new RendererRoom());
+		addRenderer(new RendererTile());
+		addRenderer(new RendererEntity());
+		addRenderer(new RendererParticle());
 		
 		addRenderer(new HudMain());
 		addRenderer(new HudInventory());

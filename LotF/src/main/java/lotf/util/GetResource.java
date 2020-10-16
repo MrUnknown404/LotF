@@ -148,6 +148,7 @@ public class GetResource {
 		item,
 		ring,
 		potion,
-		collectible;
+		collectible,
+		particle;
 	}
 }

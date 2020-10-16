@@ -80,4 +80,6 @@ public abstract class EntityLiving extends Entity {
 	public List<Integer> getHearts() {
 		return hearts;
 	}
+	
+	public abstract boolean isWalking();
 }

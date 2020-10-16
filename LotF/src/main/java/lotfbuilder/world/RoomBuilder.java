@@ -38,7 +38,7 @@ public class RoomBuilder {
 	private final Grid<TileInfo> inv;
 	
 	public RoomBuilder() {
-		room = new RoomBuildable(EnumWorldType.debugworld, Vec2i.ZERO, false);
+		room = new RoomBuildable(EnumWorldType.debugworld, new Vec2i(), false);
 		inv = new Grid<TileInfo>(11, MathH.ceil(Tiles.getAll().size() / 11f));
 		
 		for (TileInfo info : Tiles.getAll()) {
@@ -106,7 +106,7 @@ public class RoomBuilder {
 			room = g.fromJson(UCrypt.decode(dialog.getFile(), new String(fis.readAllBytes())), RoomBuildable.class);
 			roomPos = new Vec2i(room.getRoomPos());
 			
-			room.setRoomPos(Vec2i.ZERO);
+			room.setRoomPos(new Vec2i());
 			room.onCreate();
 			
 			fis.close();

@@ -28,6 +28,6 @@ public class EntityEnemyTest extends EntityMonster {
 	
 	@Override
 	protected AIType<? extends Entity> setSpotAI() {
-		return new AiSpotIgnore<Entity>(this);
+		return new AiSpotIgnore<EntityEnemyTest>(this);
 	}
 }

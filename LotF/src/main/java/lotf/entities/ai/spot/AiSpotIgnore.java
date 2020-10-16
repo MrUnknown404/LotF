@@ -21,6 +21,11 @@ public class AiSpotIgnore<T extends Entity> implements AIType<T> {
 	}
 	
 	@Override
+	public boolean isActionRunning() {
+		return true;
+	}
+	
+	@Override
 	public void reset() {
 		
 	}

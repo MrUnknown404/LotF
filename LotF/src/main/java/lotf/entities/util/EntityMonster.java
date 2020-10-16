@@ -60,4 +60,9 @@ public abstract class EntityMonster extends EntityLiving {
 	protected abstract AIType<? extends Entity> setMovementAI();
 	protected abstract AIType<? extends Entity> setSpotAI();
 	protected abstract AIType<? extends Entity> setAttackAI();
+	
+	@Override
+	public boolean isWalking() {
+		return movementAI != null ? movementAI.isActionRunning() : false;
+	}
 }

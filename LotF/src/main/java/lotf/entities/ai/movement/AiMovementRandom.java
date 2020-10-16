@@ -62,6 +62,11 @@ public class AiMovementRandom<T extends Entity> implements AIType<T> {
 	}
 	
 	@Override
+	public boolean isActionRunning() {
+		return isMoving;
+	}
+	
+	@Override
 	public void reset() {
 		isMoving = false;
 		chanceToMoveTimer = 120 + new Random().nextInt(120);

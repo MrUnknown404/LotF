@@ -10,7 +10,7 @@ public class Camera extends GameObject implements ITickable {
 	private float moveX, moveY;
 	
 	public Camera() {
-		super(Vec2f.ZERO, Vec2i.ZERO);
+		super(new Vec2f(), new Vec2i());
 	}
 	
 	@Override

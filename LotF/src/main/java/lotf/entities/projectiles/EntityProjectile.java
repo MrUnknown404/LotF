@@ -4,6 +4,7 @@ import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
 import main.java.lotf.tile.Tile;
+import main.java.lotf.util.GameObject;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.ulibs.utils.math.Vec2f;
 import main.java.ulibs.utils.math.Vec2i;
@@ -25,10 +26,7 @@ public abstract class EntityProjectile extends Entity {
 	public void addPosX(float x) {
 		if (checkForDeath()) {
 			return;
-		} else if (checkForTileCollision()) {
-			kill();
-			return;
-		} else if (checkForEntityCollision()) {
+		} else if (checkForTileCollision() || checkForEntityCollision()) {
 			kill();
 			return;
 		}
@@ -41,10 +39,7 @@ public abstract class EntityProjectile extends Entity {
 	public void addPosY(float y) {
 		if (checkForDeath()) {
 			return;
-		} else if (checkForTileCollision()) {
-			kill();
-			return;
-		} else if (checkForEntityCollision()) {
+		} else if (checkForTileCollision() || checkForEntityCollision()) {
 			kill();
 			return;
 		}
@@ -53,22 +48,28 @@ public abstract class EntityProjectile extends Entity {
 		setPosY(getPosY() + y);
 	}
 	
+	private void findHitLocationAndHit(GameObject obj) {
+		hit(obj, getPosX() < obj.getPosX() ? obj.getPosX() : getPosX(), getPosY() < obj.getPosY() ? obj.getPosY() : getPosY());
+	}
+	
 	/** Does not kill! */
 	protected boolean checkForTileCollision() {
 		for (Tile t : room.getTilesWithCollision()) {
 			if (t.getBounds().intersects(getBounds())) {
+				findHitLocationAndHit(t);
 				return true;
 			}
 		}
 		
 		return false;
 	}
-	
+
 	/** Does not kill! but does hit entity */
 	protected boolean checkForEntityCollision() {
 		for (Entity e : room.getEntities()) {
 			if (e != this && e.getBounds().intersects(getBounds())) {
 				if (e instanceof EntityLiving) {
+					findHitLocationAndHit(e);
 					((EntityLiving) e).hit(damage);
 				}
 				return true;
@@ -87,6 +88,8 @@ public abstract class EntityProjectile extends Entity {
 		
 		return false;
 	}
+	
+	protected abstract void hit(GameObject obj, float hitX, float hitY);
 	
 	public float getSpeed() {
 		return speed;

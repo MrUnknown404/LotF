@@ -1,10 +1,10 @@
 package main.java.lotf.tile;
 
 import main.java.lotf.init.Tiles;
-import main.java.lotf.util.ThingInfo;
+import main.java.lotf.util.GameObjectInfo;
 import main.java.lotf.util.enums.EnumCollisionType;
 
-public class TileInfo extends ThingInfo {
+public class TileInfo extends GameObjectInfo {
 	
 	protected final boolean shouldRenderBehind, hasRandomFlip;
 	protected final EnumCollisionType colType;
@@ -37,5 +37,25 @@ public class TileInfo extends ThingInfo {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null || !(obj instanceof GameObjectInfo)) {
+			return false;
+		}
+		
+		TileInfo other = (TileInfo) obj;
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		return true;
 	}
 }

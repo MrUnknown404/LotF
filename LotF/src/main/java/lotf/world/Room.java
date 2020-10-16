@@ -9,6 +9,7 @@ import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.init.Tiles;
+import main.java.lotf.particles.Particle;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GameObject;
@@ -38,6 +39,7 @@ public class Room extends GameObject implements ITickable {
 	@SuppressWarnings("unchecked")
 	protected final List<Grid<Tile>> tiles = Arrays.asList(new Grid[3]);
 	protected final List<Entity> entities = new ArrayList<Entity>();
+	protected transient List<Particle<?>> particles = new ArrayList<Particle<?>>();
 	
 	protected transient List<TileInfo> cached_allInfos = new ArrayList<TileInfo>();
 	protected transient List<Grid<Tile>> cached_visibleTiles = new ArrayList<Grid<Tile>>();
@@ -81,6 +83,10 @@ public class Room extends GameObject implements ITickable {
 			entities.get(i).tick();
 		}
 		
+		for (int i = 0; i < particles.size(); i++) {
+			particles.get(i).tick();
+		}
+		
 		for (Grid<Tile> g : tiles) {
 			for (Tile t : g.get()) {
 				if (t != null && t.getTileInfo() instanceof ITickable) {
@@ -110,6 +116,8 @@ public class Room extends GameObject implements ITickable {
 		if (cached_tilesWithCollision == null) {
 			cached_tilesWithCollision = new ArrayList<Tile>();
 		}
+		
+		particles = new ArrayList<Particle<?>>();
 	}
 	
 	public void onEnter(EntityPlayer p) {
@@ -119,6 +127,12 @@ public class Room extends GameObject implements ITickable {
 	public void onLeave() {
 		for (Entity e : entities) {
 			e.reset();
+		}
+	}
+	
+	public void spawnParticle(Particle<?> type, Vec2f pos, int amount) {
+		for (int i = 0; i < amount; i++) {
+			particles.add(Particle.create(type, pos, this));
 		}
 	}
 	
@@ -174,7 +188,15 @@ public class Room extends GameObject implements ITickable {
 		if (entities.contains(entity)) {
 			entities.remove(entity);
 		} else {
-			Console.print(WarningType.Warning, "Tried to kill entity that doesn't exist!");
+			Console.print(WarningType.Warning, "Tried to kill an entity that doesn't exist!");
+		}
+	}
+	
+	public void killParticle(Particle<?> particle) {
+		if (particles.contains(particle)) {
+			particles.remove(particle);
+		} else {
+			Console.print(WarningType.Warning, "Tried to kill a particle that doesn't exist!");
 		}
 	}
 	
@@ -214,6 +236,10 @@ public class Room extends GameObject implements ITickable {
 	
 	public List<Entity> getEntities() {
 		return entities;
+	}
+	
+	public List<Particle<?>> getParticles() {
+		return particles;
 	}
 	
 	@Override
