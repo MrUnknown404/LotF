@@ -125,8 +125,11 @@ public class Room extends GameObject implements ITickable {
 	}
 	
 	public void onLeave() {
-		for (Entity e : entities) {
-			e.reset();
+		for (int i = 0; i < entities.size(); i++) {
+			entities.get(i).reset();
+		}
+		for (int i = 0; i < particles.size(); i++) {
+			killParticle(particles.get(i));
 		}
 	}
 	

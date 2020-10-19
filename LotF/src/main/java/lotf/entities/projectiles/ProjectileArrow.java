@@ -49,6 +49,11 @@ public class ProjectileArrow extends EntityProjectile {
 	}
 	
 	@Override
+	public void reset() {
+		room.killEntity(this);
+	}
+	
+	@Override
 	public void tick() {
 		switch (dir) {
 			case east:

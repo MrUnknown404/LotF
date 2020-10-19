@@ -76,7 +76,6 @@ public final class Main {
 		for (String s : args) {
 			if (s.equalsIgnoreCase("-debug")) {
 				isDebug = true;
-				HudDebug.shouldRender = true;
 				main.java.ulibs.Main.isDebug = true;
 			} else if (s.equalsIgnoreCase("-builder")) {
 				isBuilder = true;
@@ -167,7 +166,7 @@ public final class Main {
 		keyHandler.tick();
 		
 		for (IRenderer r : renderers) {
-			if (r instanceof IStateTickable && ((IStateTickable) r).whenToTick() == getGamestate()) {
+			if ((r instanceof IStateTickable && ((IStateTickable) r).whenToTick() == getGamestate()) || r instanceof ITickable) {
 				((ITickable) r).tick();
 			}
 		}

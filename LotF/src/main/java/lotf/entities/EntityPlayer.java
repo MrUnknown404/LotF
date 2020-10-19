@@ -346,7 +346,7 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public boolean isWalking() {
-		return moveX == 0 && moveY == 0 ? false : true;
+		return (moveX != 0 || moveY != 0) && toBeRoom == null ? true : false;
 	}
 	
 	public World getWorld() {
