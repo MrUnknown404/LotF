@@ -10,8 +10,8 @@ public class EntityInfo extends GameObjectInfo {
 	private static final List<EntityInfo> ALL = new ArrayList<EntityInfo>();
 	
 	public static final EntityInfo PLAYER = new EntityInfo("player", true, 2, 6);
-	public static final EntityInfo ARROW = new EntityInfo("arrow", true, 1, 0);
-	public static final EntityInfo ENEMY_TEST = new EntityInfo("enemy_test", true, 1, 0);
+	public static final EntityInfo ARROW = new EntityInfo("arrow", true);
+	public static final EntityInfo ENEMY_TEST = new EntityInfo("enemy_test", true);
 	
 	private final boolean usesDirections;
 	
@@ -22,7 +22,11 @@ public class EntityInfo extends GameObjectInfo {
 		ALL.add(this);
 	}
 	
-	public boolean isUsesDirections() {
+	private EntityInfo(String name, boolean usesDirections) {
+		this(name, usesDirections, 1, 0);
+	}
+	
+	public boolean usesDirections() {
 		return usesDirections;
 	}
 	

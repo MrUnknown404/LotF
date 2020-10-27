@@ -20,7 +20,7 @@ public class World {
 		
 		for (int yi = 0; yi < WORLD_SIZE; yi++) {
 			for (int xi = 0; xi < WORLD_SIZE; xi++) {
-				if (yi > worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() && xi > worldType.getStartActiveBounds().getX() &&
+				if (yi >= worldType.getStartActiveBounds().getY() && yi < worldType.getEndActiveBounds().getY() && xi >= worldType.getStartActiveBounds().getX() &&
 						xi < worldType.getEndActiveBounds().getX()) {
 					rooms.add(loadRoomFromFile(xi, yi), xi, yi);
 				} else {

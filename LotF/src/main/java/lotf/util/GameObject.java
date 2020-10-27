@@ -1,7 +1,5 @@
 package main.java.lotf.util;
 
-import java.awt.Rectangle;
-
 import main.java.lotf.util.annotation.UseGetter;
 import main.java.ulibs.utils.math.MathH;
 import main.java.ulibs.utils.math.Vec2f;
@@ -80,7 +78,7 @@ public abstract class GameObject {
 		}
 	}
 	
-	public Rectangle getBounds() {
-		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), getWidth(), getHeight());
+	public HitBox getBounds() {
+		return new HitBox(MathH.floor(getPosX()), MathH.floor(getPosY()), getWidth(), getHeight());
 	}
 }

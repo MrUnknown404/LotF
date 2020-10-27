@@ -1,6 +1,5 @@
 package main.java.lotf.tile;
 
-import java.awt.Rectangle;
 import java.util.Random;
 
 import com.google.gson.annotations.SerializedName;
@@ -8,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import main.java.lotf.Main;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.util.GameObject;
+import main.java.lotf.util.HitBox;
 import main.java.lotf.util.annotation.UseGetter;
 import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.ulibs.utils.math.MathH;
@@ -71,13 +71,13 @@ public class Tile extends GameObject {
 	}
 	
 	@Override
-	public Rectangle getBounds() {
+	public HitBox getBounds() {
 		if (getTileInfo().getCollisionType() == EnumCollisionType.bottom || getTileInfo().getCollisionType() == EnumCollisionType.bottomLeft) {
-			return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) + getHeight(), getWidth(), getHeight());
+			return new HitBox(MathH.floor(getPosX()), MathH.floor(getPosY()) + getHeight(), getWidth(), getHeight());
 		} else if (getTileInfo().getCollisionType() == EnumCollisionType.bottomRight) {
-			return new Rectangle(MathH.floor(getPosX()) + getWidth(), MathH.floor(getPosY()) + getHeight(), getWidth(), getHeight());
+			return new HitBox(MathH.floor(getPosX()) + getWidth(), MathH.floor(getPosY()) + getHeight(), getWidth(), getHeight());
 		} else if (getTileInfo().getCollisionType() == EnumCollisionType.right || getTileInfo().getCollisionType() == EnumCollisionType.topRight) {
-			return new Rectangle(MathH.floor(getPosX()) + getWidth(), MathH.floor(getPosY()), getWidth(), getHeight());
+			return new HitBox(MathH.floor(getPosX()) + getWidth(), MathH.floor(getPosY()), getWidth(), getHeight());
 		}
 		
 		return super.getBounds();

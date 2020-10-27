@@ -25,7 +25,7 @@ public class UIHandler {
 	
 	public static boolean checkClick(Vec2i click, ClickType clickType, ClickModifier clickMod) {
 		for (Button b : BUTTONS) {
-			if (b.getBounds().intersects(click.getX(), click.getY(), 1, 1)) {
+			if (b.getBounds().intersectsPoint(click.getX(), click.getY())) {
 				return b.onClick(clickType, clickMod);
 			}
 		}

@@ -4,10 +4,12 @@ import java.util.Random;
 
 import main.java.lotf.entities.ai.AIType;
 import main.java.lotf.entities.util.Entity;
+import main.java.lotf.tile.TileInfo;
+import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.lotf.util.enums.EnumDirection;
 
 public class AiMovementRandom<T extends Entity> implements AIType<T> {
-
+	
 	protected final T parent;
 	protected final float moveSpeed;
 	private boolean isMoving;
@@ -33,8 +35,14 @@ public class AiMovementRandom<T extends Entity> implements AIType<T> {
 				moveTimer = 40 + new Random().nextInt(30);
 				isMoving = true;
 				
-				dir = EnumDirection.values()[new Random().nextInt(4)];
-				//TODO don't move towards direction if its a wall
+				while (true) {
+					dir = EnumDirection.values()[new Random().nextInt(4)];
+					
+					TileInfo tile = parent.getTile(dir);
+					if (tile != null && tile.getCollisionType() == EnumCollisionType.none) {
+						break;
+					}
+				}
 			} else {
 				chanceToMoveTimer--;
 			}

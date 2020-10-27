@@ -1,6 +1,5 @@
 package main.java.lotf.world;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +13,7 @@ import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GameObject;
 import main.java.lotf.util.GetResource;
+import main.java.lotf.util.HitBox;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.LangKey;
 import main.java.lotf.util.LangKey.LangKeyType;
@@ -255,23 +255,23 @@ public class Room extends GameObject implements ITickable {
 		return ROOM_SIZE.getY();
 	}
 	
-	public Rectangle getRoomBounds(EnumDirection dir) {
+	public HitBox getRoomBounds(EnumDirection dir) {
 		switch (dir) {
 			case north:
-				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()) - 8, getWidth() * Tile.TILE_SIZE, 8);
+				return new HitBox(MathH.floor(getPosX()), MathH.floor(getPosY()) - 8, getWidth() * Tile.TILE_SIZE, 8);
 			case east:
-				return new Rectangle(MathH.floor(getPosX() + (getWidth() * Tile.TILE_SIZE)), MathH.floor(getPosY()), 8, getHeight() * Tile.TILE_SIZE);
+				return new HitBox(MathH.floor(getPosX() + (getWidth() * Tile.TILE_SIZE)), MathH.floor(getPosY()), 8, getHeight() * Tile.TILE_SIZE);
 			case south:
-				return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY() + (getHeight() * Tile.TILE_SIZE)), getWidth() * Tile.TILE_SIZE, 8);
+				return new HitBox(MathH.floor(getPosX()), MathH.floor(getPosY() + (getHeight() * Tile.TILE_SIZE)), getWidth() * Tile.TILE_SIZE, 8);
 			case west:
-				return new Rectangle(MathH.floor(getPosX()) - 8, MathH.floor(getPosY()), 8, getHeight() * Tile.TILE_SIZE);
+				return new HitBox(MathH.floor(getPosX()) - 8, MathH.floor(getPosY()), 8, getHeight() * Tile.TILE_SIZE);
 			default:
 				return getBounds();
 		}
 	}
 	
 	@Override
-	public Rectangle getBounds() {
-		return new Rectangle(MathH.floor(getPosX()), MathH.floor(getPosY()), getWidth() * Tile.TILE_SIZE, getHeight() * Tile.TILE_SIZE);
+	public HitBox getBounds() {
+		return new HitBox(MathH.floor(getPosX()), MathH.floor(getPosY()), getWidth() * Tile.TILE_SIZE, getHeight() * Tile.TILE_SIZE);
 	}
 }

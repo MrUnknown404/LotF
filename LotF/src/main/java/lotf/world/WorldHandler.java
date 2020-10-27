@@ -25,7 +25,7 @@ public class WorldHandler implements ITickable {
 		
 		Console.print(Console.WarningType.Info, "World creation finished!");
 		
-		player = new EntityPlayer(worlds.get(0).getWorldType(), new Vec2f(10, 10), worlds.get(0).getRooms().get(8, 8));
+		player = new EntityPlayer(EnumWorldType.debugworld, new Vec2f(10, 10), worlds.get(1).getRooms().get(8, 8));
 		spawnEntity(new EntityEnemyTest(getPlayerRoom(), new Vec2f(200, 30)));
 	}
 	

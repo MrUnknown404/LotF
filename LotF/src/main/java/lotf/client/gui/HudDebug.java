@@ -37,7 +37,7 @@ public class HudDebug extends Hud {
 		
 		if (pl != null) {
 			g.drawString("Pos : " + MathH.roundTo(pl.getPosX(), 1) + ", " + MathH.roundTo(pl.getPosY(), 1), 1, y += 9);
-			g.drawString("C Pos : " + MathH.roundTo(Main.getMain().getCamera().getPosX(), 1) + ", " + MathH.roundTo(Main.getMain().getCamera().getPosY(), 1), 1, y += 9);
+			g.drawString("Cam Pos : " + MathH.roundTo(Main.getMain().getCamera().getPosX(), 1) + ", " + MathH.roundTo(Main.getMain().getCamera().getPosY(), 1), 1, y += 9);
 			g.drawString("World : " + pl.getWorldType(), 1, y += 9);
 			g.drawString("RoomID : " + pl.getRoom().getRoomID(), 1, y += 9);
 		}

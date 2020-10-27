@@ -1,14 +1,15 @@
 package main.java.lotf.entities.util;
 
-import java.awt.Rectangle;
-
 import main.java.lotf.tile.Tile;
+import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GameObject;
+import main.java.lotf.util.HitBox;
 import main.java.lotf.util.ITickable;
 import main.java.lotf.util.annotation.UseGetter;
 import main.java.lotf.util.enums.EnumCollisionType;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
+import main.java.ulibs.utils.Grid;
 import main.java.ulibs.utils.math.MathH;
 import main.java.ulibs.utils.math.Vec2f;
 import main.java.ulibs.utils.math.Vec2i;
@@ -61,8 +62,8 @@ public abstract class Entity extends GameObject implements ITickable {
 				continue;
 			}
 			
-			Rectangle b = getBounds();
-			if (t.getBounds().intersects(b.x + (x > 0 ? MathH.ceil(x) : MathH.floor(x)), b.y, b.width, b.height)) {
+			HitBox b = getBounds();
+			if (t.getBounds().intersects(b.addX(x > 0 ? MathH.ceil(x) : MathH.floor(x)))) {
 				int ii = t.getTileInfo().getCollisionType().getXmod();
 				
 				if (x > 0) {
@@ -82,8 +83,8 @@ public abstract class Entity extends GameObject implements ITickable {
 				continue;
 			}
 			
-			Rectangle b = getBounds();
-			if (t.getBounds().intersects(b.x, b.y + (y > 0 ? MathH.ceil(y) : MathH.floor(y)), b.width, b.height)) {
+			HitBox b = getBounds();
+			if (t.getBounds().intersects(b.addY(y > 0 ? MathH.ceil(y) : MathH.floor(y)))) {
 				int ii = t.getTileInfo().getCollisionType().getYmod();
 				
 				if (y > 0) {
@@ -96,6 +97,22 @@ public abstract class Entity extends GameObject implements ITickable {
 		
 		return y;
 	}
+	
+	public TileInfo getTile(EnumDirection dir) {
+		for (Grid<Tile> g : room.getTileLayers()) {
+			int hx = MathH.floor((getPosX() - room.getPosX()) / Tile.TILE_SIZE), hy = MathH.floor((getPosY() - room.getPosY()) / Tile.TILE_SIZE);
+			
+			hx += dir == EnumDirection.east ? 1 : dir == EnumDirection.west ? -1 : 0;
+			hy += dir == EnumDirection.south ? 1 : dir == EnumDirection.north ? -1 : 0;
+			
+			if (hx > 0 && hy > 0 && hx < g.getWidth() && hy < g.getHeight()) {
+				return g.get(hx, hy).getTileInfo();
+			}
+		}
+		
+		return null;
+	}
+	
 	
 	protected void setFacing(EnumDirection facing) {
 		this.facing = facing;

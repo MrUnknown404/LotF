@@ -1,6 +1,5 @@
 package main.java.lotf.client.renderer;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -22,7 +21,8 @@ import main.java.ulibs.utils.Console;
 import main.java.ulibs.utils.math.MathH;
 
 public class RendererEntity implements IRenderer, ITickable {
-	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> entityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();
+	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> directionalEntityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();
+	private Map<EntityInfo, ImageInfo> nonDirectionalEntityTextures = new HashMap<EntityInfo, ImageInfo>();
 	
 	@Override
 	public void setup() {
@@ -39,18 +39,33 @@ public class RendererEntity implements IRenderer, ITickable {
 			if (p != null && p.getRoom() != null) {
 				for (Entity e : p.getRoom().getEntities()) {
 					if (e instanceof EntityLiving && ((EntityLiving) e).isWalking()) {
-						EntityInfo pi = p.getInfo();
+						EntityInfo pi = e.getInfo();
 						if (pi.getAnimationTime() != 0) {
-							if (entityTextures.get(pi).get(e.getFacing()).currentFrameCounter == pi.getAnimationTime()) {
-								if (entityTextures.get(pi).get(e.getFacing()).currentImage == entityTextures.get(pi).get(e.getFacing()).imgs.length - 1) {
-									entityTextures.get(pi).get(e.getFacing()).currentImage = 0;
+							if (pi.usesDirections()) {
+								if (directionalEntityTextures.get(pi).get(e.getFacing()).currentFrameCounter == pi.getAnimationTime()) {
+									if (directionalEntityTextures.get(pi)
+											.get(e.getFacing()).currentImage == directionalEntityTextures.get(pi).get(e.getFacing()).imgs.length - 1) {
+										directionalEntityTextures.get(pi).get(e.getFacing()).currentImage = 0;
+									} else {
+										directionalEntityTextures.get(pi).get(e.getFacing()).currentImage++;
+									}
+									
+									directionalEntityTextures.get(pi).get(e.getFacing()).currentFrameCounter = 0;
 								} else {
-									entityTextures.get(pi).get(e.getFacing()).currentImage++;
+									directionalEntityTextures.get(pi).get(e.getFacing()).currentFrameCounter++;
 								}
-								
-								entityTextures.get(pi).get(e.getFacing()).currentFrameCounter = 0;
 							} else {
-								entityTextures.get(pi).get(e.getFacing()).currentFrameCounter++;
+								if (nonDirectionalEntityTextures.get(pi).currentFrameCounter == pi.getAnimationTime()) {
+									if (nonDirectionalEntityTextures.get(pi).currentImage == nonDirectionalEntityTextures.get(pi).imgs.length - 1) {
+										nonDirectionalEntityTextures.get(pi).currentImage = 0;
+									} else {
+										nonDirectionalEntityTextures.get(pi).currentImage++;
+									}
+									
+									nonDirectionalEntityTextures.get(pi).currentFrameCounter = 0;
+								} else {
+									nonDirectionalEntityTextures.get(pi).currentFrameCounter++;
+								}
 							}
 						}
 					}
@@ -78,7 +93,7 @@ public class RendererEntity implements IRenderer, ITickable {
 	
 	@Override
 	public void render(Graphics2D g) {
-		if (entityTextures.isEmpty()) {
+		if (directionalEntityTextures.isEmpty() && nonDirectionalEntityTextures.isEmpty()) {
 			Console.print(Console.WarningType.FatalError, "Entity textures were not set!");
 			return;
 		}
@@ -98,9 +113,13 @@ public class RendererEntity implements IRenderer, ITickable {
 				
 				for (Room r : roomsToRender) {
 					for (Entity e : r.getEntities()) {
-						g.setColor(Color.red);
-						g.drawImage(entityTextures.get(e.getInfo()).get(e.getFacing()).getCurrentImage(), MathH.ceil(e.getPosX()), MathH.ceil(e.getPosY()),
-								e.getWidth(), e.getHeight(), null);
+						if (e.getInfo().usesDirections()) {
+							g.drawImage(directionalEntityTextures.get(e.getInfo()).get(e.getFacing()).getCurrentImage(), MathH.ceil(e.getPosX()),
+									MathH.ceil(e.getPosY()), e.getWidth(), e.getHeight(), null);
+						} else {
+							g.drawImage(nonDirectionalEntityTextures.get(e.getInfo()).getCurrentImage(), MathH.ceil(e.getPosX()), MathH.ceil(e.getPosY()),
+									e.getWidth(), e.getHeight(), null);
+						}
 					}
 				}
 				
@@ -109,42 +128,74 @@ public class RendererEntity implements IRenderer, ITickable {
 		}
 	}
 	
-	private void registerEntity(EntityInfo tInfo, int count) {
-		Map<EnumDirection, ImageInfo> m = new HashMap<EnumDirection, ImageInfo>();
-		
-		for (EnumDirection dir : EnumDirection.values()) {
+	private void registerEntity(EntityInfo info, int count) {
+		if (info.usesDirections()) {
+			Map<EnumDirection, ImageInfo> m = new HashMap<EnumDirection, ImageInfo>();
+			
+			for (EnumDirection dir : EnumDirection.values()) {
+				BufferedImage[] imgs = new BufferedImage[count];
+				
+				if (count > 1) {
+					for (int i = 0; i < count; i++) {
+						BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, info.getName() + "/" + info.getName() + "_" + dir + "_" + i);
+						
+						imgs[i] = img;
+						if (img != GetResource.nil) {
+							Console.print(Console.WarningType.TextureDebug, "'" + info.getName() + "_" + dir + "_" + i + "' was registered!");
+						} else {
+							Console.print(Console.WarningType.Warning, "'" + info.getName() + "_" + dir + "_" + i + "' was not registered!");
+						}
+					}
+					
+					m.put(dir, new ImageInfo().setImages(imgs));
+				} else {
+					BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, info.getName() + "_" + dir);
+					
+					m.put(dir, new ImageInfo(img));
+					if (img != GetResource.nil) {
+						Console.print(Console.WarningType.TextureDebug, "'" + info.getName() + "_" + dir + "' was registered!");
+					} else {
+						Console.print(Console.WarningType.TextureDebug, "'" + info.getName() + "_" + dir + "' was not registered!");
+					}
+				}
+			}
+			
+			directionalEntityTextures.put(info, m);
+		} else {
 			BufferedImage[] imgs = new BufferedImage[count];
+			ImageInfo iinfo = null;
 			
 			if (count > 1) {
 				for (int i = 0; i < count; i++) {
-					BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName() + "/" + tInfo.getName() + "_" + dir + "_" + i);
+					BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, info.getName() + "/" + info.getName() + "_" + i);
 					
 					imgs[i] = img;
 					if (img != GetResource.nil) {
-						Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + dir + "_" + i + "' was registered!");
+						Console.print(Console.WarningType.TextureDebug, "'" + info.getName() + "_" + i + "' was registered!");
 					} else {
-						Console.print(Console.WarningType.Warning, "'" + tInfo.getName() + "_" + dir + "_" + i + "' was not registered!");
+						Console.print(Console.WarningType.Warning, "'" + info.getName() + "_" + i + "' was not registered!");
 					}
 				}
 				
-				m.put(dir, new ImageInfo().setImages(imgs));
+				iinfo = new ImageInfo().setImages(imgs);
 			} else {
-				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, tInfo.getName() + "_" + dir);
+				BufferedImage img = GetResource.getTexture(GetResource.ResourceType.entity, info.getName());
 				
-				m.put(dir, new ImageInfo(img));
+				iinfo = new ImageInfo(img);
 				if (img != GetResource.nil) {
-					Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + dir + "' was registered!");
+					Console.print(Console.WarningType.TextureDebug, "'" + info.getName() + "' was registered!");
 				} else {
-					Console.print(Console.WarningType.TextureDebug, "'" + tInfo.getName() + "_" + dir + "' was not registered!");
+					Console.print(Console.WarningType.TextureDebug, "'" + info.getName() + "' was not registered!");
 				}
 			}
+			
+			nonDirectionalEntityTextures.put(info, iinfo);
 		}
 		
-		entityTextures.put(tInfo, m);
 	}
 	
 	public ImageInfo getPlayerImageInfo() {
-		return entityTextures.get(EntityInfo.PLAYER).get(Main.getMain().getWorldHandler().getPlayer().getFacing());
+		return directionalEntityTextures.get(EntityInfo.PLAYER).get(Main.getMain().getWorldHandler().getPlayer().getFacing());
 	}
 	
 	@Override

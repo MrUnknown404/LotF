@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.init.Tiles;
+import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.GetResource.ResourceType;
 import main.java.lotf.util.ImageInfo;
@@ -32,7 +33,13 @@ public class ParticleSmallTileExplosion extends ParticleSmallExplosion {
 	protected ImageInfo setupTexture() {
 		List<BufferedImage> imgs = new ArrayList<BufferedImage>();
 		for (int i = 0; i < Tiles.getAll().size(); i++) {
-			imgs.add(GetResource.getTexture(ResourceType.tile, Tiles.getAll().get(i).getName()));
+			TileInfo t = Tiles.getAll().get(i);
+			
+			if (t.getTextureCount() > 1) {
+				imgs.add(GetResource.getTexture(ResourceType.tile, t.getName() + "/" + t.getName() + "_0"));
+			} else {
+				imgs.add(GetResource.getTexture(ResourceType.tile, t.getName()));
+			}
 		}
 		
 		return new ImageInfo(imgs.toArray(new BufferedImage[0]));

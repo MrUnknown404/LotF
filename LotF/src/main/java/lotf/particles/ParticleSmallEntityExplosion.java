@@ -32,7 +32,21 @@ public class ParticleSmallEntityExplosion extends ParticleSmallExplosion {
 	protected ImageInfo setupTexture() {
 		List<BufferedImage> imgs = new ArrayList<BufferedImage>();
 		for (int i = 0; i < EntityInfo.getAll().size(); i++) {
-			imgs.add(GetResource.getTexture(ResourceType.entity, EntityInfo.getAll().get(i).getName()));
+			EntityInfo e = EntityInfo.getAll().get(i);
+			
+			if (e.getTextureCount() > 1) {
+				if (e.usesDirections()) {
+					imgs.add(GetResource.getTexture(ResourceType.entity, e.getName() + "/" + e.getName() + "_north_0"));
+				} else {
+					imgs.add(GetResource.getTexture(ResourceType.entity, e.getName() + "/" + e.getName() + "_0"));
+				}
+			} else {
+				if (e.usesDirections()) {
+					imgs.add(GetResource.getTexture(ResourceType.entity, e.getName() + "_north"));
+				} else {
+					imgs.add(GetResource.getTexture(ResourceType.entity, e.getName()));
+				}
+			}
 		}
 		
 		return new ImageInfo(imgs.toArray(new BufferedImage[0]));

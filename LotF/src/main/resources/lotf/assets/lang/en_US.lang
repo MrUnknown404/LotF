@@ -19,7 +19,7 @@ ring.archer1.desc=write later
 
 ##Potions
 potion.empty.name=Empty bottle
-potion.red.name=Red
+potion.red.name=Red Potion
 
 potion.empty.desc=An empty bottle
 potion.red.desc=Write later!
