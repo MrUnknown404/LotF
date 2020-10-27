@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import com.google.gson.reflect.TypeToken;
 
 import main.java.lotf.Main;
-import main.java.lotf.client.KeyHandler.KeyType;
+import main.java.lotf.client.GameKeyHandler.KeyType;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.util.IConfigurable;
@@ -20,7 +20,7 @@ import main.java.ulibs.utils.Console;
 import main.java.ulibs.utils.Pair;
 import main.java.ulibs.utils.math.MathH;
 
-public class KeyHandler extends KeyAdapter implements ITickable, IConfigurable<Map<KeyType, Pair<Integer, Integer>>> {
+public class GameKeyHandler extends KeyAdapter implements ITickable, IConfigurable<Map<KeyType, Pair<Integer, Integer>>> {
 
 	public Map<KeyType, Boolean> dualKeys = new HashMap<KeyType, Boolean>();
 	

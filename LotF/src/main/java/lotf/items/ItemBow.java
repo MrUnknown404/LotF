@@ -1,6 +1,5 @@
 package main.java.lotf.items;
 
-import main.java.lotf.Main;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.projectiles.ProjectileArrow;
 import main.java.lotf.items.util.ItemUseable;
@@ -37,6 +36,6 @@ public class ItemBow extends ItemUseable {
 				break;
 		}
 		
-		Main.getMain().getWorldHandler().spawnEntity(new ProjectileArrow(pos, user, user.getFacing(), 5, damage));
+		user.getRoom().spawnEntity(new ProjectileArrow(pos, user, user.getFacing(), 5, damage));
 	}
 }

@@ -41,8 +41,9 @@ public class EntityPlayer extends EntityLiving {
 	
 	private PlayerInventory inv;
 	
-	public EntityPlayer(EnumWorldType worldType, Vec2f pos, Room room) {
-		super(EntityInfo.PLAYER, room, pos, new Vec2i(14, 14), 24);
+	public EntityPlayer(EnumWorldType worldType) {
+		super(EntityInfo.PLAYER, Main.getMain().getWorldHandler().getWorld(worldType).getRoom(worldType.getStartingPos()), new Vec2f(10, 10), new Vec2i(14, 14),
+				24);
 		this.worldType = worldType;
 		
 		for (EnumWorldType type : EnumWorldType.values()) {
@@ -374,7 +375,10 @@ public class EntityPlayer extends EntityLiving {
 	}
 	
 	private enum CountableUpgradeState {
-		one(10), two(30), three(50), four(99);
+		one(10),
+		two(30),
+		three(50),
+		four(99);
 		
 		private final int amount;
 		

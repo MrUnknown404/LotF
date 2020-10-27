@@ -27,7 +27,7 @@ public abstract class Entity extends GameObject implements ITickable {
 		super(new Vec2f(room.getPosX() + pos.getX(), room.getPosY() + pos.getY()), size);
 		this.info = info;
 		this.room = room;
-		startPos = pos;
+		this.startPos = pos;
 	}
 	
 	public void reset() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.lotf.client.ui.button.Button;
+import main.java.lotf.client.ui.button.Button.ClickModifier;
+import main.java.lotf.client.ui.button.Button.ClickType;
 import main.java.lotf.init.Tiles;
 import main.java.lotfbuilder.client.ui.button.ButtonBuilderHotbar;
 import main.java.lotfbuilder.client.ui.button.ButtonBuilderInventory;
@@ -33,15 +35,7 @@ public class UIHandler {
 		return false;
 	}
 	
-	public static List<Button> getAllButtions() {
+	public static List<Button> getAllButtons() {
 		return BUTTONS;
-	}
-	
-	public enum ClickType {
-		left, right, middle
-	}
-	
-	public enum ClickModifier {
-		none, alt, shift, ctrl
 	}
 }

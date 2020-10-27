@@ -1,8 +1,6 @@
 package main.java.lotfbuilder.client.ui.button;
 
 import main.java.lotfbuilder.MainBuilder;
-import main.java.lotfbuilder.client.ui.UIHandler.ClickModifier;
-import main.java.lotfbuilder.client.ui.UIHandler.ClickType;
 import main.java.ulibs.utils.math.Vec2i;
 
 public class ButtonBuilderHotbar extends ButtonBuilderInventory {

@@ -17,7 +17,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import main.java.lotf.client.Camera;
-import main.java.lotf.client.KeyHandler;
+import main.java.lotf.client.GameKeyHandler;
+import main.java.lotf.client.MenuMouseHandler;
 import main.java.lotf.client.Window;
 import main.java.lotf.client.gui.HudConsole;
 import main.java.lotf.client.gui.HudDebug;
@@ -27,10 +28,12 @@ import main.java.lotf.client.renderer.IRenderer;
 import main.java.lotf.client.renderer.RendererEntity;
 import main.java.lotf.client.renderer.RendererParticle;
 import main.java.lotf.client.renderer.RendererTile;
+import main.java.lotf.client.ui.Menu;
 import main.java.lotf.commands.util.DebugConsole;
 import main.java.lotf.init.Collectibles;
 import main.java.lotf.init.Commands;
 import main.java.lotf.init.Items;
+import main.java.lotf.init.Menus;
 import main.java.lotf.init.Particles;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.util.ConfigHandler;
@@ -54,23 +57,24 @@ public final class Main {
 	public static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
 	private int width = HUD_WIDTH, height = HUD_HEIGHT, w2, h2;
 	private static int fps;
+	public static boolean isDebug, isBuilder;
 	
 	public static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
-	
 	public static final String ASSETS_LOCATION = "/main/resources/lotf/assets/";
 	
 	private Map<String, Gamestate> gamestate = new HashMap<String, Gamestate>();
-	
-	private final DebugConsole console = new DebugConsole();
-	
 	private static List<IRenderer> renderers = new ArrayList<IRenderer>();
 	
+	private final DebugConsole console = new DebugConsole();
 	private Camera camera;
-	private KeyHandler keyHandler;
+	private GameKeyHandler gameKeyHandler;
+	private MenuMouseHandler menuMouseHandler;
 	private WorldHandler worldHandler;
 	private Gson gson;
 	
-	public static boolean isDebug, isBuilder;
+	private boolean hasGameStarted = false;
+	/** used for main menu/options/etc NOT inventory */
+	private Menu currentMenu = null;
 	
 	public static void main(String args[]) {
 		for (String s : args) {
@@ -116,9 +120,10 @@ public final class Main {
 		GsonBuilder gson = new GsonBuilder().serializeNulls();
 		this.gson = gson.create();
 		
-		keyHandler = new KeyHandler();
+		gameKeyHandler = new GameKeyHandler();
+		menuMouseHandler = new MenuMouseHandler();
 		
-		ConfigHandler.loadConfigs(keyHandler);
+		ConfigHandler.loadConfigs(gameKeyHandler);
 		GetResource.getLangFile();
 		
 		Commands.registerAll();
@@ -126,6 +131,7 @@ public final class Main {
 		Items.registerAll();
 		Tiles.registerAll();
 		Particles.registerAll();
+		Menus.registerAll();
 		
 		addRenderer(new RendererTile());
 		addRenderer(new RendererEntity());
@@ -151,7 +157,6 @@ public final class Main {
 		Console.print(WarningType.Info, "Initialization started...");
 		
 		worldHandler = new WorldHandler();
-		camera = new Camera();
 		
 		Console.print(WarningType.Info, "Initialization finished!");
 	}
@@ -159,31 +164,55 @@ public final class Main {
 	private void postInit() {
 		Console.print(WarningType.Info, "Post-Initialization started...");
 		
+		currentMenu = Menus.MAIN;
+		
 		Console.print(WarningType.Info, "Post-Initialization finished!");
 	}
 	
+	public void startGame() {
+		Console.print(WarningType.Info, "Game started starting...");
+		
+		worldHandler.startWorld();
+		camera = new Camera();
+		currentMenu = null;
+		
+		hasGameStarted = true;
+		Console.print(WarningType.Info, "Game finished starting!");
+	}
+	
 	private void tick() {
-		keyHandler.tick();
-		
-		for (IRenderer r : renderers) {
-			if ((r instanceof IStateTickable && ((IStateTickable) r).whenToTick() == getGamestate()) || r instanceof ITickable) {
-				((ITickable) r).tick();
+		if (currentMenu != null) {
+			currentMenu.tick();
+		} else {
+			if (hasGameStarted) {
+				gameKeyHandler.tick();
+				
+				for (IRenderer r : renderers) {
+					if ((r instanceof IStateTickable && ((IStateTickable) r).whenToTick() == getGamestate()) || r instanceof ITickable) {
+						((ITickable) r).tick();
+					}
+				}
+				
+				if (getGamestate() == Gamestate.run) {
+					worldHandler.tick();
+					camera.tick();
+				} else if (getGamestate() == Gamestate.softPause) {
+					worldHandler.getPlayer().tick();
+					camera.tick();
+				} else if (getGamestate() == Gamestate.hardPause) {
+					
+				}
+			} else {
+				
 			}
-		}
-		
-		if (getGamestate() == Gamestate.run) {
-			worldHandler.tick();
-			camera.tick();
-		} else if (getGamestate() == Gamestate.softPause) {
-			worldHandler.getPlayer().tick();
-			camera.tick();
-		} else if (getGamestate() == Gamestate.hardPause) {
-			
 		}
 	}
 	
+	/** read only! */
+	public double scale;
+	
 	private void render(Graphics2D g) {
-		double scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
+		scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
 		int w = (int) Math.ceil((HUD_WIDTH * scale));
 		w2 = (int) Math.ceil((width - w) / scale);
 		int h = (int) Math.ceil((HUD_HEIGHT * scale));
@@ -195,18 +224,23 @@ public final class Main {
 		g.fillRect(0, 0, width, height);
 		
 		g.translate(w2 / 2, h2 / 2);
-		g.translate(-camera.getPosX(), -camera.getPosY());
-		for (IRenderer r : renderers) {
-			if (!r.isHud()) {
-				r.render(g);
-			}
-		}
-		g.translate(camera.getPosX(), camera.getPosY());
 		
-		for (IRenderer r : renderers) {
-			if (r.isHud()) {
-				r.render(g);
+		if (hasGameStarted) {
+			g.translate(-camera.getPosX(), -camera.getPosY());
+			for (IRenderer r : renderers) {
+				if (!r.isHud()) {
+					r.render(g);
+				}
 			}
+			g.translate(camera.getPosX(), camera.getPosY());
+			
+			for (IRenderer r : renderers) {
+				if (r.isHud()) {
+					r.render(g);
+				}
+			}
+		} else {
+			currentMenu.render(g);
 		}
 		
 		g.setColor(Color.BLACK);
@@ -278,6 +312,10 @@ public final class Main {
 	
 	public Gson getGson() {
 		return gson;
+	}
+	
+	public Menu getCurrentMenu() {
+		return currentMenu;
 	}
 	
 	public static Main getMain() {
@@ -369,11 +407,17 @@ public final class Main {
 		}
 		
 		public void setupComponents() {
-			addKeyListener(keyHandler);
+			addKeyListener(gameKeyHandler);
+			//addKeyListener(menuKeyHandler);
+			addMouseListener(menuMouseHandler);
+			addMouseMotionListener(menuMouseHandler);
+			addMouseWheelListener(menuMouseHandler);
 			addComponentListener(new ComponentListener() {
+				//@formatter:off
 				@Override public void componentShown(ComponentEvent e) {}
 				@Override public void componentMoved(ComponentEvent e) {}
 				@Override public void componentHidden(ComponentEvent e) {}
+				//@formatter:on
 				
 				@Override
 				public void componentResized(ComponentEvent e) {

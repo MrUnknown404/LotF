@@ -78,6 +78,10 @@ public class World {
 		return rooms.get(x, y);
 	}
 	
+	public Room getRoom(Vec2i pos) {
+		return getRoom(pos.getX(), pos.getY());
+	}
+	
 	public EnumWorldType getWorldType() {
 		return worldType;
 	}
