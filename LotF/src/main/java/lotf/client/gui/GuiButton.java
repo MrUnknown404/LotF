@@ -1,6 +1,7 @@
 package main.java.lotf.client.gui;
 
 import java.awt.image.BufferedImage;
+import java.awt.image.RescaleOp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,8 +20,11 @@ public class GuiButton {
 		
 		List<BufferedImage> imgs = new ArrayList<BufferedImage>();
 		imgs.add(GetResource.getTexture(ResourceType.gui, normalTexture));
-		imgs.add(GetResource.getTexture(ResourceType.gui, normalTexture + "_hovering"));
 		
+		RescaleOp op = new RescaleOp(0.6f, 0, null);
+		BufferedImage shadedImage = op.filter(imgs.get(0), null);
+		
+		imgs.add(shadedImage);
 		image = new ImageInfo(imgs.toArray(new BufferedImage[0]));
 	}
 	

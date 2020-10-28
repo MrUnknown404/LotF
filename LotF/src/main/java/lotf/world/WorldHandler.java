@@ -24,7 +24,6 @@ public class WorldHandler implements ITickable {
 	}
 	
 	public void startWorld() {
-		Console.print(Console.WarningType.Info, "World Started!");
 		player = new EntityPlayer(EnumWorldType.debugworld);
 	}
 	

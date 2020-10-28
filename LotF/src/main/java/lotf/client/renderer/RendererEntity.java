@@ -8,19 +8,20 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.lotf.Main;
+import main.java.lotf.Main.Gamestate;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.entities.util.Entity;
 import main.java.lotf.entities.util.EntityInfo;
 import main.java.lotf.entities.util.EntityLiving;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.ITickable;
+import main.java.lotf.util.IStateTickable;
 import main.java.lotf.util.ImageInfo;
 import main.java.lotf.util.enums.EnumDirection;
 import main.java.lotf.world.Room;
 import main.java.ulibs.utils.Console;
 import main.java.ulibs.utils.math.MathH;
 
-public class RendererEntity implements IRenderer, ITickable {
+public class RendererEntity implements IRenderer, IStateTickable {
 	private Map<EntityInfo, Map<EnumDirection, ImageInfo>> directionalEntityTextures = new HashMap<EntityInfo, Map<EnumDirection, ImageInfo>>();
 	private Map<EntityInfo, ImageInfo> nonDirectionalEntityTextures = new HashMap<EntityInfo, ImageInfo>();
 	
@@ -201,5 +202,10 @@ public class RendererEntity implements IRenderer, ITickable {
 	@Override
 	public boolean isHud() {
 		return false;
+	}
+	
+	@Override	
+	public Gamestate whenToTick() {
+		return Gamestate.run;
 	}
 }

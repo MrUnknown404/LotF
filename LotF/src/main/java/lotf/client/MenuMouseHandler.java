@@ -37,6 +37,10 @@ public class MenuMouseHandler extends MouseAdapter {
 	}
 	
 	private void checkUI(MouseEvent e) {
+		if (Main.getMain().getCurrentMenu() == null) {
+			return;
+		}
+		
 		Main.getMain().getCurrentMenu().checkClick(HUD_MOUSE_POS,
 				mouseState == 1 ? ClickType.left : mouseState == 2 ? ClickType.middle : mouseState == 3 ? ClickType.right : null,
 				e.isAltDown() ? ClickModifier.alt : e.isShiftDown() ? ClickModifier.shift : e.isControlDown() ? ClickModifier.ctrl : ClickModifier.none);

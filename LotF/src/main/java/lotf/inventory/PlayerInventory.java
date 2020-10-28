@@ -13,7 +13,7 @@ import main.java.lotf.world.World;
 import main.java.ulibs.utils.math.Vec2i;
 
 public class PlayerInventory {
-
+	
 	private Inventory<Item> normalInventory, specialItems;
 	private Inventory<Sword> swordInventory;
 	private Inventory<Potion> potionInventory;
@@ -87,92 +87,76 @@ public class PlayerInventory {
 		Vec2i startBounds = w.getWorldType().getStartActiveBounds();
 		Vec2i endBounds = w.getWorldType().getEndActiveBounds();
 		
-		switch (dir) {
-			case north:
-				switch (selectedThing) {
-					case Map:
-						if (selectedSlot < w.getFirstActiveRoom().getRoomID() + startBounds.getX()) {
-							selectedSlot += ((endBounds.getY() - startBounds.getY() - 2) * 17);
+		switch (selectedThing) {
+			case CollectiblesInventory:
+				switch (dir) {
+					case east:
+						if ((double) (selectedSlot + 1) / collectiblesInventory.getSizeX() == (selectedSlot + 1) / collectiblesInventory.getSizeX()) {
+							selectedThing = EnumSelectables.Map;
+							selectedSlot = w.getFirstActiveRoom().getRoomID();
 						} else {
-							selectedSlot -= 17;
+							selectedSlot++;
 						}
 						break;
-					case NormalInventory:
-						if (selectedSlot < normalInventory.getSizeX()) {
-							selectedSlot += normalInventory.getSizeX() * (normalInventory.getSizeY() - 1);
-						} else {
-							selectedSlot -= normalInventory.getSizeX();
-						}
-						break;
-					case SwordInventory:
-						if (selectedSlot == 0) {
-							selectedSlot = swordInventory.getSizeY() - 1;
-						} else {
-							selectedSlot--;
-						}
-						break;
-					case PotionInventory:
-						selectedThing = EnumSelectables.RingInventory;
-						break;
-					case RingInventory:
-						selectedThing = EnumSelectables.SpecialInventory;
-						break;
-					case SpecialInventory:
-						selectedThing = EnumSelectables.PotionInventory;
-						break;
-					case CollectiblesInventory:
+					case north:
 						if (selectedSlot < collectiblesInventory.getSizeX()) {
 							selectedSlot += collectiblesInventory.getSizeX() * (collectiblesInventory.getSizeY() - 1);
 						} else {
 							selectedSlot -= collectiblesInventory.getSizeX();
 						}
 						break;
-				}
-				break;
-			case south:
-				switch (selectedThing) {
-					case Map:
-						if (selectedSlot >= w.getLastActiveRoom().getRoomID() - endBounds.getX()) {
-							selectedSlot -= 17 * ((endBounds.getY() - startBounds.getY()) - 2);
-						} else {
-							selectedSlot += 17;
-						}
-						break;
-					case NormalInventory:
-						if (selectedSlot >= normalInventory.getSizeX() * (normalInventory.getSizeY() - 1)) {
-							selectedSlot -= normalInventory.getSizeX() * (normalInventory.getSizeY() - 1);
-						} else {
-							selectedSlot += normalInventory.getSizeX();
-						}
-						break;
-					case SwordInventory:
-						if (selectedSlot == swordInventory.getSizeY() - 1) {
-							selectedSlot = 0;
-						} else {
-							selectedSlot++;
-						}
-						break;
-					case PotionInventory:
-						selectedThing = EnumSelectables.SpecialInventory;
-						break;
-					case RingInventory:
-						selectedThing = EnumSelectables.PotionInventory;
-						break;
-					case SpecialInventory:
-						selectedThing = EnumSelectables.RingInventory;
-						break;
-					case CollectiblesInventory:
+					case south:
 						if (selectedSlot >= collectiblesInventory.getSizeX() * (collectiblesInventory.getSizeY() - 1)) {
 							selectedSlot -= collectiblesInventory.getSizeX() * (collectiblesInventory.getSizeY() - 1);
 						} else {
 							selectedSlot += collectiblesInventory.getSizeX();
 						}
 						break;
+					case west:
+						if ((double) selectedSlot / collectiblesInventory.getSizeX() == selectedSlot / collectiblesInventory.getSizeX()) {
+							selectedThing = EnumSelectables.Map;
+							selectedSlot = w.getFirstActiveRoom().getRoomID();
+						} else {
+							selectedSlot--;
+						}
+						break;
 				}
 				break;
-			case west:
-				switch (selectedThing) {
-					case Map:
+			case Map:
+				switch (dir) {
+					case east:
+						if (w.getRoom(selectedSlot + 1) == null) {
+							if (currentInvScreen == 0) {
+								selectedThing = EnumSelectables.NormalInventory;
+								selectedSlot = 0;
+							} else if (currentInvScreen == 1) {
+								selectedThing = EnumSelectables.RingInventory;
+								selectedSlot = 0;
+							} else if (currentInvScreen == 2) {
+								selectedThing = EnumSelectables.CollectiblesInventory;
+								selectedSlot = 0;
+							} else if (currentInvScreen == 3) {
+								//TODO do_when_i_create_fourth_screen;
+							}
+						} else {
+							selectedSlot++;
+						}
+						break;
+					case north:
+						if (selectedSlot < w.getFirstActiveRoom().getRoomID() + startBounds.getX()) {
+							selectedSlot += ((endBounds.getY() - startBounds.getY() - 1) * 17);
+						} else {
+							selectedSlot -= 17;
+						}
+						break;
+					case south:
+						if (selectedSlot >= w.getLastActiveRoom().getRoomID() - endBounds.getX()) {
+							selectedSlot -= 17 * ((endBounds.getY() - startBounds.getY()) - 1);
+						} else {
+							selectedSlot += 17;
+						}
+						break;
+					case west:
 						if (w.getRoom(selectedSlot - 1) == null) {
 							if (currentInvScreen == 0) {
 								selectedThing = EnumSelectables.SwordInventory;
@@ -190,44 +174,34 @@ public class PlayerInventory {
 							selectedSlot--;
 						}
 						break;
-					case NormalInventory:
-						if ((double) selectedSlot / normalInventory.getSizeX() == selectedSlot / normalInventory.getSizeX()) { 
-							selectedThing = EnumSelectables.Map;
-							selectedSlot = w.getFirstActiveRoom().getRoomID();
+				}
+				break;
+			case NormalInventory:
+				switch (dir) {
+					case east:
+						if ((double) (selectedSlot + 1) / normalInventory.getSizeX() == (selectedSlot + 1) / normalInventory.getSizeX()) {
+							selectedThing = EnumSelectables.SwordInventory;
+							selectedSlot /= normalInventory.getSizeX();
 						} else {
-							selectedSlot--;
+							selectedSlot++;
 						}
 						break;
-					case PotionInventory:
-						if (selectedSlot == 0) {
-							selectedThing = EnumSelectables.Map;
-							selectedSlot = w.getFirstActiveRoom().getRoomID();
+					case north:
+						if (selectedSlot < normalInventory.getSizeX()) {
+							selectedSlot += normalInventory.getSizeX() * (normalInventory.getSizeY() - 1);
 						} else {
-							selectedSlot--;
+							selectedSlot -= normalInventory.getSizeX();
 						}
 						break;
-					case RingInventory:
-						if (selectedSlot == 0) {
-							selectedThing = EnumSelectables.Map;
-							selectedSlot = w.getFirstActiveRoom().getRoomID();
+					case south:
+						if (selectedSlot >= normalInventory.getSizeX() * (normalInventory.getSizeY() - 1)) {
+							selectedSlot -= normalInventory.getSizeX() * (normalInventory.getSizeY() - 1);
 						} else {
-							selectedSlot--;
+							selectedSlot += normalInventory.getSizeX();
 						}
 						break;
-					case SpecialInventory:
-						if (selectedSlot == 0) {
-							selectedThing = EnumSelectables.Map;
-							selectedSlot = w.getFirstActiveRoom().getRoomID();
-						} else {
-							selectedSlot--;
-						}
-						break;
-					case SwordInventory:
-						selectedThing = EnumSelectables.NormalInventory;
-						selectedSlot = selectedSlot * normalInventory.getSizeX() + normalInventory.getSizeX() - 1;
-						break;
-					case CollectiblesInventory:
-						if ((double) selectedSlot / collectiblesInventory.getSizeX() == selectedSlot / collectiblesInventory.getSizeX()) { 
+					case west:
+						if ((double) selectedSlot / normalInventory.getSizeX() == selectedSlot / normalInventory.getSizeX()) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
 						} else {
@@ -236,36 +210,9 @@ public class PlayerInventory {
 						break;
 				}
 				break;
-			case east:
-				switch (selectedThing) {
-					case Map:
-						if (w.getRoom(selectedSlot + 1) == null) {
-							if (currentInvScreen == 0) {
-								selectedThing = EnumSelectables.NormalInventory;
-								selectedSlot = 0;
-							} else if (currentInvScreen == 1) {
-								selectedThing = EnumSelectables.RingInventory;
-								selectedSlot = 0;
-							} else if (currentInvScreen == 2) {
-								selectedThing = EnumSelectables.CollectiblesInventory;
-								selectedSlot = 0;
-							} else if (currentInvScreen == 3) {
-								//TODO do_when_i_create_fourth_screen;
-							}
-						} else {
-							selectedSlot++;
-						}
-						
-						break;
-					case NormalInventory:
-						if ((double) (selectedSlot + 1) / normalInventory.getSizeX() == (selectedSlot + 1) / normalInventory.getSizeX()) {
-							selectedThing = EnumSelectables.SwordInventory;
-							selectedSlot /= normalInventory.getSizeX();
-						} else {
-							selectedSlot++;
-						}
-						break;
-					case PotionInventory:
+			case PotionInventory:
+				switch (dir) {
+					case east:
 						if (selectedSlot == potionInventory.getSizeX() - 1) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
@@ -273,7 +220,25 @@ public class PlayerInventory {
 							selectedSlot++;
 						}
 						break;
-					case RingInventory:
+					case north:
+						selectedThing = EnumSelectables.RingInventory;
+						break;
+					case south:
+						selectedThing = EnumSelectables.SpecialInventory;
+						break;
+					case west:
+						if (selectedSlot == 0) {
+							selectedThing = EnumSelectables.Map;
+							selectedSlot = w.getFirstActiveRoom().getRoomID();
+						} else {
+							selectedSlot--;
+						}
+						break;
+				}
+				break;
+			case RingInventory:
+				switch (dir) {
+					case east:
 						if (selectedSlot == ringInventory.getSizeX() - 1) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
@@ -281,7 +246,25 @@ public class PlayerInventory {
 							selectedSlot++;
 						}
 						break;
-					case SpecialInventory:
+					case north:
+						selectedThing = EnumSelectables.SpecialInventory;
+						break;
+					case south:
+						selectedThing = EnumSelectables.PotionInventory;
+						break;
+					case west:
+						if (selectedSlot == 0) {
+							selectedThing = EnumSelectables.Map;
+							selectedSlot = w.getFirstActiveRoom().getRoomID();
+						} else {
+							selectedSlot--;
+						}
+						break;
+				}
+				break;
+			case SpecialInventory:
+				switch (dir) {
+					case east:
 						if (selectedSlot == specialItems.getSizeX() - 1) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
@@ -289,17 +272,45 @@ public class PlayerInventory {
 							selectedSlot++;
 						}
 						break;
-					case SwordInventory:
-						selectedThing = EnumSelectables.Map;
-						selectedSlot = w.getFirstActiveRoom().getRoomID();
+					case north:
+						selectedThing = EnumSelectables.PotionInventory;
 						break;
-					case CollectiblesInventory:
-						if ((double) (selectedSlot + 1) / collectiblesInventory.getSizeX() == (selectedSlot + 1) / collectiblesInventory.getSizeX()) {
+					case south:
+						selectedThing = EnumSelectables.RingInventory;
+						break;
+					case west:
+						if (selectedSlot == 0) {
 							selectedThing = EnumSelectables.Map;
 							selectedSlot = w.getFirstActiveRoom().getRoomID();
 						} else {
+							selectedSlot--;
+						}
+						break;
+				}
+				break;
+			case SwordInventory:
+				switch (dir) {
+					case east:
+						selectedThing = EnumSelectables.Map;
+						selectedSlot = w.getFirstActiveRoom().getRoomID();
+						break;
+					case north:
+						if (selectedSlot == 0) {
+							selectedSlot = swordInventory.getSizeY() - 1;
+						} else {
+							selectedSlot--;
+						}
+						break;
+					case south:
+						if (selectedSlot == swordInventory.getSizeY() - 1) {
+							selectedSlot = 0;
+						} else {
 							selectedSlot++;
 						}
+						break;
+					case west:
+						selectedThing = EnumSelectables.NormalInventory;
+						selectedSlot = selectedSlot * normalInventory.getSizeX() + normalInventory.getSizeX() - 1;
 						break;
 				}
 				break;

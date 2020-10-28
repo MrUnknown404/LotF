@@ -8,18 +8,19 @@ import java.util.List;
 import java.util.Map;
 
 import main.java.lotf.Main;
+import main.java.lotf.Main.Gamestate;
 import main.java.lotf.entities.EntityPlayer;
 import main.java.lotf.init.Tiles;
 import main.java.lotf.tile.Tile;
 import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.GetResource;
-import main.java.lotf.util.ITickable;
+import main.java.lotf.util.IStateTickable;
 import main.java.lotf.util.ImageInfo;
 import main.java.lotf.world.Room;
 import main.java.ulibs.utils.Console;
 import main.java.ulibs.utils.Grid;
 
-public class RendererTile implements IRenderer, ITickable {
+public class RendererTile implements IRenderer, IStateTickable {
 	private Map<TileInfo, ImageInfo> tileTextures = new HashMap<TileInfo, ImageInfo>();
 	
 	@Override
@@ -128,5 +129,10 @@ public class RendererTile implements IRenderer, ITickable {
 	@Override
 	public boolean isHud() {
 		return false;
+	}
+	
+	@Override
+	public Gamestate whenToTick() {
+		return Gamestate.run;
 	}
 }
