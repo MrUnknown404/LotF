@@ -47,7 +47,7 @@ public class MenuMouseHandler extends MouseAdapter {
 	}
 	
 	private void updateMousePos(MouseEvent e) {
-		HUD_MOUSE_POS.set(MathH.floor(e.getX() / Main.getMain().scale) - (Main.getMain().getExtraWidth() / 2),
-				MathH.floor(e.getY() / Main.getMain().scale) - (Main.getMain().getExtraHeight() / 2));
+		HUD_MOUSE_POS.set(MathH.floor(e.getX() / Main.getWindowScale()) - (Main.getExtraWindowWidth() / 2),
+				MathH.floor(e.getY() / Main.getWindowScale()) - (Main.getExtraWindowHeight() / 2));
 	}
 }

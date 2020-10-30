@@ -55,8 +55,8 @@ public final class Main {
 	private static GameLoop gameLoop;
 	
 	public static final int HUD_WIDTH = 256, HUD_HEIGHT = 144;
-	private int width = HUD_WIDTH, height = HUD_HEIGHT, w2, h2;
-	private static int fps;
+	private static int fps, windowWidth = HUD_WIDTH, windowHeight = HUD_HEIGHT, extraWindowWidth, extraWindowHeight;
+	private static double windowScale;
 	public static boolean isDebug, isBuilder;
 	
 	public static final String SAVE_LOCATION = System.getProperty("user.home") + "/Documents/My Games/LotF/";
@@ -98,7 +98,7 @@ public final class Main {
 	private synchronized void start() {
 		new Window("LotF!", gameLoop = new GameLoop());
 		Console.getTimeExample();
-		Console.print(WarningType.Info, "Window size: " + new Vec2i(width, height));
+		Console.print(WarningType.Info, "Window size: " + new Vec2i(windowWidth, windowHeight));
 		Console.print(WarningType.Info, "Starting!");
 		
 		preInit();
@@ -202,28 +202,21 @@ public final class Main {
 				} else if (getGamestate() == Gamestate.hardPause) {
 					
 				}
-			} else {
-				
 			}
 		}
 	}
 	
-	/** read only! */
-	public double scale;
-	
 	private void render(Graphics2D g) {
-		scale = Math.min((double) width / HUD_WIDTH, (double) height / HUD_HEIGHT);
-		int w = (int) Math.ceil((HUD_WIDTH * scale));
-		w2 = (int) Math.ceil((width - w) / scale);
-		int h = (int) Math.ceil((HUD_HEIGHT * scale));
-		h2 = (int) Math.ceil((height - h) / scale);
+		windowScale = Math.min((double) windowWidth / HUD_WIDTH, (double) windowHeight / HUD_HEIGHT);
+		int w = (int) Math.ceil((HUD_WIDTH * windowScale));
+		int h = (int) Math.ceil((HUD_HEIGHT * windowScale));
+		extraWindowWidth = (int) Math.ceil((windowWidth - w) / windowScale);
+		extraWindowHeight = (int) Math.ceil((windowHeight - h) / windowScale);
 		
-		g.scale(scale, scale);
-		
+		g.scale(windowScale, windowScale);
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, width, height);
-		
-		g.translate(w2 / 2, h2 / 2);
+		g.fillRect(0, 0, windowWidth, windowHeight);
+		g.translate(extraWindowWidth / 2, extraWindowHeight / 2);
 		
 		if (hasGameStarted) {
 			g.translate(-camera.getPosX(), -camera.getPosY());
@@ -244,10 +237,10 @@ public final class Main {
 		}
 		
 		g.setColor(Color.BLACK);
-		g.fillRect((int) (w / scale), 0, w2, height);
-		g.fillRect(-w2, 0, w2, height);
-		g.fillRect(0, (int) (h / scale), width, h2);
-		g.fillRect(0, -h2, width, h2);
+		g.fillRect((int) (w / windowScale), 0, extraWindowWidth, windowHeight);
+		g.fillRect(-extraWindowWidth, 0, extraWindowWidth, windowHeight);
+		g.fillRect(0, (int) (h / windowScale), windowWidth, extraWindowHeight);
+		g.fillRect(0, -extraWindowHeight, windowWidth, extraWindowHeight);
 		g.dispose();
 	}
 	
@@ -278,24 +271,28 @@ public final class Main {
 		Console.print(WarningType.RegisterDebug, "Registered '" + r.getClass().getSimpleName() + "' as a renderer!");
 	}
 	
-	public int getWindowWidth() {
-		return width;
+	public static int getWindowWidth() {
+		return windowWidth;
 	}
 	
-	public int getWindowHeight() {
-		return height;
+	public static int getWindowHeight() {
+		return windowHeight;
 	}
 	
-	public int getExtraWidth() {
-		return w2;
+	public static int getExtraWindowWidth() {
+		return extraWindowWidth;
 	}
 	
-	public int getExtraHeight() {
-		return h2;
+	public static int getExtraWindowHeight() {
+		return extraWindowHeight;
 	}
 	
-	public int getFPS() {
+	public static int getFPS() {
 		return fps;
+	}
+	
+	public static double getWindowScale() {
+		return windowScale;
 	}
 	
 	public WorldHandler getWorldHandler() {
@@ -427,8 +424,8 @@ public final class Main {
 		}
 		
 		private void resize() {
-			width = MathH.clamp(getWidth(), 0, Integer.MAX_VALUE);
-			height = MathH.clamp(getHeight(), 0, Integer.MAX_VALUE);
+			windowWidth = MathH.clamp(getWidth(), 0, Integer.MAX_VALUE);
+			windowHeight = MathH.clamp(getHeight(), 0, Integer.MAX_VALUE);
 		}
 	}
 }

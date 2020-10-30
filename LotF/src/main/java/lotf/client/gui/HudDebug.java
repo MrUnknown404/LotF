@@ -33,7 +33,7 @@ public class HudDebug extends Hud {
 			y += 55;
 		}
 		
-		g.drawString("FPS : " + Main.getMain().getFPS(), 1, y);
+		g.drawString("FPS : " + Main.getFPS(), 1, y);
 		
 		if (pl != null) {
 			g.drawString("Pos : " + MathH.roundTo(pl.getPosX(), 1) + ", " + MathH.roundTo(pl.getPosY(), 1), 1, y += 9);
