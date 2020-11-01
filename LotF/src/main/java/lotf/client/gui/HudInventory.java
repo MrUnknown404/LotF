@@ -20,6 +20,7 @@ import main.java.lotf.items.util.Item;
 import main.java.lotf.util.GetResource;
 import main.java.lotf.util.IStateTickable;
 import main.java.lotf.util.enums.EnumWorldType;
+import main.java.lotf.world.Room;
 import main.java.lotf.world.World;
 import main.java.ulibs.utils.math.MathH;
 
@@ -181,23 +182,20 @@ public class HudInventory extends Hud implements IStateTickable {
 			}
 			
 			String desc = "";
-			
 			if (p.getInventory().getSelectedThing() == EnumSelectables.Map) {
 				g.drawImage(selectedMap, 132 + p.getInventory().getSelectedSlot() % World.WORLD_SIZE * 7,
 						20 + MathH.floor(p.getInventory().getSelectedSlot() / World.WORLD_SIZE) * 7, 8, 8, null);
 				
-				if (p.getWorld().getRoom(p.getInventory().getSelectedSlot()) != null &&
-						p.getWorld().getRoom(p.getInventory().getSelectedSlot()).getDescription() != null &&
-						!p.getWorld().getRoom(p.getInventory().getSelectedSlot()).getDescription().isEmpty()) {
-					desc = p.getWorld().getRoom(p.getInventory().getSelectedSlot()).getDescription();
+				Room r = p.getWorld().getRoom(p.getInventory().getSelectedSlot());
+				if (r != null && r.getDescription() != null && !r.getDescription().isEmpty()) {
+					desc = r.getDescription();
 				}
 			} else {
 				Item itemForDesc = p.getInventory().getSelectedItem();
 				
 				if (itemForDesc != null) {
 					if (itemForDesc.getKey().equalsIgnoreCase(buffer)) {
-						g.setFont(lotfFont);
-						drawStringMultiLine(g, (itemForDesc.getName() + " : " + itemForDesc.getDescription()).substring(0, descCharacter), 124, 2, 124);
+						desc = (itemForDesc.getName() + " : " + itemForDesc.getDescription());
 					} else {
 						forceReset = true;
 					}
@@ -228,10 +226,9 @@ public class HudInventory extends Hud implements IStateTickable {
 					buffer = itemForDesc.getKey();
 				}
 			} else {
-				World w = p.getWorld();
-				if (w.getRoom(p.getInventory().getSelectedSlot()) != null && w.getRoom(p.getInventory().getSelectedSlot()).getDescription() != null &&
-						!w.getRoom(p.getInventory().getSelectedSlot()).getDescription().isEmpty()) {
-					desc = w.getRoom(p.getInventory().getSelectedSlot()).getDescription();
+				Room r = p.getWorld().getRoom(p.getInventory().getSelectedSlot());
+				if (r != null && r.getDescription() != null && !r.getDescription().isEmpty()) {
+					desc = r.getDescription();
 					buffer = desc;
 				}
 			}
@@ -319,8 +316,9 @@ public class HudInventory extends Hud implements IStateTickable {
 	}
 	
 	private BufferedImage registerItemTexture(Item item) {
-		return registerTexture(item instanceof Ring ? GetResource.ResourceType.ring : item instanceof Potion ? GetResource.ResourceType.potion :
-			GetResource.ResourceType.item, item.getKey());
+		return registerTexture(
+				item instanceof Ring ? GetResource.ResourceType.ring : item instanceof Potion ? GetResource.ResourceType.potion : GetResource.ResourceType.item,
+				item.getKey());
 	}
 	
 	private BufferedImage registerCollectibleTexture(Collectible col) {
