@@ -19,7 +19,7 @@ import main.java.lotf.tile.TileInfo;
 import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.world.Room;
 import main.java.lotfbuilder.MainBuilder;
-import main.java.ucrypt.UCrypt;
+import main.java.ulibs.ucrypt.UCrypt;
 import main.java.ulibs.utils.Console;
 import main.java.ulibs.utils.Console.WarningType;
 import main.java.ulibs.utils.Grid;
