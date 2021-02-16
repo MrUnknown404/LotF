@@ -24,14 +24,14 @@ public class ItemBow extends ItemUseable {
 				break;
 			case north:
 				pos.addX(user.getWidth() / 2 - 1);
-				pos.addY(-8);
+				pos.addY(-8f);
 				break;
 			case south:
 				pos.addX(user.getWidth() / 2 - 1);
 				pos.addY(user.getHeight());
 				break;
 			case west:
-				pos.addX(-8);
+				pos.addX(-8f);
 				pos.addY(user.getHeight() / 2 - 1);
 				break;
 		}

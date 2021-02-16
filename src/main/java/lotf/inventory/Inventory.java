@@ -15,7 +15,7 @@ public class Inventory<I extends Item> {
 	public Inventory(Vec2i size) {
 		this.size = size;
 		
-		for (int i = 0; i < size.getBothMulti(); i++) {
+		for (int i = 0; i < size.getX() * size.getY(); i++) {
 			items.add(null);
 		}
 	}

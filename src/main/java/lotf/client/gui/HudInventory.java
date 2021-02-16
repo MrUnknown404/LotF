@@ -23,6 +23,7 @@ import main.java.lotf.util.enums.EnumWorldType;
 import main.java.lotf.world.Room;
 import main.java.lotf.world.World;
 import main.java.ulibs.utils.math.MathH;
+import main.java.ulibs.utils.math.Vec2i;
 
 public class HudInventory extends Hud implements IStateTickable {
 	
@@ -95,8 +96,10 @@ public class HudInventory extends Hud implements IStateTickable {
 					g.drawImage(selectedSlotItem, 4 + p.getInventory().getSelectedSlot() * 20, 70, 18, 18, null);
 				}
 				
+				Vec2i size = p.getInventory().getRingInventory().getSize();
+				
 				if (p.getInventory().getEquipedRing() != null) {
-					for (int i = 0; i < p.getInventory().getRingInventory().getSize().getBothMulti(); i++) {
+					for (int i = 0; i < size.getX() * size.getY(); i++) {
 						if (p.getInventory().getEquipedRing() == p.getInventory().getRingInventory().getItem(i)) {
 							g.drawImage(equippedSlotRing, 2 + i * 22, 18, 22, 22, null);
 							break;
@@ -104,7 +107,7 @@ public class HudInventory extends Hud implements IStateTickable {
 					}
 				}
 				
-				for (int i = 0; i < p.getInventory().getRingInventory().getSize().getBothMulti(); i++) {
+				for (int i = 0; i < size.getX() * size.getY(); i++) {
 					Ring ring = p.getInventory().getRingInventory().getItem(i);
 					
 					if (ring != null) {
